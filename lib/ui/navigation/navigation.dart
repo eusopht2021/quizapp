@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutterquiz/ui/screens/Discover%20Screen/discover.dart';
 import 'package:flutterquiz/ui/screens/home/new_home_screen.dart';
 import 'package:flutterquiz/utils/assets.dart';
 import 'package:flutterquiz/utils/constants.dart';
@@ -24,11 +25,13 @@ class _NavigationState extends State<Navigation> {
     // Container(
     //   color: Colors.pink,
     // ),
-    Container(
-      color: Colors.green,
-    ),
+    Discover(),
     Container(
       color: Colors.black,
+    ),
+
+    Container(
+      color: Colors.red,
     ),
   ];
 
