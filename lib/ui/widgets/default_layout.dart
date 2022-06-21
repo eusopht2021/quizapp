@@ -28,11 +28,18 @@ class DefaultLayout extends StatelessWidget {
       backgroundColor: backgroundColor ?? Constants.backgroundColor,
       extendBodyBehindAppBar: expandBodyBehindAppBar ?? false,
       appBar: AppBar(
-        title: TitleText(
-          text: title,
-          size: Constants.heading3,
-          weight: FontWeight.w500,
-          textColor: titleColor ?? Constants.black2,
+        title: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+              TitleText(
+                text: title,
+                size: Constants.heading3,
+                weight: FontWeight.w500,
+                textColor: titleColor ?? Constants.black2,
+              ),
+            ],
+          ),
         ),
         centerTitle: true,
         backgroundColor: Colors.transparent,

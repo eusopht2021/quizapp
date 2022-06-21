@@ -21,26 +21,27 @@ class _SplashState extends State<Splash> {
   bool isUserLoggedIn = AuthLocalDataSource.checkIsAuth();
   @override
   void initState() {
-    Future.delayed(
-      const Duration(seconds: 10),
-      () {
-        debugPrint('Splash');
-        if (!isUserLoggedIn) {
-          Navigator.pushReplacementNamed(context, Routes.onBoardingScreen);
-        } else
-          context
-              .read<UserDetailsCubit>()
-              .fetchUserDetails(context.read<AuthCubit>().getUserFirebaseId());
-        Navigator.pushReplacementNamed(context, Routes.home);
+    Future.delayed(const Duration(seconds: 10), () {
+      setState(() {});
+      debugPrint('Splash');
+      if (!isUserLoggedIn) {
+        Navigator.of(context)
+            .pushReplacementNamed(Routes.onBoardingScreen, arguments: false);
+      } else {
+        context
+            .read<UserDetailsCubit>()
+            .fetchUserDetails(context.read<AuthCubit>().getUserFirebaseId());
+        Navigator.of(context)
+            .pushReplacementNamed(Routes.home, arguments: false);
         // navigateToNextScreen();
-      },
-    );
+      }
+    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    print(SizeConfig.screenWidth);
+    //print(SizeConfig.screenWidth);
     return DefaultBackground(
       child: SizedBox(
         width: SizeConfig.screenWidth,

@@ -1,17 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterquiz/ui/navigation.dart';
+import 'package:flutterquiz/ui/navigation/navigation.dart';
 import 'package:flutterquiz/ui/screens/aboutAppScreen.dart';
 import 'package:flutterquiz/ui/screens/appSettingsScreen.dart';
+import 'package:flutterquiz/ui/screens/auth/new_login_screen.dart';
 import 'package:flutterquiz/ui/screens/auth/otpScreen.dart';
 import 'package:flutterquiz/ui/screens/auth/reset_password_screen.dart';
 import 'package:flutterquiz/ui/screens/auth/signInScreen.dart';
-
-import 'package:flutterquiz/ui/screens/auth/new_login_screen.dart';
-
 import 'package:flutterquiz/ui/screens/auth/signUpScreen.dart';
 import 'package:flutterquiz/ui/screens/badgesScreen.dart';
 import 'package:flutterquiz/ui/screens/battle/battleRoomFindOpponentScreen.dart';
+import 'package:flutterquiz/ui/screens/battle/battleRoomQuizScreen.dart';
+import 'package:flutterquiz/ui/screens/battle/multiUserBattleRoomQuizScreen.dart';
+import 'package:flutterquiz/ui/screens/battle/multiUserBattleRoomResultScreen.dart';
 import 'package:flutterquiz/ui/screens/bookmarkScreen.dart';
 import 'package:flutterquiz/ui/screens/coinHistoryScreen.dart';
 import 'package:flutterquiz/ui/screens/coinStoreScreen.dart';
@@ -23,8 +24,7 @@ import 'package:flutterquiz/ui/screens/introSliderScreen.dart';
 import 'package:flutterquiz/ui/screens/leaderBoardScreen.dart';
 import 'package:flutterquiz/ui/screens/notificationScreen.dart';
 import 'package:flutterquiz/ui/screens/profile/profileScreen.dart';
-import 'package:flutterquiz/ui/screens/battle/battleRoomQuizScreen.dart';
-
+import 'package:flutterquiz/ui/screens/profile/selectProfilePictureScreen.dart';
 import 'package:flutterquiz/ui/screens/quiz/bookmarkQuizScreen.dart';
 import 'package:flutterquiz/ui/screens/quiz/categoryScreen.dart';
 import 'package:flutterquiz/ui/screens/quiz/contestLeaderboardScreen.dart';
@@ -32,22 +32,16 @@ import 'package:flutterquiz/ui/screens/quiz/contestScreen.dart';
 import 'package:flutterquiz/ui/screens/quiz/funAndLearnScreen.dart';
 import 'package:flutterquiz/ui/screens/quiz/funAndLearnTitleScreen.dart';
 import 'package:flutterquiz/ui/screens/quiz/guessTheWordQuizScreen.dart';
-import 'package:flutterquiz/ui/screens/battle/multiUserBattleRoomQuizScreen.dart';
-import 'package:flutterquiz/ui/screens/battle/multiUserBattleRoomResultScreen.dart';
 import 'package:flutterquiz/ui/screens/quiz/levelsScreen.dart';
+import 'package:flutterquiz/ui/screens/quiz/quizScreen.dart';
+import 'package:flutterquiz/ui/screens/quiz/resultScreen.dart';
 import 'package:flutterquiz/ui/screens/quiz/reviewAnswersScreen.dart';
 import 'package:flutterquiz/ui/screens/quiz/selfChallengeQuestionsScreen.dart';
 import 'package:flutterquiz/ui/screens/quiz/selfChallengeScreen.dart';
-
 import 'package:flutterquiz/ui/screens/quiz/subCategoryAndLevelScreen.dart';
-import 'package:flutterquiz/ui/screens/quiz/quizScreen.dart';
-import 'package:flutterquiz/ui/screens/quiz/resultScreen.dart';
 import 'package:flutterquiz/ui/screens/quiz/subCategoryScreen.dart';
-
 import 'package:flutterquiz/ui/screens/referAndEarnScreen.dart';
 import 'package:flutterquiz/ui/screens/rewards/rewardsScreen.dart';
-import 'package:flutterquiz/ui/screens/profile/selectProfilePictureScreen.dart';
-
 import 'package:flutterquiz/ui/screens/splashScreen.dart';
 import 'package:flutterquiz/ui/screens/statisticsScreen.dart';
 import 'package:flutterquiz/ui/screens/tournament/tournamentDetailsScreen.dart';

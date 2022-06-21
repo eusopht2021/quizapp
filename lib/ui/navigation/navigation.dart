@@ -56,7 +56,6 @@ class _NavigationState extends State<Navigation> {
         notchSmoothness: NotchSmoothness.softEdge,
         tabBuilder: (index, value) => Container(
           padding: const EdgeInsets.all(15),
-          
           child: SvgPicture.asset(
             Assets.navigationBarIcons[index],
             color: selectedIndex == index ? Constants.black1 : Constants.grey3,
@@ -64,7 +63,9 @@ class _NavigationState extends State<Navigation> {
         ),
         activeIndex: selectedIndex,
         onTap: (index) {
-          selectedIndex = index;
+          setState(() {
+            selectedIndex = index;
+          });
           log('Item at #$index');
         },
       ),

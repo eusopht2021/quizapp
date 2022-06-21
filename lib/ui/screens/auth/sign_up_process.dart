@@ -143,7 +143,9 @@ class _SignUpProcessState extends State<SignUpProcess> {
       builder: (context, state) {
         return CustomButton(
           isLoading: state is SignUpProgress,
-          text: selectedProcess == 2 ? 'Sign Up' : 'Next',
+          text: selectedProcess == 2
+              ? AppLocalization.of(context)!.getTranslatedValues('signUpLbl')
+              : 'Next',
           onPressed: () {
             if (selectedProcess != signUpProcess.length) {
               if (selectedProcess == 0) {
