@@ -83,6 +83,7 @@ class _DiscoverState extends State<Discover> {
                 sheetOpen = true;
               });
             },
+            textcolor: Constants.white,
             hint: 'Quiz, categories, or friends',
             fillColor: Constants.black2.withOpacity(0.2),
             prefixIcon: Assets.search,

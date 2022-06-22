@@ -211,6 +211,7 @@ class _LoginState extends State<Login> {
                       }
                     }
                   },
+            isLoading: state is SignInProgress,
             text: AppLocalization.of(context)!.getTranslatedValues('loginLbl')!,
           );
         },

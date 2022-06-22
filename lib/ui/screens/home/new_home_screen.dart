@@ -55,17 +55,17 @@ class NewHomeScreen extends StatefulWidget {
   static Route<dynamic> route(RouteSettings routeSettings) {
     return CupertinoPageRoute(
         builder: (context) => MultiBlocProvider(
-          providers: [
-            BlocProvider<ReferAndEarnCubit>(
-              create: (_) => ReferAndEarnCubit(AuthRepository()),
-            ),
-            BlocProvider<UpdateUserDetailCubit>(
-              create: (context) =>
-                  UpdateUserDetailCubit(ProfileManagementRepository()),
-            ),
-          ],
-          child: NewHomeScreen(),
-        ));
+              providers: [
+                BlocProvider<ReferAndEarnCubit>(
+                  create: (_) => ReferAndEarnCubit(AuthRepository()),
+                ),
+                BlocProvider<UpdateUserDetailCubit>(
+                  create: (context) =>
+                      UpdateUserDetailCubit(ProfileManagementRepository()),
+                ),
+              ],
+              child: NewHomeScreen(),
+            ));
   }
 }
 
@@ -96,7 +96,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
   int currentMenu = 1;
 
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-  FlutterLocalNotificationsPlugin();
+      FlutterLocalNotificationsPlugin();
 
   @override
   void initState() {
@@ -134,7 +134,10 @@ class _NewHomeScreenState extends State<NewHomeScreen>
         builder: (context, state) {
           if (state is UserDetailsFetchInProgress ||
               state is UserDetailsInitial) {
-            return Center(child: CircularProgressIndicator());
+            return Center(
+                child: CircularProgressIndicator(
+              color: Constants.white,
+            ));
           }
           if (state is UserDetailsFetchFailure) {
             return Text('Error something is wrong!');
@@ -198,223 +201,223 @@ class _NewHomeScreenState extends State<NewHomeScreen>
 
             Expanded(
                 child: ListView(
-                  padding: EdgeInsets.zero,
-                  children: [
-                    Container(
-                      height: 84,
-                      width: SizeConfig.screenWidth,
-                      margin: const EdgeInsets.only(
-                        left: 24,
-                        right: 24,
-                      ),
-                      clipBehavior: Clip.antiAlias,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage(
-                            Assets.swivels,
-                          ),
-                        ),
-                        borderRadius: BorderRadius.circular(20),
-                        color: Constants.secondaryAccent,
-                      ),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            flex: 10,
-                            child: Container(
-                              margin: const EdgeInsets.only(
-                                left: 24,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  WidgetsUtil.verticalSpace16,
-                                  TitleText(
-                                    text: 'Recent Quiz'.toUpperCase(),
-                                    size: Constants.bodySmall,
-                                    weight: FontWeight.w500,
-                                    textColor: Constants.secondaryTextColor,
-                                  ),
-                                  WidgetsUtil.verticalSpace8,
-                                  Expanded(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                      children: [
-                                        Expanded(
-                                          flex: 0,
-                                          child: Icon(
-                                            Icons.headphones,
-                                            color: Constants.secondaryTextColor,
-                                          ),
-                                        ),
-                                        WidgetsUtil.horizontalSpace8,
-                                        Expanded(
-                                          flex: 14,
-                                          child: TitleText(
-                                            text: 'A Basic Music Quiz',
-                                            size: Constants.bodyLarge,
-                                            weight: FontWeight.w500,
-                                            textColor: Constants.secondaryTextColor,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 3,
-                            child: CustomPieChart(
-                              value1: 88,
-                              value2: 12,
-                              radius: 24,
-                            ),
-                          ),
-                        ],
+              padding: EdgeInsets.zero,
+              children: [
+                Container(
+                  height: 84,
+                  width: SizeConfig.screenWidth,
+                  margin: const EdgeInsets.only(
+                    left: 24,
+                    right: 24,
+                  ),
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(
+                        Assets.swivels,
                       ),
                     ),
-                    WidgetsUtil.verticalSpace24,
-                    Container(
-                      margin: const EdgeInsets.only(
-                        left: 24,
-                        right: 24,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Constants.grey3.withOpacity(0.4),
-                        borderRadius: BorderRadius.circular(20),
-                        image: DecorationImage(
-                          fit: BoxFit.fill,
-                          image: AssetImage(Assets.cardCircles),
-                        ),
-                      ),
-                      child: Column(
-                        children: [
-                          WidgetsUtil.verticalSpace16,
-                          Row(
-                            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    borderRadius: BorderRadius.circular(20),
+                    color: Constants.secondaryAccent,
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 10,
+                        child: Container(
+                          margin: const EdgeInsets.only(
+                            left: 24,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Expanded(
-                                flex: 2,
-                                child: SvgPicture.asset(
-                                  Assets.man5,
-                                  height: 48,
-                                  width: 48,
-                                ),
+                              WidgetsUtil.verticalSpace16,
+                              TitleText(
+                                text: 'Recent Quiz'.toUpperCase(),
+                                size: Constants.bodySmall,
+                                weight: FontWeight.w500,
+                                textColor: Constants.secondaryTextColor,
                               ),
+                              WidgetsUtil.verticalSpace8,
                               Expanded(
-                                flex: 6,
-                                child: Center(
-                                  child: TitleText(
-                                    text: 'Featured'.toUpperCase(),
-                                    size: Constants.bodySmall,
-                                    textColor: Constants.white,
-                                    weight: FontWeight.w500,
-                                  ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Expanded(
+                                      flex: 0,
+                                      child: Icon(
+                                        Icons.headphones,
+                                        color: Constants.secondaryTextColor,
+                                      ),
+                                    ),
+                                    WidgetsUtil.horizontalSpace8,
+                                    Expanded(
+                                      flex: 14,
+                                      child: TitleText(
+                                        text: 'A Basic Music Quiz',
+                                        size: Constants.bodyLarge,
+                                        weight: FontWeight.w500,
+                                        textColor: Constants.secondaryTextColor,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                              const Expanded(
-                                flex: 2,
-                                child: SizedBox(),
                               ),
                             ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              left: 40,
-                              right: 40,
-                            ),
-                            child: TitleText(
-                              text:
-                              'Take part in challenges with friends or other players',
-                              size: Constants.bodyLarge,
-                              align: TextAlign.center,
-                              weight: FontWeight.w500,
-                              textColor: Constants.white,
-                            ),
-                          ),
-                          WidgetsUtil.verticalSpace16,
-                          SizedBox(
-                            width: SizeConfig.screenWidth,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Spacer(),
-                                Expanded(
-                                  flex: 15,
-                                  child: SocialButton(
-                                    textColor: Constants.primaryColor,
-                                    iconColor: Constants.primaryColor,
-                                    background: Constants.white,
-                                    icon: Assets.search,
-                                    itemSpace: 12,
-                                    onTap: () => log('Find Friends'),
-                                    height: 44,
-                                    text: 'Find Friends',
-                                    showBorder: true,
-                                  ),
-                                ),
-                                const Spacer(),
-                                SvgPicture.asset(
-                                  Assets.woman2,
-                                  height: 48,
-                                  width: 48,
-                                ),
-                                WidgetsUtil.horizontalSpace16,
-                              ],
-                            ),
-                          ),
-                          WidgetsUtil.verticalSpace16,
-                        ],
+                        ),
                       ),
+                      Expanded(
+                        flex: 3,
+                        child: CustomPieChart(
+                          value1: 88,
+                          value2: 12,
+                          radius: 24,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                WidgetsUtil.verticalSpace24,
+                Container(
+                  margin: const EdgeInsets.only(
+                    left: 24,
+                    right: 24,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Constants.grey3.withOpacity(0.4),
+                    borderRadius: BorderRadius.circular(20),
+                    image: DecorationImage(
+                      fit: BoxFit.fill,
+                      image: AssetImage(Assets.cardCircles),
                     ),
-                    WidgetsUtil.verticalSpace24,
-                    Container(
-                      decoration: StyleProperties.sheetBorder,
-                      padding: StyleProperties.insetsBottom80Hzt20,
-                      child: Column(
+                  ),
+                  child: Column(
+                    children: [
+                      WidgetsUtil.verticalSpace16,
+                      Row(
+                        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          WidgetsUtil.verticalSpace24,
-                          Row(
-                            children: [
-                              TitleText(
-                                text: 'Live Quizzes',
-                                size: Constants.bodyXLarge,
-                                textColor: Constants.black1,
+                          Expanded(
+                            flex: 2,
+                            child: SvgPicture.asset(
+                              Assets.man5,
+                              height: 48,
+                              width: 48,
+                            ),
+                          ),
+                          Expanded(
+                            flex: 6,
+                            child: Center(
+                              child: TitleText(
+                                text: 'Featured'.toUpperCase(),
+                                size: Constants.bodySmall,
+                                textColor: Constants.white,
                                 weight: FontWeight.w500,
                               ),
-                              const Spacer(),
-                              InkWell(
-                                onTap: () => log('See All'),
-                                child: TitleText(
-                                  text: 'See All',
-                                  textColor: Constants.primaryColor,
-                                  size: Constants.bodySmall,
-                                  weight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
-                          WidgetsUtil.verticalSpace16,
-                          ...List.generate(_quizTypes.length, (index) {
-                            return QuizCategoryCard(
-                              name: _quizTypes[index].getTitle(context),
-                              asset: _quizTypes[index].image,
-                              category: AppLocalization.of(context)!
-                                  .getTranslatedValues(
-                                  _quizTypes[index].description)!,
-                              onTap: () {
-                                _navigateToQuizZone(index + 1);
-                              },
-                            );
-                          }),
+                          const Expanded(
+                            flex: 2,
+                            child: SizedBox(),
+                          ),
                         ],
                       ),
-                    ),
-                  ],
-                ))
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          left: 40,
+                          right: 40,
+                        ),
+                        child: TitleText(
+                          text:
+                              'Take part in challenges with friends or other players',
+                          size: Constants.bodyLarge,
+                          align: TextAlign.center,
+                          weight: FontWeight.w500,
+                          textColor: Constants.white,
+                        ),
+                      ),
+                      WidgetsUtil.verticalSpace16,
+                      SizedBox(
+                        width: SizeConfig.screenWidth,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Spacer(),
+                            Expanded(
+                              flex: 15,
+                              child: SocialButton(
+                                textColor: Constants.primaryColor,
+                                iconColor: Constants.primaryColor,
+                                background: Constants.white,
+                                icon: Assets.search,
+                                itemSpace: 12,
+                                onTap: () => log('Find Friends'),
+                                height: 44,
+                                text: 'Find Friends',
+                                showBorder: true,
+                              ),
+                            ),
+                            const Spacer(),
+                            SvgPicture.asset(
+                              Assets.woman2,
+                              height: 48,
+                              width: 48,
+                            ),
+                            WidgetsUtil.horizontalSpace16,
+                          ],
+                        ),
+                      ),
+                      WidgetsUtil.verticalSpace16,
+                    ],
+                  ),
+                ),
+                WidgetsUtil.verticalSpace24,
+                Container(
+                  decoration: StyleProperties.sheetBorder,
+                  padding: StyleProperties.insetsBottom80Hzt20,
+                  child: Column(
+                    children: [
+                      WidgetsUtil.verticalSpace24,
+                      Row(
+                        children: [
+                          TitleText(
+                            text: 'Live Quizzes',
+                            size: Constants.bodyXLarge,
+                            textColor: Constants.black1,
+                            weight: FontWeight.w500,
+                          ),
+                          const Spacer(),
+                          InkWell(
+                            onTap: () => log('See All'),
+                            child: TitleText(
+                              text: 'See All',
+                              textColor: Constants.primaryColor,
+                              size: Constants.bodySmall,
+                              weight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                      WidgetsUtil.verticalSpace16,
+                      ...List.generate(_quizTypes.length, (index) {
+                        return QuizCategoryCard(
+                          name: _quizTypes[index].getTitle(context),
+                          asset: _quizTypes[index].image,
+                          category: AppLocalization.of(context)!
+                              .getTranslatedValues(
+                                  _quizTypes[index].description)!,
+                          onTap: () {
+                            _navigateToQuizZone(index + 1);
+                          },
+                        );
+                      }),
+                    ],
+                  ),
+                ),
+              ],
+            ))
           ]);
         },
         listener: (context, state) {
@@ -485,15 +488,15 @@ class _NewHomeScreenState extends State<NewHomeScreen>
 
   void _initLocalNotification() async {
     const AndroidInitializationSettings initializationSettingsAndroid =
-    AndroidInitializationSettings('@mipmap/ic_launcher');
+        AndroidInitializationSettings('@mipmap/ic_launcher');
     final IOSInitializationSettings initializationSettingsIOS =
-    IOSInitializationSettings(onDidReceiveLocalNotification:
-        (int id, String? title, String? body, String? payLoad) {
+        IOSInitializationSettings(onDidReceiveLocalNotification:
+            (int id, String? title, String? body, String? payLoad) {
       print("For ios version <= 9 notification will be shown here");
     });
 
     final InitializationSettings initializationSettings =
-    InitializationSettings(
+        InitializationSettings(
       android: initializationSettingsAndroid,
       iOS: initializationSettingsIOS,
     );
@@ -506,7 +509,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
     if (Platform.isIOS) {
       flutterLocalNotificationsPlugin
           .resolvePlatformSpecificImplementation<
-          IOSFlutterLocalNotificationsPlugin>()
+              IOSFlutterLocalNotificationsPlugin>()
           ?.requestPermissions();
     }
   }
@@ -517,23 +520,23 @@ class _NewHomeScreenState extends State<NewHomeScreen>
       quizTypeTopMargin = systemCubit.isSelfChallengeEnable() ? 0.425 : 0.29;
       if (systemCubit.getIsContestAvailable() == "0") {
         _quizTypes.removeWhere(
-                (element) => element.quizTypeEnum == QuizTypes.contest);
+            (element) => element.quizTypeEnum == QuizTypes.contest);
       }
       if (systemCubit.getIsDailyQuizAvailable() == "0") {
         _quizTypes.removeWhere(
-                (element) => element.quizTypeEnum == QuizTypes.dailyQuiz);
+            (element) => element.quizTypeEnum == QuizTypes.dailyQuiz);
       }
       if (!systemCubit.getIsAudioQuestionAvailable()) {
         _quizTypes.removeWhere(
-                (element) => element.quizTypeEnum == QuizTypes.audioQuestions);
+            (element) => element.quizTypeEnum == QuizTypes.audioQuestions);
       }
       if (systemCubit.getIsFunNLearnAvailable() == "0") {
         _quizTypes.removeWhere(
-                (element) => element.quizTypeEnum == QuizTypes.funAndLearn);
+            (element) => element.quizTypeEnum == QuizTypes.funAndLearn);
       }
       if (!systemCubit.getIsGuessTheWordAvailable()) {
         _quizTypes.removeWhere(
-                (element) => element.quizTypeEnum == QuizTypes.guessTheWord);
+            (element) => element.quizTypeEnum == QuizTypes.guessTheWord);
       }
       if (systemCubit.getIsExamAvailable() == "0") {
         _quizTypes
@@ -595,9 +598,9 @@ class _NewHomeScreenState extends State<NewHomeScreen>
       if (type == "payment_request") {
         Future.delayed(Duration.zero, () {
           context.read<UserDetailsCubit>().updateCoins(
-            addCoin: true,
-            coins: int.parse(data['coins'].toString()),
-          );
+                addCoin: true,
+                coins: int.parse(data['coins'].toString()),
+              );
         });
       }
 
@@ -660,7 +663,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
       styleInformation: bigPictureStyleInformation,
     );
     var platformChannelSpecifics =
-    NotificationDetails(android: androidPlatformChannelSpecifics);
+        NotificationDetails(android: androidPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin
         .show(0, title, msg, platformChannelSpecifics, payload: payloads);
   }
@@ -687,7 +690,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
         priority: Priority.high,
         ticker: 'ticker');
     const IOSNotificationDetails iosNotificationDetails =
-    IOSNotificationDetails();
+        IOSNotificationDetails();
 
     var platformChannelSpecifics = NotificationDetails(
         android: androidPlatformChannelSpecifics, iOS: iosNotificationDetails);
@@ -704,9 +707,9 @@ class _NewHomeScreenState extends State<NewHomeScreen>
         elevation: 5.0,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20.0),
-              topRight: Radius.circular(20.0),
-            )),
+          topLeft: Radius.circular(20.0),
+          topRight: Radius.circular(20.0),
+        )),
         context: context,
         builder: (context) {
           return EditProfileFieldBottomSheetContainer(
@@ -1015,10 +1018,10 @@ class _NewHomeScreenState extends State<NewHomeScreen>
       showDialog(
           context: context,
           builder: (context) => MultiBlocProvider(providers: [
-            BlocProvider<UpdateScoreAndCoinsCubit>(
-                create: (_) => UpdateScoreAndCoinsCubit(
-                    ProfileManagementRepository())),
-          ], child: RoomDialog(quizType: QuizTypes.groupPlay)));
+                BlocProvider<UpdateScoreAndCoinsCubit>(
+                    create: (_) => UpdateScoreAndCoinsCubit(
+                        ProfileManagementRepository())),
+              ], child: RoomDialog(quizType: QuizTypes.groupPlay)));
       //
     } else if (_quizTypes[quizTypeIndex].quizTypeEnum == QuizTypes.contest) {
       if (context.read<SystemConfigCubit>().getIsContestAvailable() == "1") {

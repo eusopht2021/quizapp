@@ -21,6 +21,7 @@ class CustomTextField extends StatelessWidget {
   final MainAxisAlignment? mainAxisAlignment;
   final double? horizontalMargin;
   bool isDark = false;
+  Color? textcolor;
 
   CustomTextField({
     Key? key,
@@ -40,6 +41,7 @@ class CustomTextField extends StatelessWidget {
     this.maxLines,
     this.mainAxisAlignment,
     this.horizontalMargin,
+    this.textcolor,
   }) : super(key: key);
 
   bool isColorDark(Color color) {
@@ -61,7 +63,7 @@ class CustomTextField extends StatelessWidget {
             child: TitleText(
               text: label!,
               weight: titleWeight ?? FontWeight.w400,
-              textColor: Constants.black2,
+              textColor: textcolor ?? Constants.white,
               size: textSize ?? Constants.bodySmall,
             ),
           ),
@@ -73,6 +75,7 @@ class CustomTextField extends StatelessWidget {
           ),
           padding: const EdgeInsets.all(0.0),
           child: TextFormField(
+            
             maxLines: maxLines ?? 1,
             focusNode: node,
             onTap: onTap,

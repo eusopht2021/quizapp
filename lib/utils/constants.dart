@@ -1,7 +1,6 @@
 import 'package:flutterquiz/features/wallet/models/payoutMethod.dart';
 import 'package:flutter/material.dart';
 
-
 final String appName = "Elite Quiz";
 final String packageName = "com.wrteam.flutterquiz";
 
@@ -64,6 +63,13 @@ final String settingsThemeKey = "theme";
 
 //Add your database url
 //make sure do not add '/' at the end of url
+
+// final String databaseUrl = "https://cricketmobileapp.com";
+// //
+// final String baseUrl = databaseUrl + '/api/';
+// //
+// final String jwtKey = 'M}L&e6RYs7zB~?y';
+// final String accessValue = "8525";
 
 final String databaseUrl = "https://elitequiz.wrteam.in";
 
@@ -344,7 +350,6 @@ class Constants {
   static Color accent2 = const Color(0xffC4D0FB);
   static Color accent3 = const Color(0xffC9F2E9);
   static Color secondaryAccent = const Color(0xffFFCCD5);
-
 
   static Color tulip = const Color(0xff88E2CE);
   static Color lightgreen = const Color(0xff53DF83);

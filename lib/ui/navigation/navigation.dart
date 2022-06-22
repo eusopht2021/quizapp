@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutterquiz/ui/screens/Discover%20Screen/discover.dart';
 import 'package:flutterquiz/ui/screens/home/new_home_screen.dart';
+import 'package:flutterquiz/ui/screens/new_leaderBoard.dart';
 import 'package:flutterquiz/utils/assets.dart';
 import 'package:flutterquiz/utils/constants.dart';
 
@@ -20,16 +21,8 @@ class _NavigationState extends State<Navigation> {
 
   List bodyWidgets = [
     NewHomeScreen(),
-    // Discover(),
-
-    // Container(
-    //   color: Colors.pink,
-    // ),
     Discover(),
-    Container(
-      color: Colors.black,
-    ),
-
+    NewLeaderBoardScreen(),
     Container(
       color: Colors.red,
     ),

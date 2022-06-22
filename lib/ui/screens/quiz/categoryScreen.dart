@@ -11,8 +11,10 @@ import 'package:flutterquiz/ui/widgets/bannerAdContainer.dart';
 
 import 'package:flutterquiz/ui/widgets/circularProgressContainner.dart';
 import 'package:flutterquiz/ui/widgets/customBackButton.dart';
+import 'package:flutterquiz/ui/widgets/default_layout.dart';
 import 'package:flutterquiz/ui/widgets/errorContainer.dart';
 import 'package:flutterquiz/ui/widgets/pageBackgroundGradientContainer.dart';
+import 'package:flutterquiz/utils/constants.dart';
 
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
@@ -47,12 +49,13 @@ class _CategoryScreen extends State<CategoryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
+    return DefaultLayout(
+      backgroundColor: Constants.primaryColor,
+      title: "",
+      titleColor: Constants.white,
+      child: Stack(
         children: <Widget>[
-          PageBackgroundGradientContainer(),
           Column(children: <Widget>[
-            Expanded(flex: 2, child: back()),
             Expanded(flex: 15, child: showCategory()),
           ]),
           Align(
@@ -93,8 +96,8 @@ class _CategoryScreen extends State<CategoryScreen> {
         builder: (context, state) {
           if (state is QuizCategoryProgress || state is QuizCategoryInitial) {
             return Center(
-              child: CircularProgressContainer(
-                useWhiteLoader: false,
+              child: CircularProgressIndicator(
+                color: Constants.white,
               ),
             );
           }
@@ -237,11 +240,12 @@ class _CategoryScreen extends State<CategoryScreen> {
                     margin: EdgeInsets.all(15),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20.0),
-                        color: Theme.of(context).primaryColor),
+                        color: Constants.secondaryColor),
                     child: ListTile(
                       leading: CachedNetworkImage(
                         placeholder: (context, _) => SizedBox(),
                         imageUrl: categoryList[index].image!,
+                        color: Constants.white,
                         errorWidget: (context, imageUrl, _) => Icon(
                           Icons.error,
                           color: Theme.of(context).backgroundColor,
