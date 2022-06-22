@@ -6,85 +6,85 @@
 //
 import 'package:flutterquiz/utils/stringLabels.dart';
 
-final String defaultErrorMessageKey =
+const String defaultErrorMessageKey =
     "defaultErrorMessage"; //something went wrong
-final String noInternetKey = "noInternet";
-final String invalidHashKey = "invalidHash";
-final String dataNotFoundKey = "dataNotFound";
-final String fillAllDataKey = "fillAllData";
-final String fileUploadFailKey = "fileUploadFail";
-final String dailyQuizAlreadyPlayedKey = "dailyQuizAlreadyPlayed";
-final String noMatchesPlayedKey = "noMatchesPlayed";
-final String noUpcomingContestKey = "noUpcomingContest";
-final String noContestKey = "noContest";
-final String notPlayedContestKey = "notPlayedContest";
-final String contestAlreadyPlayedKey = "contestAlreadyPlayed";
-final String roomAlreadyCreatedKey = "roomAlreadyCreated";
-final String unauthorizedAccessKey = "unauthorizedAccess";
+const String noInternetKey = "noInternet";
+const String invalidHashKey = "invalidHash";
+const String dataNotFoundKey = "dataNotFound";
+const String fillAllDataKey = "fillAllData";
+const String fileUploadFailKey = "fileUploadFail";
+const String dailyQuizAlreadyPlayedKey = "dailyQuizAlreadyPlayed";
+const String noMatchesPlayedKey = "noMatchesPlayed";
+const String noUpcomingContestKey = "noUpcomingContest";
+const String noContestKey = "noContest";
+const String notPlayedContestKey = "notPlayedContest";
+const String contestAlreadyPlayedKey = "contestAlreadyPlayed";
+const String roomAlreadyCreatedKey = "roomAlreadyCreated";
+const String unauthorizedAccessKey = "unauthorizedAccess";
 
 //
 //firebase auth exceptions
 //
-final String invalidEmailKey = "invalid-email";
-final String userDisabledKey = "user-disabled";
-final String userNotFoundKey = "user-not-found";
-final String wrongPasswordKey = "wrong-password";
-final String accountExistCredentialKey =
+const String invalidEmailKey = "invalid-email";
+const String userDisabledKey = "user-disabled";
+const String userNotFoundKey = "user-not-found";
+const String wrongPasswordKey = "wrong-password";
+const String accountExistCredentialKey =
     "account-exists-with-different-credential";
-final String invalidCredentialKey = "invalid-credential";
-final String operationNotAllowedKey = "operation-not-allowed";
-final String invalidVerificationCodeKey = "invalid-verification-code";
-final String invalidVerificationIdKey = "invalid-verification-id";
-final String emailExistKey = "email-already-in-use";
-final String weakPasswordKey = "weak-password";
-final String verifyEmailKey = "verifyEmail";
-final String levelLockedKey = "levelLocked";
-final String updateBookmarkFailureKey = "updateBookmarkFailure";
-final String lifeLineUsedKey = "lifeLineUsed";
-final String notEnoughCoinsKey = "notEnoughCoins";
-final String notesNotAvailableKey = "notesNotAvailable";
-final String selectAllValuesKey = "selectAllValues";
-final String canNotStartGameKey = "canNotStartGame";
-final String roomCodeInvalidKey = "roomCodeInvalid";
-final String gameStartedKey = "gameStarted";
-final String roomIsFullKey = "roomIsFull";
-final String alreadyInExamKey = "alreadyInExam";
-final String noExamForTodayKey = "noExamForToday";
-final String haveNotCompletedExamKey = "haveNotCompletedExam";
-final String requireRecentLoginKey = "requires-recent-login";
-final String noTransactionsKey = "noTransactions";
-final String accountHasBeenDeactiveKey = "accountHasBeenDeactive";
-final String canNotMakeRequestKey = "canNotMakeRequest";
+const String invalidCredentialKey = "invalid-credential";
+const String operationNotAllowedKey = "operation-not-allowed";
+const String invalidVerificationCodeKey = "invalid-verification-code";
+const String invalidVerificationIdKey = "invalid-verification-id";
+const String emailExistKey = "email-already-in-use";
+const String weakPasswordKey = "weak-password";
+const String verifyEmailKey = "verifyEmail";
+const String levelLockedKey = "levelLocked";
+const String updateBookmarkFailureKey = "updateBookmarkFailure";
+const String lifeLineUsedKey = "lifeLineUsed";
+const String notEnoughCoinsKey = "notEnoughCoins";
+const String notesNotAvailableKey = "notesNotAvailable";
+const String selectAllValuesKey = "selectAllValues";
+const String canNotStartGameKey = "canNotStartGame";
+const String roomCodeInvalidKey = "roomCodeInvalid";
+const String gameStartedKey = "gameStarted";
+const String roomIsFullKey = "roomIsFull";
+const String alreadyInExamKey = "alreadyInExam";
+const String noExamForTodayKey = "noExamForToday";
+const String haveNotCompletedExamKey = "haveNotCompletedExam";
+const String requireRecentLoginKey = "requires-recent-login";
+const String noTransactionsKey = "noTransactions";
+const String accountHasBeenDeactiveKey = "accountHasBeenDeactive";
+const String canNotMakeRequestKey = "canNotMakeRequest";
 
 //
 //error message code that is not given from api
 //error code after 137 occurs in frontend.
 //
-final String defaultErrorMessageCode = "122";
-final String noInternetCode = "126";
-final String levelLockedCode = "138";
-final String updateBookmarkFailureCode = "139";
-final String lifeLineUsedCode = "140";
-final String notEnoughCoinsCode = "141";
-final String notesNotAvailableCode = "142";
-final String selectAllValuesCode = "143";
-final String canNotStartGameCode = "144";
-final String roomCodeInvalidCode = "145";
-final String gameStartedCode = "146";
-final String roomIsFullCode = "147";
-final String unableToCreateRoomCode = "148";
-final String unableToFindRoomCode = "149";
-final String unableToJoinRoomCode = "150";
-final String unableToSubmitAnswerCode = "151";
-final String alreadyInExamCode = "152";
-final String noExamForTodayCode = "153";
-final String haveNotCompletedExamCode = "154";
-final String requireRecentLoginCode = "155";
-final String noTransactionsCode = "156";
-final String accountHasBeenDeactiveCode = "157";
-final String canNotMakeRequestCode = "158";
-final String userNotFoundCode = "159";
-final String unauthorizedAccessCode = "129";
+const String defaultErrorMessageCode = "122";
+const String noInternetCode = "126";
+const String levelLockedCode = "138";
+const String updateBookmarkFailureCode = "139";
+const String lifeLineUsedCode = "140";
+const String notEnoughCoinsCode = "141";
+const String notesNotAvailableCode = "142";
+const String selectAllValuesCode = "143";
+const String canNotStartGameCode = "144";
+const String roomCodeInvalidCode = "145";
+const String gameStartedCode = "146";
+const String roomIsFullCode = "147";
+const String unableToCreateRoomCode = "148";
+const String unableToFindRoomCode = "149";
+const String unableToJoinRoomCode = "150";
+const String unableToSubmitAnswerCode = "151";
+const String alreadyInExamCode = "152";
+const String noExamForTodayCode = "153";
+const String haveNotCompletedExamCode = "154";
+const String requireRecentLoginCode = "155";
+const String noTransactionsCode = "156";
+const String accountHasBeenDeactiveCode = "157";
+const String canNotMakeRequestCode = "158";
+const String userNotFoundCode = "159";
+const String unauthorizedAccessCode = "129";
 
 //
 //firebase auth exceptions code

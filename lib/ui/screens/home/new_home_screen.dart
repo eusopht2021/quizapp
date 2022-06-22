@@ -1,38 +1,38 @@
 import 'dart:developer';
 import 'dart:io';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:flutterquiz/app/appLocalization.dart';
+import 'package:flutterquiz/app/routes.dart';
 import 'package:flutterquiz/features/ads/interstitialAdCubit.dart';
 import 'package:flutterquiz/features/badges/cubits/badgesCubit.dart';
 import 'package:flutterquiz/features/battleRoom/cubits/battleRoomCubit.dart';
 import 'package:flutterquiz/features/battleRoom/cubits/multiUserBattleRoomCubit.dart';
 import 'package:flutterquiz/features/exam/cubits/examCubit.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/updateScoreAndCoinsCubit.dart';
+import 'package:flutterquiz/features/profileManagement/cubits/updateUserDetailsCubit.dart';
+import 'package:flutterquiz/features/profileManagement/models/userProfile.dart';
 import 'package:flutterquiz/features/profileManagement/profileManagementLocalDataSource.dart';
+import 'package:flutterquiz/features/profileManagement/profileManagementRepository.dart';
 import 'package:flutterquiz/features/quiz/cubits/quizCategoryCubit.dart';
 import 'package:flutterquiz/features/systemConfig/cubits/systemConfigCubit.dart';
 import 'package:flutterquiz/ui/screens/battle/widgets/randomOrPlayFrdDialog.dart';
 import 'package:flutterquiz/ui/screens/battle/widgets/roomDialog.dart';
 import 'package:flutterquiz/ui/screens/home/widgets/appUnderMaintenanceDialog.dart';
-import 'package:http/http.dart' as http;
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:flutterquiz/app/routes.dart';
-import 'package:flutterquiz/features/profileManagement/cubits/updateUserDetailsCubit.dart';
-import 'package:flutterquiz/features/profileManagement/models/userProfile.dart';
-import 'package:flutterquiz/features/profileManagement/profileManagementRepository.dart';
 import 'package:flutterquiz/ui/screens/home/widgets/new_quiz_category_card.dart';
 import 'package:flutterquiz/ui/screens/profile/widgets/editProfileFieldBottomSheetContainer.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/quizTypes.dart';
-
 import 'package:flutterquiz/utils/size_config.dart';
 import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
+import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 
 import '../../../features/auth/authRepository.dart';
@@ -55,17 +55,17 @@ class NewHomeScreen extends StatefulWidget {
   static Route<dynamic> route(RouteSettings routeSettings) {
     return CupertinoPageRoute(
         builder: (context) => MultiBlocProvider(
-          providers: [
-            BlocProvider<ReferAndEarnCubit>(
-              create: (_) => ReferAndEarnCubit(AuthRepository()),
-            ),
-            BlocProvider<UpdateUserDetailCubit>(
-              create: (context) =>
-                  UpdateUserDetailCubit(ProfileManagementRepository()),
-            ),
-          ],
-          child: NewHomeScreen(),
-        ));
+              providers: [
+                BlocProvider<ReferAndEarnCubit>(
+                  create: (_) => ReferAndEarnCubit(AuthRepository()),
+                ),
+                BlocProvider<UpdateUserDetailCubit>(
+                  create: (context) =>
+                      UpdateUserDetailCubit(ProfileManagementRepository()),
+                ),
+              ],
+              child: NewHomeScreen(),
+            ));
   }
 }
 
@@ -96,7 +96,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
   int currentMenu = 1;
 
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-  FlutterLocalNotificationsPlugin();
+      FlutterLocalNotificationsPlugin();
 
   @override
   void initState() {
@@ -144,59 +144,60 @@ class _NewHomeScreenState extends State<NewHomeScreen>
           if (userProfile.status == "0") {
             return Text('Error something is wrong!');
           }
-          return Column(children: [
-            Container(
-              margin: const EdgeInsets.only(
-                left: 24,
-                right: 24,
-                top: 50,
-                bottom: 10,
-              ),
-              height: kToolbarHeight,
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 9,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: TitleText(
-                            text: 'Good Morning',
-                            textColor: Constants.accent1,
-                            size: Constants.bodyXSmall,
+          return Column(
+            children: [
+              Container(
+                margin: const EdgeInsets.only(
+                  left: 24,
+                  right: 24,
+                  top: 50,
+                  bottom: 10,
+                ),
+                height: kToolbarHeight,
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 9,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: TitleText(
+                              text: 'Good Morning',
+                              textColor: Constants.accent1,
+                              size: Constants.bodyXSmall,
+                              weight: FontWeight.w500,
+                            ),
+                          ),
+                          TitleText(
+                            text: state.userProfile.name!,
+                            textColor: Constants.white,
+                            size: Constants.heading3,
                             weight: FontWeight.w500,
                           ),
-                        ),
-                        TitleText(
-                          text: state.userProfile.name!,
-                          textColor: Constants.white,
-                          size: Constants.heading3,
-                          weight: FontWeight.w500,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    flex: 2,
-                    child: GestureDetector(
-                      onTap: (() {
-                        Navigator.of(context).pushNamed(Routes.profile);
-                      }),
-                      child: CircleAvatar(
-                        backgroundColor: Constants.pink,
-                        backgroundImage: CachedNetworkImageProvider(
-                            state.userProfile.profileUrl!),
+                        ],
                       ),
                     ),
-                  ),
-                ],
+                    Expanded(
+                      flex: 2,
+                      child: GestureDetector(
+                        onTap: (() {
+                          Navigator.of(context).pushNamed(Routes.profile);
+                        }),
+                        child: CircleAvatar(
+                          backgroundColor: Constants.pink,
+                          backgroundImage: CachedNetworkImageProvider(
+                              state.userProfile.profileUrl!),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            //body
+              //body
 
-            Expanded(
+              Expanded(
                 child: ListView(
                   padding: EdgeInsets.zero,
                   children: [
@@ -239,7 +240,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                                   Expanded(
                                     child: Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
+                                          MainAxisAlignment.spaceAround,
                                       children: [
                                         Expanded(
                                           flex: 0,
@@ -255,7 +256,8 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                                             text: 'A Basic Music Quiz',
                                             size: Constants.bodyLarge,
                                             weight: FontWeight.w500,
-                                            textColor: Constants.secondaryTextColor,
+                                            textColor:
+                                                Constants.secondaryTextColor,
                                           ),
                                         ),
                                       ],
@@ -328,7 +330,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                             ),
                             child: TitleText(
                               text:
-                              'Take part in challenges with friends or other players',
+                                  'Take part in challenges with friends or other players',
                               size: Constants.bodyLarge,
                               align: TextAlign.center,
                               weight: FontWeight.w500,
@@ -398,24 +400,31 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                             ],
                           ),
                           WidgetsUtil.verticalSpace16,
-                          ...List.generate(_quizTypes.length, (index) {
-                            return QuizCategoryCard(
-                              name: _quizTypes[index].getTitle(context),
-                              asset: _quizTypes[index].image,
-                              category: AppLocalization.of(context)!
-                                  .getTranslatedValues(
-                                  _quizTypes[index].description)!,
-                              onTap: () {
-                                _navigateToQuizZone(index + 1);
-                              },
-                            );
-                          }),
+                          ...List.generate(
+                            _quizTypes.length,
+                            (index) {
+                              return QuizCategoryCard(
+                                name: _quizTypes[index].getTitle(context),
+                                asset: _quizTypes[index].image,
+                                category: AppLocalization.of(context)!
+                                    .getTranslatedValues(
+                                  _quizTypes[index].description,
+                                )!,
+                                quizNumber: 9,
+                                // onTap: () {
+                                //   _navigateToQuizZone(index + 1);
+                                // },
+                              );
+                            },
+                          ),
                         ],
                       ),
                     ),
                   ],
-                ))
-          ]);
+                ),
+              ),
+            ],
+          );
         },
         listener: (context, state) {
           if (state is UserDetailsFetchSuccess) {
@@ -440,60 +449,93 @@ class _NewHomeScreenState extends State<NewHomeScreen>
 
   void initAnimations() {
     //
-    profileAnimationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 85));
-    selfChallengeAnimationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 85));
+    profileAnimationController = AnimationController(
+      vsync: this,
+      duration: Duration(
+        milliseconds: 85,
+      ),
+    );
+    selfChallengeAnimationController = AnimationController(
+      vsync: this,
+      duration: Duration(
+        milliseconds: 85,
+      ),
+    );
 
     profileSlideAnimation =
         Tween<Offset>(begin: Offset.zero, end: Offset(0.0, -0.0415)).animate(
-            CurvedAnimation(
-                parent: profileAnimationController, curve: Curves.easeIn));
+      CurvedAnimation(
+        parent: profileAnimationController,
+        curve: Curves.easeIn,
+      ),
+    );
 
     selfChallengeSlideAnimation =
         Tween<Offset>(begin: Offset.zero, end: Offset(0.0, -0.0415)).animate(
-            CurvedAnimation(
-                parent: selfChallengeAnimationController,
-                curve: Curves.easeIn));
+      CurvedAnimation(
+        parent: selfChallengeAnimationController,
+        curve: Curves.easeIn,
+      ),
+    );
 
-    firstAnimationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 400));
+    firstAnimationController = AnimationController(
+      vsync: this,
+      duration: Duration(
+        milliseconds: 400,
+      ),
+    );
     firstAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-        CurvedAnimation(
-            parent: firstAnimationController, curve: Curves.easeInOut));
-    secondAnimationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 400));
+      CurvedAnimation(
+        parent: firstAnimationController,
+        curve: Curves.easeInOut,
+      ),
+    );
+    secondAnimationController = AnimationController(
+      vsync: this,
+      duration: Duration(
+        milliseconds: 400,
+      ),
+    );
     secondAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-        CurvedAnimation(
-            parent: secondAnimationController, curve: Curves.easeInOut));
+      CurvedAnimation(
+        parent: secondAnimationController,
+        curve: Curves.easeInOut,
+      ),
+    );
   }
 
   void createAds() {
-    Future.delayed(Duration.zero, () {
-      context.read<InterstitialAdCubit>().createInterstitialAd(context);
-    });
+    Future.delayed(
+      Duration.zero,
+      () {
+        context.read<InterstitialAdCubit>().createInterstitialAd(context);
+      },
+    );
   }
 
   void showAppUnderMaintenanceDialog() {
-    Future.delayed(Duration.zero, () {
-      if (context.read<SystemConfigCubit>().appUnderMaintenance()) {
-        showDialog(
-            context: context, builder: (_) => AppUnderMaintenanceDialog());
-      }
-    });
+    Future.delayed(
+      Duration.zero,
+      () {
+        if (context.read<SystemConfigCubit>().appUnderMaintenance()) {
+          showDialog(
+              context: context, builder: (_) => AppUnderMaintenanceDialog());
+        }
+      },
+    );
   }
 
   void _initLocalNotification() async {
     const AndroidInitializationSettings initializationSettingsAndroid =
-    AndroidInitializationSettings('@mipmap/ic_launcher');
+        AndroidInitializationSettings('@mipmap/ic_launcher');
     final IOSInitializationSettings initializationSettingsIOS =
-    IOSInitializationSettings(onDidReceiveLocalNotification:
-        (int id, String? title, String? body, String? payLoad) {
+        IOSInitializationSettings(onDidReceiveLocalNotification:
+            (int id, String? title, String? body, String? payLoad) {
       print("For ios version <= 9 notification will be shown here");
     });
 
     final InitializationSettings initializationSettings =
-    InitializationSettings(
+        InitializationSettings(
       android: initializationSettingsAndroid,
       iOS: initializationSettingsIOS,
     );
@@ -506,7 +548,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
     if (Platform.isIOS) {
       flutterLocalNotificationsPlugin
           .resolvePlatformSpecificImplementation<
-          IOSFlutterLocalNotificationsPlugin>()
+              IOSFlutterLocalNotificationsPlugin>()
           ?.requestPermissions();
     }
   }
@@ -517,23 +559,23 @@ class _NewHomeScreenState extends State<NewHomeScreen>
       quizTypeTopMargin = systemCubit.isSelfChallengeEnable() ? 0.425 : 0.29;
       if (systemCubit.getIsContestAvailable() == "0") {
         _quizTypes.removeWhere(
-                (element) => element.quizTypeEnum == QuizTypes.contest);
+            (element) => element.quizTypeEnum == QuizTypes.contest);
       }
       if (systemCubit.getIsDailyQuizAvailable() == "0") {
         _quizTypes.removeWhere(
-                (element) => element.quizTypeEnum == QuizTypes.dailyQuiz);
+            (element) => element.quizTypeEnum == QuizTypes.dailyQuiz);
       }
       if (!systemCubit.getIsAudioQuestionAvailable()) {
         _quizTypes.removeWhere(
-                (element) => element.quizTypeEnum == QuizTypes.audioQuestions);
+            (element) => element.quizTypeEnum == QuizTypes.audioQuestions);
       }
       if (systemCubit.getIsFunNLearnAvailable() == "0") {
         _quizTypes.removeWhere(
-                (element) => element.quizTypeEnum == QuizTypes.funAndLearn);
+            (element) => element.quizTypeEnum == QuizTypes.funAndLearn);
       }
       if (!systemCubit.getIsGuessTheWordAvailable()) {
         _quizTypes.removeWhere(
-                (element) => element.quizTypeEnum == QuizTypes.guessTheWord);
+            (element) => element.quizTypeEnum == QuizTypes.guessTheWord);
       }
       if (systemCubit.getIsExamAvailable() == "0") {
         _quizTypes
@@ -595,9 +637,9 @@ class _NewHomeScreenState extends State<NewHomeScreen>
       if (type == "payment_request") {
         Future.delayed(Duration.zero, () {
           context.read<UserDetailsCubit>().updateCoins(
-            addCoin: true,
-            coins: int.parse(data['coins'].toString()),
-          );
+                addCoin: true,
+                coins: int.parse(data['coins'].toString()),
+              );
         });
       }
 
@@ -660,7 +702,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
       styleInformation: bigPictureStyleInformation,
     );
     var platformChannelSpecifics =
-    NotificationDetails(android: androidPlatformChannelSpecifics);
+        NotificationDetails(android: androidPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin
         .show(0, title, msg, platformChannelSpecifics, payload: payloads);
   }
@@ -687,7 +729,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
         priority: Priority.high,
         ticker: 'ticker');
     const IOSNotificationDetails iosNotificationDetails =
-    IOSNotificationDetails();
+        IOSNotificationDetails();
 
     var platformChannelSpecifics = NotificationDetails(
         android: androidPlatformChannelSpecifics, iOS: iosNotificationDetails);
@@ -698,145 +740,27 @@ class _NewHomeScreenState extends State<NewHomeScreen>
   void showUpdateNameBottomSheet() {
     final updateUserDetailCubit = context.read<UpdateUserDetailCubit>();
     showModalBottomSheet(
-        isDismissible: false,
-        enableDrag: false,
-        isScrollControlled: true,
-        elevation: 5.0,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20.0),
-              topRight: Radius.circular(20.0),
-            )),
-        context: context,
-        builder: (context) {
-          return EditProfileFieldBottomSheetContainer(
-              canCloseBottomSheet: false,
-              fieldTitle: nameLbl,
-              fieldValue: context.read<UserDetailsCubit>().getUserName(),
-              numericKeyboardEnable: false,
-              updateUserDetailCubit: updateUserDetailCubit);
-        });
+      isDismissible: false,
+      enableDrag: false,
+      isScrollControlled: true,
+      elevation: 5.0,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(20.0),
+        topRight: Radius.circular(20.0),
+      )),
+      context: context,
+      builder: (context) {
+        return EditProfileFieldBottomSheetContainer(
+          canCloseBottomSheet: false,
+          fieldTitle: nameLbl,
+          fieldValue: context.read<UserDetailsCubit>().getUserName(),
+          numericKeyboardEnable: false,
+          updateUserDetailCubit: updateUserDetailCubit,
+        );
+      },
+    );
   }
-
-//  List<Widget> _buildQuizTypes(double statusBarPadding) {
-//     List<Widget> children = [];
-//     for (int i = 0; i < _quizTypes.length; i++) {
-//       children.add(_buildQuizType(i, statusBarPadding));
-//     }
-//     return children;
-//   }
-
-// Future<void> _onTapLocalNotification(String? payload) async {
-//     //
-//     String type = payload ?? "";
-//     if (type == "badges") {
-//       Navigator.of(context).pushNamed(Routes.badges);
-//     } else if (type == "category") {
-//       Navigator.of(context).pushNamed(
-//         Routes.category,
-//       );
-//     } else if (type == "payment_request") {
-//       Navigator.of(context).pushNamed(Routes.wallet);
-//     }
-//   }
-//    Future<void> generateImageNotification(String title, String msg, String image,
-//       String payloads, String type) async {
-//     var largeIconPath = await _downloadAndSaveFile(image, 'largeIcon');
-//     var bigPicturePath = await _downloadAndSaveFile(image, 'bigPicture');
-//     var bigPictureStyleInformation = BigPictureStyleInformation(
-//         FilePathAndroidBitmap(bigPicturePath),
-//         hideExpandedLargeIcon: true,
-//         contentTitle: title,
-//         htmlFormatContentTitle: true,
-//         summaryText: msg,
-//         htmlFormatSummaryText: true);
-//     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-//       'com.wrteam.flutterquiz', //channel id
-//       'flutterquiz', //channel name
-//       channelDescription: 'flutterquiz',
-//       largeIcon: FilePathAndroidBitmap(largeIconPath),
-//       styleInformation: bigPictureStyleInformation,
-//     );
-//     var platformChannelSpecifics =
-//         NotificationDetails(android: androidPlatformChannelSpecifics);
-//     await flutterLocalNotificationsPlugin
-//         .show(0, title, msg, platformChannelSpecifics, payload: payloads);
-//   }
-
-//   Future<String> _downloadAndSaveFile(String url, String fileName) async {
-//     final Directory directory = await getApplicationDocumentsDirectory();
-//     final String filePath = '${directory.path}/$fileName';
-//     print(" The Url is $url");
-//     final http.Response response = await http.get(Uri.parse(url));
-//     print("The Response is $response");
-//     final File file = File(filePath);
-//     await file.writeAsBytes(response.bodyBytes);
-//     return filePath;
-//   }
-
-// Future<void> setupInteractedMessage() async {
-//     //
-//     if (Platform.isIOS) {
-//       await FirebaseMessaging.instance
-//           .requestPermission(announcement: true, provisional: true);
-//     }
-
-//     FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
-//     // handle background notification
-//     FirebaseMessaging.onBackgroundMessage(UiUtils.onBackgroundMessage);
-//     //handle foreground notification
-//     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-//       print("Notification arrives : $message");
-//       var data = message.data;
-
-//       var title = data['title'].toString();
-//       var body = data['body'].toString();
-//       var type = data['type'].toString();
-
-//       var image = data['image'];
-
-//       //if notification type is badges then update badges in cubit list
-//       if (type == "badges") {
-//         String badgeType = data['badge_type'];
-//         Future.delayed(Duration.zero, () {
-//           context.read<BadgesCubit>().unlockBadge(badgeType);
-//         });
-//       }
-
-//       if (type == "payment_request") {
-//         Future.delayed(Duration.zero, () {
-//           context.read<UserDetailsCubit>().updateCoins(
-//                 addCoin: true,
-//                 coins: int.parse(data['coins'].toString()),
-//               );
-//         });
-//       }
-
-//       //payload is some data you want to pass in local notification
-//       image != null
-//           ? generateImageNotification(title, body, image, type, type)
-//           : generateSimpleNotification(title, body, type);
-//     });
-//   }
-
-  // notification on foreground
-  // Future<void> generateSimpleNotification(
-  //     String title, String body, String payloads) async {
-  //   var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-  //       'com.wrteam.flutterquiz', //channel id
-  //       'flutterquiz', //channel name
-  //       channelDescription: 'flutterquiz',
-  //       importance: Importance.max,
-  //       priority: Priority.high,
-  //       ticker: 'ticker');
-  //   const IOSNotificationDetails iosNotificationDetails =
-  //       IOSNotificationDetails();
-
-  //   var platformChannelSpecifics = NotificationDetails(
-  //       android: androidPlatformChannelSpecifics, iOS: iosNotificationDetails);
-  //   await flutterLocalNotificationsPlugin
-  //       .show(0, title, body, platformChannelSpecifics, payload: payloads);
-  // }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -847,115 +771,6 @@ class _NewHomeScreenState extends State<NewHomeScreen>
       UiUtils.needToUpdateCoinsLocally(context);
     } else {
       ProfileManagementLocalDataSource.updateReversedCoins(0);
-    }
-  }
-
-  double _getTopMarginForQuizTypeContainer(int quizTypeIndex) {
-    double topMarginPercentage = quizTypeTopMargin;
-    int baseCondition = quizTypeIndex % 2 == 0 ? 0 : 1;
-    for (int i = quizTypeIndex; i > baseCondition; i = i - 2) {
-      //
-      double topQuizTypeHeight = maxHeightQuizTypeIndexes.contains(i - 2)
-          ? UiUtils.quizTypeMaxHeightPercentage
-          : UiUtils.quizTypeMinHeightPercentage;
-
-      topMarginPercentage = topMarginPercentage +
-          quizTypeBetweenVerticalSpacing +
-          topQuizTypeHeight;
-    }
-    return topMarginPercentage;
-  }
-
-  void _navigateToQuizZone(int containerNumber) {
-    //container number will be [1,2,3,4] if self chellenge is enable
-    //container number will be [1,2,3,4,5,6] if self chellenge is not enable
-
-    if (currentMenu == 1) {
-      if (containerNumber == 1) {
-        _onQuizTypeContainerTap(0);
-      } else if (containerNumber == 2) {
-        _onQuizTypeContainerTap(1);
-      } else if (containerNumber == 3) {
-        _onQuizTypeContainerTap(2);
-      } else {
-        if (context.read<SystemConfigCubit>().isSelfChallengeEnable()) {
-          if (_quizTypes.length >= 4) {
-            _onQuizTypeContainerTap(3);
-          }
-          return;
-        }
-
-        if (containerNumber == 4) {
-          if (_quizTypes.length >= 4) {
-            _onQuizTypeContainerTap(3);
-          }
-        } else if (containerNumber == 5) {
-          if (_quizTypes.length >= 5) {
-            _onQuizTypeContainerTap(4);
-          }
-        } else if (containerNumber == 6) {
-          if (_quizTypes.length >= 6) {
-            _onQuizTypeContainerTap(5);
-          }
-        }
-      }
-    } else if (currentMenu == 2) {
-      //determine
-      if (containerNumber == 1) {
-        if (_quizTypes.length >= 5) {
-          _onQuizTypeContainerTap(4);
-        }
-      } else if (containerNumber == 2) {
-        if (_quizTypes.length >= 6) {
-          _onQuizTypeContainerTap(5);
-        }
-      } else if (containerNumber == 3) {
-        if (_quizTypes.length >= 7) {
-          _onQuizTypeContainerTap(6);
-        }
-      } else {
-        //if self challenge is enable
-        if (context.read<SystemConfigCubit>().isSelfChallengeEnable()) {
-          if (_quizTypes.length >= 8) {
-            _onQuizTypeContainerTap(7);
-            return;
-          }
-          return;
-        }
-
-        if (containerNumber == 4) {
-          if (_quizTypes.length >= 8) {
-            _onQuizTypeContainerTap(7);
-          }
-        } else if (containerNumber == 5) {
-          if (_quizTypes.length >= 9) {
-            _onQuizTypeContainerTap(8);
-          }
-        } else if (containerNumber == 6) {
-          if (_quizTypes.length >= 10) {
-            _onQuizTypeContainerTap(9);
-          }
-        }
-      }
-    } else {
-      //for menu 3
-      if (containerNumber == 1) {
-        if (_quizTypes.length >= 9) {
-          _onQuizTypeContainerTap(8);
-        }
-      } else if (containerNumber == 2) {
-        if (_quizTypes.length >= 10) {
-          _onQuizTypeContainerTap(9);
-        }
-      } else if (containerNumber == 3) {
-        if (_quizTypes.length >= 11) {
-          _onQuizTypeContainerTap(10);
-        }
-      } else {
-        if (_quizTypes.length == 12) {
-          _onQuizTypeContainerTap(11);
-        }
-      }
     }
   }
 
@@ -996,11 +811,14 @@ class _NewHomeScreenState extends State<NewHomeScreen>
       );
     } else if (_quizTypes[quizTypeIndex].quizTypeEnum ==
         QuizTypes.trueAndFalse) {
-      Navigator.of(context).pushNamed(Routes.quiz, arguments: {
-        "quizType": QuizTypes.trueAndFalse,
-        "numberOfPlayer": 1,
-        "quizName": "True & False"
-      });
+      Navigator.of(context).pushNamed(
+        Routes.quiz,
+        arguments: {
+          "quizType": QuizTypes.trueAndFalse,
+          "numberOfPlayer": 1,
+          "quizName": "True & False"
+        },
+      );
     } else if (_quizTypes[quizTypeIndex].quizTypeEnum ==
         QuizTypes.funAndLearn) {
       Navigator.of(context).pushNamed(Routes.category,
@@ -1015,10 +833,10 @@ class _NewHomeScreenState extends State<NewHomeScreen>
       showDialog(
           context: context,
           builder: (context) => MultiBlocProvider(providers: [
-            BlocProvider<UpdateScoreAndCoinsCubit>(
-                create: (_) => UpdateScoreAndCoinsCubit(
-                    ProfileManagementRepository())),
-          ], child: RoomDialog(quizType: QuizTypes.groupPlay)));
+                BlocProvider<UpdateScoreAndCoinsCubit>(
+                    create: (_) => UpdateScoreAndCoinsCubit(
+                        ProfileManagementRepository())),
+              ], child: RoomDialog(quizType: QuizTypes.groupPlay)));
       //
     } else if (_quizTypes[quizTypeIndex].quizTypeEnum == QuizTypes.contest) {
       if (context.read<SystemConfigCubit>().getIsContestAvailable() == "1") {

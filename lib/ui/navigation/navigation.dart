@@ -30,6 +30,9 @@ class _NavigationState extends State<Navigation> {
     Container(
       color: Colors.black,
     ),
+    Container(
+      color: Colors.pink,
+    ),
   ];
 
   @override

@@ -18,6 +18,7 @@ class Assets {
   static String closeEye = 'assets/icons/close_eye.png';
   static String person = 'assets/icons/person.png';
   static String swivels = 'assets/icons/swivels.png';
+  static String swivels1 = 'assets/icons/swivels1.png';
   static String selectedPicture = 'assets/images/quiz_types/select_image.svg';
   static String moveVertically = 'assets/icons/move_vertically.svg';
   static String mic = 'assets/icons/mic.svg';
@@ -27,6 +28,9 @@ class Assets {
   static String edit = 'assets/icons/edit.svg';
   static String puzzleIcon = 'assets/icons/puzzle.svg';
   static String puzzleIcon1 = 'assets/icons/puzzle1.png';
+  static String star = 'assets/icons/star.png';
+  static String world = 'assets/icons/world.png';
+  static String local = 'assets/icons/local.png';
 
   static String cardCircles = 'assets/images/card_circles.png';
   static String cardCircles1 = 'assets/images/card_circles1.png';
@@ -45,16 +49,33 @@ class Assets {
   static String travel = 'assets/images/quiz_categories/travel.svg';
 
   // AVATARS
-  static String man1 = 'assets/svgs/avatars/man1.svg';
-  static String man2 = 'assets/svgs/avatars/man2.svg';
-  static String man3 = 'assets/svgs/avatars/man3.svg';
-  static String man4 = 'assets/svgs/avatars/man4.svg';
-  static String man5 = 'assets/svgs/avatars/man5.svg';
-  static String man6 = 'assets/svgs/avatars/man6.svg';
-  static String man7 = 'assets/svgs/avatars/man7.svg';
-  static String man8 = 'assets/svgs/avatars/man8.svg';
-  static String woman1 = 'assets/svgs/avatars/woman1.svg';
-  static String woman2 = 'assets/svgs/avatars/woman2.svg';
+  static String man1 = 'assets/avatars/man1.svg';
+  static String man2 = 'assets/avatars/man2.svg';
+  static String man3 = 'assets/avatars/man3.svg';
+  static String man4 = 'assets/avatars/man4.svg';
+  static String man5 = 'assets/avatars/man5.svg';
+  static String man6 = 'assets/avatars/man6.svg';
+  static String man7 = 'assets/avatars/man7.svg';
+  static String man8 = 'assets/avatars/man8.svg';
+  static String woman1 = 'assets/avatars/woman1.svg';
+  static String woman2 = 'assets/avatars/woman2.svg';
+  static String woman3 = 'assets/avatars/woman3.svg';
+
+  // BADGES
+  static String badge1 = 'assets/badges/badge1.png';
+  static String badge2 = 'assets/badges/badge2.png';
+  static String badge3 = 'assets/badges/badge3.png';
+  static String badge4 = 'assets/badges/badge4.png';
+  static String badge5 = 'assets/badges/badge5.png';
+  static String badge6 = 'assets/badges/badge6.png';
+  static List<String> badges = [
+    badge1,
+    badge2,
+    badge3,
+    badge4,
+    badge5,
+    badge6,
+  ];
 
   // IMAGES
   static String topPicks = 'assets/images/top_picks.svg';
@@ -65,6 +86,9 @@ class Assets {
   static String search = 'assets/svgs/search.svg';
   static String leaderboardFilled = 'assets/svgs/leaderboard_filled.svg';
   static String personFilled = 'assets/svgs/profile_filled.svg';
+
+  //Flags
+  static String turkey = 'assets/flags/turkey.png';
 
   //Quiz Types
   static String boolean = 'assets/images/quiz_types/boolean.png';

@@ -32,16 +32,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return BlocProvider<SignUpCubit>(
       create: (_) => SignUpCubit(AuthRepository()),
       child: Builder(
-          builder: (context) => Scaffold(
-                body: Stack(
-                  children: [
-                    PageBackgroundGradientContainer(),
-                    SingleChildScrollView(
-                      child: form(),
-                    ),
-                  ],
-                ),
-              )),
+        builder: (context) => Scaffold(
+          body: Stack(
+            children: [
+              PageBackgroundGradientContainer(),
+              SingleChildScrollView(
+                child: form(),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -91,9 +92,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Text(
       AppLocalization.of(context)!.getTranslatedValues("signUpLbl")!,
       style: TextStyle(
-          color: Theme.of(context).primaryColor,
-          fontSize: 22,
-          fontWeight: FontWeight.bold),
+        color: Theme.of(context).primaryColor,
+        fontSize: 22,
+        fontWeight: FontWeight.bold,
+      ),
     );
   }
 
@@ -275,10 +277,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 } else if (state is SignUpFailure) {
                   //show error message
                   UiUtils.setSnackbar(
-                      AppLocalization.of(context)!.getTranslatedValues(
-                          convertErrorCodeToLanguageKey(state.errorMessage))!,
-                      context,
-                      false);
+                    AppLocalization.of(context)!.getTranslatedValues(
+                        convertErrorCodeToLanguageKey(state.errorMessage))!,
+                    context,
+                    false,
+                  );
                 }
               },
               builder: (context, state) {
@@ -286,9 +289,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: state is SignUpProgress
                       ? Center(
                           child: CircularProgressContainer(
-                          heightAndWidth: 40,
-                          useWhiteLoader: true,
-                        ))
+                            heightAndWidth: 40,
+                            useWhiteLoader: true,
+                          ),
+                        )
                       : Text(
                           AppLocalization.of(context)!
                               .getTranslatedValues('signUpLbl')!,

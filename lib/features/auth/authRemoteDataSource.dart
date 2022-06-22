@@ -1,6 +1,8 @@
 import 'dart:convert';
-
+import 'dart:developer';
 import 'dart:io';
+
+import 'package:apple_sign_in_safety/apple_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart' as fcm;
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';
@@ -12,7 +14,6 @@ import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
-import 'package:apple_sign_in_safety/apple_sign_in.dart';
 
 class AuthRemoteDataSource {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -50,7 +51,7 @@ class AuthRemoteDataSource {
         fcmIdKey: fcmToken,
         friendCodeKey: friendCode ?? ""
       };
-
+      log('Add User API $addUserUrl ${body.toString()}');
       final response = await http.post(Uri.parse(addUserUrl), body: body);
       final responseJson = jsonDecode(response.body);
 
@@ -59,12 +60,14 @@ class AuthRemoteDataSource {
       }
       return Map<String, dynamic>.from(responseJson['data']);
     } on SocketException catch (_) {
+      log('Error authRemoteDataSource: $_');
       throw AuthException(errorMessageCode: noInternetCode);
     } on AuthException catch (e) {
+      log('Error authRemoteDataSource: $e');
       throw AuthException(errorMessageCode: e.toString());
     } catch (e) {
       //print(e.toString());
-      print("error , user not found ${e.toString()}");
+      log('Error authRemoteDataSource: $e');
       throw AuthException(errorMessageCode: defaultErrorMessageCode);
     }
   }
@@ -180,13 +183,18 @@ class AuthRemoteDataSource {
         result['user'] = userCredential.user!;
         result['isNewUser'] = userCredential.additionalUserInfo!.isNewUser;
       } else if (authProvider == AuthProvider.fb) {
-        final faceBookAuthResult = await signInWithFacebook();
-        if (faceBookAuthResult != null) {
-          result['user'] = faceBookAuthResult.user!;
-          result['isNewUser'] =
-              faceBookAuthResult.additionalUserInfo!.isNewUser;
-        } else {
-          throw AuthException(errorMessageCode: defaultErrorMessageCode);
+        try {
+          final faceBookAuthResult = await signInWithFacebook();
+          if (faceBookAuthResult != null) {
+            result['user'] = faceBookAuthResult.user!;
+            result['isNewUser'] =
+                faceBookAuthResult.additionalUserInfo!.isNewUser;
+          } else {
+            log('authRemoteDataSource FB: ');
+            throw AuthException(errorMessageCode: defaultErrorMessageCode);
+          }
+        } on Exception catch (e) {
+          log('authRemoteDataSource FB: $e');
         }
       } else if (authProvider == AuthProvider.email) {
         print("email provider");
@@ -202,14 +210,18 @@ class AuthRemoteDataSource {
       }
       return result;
     } on SocketException catch (_) {
+      log('Error authRemoteDataSource signInUser: $_');
       throw AuthException(errorMessageCode: noInternetCode);
     }
     //firebase auht errors
     on FirebaseAuthException catch (e) {
+      log('Error authRemoteDataSource signInUser: $e');
       throw AuthException(errorMessageCode: firebaseErrorCodeToNumber(e.code));
     } on AuthException catch (e) {
+      log('Error authRemoteDataSource signInUser: $e');
       throw AuthException(errorMessageCode: e.toString());
     } catch (e) {
+      log('Error authRemoteDataSource signInUser: $e');
       throw AuthException(errorMessageCode: defaultErrorMessageCode);
     }
   }
