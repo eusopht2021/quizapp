@@ -26,6 +26,7 @@ class Assets {
   static String manPushingBox = 'assets/images/man_pushing_box.svg';
   static String smallCircle = 'assets/images/small_circle.svg';
   static String edit = 'assets/icons/edit.svg';
+  static String medal1 = 'assets/icons/medal1.svg';
   static String puzzleIcon = 'assets/icons/puzzle.svg';
   static String puzzleIcon1 = 'assets/icons/puzzle1.png';
   static String star = 'assets/icons/star.png';

@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterquiz/app/appLocalization.dart';
 import 'package:flutterquiz/app/routes.dart';
 import 'package:flutterquiz/features/auth/cubits/authCubit.dart';
-
 import 'package:flutterquiz/features/badges/cubits/badgesCubit.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/userDetailsCubit.dart';
 import 'package:flutterquiz/features/profileManagement/models/userProfile.dart';
@@ -13,13 +13,11 @@ import 'package:flutterquiz/features/statistic/models/statisticModel.dart';
 import 'package:flutterquiz/features/statistic/statisticRepository.dart';
 import 'package:flutterquiz/ui/widgets/badgesIconContainer.dart';
 import 'package:flutterquiz/ui/widgets/circularProgressContainner.dart';
-
 import 'package:flutterquiz/ui/widgets/pageBackgroundGradientContainer.dart';
 import 'package:flutterquiz/ui/widgets/roundedAppbar.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class StatisticsScreen extends StatefulWidget {
   StatisticsScreen({Key? key}) : super(key: key);
@@ -29,9 +27,13 @@ class StatisticsScreen extends StatefulWidget {
 
   static Route<StatisticsScreen> route(RouteSettings routeSettings) {
     return CupertinoPageRoute(
-        builder: (_) => BlocProvider<StatisticCubit>(
-            child: StatisticsScreen(),
-            create: (_) => StatisticCubit(StatisticRepository())));
+      builder: (_) => BlocProvider<StatisticCubit>(
+        child: StatisticsScreen(),
+        create: (_) => StatisticCubit(
+          StatisticRepository(),
+        ),
+      ),
+    );
   }
 }
 
@@ -62,7 +64,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                     children: [
                       Row(
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             width: 5.0,
                           ),
                           Text(
@@ -73,7 +75,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                                 color: Theme.of(context).primaryColor,
                                 fontSize: statisticsDetailsTitleFontsize),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           context
                                       .read<BadgesCubit>()
                                       .getUnlockedBadges()
@@ -93,15 +95,27 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                                   ),
                                 )
                               : Container(),
-                          SizedBox(
+                          const SizedBox(
                             width: 5.0,
                           ),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10.0,
                       ),
                       Container(
+                        height: MediaQuery.of(context).size.height *
+                            (statisticsDetailsContainerHeightPercentage),
+                        decoration: BoxDecoration(
+                            boxShadow: [
+                              UiUtils.buildBoxShadow(
+                                  blurRadius: 3.0,
+                                  color: Colors.black.withOpacity(0.2),
+                                  offset: const Offset(2.5, 2.5)),
+                            ],
+                            color: Theme.of(context).backgroundColor,
+                            borderRadius: BorderRadius.circular(
+                                statisticsDetailsContainerBorderRadius)),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: (context
@@ -136,25 +150,13 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                               )
                               .toList(),
                         ),
-                        height: MediaQuery.of(context).size.height *
-                            (statisticsDetailsContainerHeightPercentage),
-                        decoration: BoxDecoration(
-                            boxShadow: [
-                              UiUtils.buildBoxShadow(
-                                  blurRadius: 3.0,
-                                  color: Colors.black.withOpacity(0.2),
-                                  offset: Offset(2.5, 2.5)),
-                            ],
-                            color: Theme.of(context).backgroundColor,
-                            borderRadius: BorderRadius.circular(
-                                statisticsDetailsContainerBorderRadius)),
                       ),
                     ],
                   )
             : Container();
 
         return AnimatedSwitcher(
-            child: child, duration: Duration(milliseconds: 500));
+            duration: const Duration(milliseconds: 500), child: child);
       },
     );
   }
@@ -192,7 +194,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
       children: [
         Row(
           children: [
-            SizedBox(
+            const SizedBox(
               width: 5.0,
             ),
             Text(
@@ -204,10 +206,22 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
             ),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 10.0,
         ),
         Container(
+          height: MediaQuery.of(context).size.height *
+              (statisticsDetailsContainerHeightPercentage),
+          decoration: BoxDecoration(
+              boxShadow: [
+                UiUtils.buildBoxShadow(
+                    blurRadius: 3.0,
+                    color: Colors.black.withOpacity(0.2),
+                    offset: const Offset(2.5, 2.5)),
+              ],
+              color: Theme.of(context).backgroundColor,
+              borderRadius: BorderRadius.circular(
+                  statisticsDetailsContainerBorderRadius)),
           child: LayoutBuilder(builder: (context, constraints) {
             return Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -250,18 +264,6 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
               ],
             );
           }),
-          height: MediaQuery.of(context).size.height *
-              (statisticsDetailsContainerHeightPercentage),
-          decoration: BoxDecoration(
-              boxShadow: [
-                UiUtils.buildBoxShadow(
-                    blurRadius: 3.0,
-                    color: Colors.black.withOpacity(0.2),
-                    offset: Offset(2.5, 2.5)),
-              ],
-              color: Theme.of(context).backgroundColor,
-              borderRadius: BorderRadius.circular(
-                  statisticsDetailsContainerBorderRadius)),
         ),
       ],
     );
@@ -274,7 +276,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
       children: [
         Row(
           children: [
-            SizedBox(
+            const SizedBox(
               width: 5.0,
             ),
             Text(
@@ -287,10 +289,22 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
             ),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 10.0,
         ),
         Container(
+          height: MediaQuery.of(context).size.height *
+              (statisticsDetailsContainerHeightPercentage),
+          decoration: BoxDecoration(
+              boxShadow: [
+                UiUtils.buildBoxShadow(
+                    blurRadius: 3.0,
+                    color: Colors.black.withOpacity(0.2),
+                    offset: const Offset(2.5, 2.5)),
+              ],
+              color: Theme.of(context).backgroundColor,
+              borderRadius: BorderRadius.circular(
+                  statisticsDetailsContainerBorderRadius)),
           child: LayoutBuilder(builder: (context, constraints) {
             return Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -333,18 +347,6 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
               ],
             );
           }),
-          height: MediaQuery.of(context).size.height *
-              (statisticsDetailsContainerHeightPercentage),
-          decoration: BoxDecoration(
-              boxShadow: [
-                UiUtils.buildBoxShadow(
-                    blurRadius: 3.0,
-                    color: Colors.black.withOpacity(0.2),
-                    offset: Offset(2.5, 2.5)),
-              ],
-              color: Theme.of(context).backgroundColor,
-              borderRadius: BorderRadius.circular(
-                  statisticsDetailsContainerBorderRadius)),
         ),
       ],
     );
@@ -357,7 +359,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
       children: [
         Row(
           children: [
-            SizedBox(
+            const SizedBox(
               width: 5.0,
             ),
             Text(
@@ -370,10 +372,22 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
             ),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 10.0,
         ),
         Container(
+          height: MediaQuery.of(context).size.height *
+              (statisticsDetailsContainerHeightPercentage),
+          decoration: BoxDecoration(
+              boxShadow: [
+                UiUtils.buildBoxShadow(
+                    blurRadius: 3.0,
+                    color: Colors.black.withOpacity(0.2),
+                    offset: const Offset(2.5, 2.5)),
+              ],
+              color: Theme.of(context).backgroundColor,
+              borderRadius: BorderRadius.circular(
+                  statisticsDetailsContainerBorderRadius)),
           child: LayoutBuilder(builder: (context, constraints) {
             return Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -414,18 +428,6 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
               ],
             );
           }),
-          height: MediaQuery.of(context).size.height *
-              (statisticsDetailsContainerHeightPercentage),
-          decoration: BoxDecoration(
-              boxShadow: [
-                UiUtils.buildBoxShadow(
-                    blurRadius: 3.0,
-                    color: Colors.black.withOpacity(0.2),
-                    offset: Offset(2.5, 2.5)),
-              ],
-              color: Theme.of(context).backgroundColor,
-              borderRadius: BorderRadius.circular(
-                  statisticsDetailsContainerBorderRadius)),
         ),
       ],
     );
@@ -455,6 +457,8 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
               ),
             ),
             padding: const EdgeInsets.all(8.0),
+            height: MediaQuery.of(context).size.width * (0.36),
+            width: MediaQuery.of(context).size.width * (0.36),
             child: Container(
               decoration: BoxDecoration(
                   image: DecorationImage(
@@ -462,8 +466,6 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                           CachedNetworkImageProvider(userProfile.profileUrl!)),
                   shape: BoxShape.circle),
             ),
-            height: MediaQuery.of(context).size.width * (0.36),
-            width: MediaQuery.of(context).size.width * (0.36),
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height * (0.02),
@@ -479,7 +481,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 5.0,
           ),
           Container(
@@ -504,22 +506,22 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
             ),
           ),
           _buildCollectedBadgesContainer(),
-          SizedBox(
+          const SizedBox(
             height: 20.0,
           ),
           _buildQuizDetailsContainer(),
-          SizedBox(
+          const SizedBox(
             height: 20.0,
           ),
           showQuestionAndBattleStatistics
               ? Column(
                   children: [
                     _buildQuestionDetailsContainer(),
-                    SizedBox(
+                    const SizedBox(
                       height: 20.0,
                     ),
                     _buildBattleStatisticsContainer(),
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                   ],
@@ -535,7 +537,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          PageBackgroundGradientContainer(),
+          const PageBackgroundGradientContainer(),
           BlocConsumer<StatisticCubit, StatisticState>(
               listener: (context, state) {
             if (state is StatisticFetchFailure) {

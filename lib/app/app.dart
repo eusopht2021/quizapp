@@ -52,13 +52,17 @@ Future<Widget> initializeApp() async {
 
   if (!kIsWeb) {
     await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         statusBarBrightness: Brightness.light,
-        statusBarIconBrightness: Brightness.dark));
+        statusBarIconBrightness: Brightness.dark,
+      ),
+    );
 
     await Firebase.initializeApp();
-    FirebaseFirestore.instance.settings = Settings(persistenceEnabled: false);
+    FirebaseFirestore.instance.settings =
+        const Settings(persistenceEnabled: false);
   }
 
   await Hive.initFlutter();
@@ -70,13 +74,13 @@ Future<Widget> initializeApp() async {
       userdetailsBox); //userDetails box for storing all userDetails details
   await Hive.openBox(examBox);
 
-  return MyApp();
+  return const MyApp();
 }
 
 class GlobalScrollBehavior extends ScrollBehavior {
   @override
   ScrollPhysics getScrollPhysics(BuildContext context) {
-    return BouncingScrollPhysics();
+    return const BouncingScrollPhysics();
   }
 }
 
@@ -174,7 +178,7 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             builder: (context, widget) {
               SizeConfig.init(context);
-              
+
               return ScrollConfiguration(
                   behavior: GlobalScrollBehavior(), child: widget!);
             },

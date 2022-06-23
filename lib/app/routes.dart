@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterquiz/ui/navigation/navigation.dart';
@@ -167,7 +169,9 @@ class Routes {
       case result:
         return ResultScreen.route(routeSettings);
       case profile:
+        log('Profile.route() called');
         return Profile.route(routeSettings);
+      // return StatisticsScreen.route(routeSettings);
       // return ProfileScreen.route(routeSettings);
       case reviewAnswers:
         return ReviewAnswersScreen.route(routeSettings);
