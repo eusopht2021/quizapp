@@ -1,5 +1,4 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,16 +12,13 @@ import 'package:flutterquiz/features/exam/cubits/examCubit.dart';
 import 'package:flutterquiz/features/localization/appLocalizationCubit.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/userDetailsCubit.dart';
 import 'package:flutterquiz/features/profileManagement/profileManagementLocalDataSource.dart';
-
 import 'package:flutterquiz/features/quiz/models/quizType.dart';
 import 'package:flutterquiz/features/systemConfig/cubits/systemConfigCubit.dart';
 import 'package:flutterquiz/ui/styles/theme/appTheme.dart';
 import 'package:flutterquiz/ui/widgets/alreadyLoggedInDialog.dart';
-
 import 'package:flutterquiz/ui/widgets/errorMessageDialog.dart';
 import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/stringLabels.dart';
-
 import 'package:intl/intl.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -107,8 +103,8 @@ class UiUtils {
 
   static void setSnackbar(String msg, BuildContext context, bool showAction,
       {Function? onPressedAction, Duration? duration}) {
-    ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
-      content: new Text(msg,
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(msg,
           textAlign: showAction ? TextAlign.start : TextAlign.center,
           style: TextStyle(
               color: Theme.of(context).backgroundColor,
@@ -116,7 +112,7 @@ class UiUtils {
               fontSize: 16.0)),
       behavior: SnackBarBehavior.fixed,
       duration: duration ?? Duration(seconds: 2),
-      backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: Constants.primaryColor,
       action: showAction
           ? SnackBarAction(
               label: "Retry",

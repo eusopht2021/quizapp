@@ -1,6 +1,8 @@
 import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../utils/constants.dart';
 import '../../../widgets/title_text.dart';
@@ -38,10 +40,20 @@ class QuizCategoryCard extends StatelessWidget {
       child: ListTile(
         onTap: onTap,
         contentPadding: const EdgeInsets.all(8.0),
-        leading: Image.asset(
-          asset,
-          height: 64,
-          width: 64,
+        leading: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: asset.contains('.svg')
+              ? SvgPicture.asset(
+                  asset,
+                  height: 64,
+                  width: 64,
+                  color: Constants.primaryColor,
+                )
+              : Image.asset(
+                  asset,
+                  height: 64,
+                  width: 64,
+                ),
         ),
         title: TitleText(
           text: name,

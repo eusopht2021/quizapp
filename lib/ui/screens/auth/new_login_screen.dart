@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterquiz/features/auth/authRepository.dart';
+import 'package:flutterquiz/ui/widgets/social_button.dart';
 
 import '../../../app/appLocalization.dart';
 import '../../../app/routes.dart';
@@ -16,12 +17,10 @@ import '../../../utils/errorMessageKeys.dart';
 import '../../../utils/uiUtils.dart';
 import '../../../utils/validators.dart';
 import '../../../utils/widgets_util.dart';
-import '../../widgets/circularProgressContainner.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_divider.dart';
 import '../../widgets/custom_text_field.dart';
 import '../../widgets/default_layout.dart';
-import '../../widgets/social_button.dart';
 import '../../widgets/terms.dart';
 import '../../widgets/title_text.dart';
 
@@ -52,28 +51,8 @@ class _LoginState extends State<Login> {
               key: _formKey,
               child: Column(
                 children: [
-                  SocialButton(
-                    textColor: Constants.black2,
-                    icon: Assets.google,
-                    background: Constants.white,
-                    onTap: () {},
-                    horizontalMargin: 16,
-                    verticalMargin: 24,
-                    text: AppLocalization.of(context)!
-                        .getTranslatedValues('loginWithGooleLbl')!,
-                    showBorder: true,
-                  ),
-                  SocialButton(
-                    textColor: Constants.white,
-                    icon: Assets.facebook,
-                    background: Constants.facebookColor,
-                    onTap: () {},
-                    horizontalMargin: 16,
-                    verticalMargin: 16,
-                    text: AppLocalization.of(context)!
-                        .getTranslatedValues('loginWithFacebookLbl')!,
-                    showBorder: false,
-                  ),
+                  _showGoogleButton(),
+                  _showFacebookButton(),
                   CustomDivider(
                     text:
                         AppLocalization.of(context)!.getTranslatedValues('or')!,
@@ -147,6 +126,68 @@ class _LoginState extends State<Login> {
     );
   }
 
+  Widget _showGoogleButton() {
+    return BlocConsumer<SignInCubit, SignInState>(
+      listener: (context, state) {
+        //Exceuting only if authProvider is not email
+        if (state is SignInSuccess &&
+            state.authProvider != AuthProvider.email) {
+          context.read<AuthCubit>().updateAuthDetails(
+              authProvider: state.authProvider,
+              firebaseId: state.user.uid,
+              authStatus: true,
+              isNewUser: state.isNewUser);
+          if (state.isNewUser) {
+            context.read<UserDetailsCubit>().fetchUserDetails(state.user.uid);
+            //navigate to select profile screen
+            Navigator.of(context)
+                .pushReplacementNamed(Routes.selectProfile, arguments: true);
+          } else {
+            //get user detials of signed in user
+            context.read<UserDetailsCubit>().fetchUserDetails(state.user.uid);
+            //updateFcm id
+            log(state.user.uid);
+            Navigator.of(context)
+                .pushReplacementNamed(Routes.home, arguments: false);
+          }
+        } else if (state is SignInFailure &&
+            state.authProvider != AuthProvider.email) {
+          UiUtils.setSnackbar(
+            AppLocalization.of(context)!.getTranslatedValues(
+                convertErrorCodeToLanguageKey(state.errorMessage))!,
+            context,
+            false,
+          );
+        }
+      },
+      builder: (context, state) {
+        if (state is SignInProgress &&
+            state.authProvider == AuthProvider.gmail) {
+          return Center(
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation(
+                Constants.primaryColor,
+              ),
+            ),
+          );
+        }
+        return SocialButton(
+          textColor: Constants.black2,
+          icon: Assets.google,
+          background: Constants.white,
+          onTap: () {
+            context.read<SignInCubit>().signInUser(AuthProvider.gmail);
+          },
+          horizontalMargin: 16,
+          verticalMargin: 24,
+          text: AppLocalization.of(context)!
+              .getTranslatedValues('loginWithGooleLbl')!,
+          showBorder: true,
+        );
+      },
+    );
+  }
+
   Widget showEmailForForgotPwd() {
     return CustomTextField(
       controller: edtEmailReset,
@@ -157,6 +198,68 @@ class _LoginState extends State<Login> {
           AppLocalization.of(context)!.getTranslatedValues('validEmail')),
       onSaved: (value) => edtEmailReset.text = value!.trim(),
       hint: AppLocalization.of(context)!.getTranslatedValues('enterEmailLbl')!,
+    );
+  }
+
+  Widget _showFacebookButton() {
+    return BlocConsumer<SignInCubit, SignInState>(
+      builder: (context, state) {
+        if (state is SignInProgress && state.authProvider == AuthProvider.fb) {
+          return Center(
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation(
+                Constants.primaryColor,
+              ),
+            ),
+          );
+        }
+        return SocialButton(
+          textColor: Constants.white,
+          icon: Assets.facebook,
+          background: Constants.facebookColor,
+          onTap: () {
+            context.read<SignInCubit>().signInUser(AuthProvider.fb);
+          },
+          horizontalMargin: 16,
+          verticalMargin: 16,
+          text: AppLocalization.of(context)!
+              .getTranslatedValues('loginWithFacebookLbl')!,
+          showBorder: false,
+        );
+      },
+      listener: (context, state) {
+        //Exceuting only if authProvider is not email
+        if (state is SignInSuccess &&
+            state.authProvider != AuthProvider.email) {
+          context.read<AuthCubit>().updateAuthDetails(
+                authProvider: state.authProvider,
+                firebaseId: state.user.uid,
+                authStatus: true,
+                isNewUser: state.isNewUser,
+              );
+          if (state.isNewUser) {
+            context.read<UserDetailsCubit>().fetchUserDetails(state.user.uid);
+            //navigate to select profile screen
+            Navigator.of(context)
+                .pushReplacementNamed(Routes.selectProfile, arguments: true);
+          } else {
+            //get user detials of signed in user
+            context.read<UserDetailsCubit>().fetchUserDetails(state.user.uid);
+            //updateFcm id
+            log(state.user.uid);
+            Navigator.of(context)
+                .pushReplacementNamed(Routes.home, arguments: false);
+          }
+        } else if (state is SignInFailure &&
+            state.authProvider != AuthProvider.email) {
+          UiUtils.setSnackbar(
+            AppLocalization.of(context)!.getTranslatedValues(
+                convertErrorCodeToLanguageKey(state.errorMessage))!,
+            context,
+            false,
+          );
+        }
+      },
     );
   }
 
@@ -211,7 +314,6 @@ class _LoginState extends State<Login> {
                       }
                     }
                   },
-            isLoading: state is SignInProgress,
             text: AppLocalization.of(context)!.getTranslatedValues('loginLbl')!,
           );
         },

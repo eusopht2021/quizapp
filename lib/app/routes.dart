@@ -6,8 +6,6 @@ import 'package:flutterquiz/ui/screens/appSettingsScreen.dart';
 import 'package:flutterquiz/ui/screens/auth/new_login_screen.dart';
 import 'package:flutterquiz/ui/screens/auth/otpScreen.dart';
 import 'package:flutterquiz/ui/screens/auth/reset_password_screen.dart';
-import 'package:flutterquiz/ui/screens/auth/signInScreen.dart';
-import 'package:flutterquiz/ui/screens/auth/signUpScreen.dart';
 import 'package:flutterquiz/ui/screens/badgesScreen.dart';
 import 'package:flutterquiz/ui/screens/battle/battleRoomFindOpponentScreen.dart';
 import 'package:flutterquiz/ui/screens/battle/battleRoomQuizScreen.dart';
@@ -18,12 +16,10 @@ import 'package:flutterquiz/ui/screens/coinHistoryScreen.dart';
 import 'package:flutterquiz/ui/screens/coinStoreScreen.dart';
 import 'package:flutterquiz/ui/screens/exam/examScreen.dart';
 import 'package:flutterquiz/ui/screens/exam/examsScreen.dart';
-import 'package:flutterquiz/ui/screens/home/homeScreen.dart';
-import 'package:flutterquiz/ui/screens/home/new_home_screen.dart';
 import 'package:flutterquiz/ui/screens/introSliderScreen.dart';
 import 'package:flutterquiz/ui/screens/leaderBoardScreen.dart';
 import 'package:flutterquiz/ui/screens/notificationScreen.dart';
-import 'package:flutterquiz/ui/screens/profile/profileScreen.dart';
+import 'package:flutterquiz/ui/screens/profile/profile.dart';
 import 'package:flutterquiz/ui/screens/profile/selectProfilePictureScreen.dart';
 import 'package:flutterquiz/ui/screens/quiz/bookmarkQuizScreen.dart';
 import 'package:flutterquiz/ui/screens/quiz/categoryScreen.dart';
@@ -42,7 +38,6 @@ import 'package:flutterquiz/ui/screens/quiz/subCategoryAndLevelScreen.dart';
 import 'package:flutterquiz/ui/screens/quiz/subCategoryScreen.dart';
 import 'package:flutterquiz/ui/screens/referAndEarnScreen.dart';
 import 'package:flutterquiz/ui/screens/rewards/rewardsScreen.dart';
-import 'package:flutterquiz/ui/screens/splashScreen.dart';
 import 'package:flutterquiz/ui/screens/statisticsScreen.dart';
 import 'package:flutterquiz/ui/screens/tournament/tournamentDetailsScreen.dart';
 import 'package:flutterquiz/ui/screens/tournament/tournamentScreen.dart';
@@ -172,7 +167,8 @@ class Routes {
       case result:
         return ResultScreen.route(routeSettings);
       case profile:
-        return ProfileScreen.route(routeSettings);
+        return Profile.route(routeSettings);
+      // return ProfileScreen.route(routeSettings);
       case reviewAnswers:
         return ReviewAnswersScreen.route(routeSettings);
       case selfChallenge:

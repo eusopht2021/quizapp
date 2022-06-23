@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg_provider/flutter_svg_provider.dart' as SvgProvider;
 import 'package:flutterquiz/ui/widgets/title_text.dart';
 import 'package:flutterquiz/utils/assets.dart';
 import 'package:flutterquiz/utils/constants.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart' as SvgProvider;
 import 'package:flutterquiz/utils/size_config.dart';
 
 import '../utils/assets.dart';
@@ -33,11 +33,13 @@ class InfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print(rankerCard);
-    if (topPicksCard)
+    if (topPicksCard) {
       return _topPicks();
-    else if (featuredCard)
+    } else if (featuredCard) {
       return _featured();
-    else if (rankerCard) return _ranker();
+    } else if (rankerCard) {
+      return _ranker();
+    }
     return _recentQuiz();
   }
 
@@ -112,14 +114,13 @@ class InfoCard extends StatelessWidget {
 
   Widget _ranker() => Container(
         decoration: BoxDecoration(
-            borderRadius: StyleProperties.cardsRadius,
-            image: DecorationImage(image: SvgProvider.Svg(Assets.rankerCardBg)
-                // image: Image(
-                //   // width: 32,
-                //   // height: 32,
-                //   image: Svg('assets/my_icon.svg'),
-                // )
-                )),
+          borderRadius: StyleProperties.cardsRadius,
+          image: DecorationImage(
+            image: SvgProvider.Svg(
+              Assets.rankerCardBg,
+            ),
+          ),
+        ),
         child: Row(
           children: [
             Expanded(
@@ -133,13 +134,14 @@ class InfoCard extends StatelessWidget {
                     size: Constants.bodyNormal,
                   ),
                   Padding(
-                      padding: StyleProperties.topInset6,
-                      child: TitleText(
-                        text: "$points points",
-                        textColor: Constants.white,
-                        // weight: FontWeight.w500,
-                        size: Constants.bodyXSmall,
-                      )),
+                    padding: StyleProperties.topInset6,
+                    child: TitleText(
+                      text: "$points points",
+                      textColor: Constants.white,
+                      // weight: FontWeight.w500,
+                      size: Constants.bodyXSmall,
+                    ),
+                  ),
                 ],
               ),
             )

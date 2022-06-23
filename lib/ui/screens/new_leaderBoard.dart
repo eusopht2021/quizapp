@@ -5,9 +5,6 @@ import 'package:flutterquiz/features/leaderBoard/cubit/leaderBoardAllTimeCubit.d
 import 'package:flutterquiz/features/leaderBoard/cubit/leaderBoardDailyCubit.dart';
 import 'package:flutterquiz/features/leaderBoard/cubit/leaderBoardMonthlyCubit.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/userDetailsCubit.dart';
-import 'package:flutterquiz/ui/widgets/title_text.dart';
-import 'package:flutterquiz/utils/assets.dart';
-import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/custom_appbar.dart';
 
 class NewLeaderBoardScreen extends StatefulWidget {
@@ -17,16 +14,21 @@ class NewLeaderBoardScreen extends StatefulWidget {
   State<NewLeaderBoardScreen> createState() => _NewLeaderBoardScreenState();
   static Route<dynamic> route(RouteSettings routeSettings) {
     return CupertinoPageRoute(
-        builder: (context) => MultiBlocProvider(providers: [
-              BlocProvider<LeaderBoardMonthlyCubit>(
-                  create: (context) => LeaderBoardMonthlyCubit()),
-              BlocProvider<LeaderBoardDailyCubit>(
-                  create: (context) => LeaderBoardDailyCubit()),
-              BlocProvider<LeaderBoardAllTimeCubit>(
-                  create: (context) => LeaderBoardAllTimeCubit(
-                      // LeaderBoardRepository(),
-                      )),
-            ], child: NewLeaderBoardScreen()));
+      builder: (context) => MultiBlocProvider(
+        providers: [
+          BlocProvider<LeaderBoardMonthlyCubit>(
+              create: (context) => LeaderBoardMonthlyCubit()),
+          BlocProvider<LeaderBoardDailyCubit>(
+              create: (context) => LeaderBoardDailyCubit()),
+          BlocProvider<LeaderBoardAllTimeCubit>(
+            create: (context) => LeaderBoardAllTimeCubit(
+                // LeaderBoardRepository(),
+                ),
+          ),
+        ],
+        child: const NewLeaderBoardScreen(),
+      ),
+    );
   }
 }
 
@@ -99,13 +101,13 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
       home: SafeArea(
         child: Scaffold(
           appBar: PreferredSize(
+            preferredSize: const Size.fromWidth(10),
             child: CustomAppBar(
               title: "Leaderboard",
               onBackTapped: () {
                 Navigator.pop(context);
               },
             ),
-            preferredSize: Size.fromWidth(10),
           ),
         ),
       ),

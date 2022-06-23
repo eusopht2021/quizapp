@@ -1,38 +1,38 @@
 import 'dart:developer';
 import 'dart:io';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:flutterquiz/app/appLocalization.dart';
+import 'package:flutterquiz/app/routes.dart';
 import 'package:flutterquiz/features/ads/interstitialAdCubit.dart';
 import 'package:flutterquiz/features/badges/cubits/badgesCubit.dart';
 import 'package:flutterquiz/features/battleRoom/cubits/battleRoomCubit.dart';
 import 'package:flutterquiz/features/battleRoom/cubits/multiUserBattleRoomCubit.dart';
 import 'package:flutterquiz/features/exam/cubits/examCubit.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/updateScoreAndCoinsCubit.dart';
+import 'package:flutterquiz/features/profileManagement/cubits/updateUserDetailsCubit.dart';
+import 'package:flutterquiz/features/profileManagement/models/userProfile.dart';
 import 'package:flutterquiz/features/profileManagement/profileManagementLocalDataSource.dart';
+import 'package:flutterquiz/features/profileManagement/profileManagementRepository.dart';
 import 'package:flutterquiz/features/quiz/cubits/quizCategoryCubit.dart';
 import 'package:flutterquiz/features/systemConfig/cubits/systemConfigCubit.dart';
 import 'package:flutterquiz/ui/screens/battle/widgets/randomOrPlayFrdDialog.dart';
 import 'package:flutterquiz/ui/screens/battle/widgets/roomDialog.dart';
 import 'package:flutterquiz/ui/screens/home/widgets/appUnderMaintenanceDialog.dart';
-import 'package:http/http.dart' as http;
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:flutterquiz/app/routes.dart';
-import 'package:flutterquiz/features/profileManagement/cubits/updateUserDetailsCubit.dart';
-import 'package:flutterquiz/features/profileManagement/models/userProfile.dart';
-import 'package:flutterquiz/features/profileManagement/profileManagementRepository.dart';
 import 'package:flutterquiz/ui/screens/home/widgets/new_quiz_category_card.dart';
 import 'package:flutterquiz/ui/screens/profile/widgets/editProfileFieldBottomSheetContainer.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/quizTypes.dart';
-
 import 'package:flutterquiz/utils/size_config.dart';
 import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
+import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 
 import '../../../features/auth/authRepository.dart';
@@ -48,7 +48,7 @@ import '../../widgets/social_button.dart';
 import '../../widgets/title_text.dart';
 
 class NewHomeScreen extends StatefulWidget {
-  NewHomeScreen({Key? key}) : super(key: key);
+  const NewHomeScreen({Key? key}) : super(key: key);
 
   @override
   State<NewHomeScreen> createState() => _NewHomeScreenState();
@@ -78,7 +78,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
 
   final double quizTypeBetweenVerticalSpacing = 0.02;
 
-  late List<QuizType> _quizTypes = quizTypes;
+  final List<QuizType> _quizTypes = quizTypes;
 
   late AnimationController profileAnimationController;
   late AnimationController selfChallengeAnimationController;
@@ -140,12 +140,12 @@ class _NewHomeScreenState extends State<NewHomeScreen>
             ));
           }
           if (state is UserDetailsFetchFailure) {
-            return Text('Error something is wrong!');
+            return const Text('Error something is wrong!');
           }
           UserProfile userProfile =
               (state as UserDetailsFetchSuccess).userProfile;
           if (userProfile.status == "0") {
-            return Text('Error something is wrong!');
+            return const Text('Error something is wrong!');
           }
           return Column(children: [
             Container(
@@ -268,7 +268,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                           ),
                         ),
                       ),
-                      Expanded(
+                      const Expanded(
                         flex: 3,
                         child: CustomPieChart(
                           value1: 88,
@@ -443,29 +443,29 @@ class _NewHomeScreenState extends State<NewHomeScreen>
 
   void initAnimations() {
     //
-    profileAnimationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 85));
-    selfChallengeAnimationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 85));
+    profileAnimationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 85));
+    selfChallengeAnimationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 85));
 
     profileSlideAnimation =
-        Tween<Offset>(begin: Offset.zero, end: Offset(0.0, -0.0415)).animate(
-            CurvedAnimation(
+        Tween<Offset>(begin: Offset.zero, end: const Offset(0.0, -0.0415))
+            .animate(CurvedAnimation(
                 parent: profileAnimationController, curve: Curves.easeIn));
 
     selfChallengeSlideAnimation =
-        Tween<Offset>(begin: Offset.zero, end: Offset(0.0, -0.0415)).animate(
-            CurvedAnimation(
+        Tween<Offset>(begin: Offset.zero, end: const Offset(0.0, -0.0415))
+            .animate(CurvedAnimation(
                 parent: selfChallengeAnimationController,
                 curve: Curves.easeIn));
 
-    firstAnimationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 400));
+    firstAnimationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 400));
     firstAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(
             parent: firstAnimationController, curve: Curves.easeInOut));
-    secondAnimationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 400));
+    secondAnimationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 400));
     secondAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(
             parent: secondAnimationController, curve: Curves.easeInOut));
@@ -481,7 +481,8 @@ class _NewHomeScreenState extends State<NewHomeScreen>
     Future.delayed(Duration.zero, () {
       if (context.read<SystemConfigCubit>().appUnderMaintenance()) {
         showDialog(
-            context: context, builder: (_) => AppUnderMaintenanceDialog());
+            context: context,
+            builder: (_) => const AppUnderMaintenanceDialog());
       }
     });
   }
@@ -682,7 +683,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
   // notification on foreground
   Future<void> generateSimpleNotification(
       String title, String body, String payloads) async {
-    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+    var androidPlatformChannelSpecifics = const AndroidNotificationDetails(
         'com.wrteam.flutterquiz', //channel id
         'flutterquiz', //channel name
         channelDescription: 'flutterquiz',
@@ -705,8 +706,8 @@ class _NewHomeScreenState extends State<NewHomeScreen>
         enableDrag: false,
         isScrollControlled: true,
         elevation: 5.0,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
+        shape: const RoundedRectangleBorder(
+            borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(20.0),
           topRight: Radius.circular(20.0),
         )),

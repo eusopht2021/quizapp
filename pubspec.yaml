@@ -79,8 +79,10 @@ dependencies:
   flutter_windowmanager: ^0.2.0
   encrypt:
   flutter_tex: ^4.0.3+4
+  badges: ^2.0.3
 
 dev_dependencies:
+  flutter_lints: ^2.0.1
   flutter_test:
     sdk: flutter
 
@@ -105,9 +107,12 @@ flutter:
 
     - assets/languages/
     - assets/animations/
+    - assets/flags/
+    - assets/badges/
 
     - assets/sounds/
     - assets/files/
+    - assets/avatars/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see

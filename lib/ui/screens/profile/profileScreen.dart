@@ -1,6 +1,8 @@
 import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutterquiz/app/appLocalization.dart';
 import 'package:flutterquiz/app/routes.dart';
@@ -15,19 +17,15 @@ import 'package:flutterquiz/features/profileManagement/cubits/updateUserDetailsC
 import 'package:flutterquiz/features/profileManagement/cubits/uploadProfileCubit.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/userDetailsCubit.dart';
 import 'package:flutterquiz/features/profileManagement/profileManagementRepository.dart';
-
 import 'package:flutterquiz/ui/screens/profile/widgets/editProfileFieldBottomSheetContainer.dart';
-
 import 'package:flutterquiz/ui/widgets/circularImageContainer.dart';
 import 'package:flutterquiz/ui/widgets/circularProgressContainner.dart';
 import 'package:flutterquiz/ui/widgets/customBackButton.dart';
 import 'package:flutterquiz/ui/widgets/menuTile.dart';
 import 'package:flutterquiz/ui/widgets/pageBackgroundGradientContainer.dart';
-
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfileScreen extends StatelessWidget {
   static Route<dynamic> route(RouteSettings routeSettings) {
@@ -289,6 +287,7 @@ class ProfileScreen extends StatelessWidget {
                       context: context,
                       leadingIcon: "name_icon.svg",
                       onEdit: () {
+                        // state.userProfile.
                         editProfileFieldBottomSheet(
                           nameLbl,
                           state.userProfile.name!.isEmpty

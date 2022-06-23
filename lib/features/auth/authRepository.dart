@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutterquiz/features/auth/auhtException.dart';
 import 'package:flutterquiz/features/auth/authLocalDataSource.dart';
@@ -64,6 +66,7 @@ class AuthRepository {
       final isUserExist = await _authRemoteDataSource.isUserExist(user.uid);
       //if user does not exist add in database
       if (!isUserExist) {
+        log('User does not exist!');
         isNewUser = true;
         final registeredUser = await _authRemoteDataSource.addUser(
           email: user.email ?? "",
@@ -121,7 +124,7 @@ class AuthRepository {
       "user": user,
       "isNewUser": isNewUser,
     };
-   
+
     //   signOut(authProvider);
     //   throw AuthException(errorMessageCode: e.toString());
     // }
@@ -133,6 +136,7 @@ class AuthRepository {
       await _authRemoteDataSource.signUpUser(email, password);
     } catch (e) {
       signOut(AuthProvider.email);
+      log("Error: ${e.toString()}");
       throw AuthException(errorMessageCode: e.toString());
     }
   }

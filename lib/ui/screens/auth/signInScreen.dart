@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -257,7 +258,7 @@ class SignInScreenState extends State<SignInScreen> {
   }
 
   Widget showEmailForForgotPwd() {
-    return TextFormField( 
+    return TextFormField(
         controller: edtEmailReset,
         keyboardType: TextInputType.emailAddress,
         validator: (val) => Validators.validateEmail(
@@ -505,7 +506,6 @@ class SignInScreenState extends State<SignInScreen> {
                         context
                             .read<SignInCubit>()
                             .signInUser(AuthProvider.apple);
-                        // context.read<SignInCubit>().signInUser(AuthProvider.fb);
                       },
                     ),
               Padding(

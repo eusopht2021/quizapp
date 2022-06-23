@@ -35,7 +35,7 @@ import 'package:flutterquiz/utils/widgets_util.dart';
 
 class Discover extends StatefulWidget {
   // final controller = Get.put(DiscoverController());
-  Discover({Key? key}) : super(key: key);
+  const Discover({Key? key}) : super(key: key);
 
   @override
   State<Discover> createState() => _DiscoverState();
@@ -58,7 +58,7 @@ class _DiscoverState extends State<Discover> {
   int currentMenu = 1;
 
   FocusNode focusNode = FocusNode();
-  late List<QuizType> _quizTypes = quizTypes;
+  final List<QuizType> _quizTypes = quizTypes;
 
   List<String> searchTabs = ['Top', 'Quiz', 'Categories', 'Friends'];
 
