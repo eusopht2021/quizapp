@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
 
 class CustomDialog extends StatelessWidget {
@@ -51,7 +52,7 @@ class CustomDialog extends StatelessWidget {
                         iconSize: 40.0,
                         icon: Icon(
                           Icons.arrow_back,
-                          color: Theme.of(context).primaryColor,
+                          color: Constants.white,
                         ))),
                 SizedBox(
                   height:

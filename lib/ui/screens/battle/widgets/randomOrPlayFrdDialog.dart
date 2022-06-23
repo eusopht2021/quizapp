@@ -7,12 +7,16 @@ import 'package:flutterquiz/features/profileManagement/cubits/updateScoreAndCoin
 import 'package:flutterquiz/features/profileManagement/cubits/userDetailsCubit.dart';
 import 'package:flutterquiz/features/profileManagement/models/userProfile.dart';
 import 'package:flutterquiz/features/profileManagement/profileManagementRepository.dart';
+import 'package:flutterquiz/features/quiz/cubits/contestCubit.dart';
 import 'package:flutterquiz/features/quiz/cubits/quizCategoryCubit.dart';
 import 'package:flutterquiz/features/quiz/models/quizType.dart';
 import 'package:flutterquiz/features/quiz/quizRepository.dart';
 import 'package:flutterquiz/features/systemConfig/cubits/systemConfigCubit.dart';
 import 'package:flutterquiz/ui/screens/battle/widgets/customDialog.dart';
 import 'package:flutterquiz/ui/screens/battle/widgets/roomDialog.dart';
+import 'package:flutterquiz/ui/widgets/custom_button.dart';
+import 'package:flutterquiz/ui/widgets/social_button.dart';
+import 'package:flutterquiz/ui/widgets/title_text.dart';
 import 'package:flutterquiz/ui/widgets/watchRewardAdDialog.dart';
 import 'package:flutterquiz/utils/constants.dart';
 
@@ -59,16 +63,15 @@ class _RandomOrPlayFrdDialogState extends State<RandomOrPlayFrdDialog> {
     return Container(
       height: constraints.maxHeight * (0.2),
       decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor,
+          color: Constants.primaryColor,
           borderRadius: BorderRadius.only(
               topRight: Radius.circular(20), topLeft: Radius.circular(20))),
       alignment: Alignment.center,
-      child: Text(
-        AppLocalization.of(context)!.getTranslatedValues("randomLbl")!,
-        style: TextStyle(
-            color: Theme.of(context).backgroundColor,
-            fontSize: 21,
-            fontWeight: FontWeight.w700),
+      child: TitleText(
+        text: AppLocalization.of(context)!.getTranslatedValues("randomLbl")!,
+        size: Constants.bodyXLarge,
+        textColor: Constants.white,
+        weight: FontWeight.w500,
       ),
     );
   }
@@ -101,8 +104,19 @@ class _RandomOrPlayFrdDialogState extends State<RandomOrPlayFrdDialog> {
         items: values.map((e) => e['name']).toList().map((name) {
           return DropdownMenuItem(
             child: name! == selectCategoryKey
-                ? Text(AppLocalization.of(context)!.getTranslatedValues(name)!)
-                : Text(name),
+                ? TitleText(
+                    text:
+                        AppLocalization.of(context)!.getTranslatedValues(name)!,
+                    size: Constants.bodyXLarge,
+                    textColor: Constants.white,
+                    weight: FontWeight.w500,
+                  )
+                : TitleText(
+                    text: name,
+                    size: Constants.bodyXLarge,
+                    textColor: Constants.white,
+                    weight: FontWeight.w500,
+                  ),
             value: name,
           );
         }).toList(),
@@ -214,7 +228,7 @@ class _RandomOrPlayFrdDialogState extends State<RandomOrPlayFrdDialog> {
               TextSpan(
                   text: ' $randomBattleEntryCoins ',
                   style: TextStyle(
-                      color: Theme.of(context).primaryColor,
+                      color: Constants.primaryColor,
                       fontSize: 20,
                       fontWeight: FontWeight.bold)),
               TextSpan(
@@ -231,7 +245,7 @@ class _RandomOrPlayFrdDialogState extends State<RandomOrPlayFrdDialog> {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: constraints.maxWidth * (0.1)),
       decoration: BoxDecoration(
-          color: Theme.of(context).canvasColor,
+          color: Constants.primaryColor.withOpacity(0.6),
           borderRadius: BorderRadius.circular(25.0)),
       height: constraints.maxHeight * (0.135),
       child: Row(
@@ -285,17 +299,7 @@ class _RandomOrPlayFrdDialogState extends State<RandomOrPlayFrdDialog> {
   Widget letsGoButton(BoxConstraints boxConstraints) {
     return Container(
       alignment: Alignment.center,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          elevation: 5,
-          shadowColor: Theme.of(context).primaryColor,
-          minimumSize: Size(
-              boxConstraints.maxWidth * (0.9), boxConstraints.maxHeight * 0.15),
-          onPrimary: Theme.of(context).colorScheme.secondary,
-          primary: Theme.of(context).primaryColor,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-        ),
+      child: CustomButton(
         onPressed: () {
           UserProfile userProfile =
               context.read<UserDetailsCubit>().getUserProfile();
@@ -335,10 +339,8 @@ class _RandomOrPlayFrdDialogState extends State<RandomOrPlayFrdDialog> {
               Routes.battleRoomFindOpponent,
               arguments: selectedCategoryId);
         },
-        child: Text(
-          AppLocalization.of(context)!.getTranslatedValues("letsPlay")!,
-          style: _buildTextStyle(),
-        ),
+        text: AppLocalization.of(context)!.getTranslatedValues("letsPlay")!,
+        // style: _buildTextStyle(),
       ),
     );
   }
@@ -346,18 +348,10 @@ class _RandomOrPlayFrdDialogState extends State<RandomOrPlayFrdDialog> {
   Widget playWithFrdBtn(BoxConstraints constraints) {
     return Container(
       alignment: Alignment.center,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          side:
-              BorderSide(width: 1.0, color: Theme.of(context).backgroundColor),
-          minimumSize: Size(MediaQuery.of(context).size.width * (0.65),
-              constraints.maxHeight * 0.1),
-          onPrimary: Theme.of(context).colorScheme.secondary,
-          primary: Theme.of(context).primaryColor,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-        ),
-        onPressed: () async {
+      child: SocialButton(
+        showBorder: true,
+        textColor: Constants.white,
+        onTap: () async {
           Navigator.of(context).pop();
 
           showDialog(
@@ -371,10 +365,8 @@ class _RandomOrPlayFrdDialogState extends State<RandomOrPlayFrdDialog> {
             ], child: RoomDialog(quizType: QuizTypes.battle)),
           );
         },
-        child: Text(
-          AppLocalization.of(context)!.getTranslatedValues("playWithFrdLbl")!,
-          style: _buildTextStyle(),
-        ),
+        text:
+            AppLocalization.of(context)!.getTranslatedValues("playWithFrdLbl")!,
       ),
     );
   }
@@ -392,11 +384,11 @@ class _RandomOrPlayFrdDialogState extends State<RandomOrPlayFrdDialog> {
           }
         },
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(UiUtils.dailogRadius),
+          borderRadius: BorderRadius.circular(Constants.cardsRadius),
           child: LayoutBuilder(
             builder: (context, constraints) {
               return Container(
-                color: Theme.of(context).primaryColor,
+                color: Constants.primaryColor,
                 child: Column(
                   children: [
                     CustomPaint(

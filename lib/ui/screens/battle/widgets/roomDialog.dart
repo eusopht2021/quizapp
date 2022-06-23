@@ -93,7 +93,7 @@ class _RoomDialogState extends State<RoomDialog> {
   InputBorder _getInputBorder(BuildContext buildContext) {
     return UnderlineInputBorder(
         borderSide: BorderSide(
-      color: Theme.of(context).primaryColor,
+      color: Constants.primaryColor,
     ));
   }
 
@@ -145,16 +145,16 @@ class _RoomDialogState extends State<RoomDialog> {
             fontWeight:
                 index == currentSelectedTab ? FontWeight.bold : FontWeight.w500,
             color: index == currentSelectedTab
-                ? Theme.of(context).backgroundColor
-                : Theme.of(context).primaryColor,
+                ? Constants.white
+                : Constants.primaryColor,
           ),
         ),
         height: boxConstraints.maxHeight * (0.15),
         width: boxConstraints.maxWidth * (0.5),
         decoration: BoxDecoration(
             color: index == currentSelectedTab
-                ? Theme.of(context).primaryColor
-                : Theme.of(context).canvasColor,
+                ? Constants.primaryColor
+                : Constants.primaryColor.withOpacity(0.6),
             borderRadius: index == 1
                 ? BorderRadius.only(
                     topLeft: Radius.circular(UiUtils.dailogRadius),
@@ -234,13 +234,13 @@ class _RoomDialogState extends State<RoomDialog> {
                       color: Theme.of(context).primaryColor,
                     ),
                     controller: textEditingController,
-                    cursorColor: Theme.of(context).primaryColor,
+                    cursorColor: Constants.primaryColor,
                     decoration: InputDecoration(
                       hintText: "00",
                       hintStyle: TextStyle(
                         fontSize: 16.0,
                         fontWeight: FontWeight.w500,
-                        color: Theme.of(context).primaryColor,
+                        color: Constants.primaryColor,
                       ),
                       contentPadding: EdgeInsets.all(0),
                       isDense: true,
@@ -262,8 +262,8 @@ class _RoomDialogState extends State<RoomDialog> {
                     "$entryFeeValue",
                     style: TextStyle(
                       color: entryFeeValue == entryFee
-                          ? Theme.of(context).backgroundColor
-                          : Theme.of(context).primaryColor,
+                          ? Constants.white
+                          : Constants.primaryColor,
                       fontSize: 16.0,
                       fontWeight: entryFeeValue == entryFee
                           ? FontWeight.bold
@@ -286,8 +286,8 @@ class _RoomDialogState extends State<RoomDialog> {
                   ]
                 : null,
             color: entryFeeValue == entryFee
-                ? Theme.of(context).primaryColor
-                : Theme.of(context).canvasColor,
+                ? Constants.primaryColor
+                : Constants.primaryColor.withOpacity(0.6),
             borderRadius: BorderRadius.circular(10.0)),
       ),
     );
@@ -573,7 +573,7 @@ class _RoomDialogState extends State<RoomDialog> {
           margin:
               EdgeInsets.symmetric(horizontal: constraints.maxWidth * (0.1)),
           decoration: BoxDecoration(
-              color: Theme.of(context).canvasColor,
+              color: Constants.primaryColor.withOpacity(0.6),
               borderRadius: BorderRadius.circular(25.0)),
           height: constraints.maxHeight * (0.115),
           child: Row(
@@ -582,7 +582,7 @@ class _RoomDialogState extends State<RoomDialog> {
               Text(
                 "${AppLocalization.of(context)!.getTranslatedValues(currentCoinsKey)!}:  ",
                 style: TextStyle(
-                  color: Theme.of(context).primaryColor.withOpacity(0.75),
+                  color: Constants.primaryColor,
                   fontSize: 18.0,
                   fontWeight: FontWeight.w500,
                 ),
@@ -594,7 +594,7 @@ class _RoomDialogState extends State<RoomDialog> {
                     return Text(
                       state.userProfile.coins!,
                       style: TextStyle(
-                        color: Theme.of(context).primaryColor,
+                        color: Constants.primaryColor,
                         fontSize: 18.0,
                         fontWeight: FontWeight.bold,
                       ),
@@ -679,7 +679,7 @@ class _RoomDialogState extends State<RoomDialog> {
                                 );
                           },
                     widthPercentage: UiUtils.dailogWidthPercentage - 0.1,
-                    backgroundColor: Theme.of(context).primaryColor,
+                    backgroundColor: Constants.primaryColor,
                     buttonTitle: state is BattleRoomCreating
                         ? AppLocalization.of(context)!
                             .getTranslatedValues(creatingLoadingLbl)
@@ -766,7 +766,7 @@ class _RoomDialogState extends State<RoomDialog> {
                                 );
                           },
                     widthPercentage: UiUtils.dailogWidthPercentage - 0.1,
-                    backgroundColor: Theme.of(context).primaryColor,
+                    backgroundColor: Constants.primaryColor,
                     buttonTitle: state is MultiUserBattleRoomInProgress
                         ? AppLocalization.of(context)!
                             .getTranslatedValues(creatingLoadingLbl)

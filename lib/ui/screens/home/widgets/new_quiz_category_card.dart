@@ -9,14 +9,14 @@ import '../../../widgets/title_text.dart';
 
 class QuizCategoryCard extends StatelessWidget {
   final String asset, name, category;
-  final int quizNumber;
   final double? horizontalMargin;
+  final Function()? onTap;
   const QuizCategoryCard({
     Key? key,
     required this.asset,
     required this.name,
     required this.category,
-    required this.quizNumber,
+    this.onTap,
     this.horizontalMargin,
   }) : super(key: key);
 
@@ -38,10 +38,7 @@ class QuizCategoryCard extends StatelessWidget {
       ),
       clipBehavior: Clip.antiAlias,
       child: ListTile(
-        onTap: () {
-          log('Category tapped');
-          // Get.to(Quiz());
-        },
+        onTap: onTap,
         contentPadding: const EdgeInsets.all(8.0),
         leading: Padding(
           padding: const EdgeInsets.all(5.0),

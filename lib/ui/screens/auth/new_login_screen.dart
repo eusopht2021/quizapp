@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterquiz/features/auth/authRepository.dart';
+import 'package:flutterquiz/ui/widgets/social_button.dart';
 
 import '../../../app/appLocalization.dart';
 import '../../../app/routes.dart';
@@ -20,7 +21,6 @@ import '../../widgets/custom_button.dart';
 import '../../widgets/custom_divider.dart';
 import '../../widgets/custom_text_field.dart';
 import '../../widgets/default_layout.dart';
-import '../../widgets/social_button.dart';
 import '../../widgets/terms.dart';
 import '../../widgets/title_text.dart';
 
@@ -146,7 +146,7 @@ class _LoginState extends State<Login> {
             //get user detials of signed in user
             context.read<UserDetailsCubit>().fetchUserDetails(state.user.uid);
             //updateFcm id
-            print(state.user.uid);
+            log(state.user.uid);
             Navigator.of(context)
                 .pushReplacementNamed(Routes.home, arguments: false);
           }
@@ -246,7 +246,7 @@ class _LoginState extends State<Login> {
             //get user detials of signed in user
             context.read<UserDetailsCubit>().fetchUserDetails(state.user.uid);
             //updateFcm id
-            print(state.user.uid);
+            log(state.user.uid);
             Navigator.of(context)
                 .pushReplacementNamed(Routes.home, arguments: false);
           }
@@ -288,7 +288,7 @@ class _LoginState extends State<Login> {
               //get user detials of signed in user
               context.read<UserDetailsCubit>().fetchUserDetails(state.user.uid);
               Navigator.of(context)
-                  .pushReplacementNamed(Routes.home, arguments: false);
+                  .pushReplacementNamed(Routes.home, arguments: true);
             }
           } else if (state is SignInFailure &&
               state.authProvider == AuthProvider.email) {
@@ -306,17 +306,14 @@ class _LoginState extends State<Login> {
                 : () async {
                     if (_formKey.currentState!.validate()) {
                       {
-                        log('Email: ${edtEmail.text}');
+                        print("${edtEmail.text} AnD ${edtPwd.text}");
                         context.read<SignInCubit>().signInUser(
-                              AuthProvider.email,
-                              email: edtEmail.text.trim(),
-                              password: edtPwd.text.trim(),
-                            );
+                            AuthProvider.email,
+                            email: edtEmail.text.trim(),
+                            password: edtPwd.text.trim());
                       }
                     }
                   },
-            isLoading: state is SignInProgress &&
-                state.authProvider == AuthProvider.email,
             text: AppLocalization.of(context)!.getTranslatedValues('loginLbl')!,
           );
         },

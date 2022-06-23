@@ -34,6 +34,7 @@ class Assets {
 
   static String cardCircles = 'assets/images/card_circles.png';
   static String cardCircles1 = 'assets/images/card_circles1.png';
+  static String backgroundCircle = 'assets/images/backgroundCircle.png';
 
   // ICONS
   static String crown = "assets/icons/medal.svg";
