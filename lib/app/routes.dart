@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterquiz/ui/navigation/navigation.dart';
@@ -30,8 +32,8 @@ import 'package:flutterquiz/ui/screens/quiz/funAndLearnScreen.dart';
 import 'package:flutterquiz/ui/screens/quiz/funAndLearnTitleScreen.dart';
 import 'package:flutterquiz/ui/screens/quiz/guessTheWordQuizScreen.dart';
 import 'package:flutterquiz/ui/screens/quiz/levelsScreen.dart';
-import 'package:flutterquiz/ui/screens/quiz/quizScreen.dart';
-import 'package:flutterquiz/ui/screens/quiz/resultScreen.dart';
+import 'package:flutterquiz/ui/screens/quiz/new_quiz_screen.dart';
+import 'package:flutterquiz/ui/screens/quiz/new_result_screen.dart';
 import 'package:flutterquiz/ui/screens/quiz/reviewAnswersScreen.dart';
 import 'package:flutterquiz/ui/screens/quiz/selfChallengeQuestionsScreen.dart';
 import 'package:flutterquiz/ui/screens/quiz/selfChallengeScreen.dart';
@@ -119,7 +121,7 @@ class Routes {
     //to track current route
     //this will only track pushed route on top of previous route
     currentRoute = routeSettings.name ?? "";
-    print("Current Route is $currentRoute");
+    log("Current Route is $currentRoute");
     switch (routeSettings.name) {
       case splash:
         return CupertinoPageRoute(builder: (context) => Splash());
@@ -138,11 +140,11 @@ class Routes {
         return CupertinoPageRoute(builder: (context) => Login());
 
       case signupoptions:
-        return CupertinoPageRoute(builder: (context) => SignUpOptions());
+        return CupertinoPageRoute(builder: (context) => const SignUpOptions());
       //  case signupoptions:
       // return CupertinoPageRoute(builder: (context) => CreateScreen());
       case signupScreen:
-        return CupertinoPageRoute(builder: (context) => SignUp());
+        return CupertinoPageRoute(builder: (context) => const SignUp());
       case signupprocess:
         return CupertinoPageRoute(builder: (context) => SignUpProcess());
 
@@ -155,7 +157,8 @@ class Routes {
       case selectProfile:
         return SelectProfilePictureScreen.route(routeSettings);
       case quiz:
-        return QuizScreen.route(routeSettings);
+        // return QuizScreen.route(routeSettings);
+        return NewQuizScreen.route(routeSettings);
 
       case wallet:
         return WalletScreen.route(routeSettings);
@@ -168,9 +171,12 @@ class Routes {
       case referAndEarn:
         return CupertinoPageRoute(builder: (_) => ReferAndEarnScreen());
       case result:
-        return ResultScreen.route(routeSettings);
+        // return ResultScreen.route(routeSettings);
+        return NewResultScreen.route(routeSettings);
       case profile:
+        log('Profile.route() called');
         return Profile.route(routeSettings);
+      // return StatisticsScreen.route(routeSettings);
       // return ProfileScreen.route(routeSettings);
       case reviewAnswers:
         return ReviewAnswersScreen.route(routeSettings);
@@ -183,7 +189,7 @@ class Routes {
       case leaderBoard:
         return NewLeaderBoardScreen.route(routeSettings);
       case bookmark:
-        return CupertinoPageRoute(builder: (context) => BookmarkScreen());
+        return CupertinoPageRoute(builder: (context) => const BookmarkScreen());
       case bookmarkQuiz:
         return BookmarkQuizScreen.route(routeSettings);
       case battleRoomQuiz:
@@ -223,7 +229,7 @@ class Routes {
         return CoinHistoryScreen.route(routeSettings);
 
       case aboutApp:
-        return CupertinoPageRoute(builder: (context) => AboutAppScreen());
+        return CupertinoPageRoute(builder: (context) => const AboutAppScreen());
 
       case subCategory:
         return SubCategoryScreen.route(routeSettings);
@@ -246,7 +252,7 @@ class Routes {
         return StatisticsScreen.route(routeSettings);
 
       default:
-        return CupertinoPageRoute(builder: (context) => Scaffold());
+        return CupertinoPageRoute(builder: (context) => const Scaffold());
     }
   }
 }

@@ -52,13 +52,18 @@ Future<Widget> initializeApp() async {
 
   if (!kIsWeb) {
     await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         statusBarBrightness: Brightness.light,
-        statusBarIconBrightness: Brightness.dark));
+        statusBarIconBrightness: Brightness.dark,
+      ),
+    );
 
     await Firebase.initializeApp();
-    FirebaseFirestore.instance.settings = Settings(persistenceEnabled: false);
+    FirebaseFirestore.instance.settings = const Settings(
+      persistenceEnabled: false,
+    );
   }
 
   await Hive.initFlutter();
@@ -70,13 +75,13 @@ Future<Widget> initializeApp() async {
       userdetailsBox); //userDetails box for storing all userDetails details
   await Hive.openBox(examBox);
 
-  return MyApp();
+  return const MyApp();
 }
 
 class GlobalScrollBehavior extends ScrollBehavior {
   @override
   ScrollPhysics getScrollPhysics(BuildContext context) {
-    return BouncingScrollPhysics();
+    return const BouncingScrollPhysics();
   }
 }
 
@@ -89,7 +94,13 @@ class MyApp extends StatelessWidget {
     precacheImage(AssetImage(UiUtils.getImagePath("map_finded.png")), context);
     precacheImage(AssetImage(UiUtils.getImagePath("map_finding.png")), context);
     precacheImage(
-        AssetImage(UiUtils.getImagePath("scratchCardCover.png")), context);
+      AssetImage(
+        UiUtils.getImagePath(
+          "scratchCardCover.png",
+        ),
+      ),
+      context,
+    );
     return MultiBlocProvider(
       //providing global providers
       providers: [
@@ -174,16 +185,20 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             builder: (context, widget) {
               SizeConfig.init(context);
-              
+
               return ScrollConfiguration(
-                  behavior: GlobalScrollBehavior(), child: widget!);
+                behavior: GlobalScrollBehavior(),
+                child: widget!,
+              );
             },
             locale: currentLanguage,
             theme: appThemeData[currentTheme]!.copyWith(
-                textTheme:
-                    GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)),
+              textTheme: GoogleFonts.poppinsTextTheme(
+                Theme.of(context).textTheme,
+              ),
+            ),
             debugShowCheckedModeBanner: false,
-            localizationsDelegates: [
+            localizationsDelegates: const [
               AppLocalization.delegate,
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,

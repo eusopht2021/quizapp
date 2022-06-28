@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,30 +10,27 @@ import 'package:flutterquiz/features/profileManagement/cubits/userDetailsCubit.d
 import 'package:flutterquiz/features/quiz/cubits/quizCategoryCubit.dart';
 import 'package:flutterquiz/features/quiz/models/quizType.dart';
 import 'package:flutterquiz/ui/widgets/bannerAdContainer.dart';
-
-import 'package:flutterquiz/ui/widgets/circularProgressContainner.dart';
 import 'package:flutterquiz/ui/widgets/customBackButton.dart';
 import 'package:flutterquiz/ui/widgets/default_layout.dart';
 import 'package:flutterquiz/ui/widgets/errorContainer.dart';
-import 'package:flutterquiz/ui/widgets/pageBackgroundGradientContainer.dart';
 import 'package:flutterquiz/utils/constants.dart';
-
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
 
 class CategoryScreen extends StatefulWidget {
   final QuizTypes quizType;
 
-  CategoryScreen({required this.quizType});
+  const CategoryScreen({required this.quizType});
 
   @override
   _CategoryScreen createState() => _CategoryScreen();
   static Route<dynamic> route(RouteSettings routeSettings) {
     Map arguments = routeSettings.arguments as Map;
     return CupertinoPageRoute(
-        builder: (_) => CategoryScreen(
-              quizType: arguments['quizType'] as QuizTypes,
-            ));
+      builder: (_) => CategoryScreen(
+        quizType: arguments['quizType'] as QuizTypes,
+      ),
+    );
   }
 }
 
@@ -88,7 +87,7 @@ class _CategoryScreen extends State<CategoryScreen> {
           if (state is QuizCategoryFailure) {
             if (state.errorMessage == unauthorizedAccessCode) {
               //
-              print(state.errorMessage);
+              log(state.errorMessage);
               UiUtils.showAlreadyLoggedInDialog(context: context);
             }
           }
@@ -121,14 +120,13 @@ class _CategoryScreen extends State<CategoryScreen> {
           }
           final categoryList = (state as QuizCategorySuccess).categories;
           return ListView.builder(
-            padding: EdgeInsets.only(
+            padding: const EdgeInsets.only(
               bottom: 50,
             ),
             controller: scrollController,
-            // scrollDirection: Axis.horizontal,
             shrinkWrap: true,
             itemCount: categoryList.length,
-            physics: AlwaysScrollableScrollPhysics(),
+            physics: const AlwaysScrollableScrollPhysics(),
             itemBuilder: (BuildContext context, int index) {
               return GestureDetector(
                 onTap: () {
@@ -237,13 +235,13 @@ class _CategoryScreen extends State<CategoryScreen> {
                 child: Container(
                     height: 90,
                     alignment: Alignment.center,
-                    margin: EdgeInsets.all(15),
+                    margin: const EdgeInsets.all(15),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20.0),
                         color: Constants.secondaryColor),
                     child: ListTile(
                       leading: CachedNetworkImage(
-                        placeholder: (context, _) => SizedBox(),
+                        placeholder: (context, _) => const SizedBox(),
                         imageUrl: categoryList[index].image!,
                         color: Constants.white,
                         errorWidget: (context, imageUrl, _) => Icon(

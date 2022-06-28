@@ -28,7 +28,8 @@ class StatisticCubit extends Cubit<StatisticState> {
   void getStatistic(String userId) async {
     emit(StatisticFetchInProgress());
     try {
-      final result = await _statisticRepository.getStatistic(userId: userId, getBattleStatistics: false);
+      final result = await _statisticRepository.getStatistic(
+          userId: userId, getBattleStatistics: false);
 
       emit(StatisticFetchSuccess(result));
     } catch (e) {
@@ -39,7 +40,8 @@ class StatisticCubit extends Cubit<StatisticState> {
   void getStatisticWithBattle(String userId) async {
     emit(StatisticFetchInProgress());
     try {
-      final result = await _statisticRepository.getStatistic(userId: userId, getBattleStatistics: true);
+      final result = await _statisticRepository.getStatistic(
+          userId: userId, getBattleStatistics: true);
 
       emit(StatisticFetchSuccess(result));
     } catch (e) {

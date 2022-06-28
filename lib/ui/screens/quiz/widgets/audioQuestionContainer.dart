@@ -178,6 +178,7 @@ class AudioQuestionContainerState extends State<AudioQuestionContainer> {
           height: 17.5,
         ),
         HorizontalTimerContainer(
+            quizTypes: QuizTypes.audioQuestions,
             timerAnimationController: widget.timerAnimationController),
         SizedBox(
           height: 12.5,

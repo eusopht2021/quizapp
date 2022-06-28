@@ -55,8 +55,13 @@ class Profile extends StatefulWidget {
               ProfileManagementRepository(),
             ),
           ),
+          BlocProvider<StatisticCubit>(
+            create: (context) => StatisticCubit(
+              StatisticRepository(),
+            ),
+          ),
         ],
-        child: Profile(),
+        child: const Profile(),
       ),
     );
   }
@@ -66,7 +71,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  int selectedIndex = 1;
+  int selectedIndex = 0;
 
   List<String> statsFilter = [
     'Weekly',
@@ -81,6 +86,16 @@ class _ProfileState extends State<Profile> {
     'Stats',
     'Details',
   ];
+
+  @override
+  initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      context
+          .read<StatisticCubit>()
+          .getStatisticWithBattle(context.read<UserDetailsCubit>().getUserId());
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -241,115 +256,263 @@ class _ProfileState extends State<Profile> {
     return const SizedBox();
   }
 
-  Column _statsTabItem() {
-    return Column(
-      children: [
-        Container(
-          width: SizeConfig.screenWidth,
-          margin: const EdgeInsets.only(
-            left: 16,
-            right: 16,
-          ),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(
-              Constants.cardsRadius,
-            ),
-            image: DecorationImage(
-              image: AssetImage(
-                Assets.swivels1,
-              ),
-              alignment: Alignment.topLeft,
-            ),
-            color: const Color(0xffE8E5FA),
-          ),
-          child: Column(
+  Widget _statsTabItem() {
+    return BlocConsumer<StatisticCubit, StatisticState>(
+      listener: (context, state) {
+        log('Listener State is ${state.runtimeType}');
+        if (state is StatisticInitial) {}
+        if (state is StatisticFetchFailure) {
+          UiUtils.setSnackbar(
+            'Failed to get Statistic',
+            context,
+            false,
+          );
+        }
+        if (state is StatisticFetchInProgress) {
+          log('StatisticFetchProgress');
+        }
+      },
+      builder: (context, state) {
+        log('State is ${state.runtimeType} ${state is StatisticInitial}');
+        if (state is StatisticFetchSuccess) {
+          return Column(
             children: [
-              WidgetsUtil.verticalSpace16,
-              Align(
-                alignment: Alignment.centerRight,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Constants.white,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  margin: const EdgeInsets.only(
-                    right: 16,
-                  ),
-                  height: 34,
-                  width: 100,
-                  alignment: Alignment.center,
-                  child: DropdownButton<String>(
-                    icon: const Icon(
-                      CupertinoIcons.chevron_down,
-                    ),
-                    value: selectedStat,
-                    items: statsFilter.map((item) {
-                      return DropdownMenuItem<String>(
-                        value: item,
-                        child: TitleText(
-                          text: item,
-                          size: Constants.bodyXSmall,
-                          weight: FontWeight.w500,
-                          textColor: Constants.black1,
-                        ),
-                      );
-                    }).toList(),
-                    underline: const SizedBox(),
-                    onChanged: (String? value) {
-                      log('OnChanged: $value');
-                      setState(() {
-                        selectedStat = value!;
-                      });
-                    },
-                  ),
-                ),
-              ),
-              WidgetsUtil.verticalSpace24,
-              Padding(
-                padding: const EdgeInsets.only(
+              Container(
+                width: SizeConfig.screenWidth,
+                margin: const EdgeInsets.only(
                   left: 16,
                   right: 16,
                 ),
-                child: TitleText(
-                  text: 'You have played a total 24 quizzes this month!',
-                  textColor: Constants.black1,
-                  align: TextAlign.center,
-                  size: Constants.bodyXLarge,
-                  weight: FontWeight.w500,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(
+                    Constants.cardsRadius,
+                  ),
+                  image: DecorationImage(
+                    image: AssetImage(
+                      Assets.swivels1,
+                    ),
+                    alignment: Alignment.topLeft,
+                  ),
+                  color: const Color(0xffE8E5FA),
                 ),
-              ),
-              WidgetsUtil.verticalSpace16,
-              CustomDonutChart(
-                height: 148,
-                radius: 10,
-                value1: (37 / 50) * 100,
-                value2: ((50 - 37) / 50) * 100,
-                center: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                child: Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        TitleText(
-                          text: '37',
-                          size: Constants.heading1,
-                          weight: FontWeight.w700,
-                          textColor: Constants.black1,
+                    WidgetsUtil.verticalSpace16,
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Constants.white,
+                          borderRadius: BorderRadius.circular(12),
                         ),
-                        TitleText(
-                          text: '/50',
-                          size: Constants.bodyNormal,
-                          weight: FontWeight.w500,
-                          textColor: Constants.grey2,
+                        margin: const EdgeInsets.only(
+                          right: 16,
+                        ),
+                        height: 34,
+                        width: 100,
+                        alignment: Alignment.center,
+                        child: DropdownButton<String>(
+                          icon: const Icon(
+                            CupertinoIcons.chevron_down,
+                          ),
+                          value: selectedStat,
+                          items: statsFilter.map((item) {
+                            return DropdownMenuItem<String>(
+                              value: item,
+                              child: TitleText(
+                                text: item,
+                                size: Constants.bodyXSmall,
+                                weight: FontWeight.w500,
+                                textColor: Constants.black1,
+                              ),
+                            );
+                          }).toList(),
+                          underline: const SizedBox(),
+                          onChanged: (String? value) {
+                            log('OnChanged: $value');
+                            setState(() {
+                              selectedStat = value!;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                    WidgetsUtil.verticalSpace24,
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        left: 16,
+                        right: 16,
+                      ),
+                      child: TitleText(
+                        text:
+                            'You have played a total ${state.statisticModel.correctAnswers} quizzes this month!',
+                        textColor: Constants.black1,
+                        align: TextAlign.center,
+                        size: Constants.bodyXLarge,
+                        weight: FontWeight.w500,
+                      ),
+                    ),
+                    WidgetsUtil.verticalSpace16,
+                    CustomDonutChart(
+                      height: 148,
+                      radius: 10,
+                      value1: (37 / 50) * 100,
+                      value2: ((50 - 37) / 50) * 100,
+                      center: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              TitleText(
+                                text: '37',
+                                size: Constants.heading1,
+                                weight: FontWeight.w700,
+                                textColor: Constants.black1,
+                              ),
+                              TitleText(
+                                text: '/50',
+                                size: Constants.bodyNormal,
+                                weight: FontWeight.w500,
+                                textColor: Constants.grey2,
+                              ),
+                            ],
+                          ),
+                          TitleText(
+                            text: 'quiz played',
+                            weight: FontWeight.w500,
+                            size: Constants.bodySmall,
+                            textColor: Constants.grey2,
+                          ),
+                        ],
+                      ),
+                    ),
+                    WidgetsUtil.verticalSpace24,
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            margin: const EdgeInsets.only(
+                              left: 16,
+                              right: 8,
+                            ),
+                            height: 100,
+                            padding: const EdgeInsets.only(
+                              left: 16,
+                              right: 16,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Constants.white,
+                              borderRadius: BorderRadius.circular(
+                                Constants.cardsRadius,
+                              ),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 7,
+                                      child: TitleText(
+                                        text: '5',
+                                        size: Constants.heading1,
+                                        weight: FontWeight.w700,
+                                        textColor: Constants.black1,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 3,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                          bottom: 20,
+                                        ),
+                                        child: SvgPicture.asset(
+                                          Assets.edit,
+                                          width: 20,
+                                          height: 20,
+                                          color: Constants.black1,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: TitleText(
+                                    text: 'Quiz created',
+                                    size: Constants.bodySmall,
+                                    weight: FontWeight.w500,
+                                    textColor: Constants.black1,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            height: 100,
+                            margin: const EdgeInsets.only(
+                              left: 8,
+                              right: 16,
+                            ),
+                            padding: const EdgeInsets.only(
+                              left: 16,
+                              right: 16,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Constants.primaryColor,
+                              borderRadius: BorderRadius.circular(
+                                Constants.cardsRadius,
+                              ),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 7,
+                                      child: TitleText(
+                                        text: '21',
+                                        size: Constants.heading1,
+                                        weight: FontWeight.w700,
+                                        textColor: Constants.white,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 3,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                          bottom: 20,
+                                        ),
+                                        child: SvgPicture.asset(
+                                          Assets.medal1,
+                                          width: 20,
+                                          height: 20,
+                                          color: Constants.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: TitleText(
+                                    text: 'Quiz Won',
+                                    size: Constants.bodySmall,
+                                    weight: FontWeight.w500,
+                                    textColor: Constants.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       ],
                     ),
-                    TitleText(
-                      text: 'quiz played',
-                      weight: FontWeight.w500,
-                      size: Constants.bodySmall,
-                      textColor: Constants.grey2,
-                    ),
+                    WidgetsUtil.verticalSpace24,
                   ],
                 ),
               ),
@@ -528,8 +691,8 @@ class _ProfileState extends State<Profile> {
               ),
             ),
           ),
-        ),
-      ],
+        );
+      },
     );
   }
 
@@ -628,6 +791,9 @@ class _ProfileState extends State<Profile> {
               return Expanded(
                 child: GestureDetector(
                   onTap: () {
+                    if (index == 1) {
+                      context.read<StatisticCubit>().getStatisticsDetails();
+                    }
                     setState(() {
                       selectedIndex = index;
                     });

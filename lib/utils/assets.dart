@@ -26,11 +26,13 @@ class Assets {
   static String manPushingBox = 'assets/images/man_pushing_box.svg';
   static String smallCircle = 'assets/images/small_circle.svg';
   static String edit = 'assets/icons/edit.svg';
+  static String medal1 = 'assets/icons/medal1.svg';
   static String puzzleIcon = 'assets/icons/puzzle.svg';
   static String puzzleIcon1 = 'assets/icons/puzzle1.png';
   static String star = 'assets/icons/star.png';
   static String world = 'assets/icons/world.png';
   static String local = 'assets/icons/local.png';
+  static String celebration = 'assets/svgs/celebration.svg';
   static String schedule = 'assets/icons/scheduleIcon.png';
   static String rank1 = 'assets/icons/Rank1.png';
   static String rank2 = 'assets/icons/Rank2.png';

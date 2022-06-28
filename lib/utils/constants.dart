@@ -355,7 +355,8 @@ class Constants {
   static Color accent4 = const Color(0xA9ADF3);
 
   static Color tulip = const Color(0xff88E2CE);
-  static Color lightgreen = const Color(0xff53DF83);
+  static Color lightGreen = const Color(0xff53DF83);
+  static Color wrongAnswer = const Color(0xffFF6666);
 
   static Color black1 = const Color(0xff49465F);
   static Color black2 = const Color(0xff0C092A);

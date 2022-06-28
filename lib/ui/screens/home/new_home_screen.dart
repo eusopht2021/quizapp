@@ -54,19 +54,23 @@ class NewHomeScreen extends StatefulWidget {
   @override
   State<NewHomeScreen> createState() => _NewHomeScreenState();
   static Route<dynamic> route(RouteSettings routeSettings) {
-    return CupertinoPageRoute(
-        builder: (context) => MultiBlocProvider(
-              providers: [
-                BlocProvider<ReferAndEarnCubit>(
-                  create: (_) => ReferAndEarnCubit(AuthRepository()),
-                ),
-                BlocProvider<UpdateUserDetailCubit>(
-                  create: (context) =>
-                      UpdateUserDetailCubit(ProfileManagementRepository()),
-                ),
-              ],
-              child: NewHomeScreen(),
-            ));
+    return MaterialPageRoute(
+      builder: (context) => MultiBlocProvider(
+        providers: [
+          BlocProvider<ReferAndEarnCubit>(
+            create: (_) => ReferAndEarnCubit(
+              AuthRepository(),
+            ),
+          ),
+          BlocProvider<UpdateUserDetailCubit>(
+            create: (context) => UpdateUserDetailCubit(
+              ProfileManagementRepository(),
+            ),
+          ),
+        ],
+        child: const NewHomeScreen(),
+      ),
+    );
   }
 }
 
@@ -115,14 +119,11 @@ class _NewHomeScreenState extends State<NewHomeScreen>
   @override
   void dispose() {
     ProfileManagementLocalDataSource.updateReversedCoins(0);
-
     profileAnimationController.dispose();
     selfChallengeAnimationController.dispose();
     firstAnimationController.dispose();
     secondAnimationController.dispose();
-
     WidgetsBinding.instance.removeObserver(this);
-
     super.dispose();
   }
 
@@ -527,6 +528,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
       final systemCubit = context.read<SystemConfigCubit>();
       quizTypeTopMargin = systemCubit.isSelfChallengeEnable() ? 0.425 : 0.29;
       if (systemCubit.getIsContestAvailable() == "0") {
+        log('Contest is not available!');
         _quizTypes.removeWhere(
             (element) => element.quizTypeEnum == QuizTypes.contest);
       }
@@ -862,10 +864,11 @@ class _NewHomeScreenState extends State<NewHomeScreen>
         });
       } else {
         UiUtils.setSnackbar(
-            AppLocalization.of(context)!
-                .getTranslatedValues(currentlyNotAvailableKey)!,
-            context,
-            false);
+          AppLocalization.of(context)!
+              .getTranslatedValues(currentlyNotAvailableKey)!,
+          context,
+          false,
+        );
       }
     } else if (_quizTypes[quizTypeIndex].quizTypeEnum == QuizTypes.quizZone) {
       Navigator.of(context).pushNamed(Routes.category,

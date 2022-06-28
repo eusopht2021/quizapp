@@ -129,7 +129,6 @@ class _LoginState extends State<Login> {
   Widget _showGoogleButton() {
     return BlocConsumer<SignInCubit, SignInState>(
       listener: (context, state) {
-        //Exceuting only if authProvider is not email
         if (state is SignInSuccess &&
             state.authProvider != AuthProvider.email) {
           context.read<AuthCubit>().updateAuthDetails(
