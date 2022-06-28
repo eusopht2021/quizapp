@@ -120,6 +120,7 @@ class _FunAndLearnScreen extends State<FunAndLearnScreen>
           Transform.translate(
             offset: Offset(-8.0, 0),
             child: HorizontalTimerContainer(
+                quizTypes: widget.quizType,
                 timerAnimationController: timerAnimationController),
           ),
         ],

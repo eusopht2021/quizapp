@@ -61,8 +61,9 @@ Future<Widget> initializeApp() async {
     );
 
     await Firebase.initializeApp();
-    FirebaseFirestore.instance.settings =
-        const Settings(persistenceEnabled: false);
+    FirebaseFirestore.instance.settings = const Settings(
+      persistenceEnabled: false,
+    );
   }
 
   await Hive.initFlutter();
@@ -93,7 +94,13 @@ class MyApp extends StatelessWidget {
     precacheImage(AssetImage(UiUtils.getImagePath("map_finded.png")), context);
     precacheImage(AssetImage(UiUtils.getImagePath("map_finding.png")), context);
     precacheImage(
-        AssetImage(UiUtils.getImagePath("scratchCardCover.png")), context);
+      AssetImage(
+        UiUtils.getImagePath(
+          "scratchCardCover.png",
+        ),
+      ),
+      context,
+    );
     return MultiBlocProvider(
       //providing global providers
       providers: [
@@ -180,14 +187,18 @@ class MyApp extends StatelessWidget {
               SizeConfig.init(context);
 
               return ScrollConfiguration(
-                  behavior: GlobalScrollBehavior(), child: widget!);
+                behavior: GlobalScrollBehavior(),
+                child: widget!,
+              );
             },
             locale: currentLanguage,
             theme: appThemeData[currentTheme]!.copyWith(
-                textTheme:
-                    GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)),
+              textTheme: GoogleFonts.poppinsTextTheme(
+                Theme.of(context).textTheme,
+              ),
+            ),
             debugShowCheckedModeBanner: false,
-            localizationsDelegates: [
+            localizationsDelegates: const [
               AppLocalization.delegate,
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,

@@ -13,15 +13,16 @@ import 'package:flutterquiz/ui/screens/quiz/new_quiz_screen.dart';
 import 'package:flutterquiz/ui/screens/quiz/widgets/audioQuestionContainer.dart';
 import 'package:flutterquiz/ui/screens/quiz/widgets/guessTheWordQuestionContainer.dart';
 import 'package:flutterquiz/ui/widgets/circularProgressContainner.dart';
+import 'package:flutterquiz/ui/widgets/custom_card.dart';
 import 'package:flutterquiz/ui/widgets/horizontalTimerContainer.dart';
-import 'package:flutterquiz/ui/widgets/optionContainer.dart';
-import 'package:flutterquiz/ui/widgets/questionBackgroundCard.dart';
+import 'package:flutterquiz/ui/widgets/new_option_container.dart';
+import 'package:flutterquiz/ui/widgets/title_text.dart';
 import 'package:flutterquiz/utils/answerEncryption.dart';
 import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/lifeLineOptions.dart';
-import 'package:flutterquiz/utils/uiUtils.dart';
+import 'package:flutterquiz/utils/widgets_util.dart';
 
-class QuestionsContainer extends StatefulWidget {
+class NewQuestionsContainer extends StatefulWidget {
   final List<GlobalKey> guessTheWordQuestionContainerKeys;
 
   final List<GlobalKey>? audioQuestionContainerKeys;
@@ -44,7 +45,7 @@ class QuestionsContainer extends StatefulWidget {
   final AnimationController timerAnimationController;
   final bool? showGuessTheWordHint;
 
-  const QuestionsContainer({
+  const NewQuestionsContainer({
     Key? key,
     required this.submitAnswer,
     required this.quizType,
@@ -69,10 +70,10 @@ class QuestionsContainer extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<QuestionsContainer> createState() => _QuestionsContainerState();
+  State<NewQuestionsContainer> createState() => _NewQuestionsContainerState();
 }
 
-class _QuestionsContainerState extends State<QuestionsContainer> {
+class _NewQuestionsContainerState extends State<NewQuestionsContainer> {
   List<AnswerOption> fiftyFiftyAnswerOptions = [];
   List<int> percentages = [];
 
@@ -93,14 +94,15 @@ class _QuestionsContainerState extends State<QuestionsContainer> {
           fiftyFiftyAnswerOptions = LifeLineOptions.getFiftyFiftyOptions(
             question.answerOptions!,
             AnswerEncryption.decryptCorrectAnswer(
-                rawKey: context.read<UserDetailsCubit>().getUserFirebaseId(),
-                correctAnswer: question.correctAnswer!),
+              rawKey: context.read<UserDetailsCubit>().getUserFirebaseId(),
+              correctAnswer: question.correctAnswer!,
+            ),
           );
         }
         //build lifeline when using 50/50 lifelines
         return Column(
             children: fiftyFiftyAnswerOptions
-                .map((answerOption) => OptionContainer(
+                .map((answerOption) => NewOptionContainer(
                       quizType: widget.quizType,
                       submittedAnswerId: question.submittedAnswerId,
                       showAnswerCorrectness: widget.showAnswerCorrectness!,
@@ -132,7 +134,7 @@ class _QuestionsContainerState extends State<QuestionsContainer> {
         return Column(
             children: question.answerOptions!.map((option) {
           int percentageIndex = question.answerOptions!.indexOf(option);
-          return OptionContainer(
+          return NewOptionContainer(
             quizType: widget.quizType,
             submittedAnswerId: question.submittedAnswerId,
             showAnswerCorrectness: widget.showAnswerCorrectness!,
@@ -152,7 +154,7 @@ class _QuestionsContainerState extends State<QuestionsContainer> {
       //build answer when no lifeline is in using state
       return Column(
         children: question.answerOptions!.map((option) {
-          return OptionContainer(
+          return NewOptionContainer(
             quizType: widget.quizType,
             submittedAnswerId: question.submittedAnswerId,
             showAnswerCorrectness: widget.showAnswerCorrectness!,
@@ -172,7 +174,7 @@ class _QuestionsContainerState extends State<QuestionsContainer> {
     //build options when no need to use lifeline
     return Column(
       children: question.answerOptions!.map((option) {
-        return OptionContainer(
+        return NewOptionContainer(
           quizType: widget.quizType,
           submittedAnswerId: question.submittedAnswerId,
           showAnswerCorrectness: widget.showAnswerCorrectness!,
@@ -230,11 +232,18 @@ class _QuestionsContainerState extends State<QuestionsContainer> {
 
   Widget _buildCurrentQuestionIndex() {
     return Align(
-      alignment: AlignmentDirectional.center,
-      child: Text(
-        "${widget.currentQuestionIndex + 1} | ${widget.questions.length}",
-        style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+      alignment: Alignment.centerLeft,
+      child: TitleText(
+        text:
+            'QUESTION ${widget.currentQuestionIndex + 1} OF ${widget.questions.length}',
+        weight: FontWeight.w500,
+        size: Constants.bodySmall,
+        textColor: Constants.grey2,
       ),
+      // child: Text(
+      //   "${widget.currentQuestionIndex + 1} | ${widget.questions.length}",
+      //   style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+      // ),
     );
   }
 
@@ -250,18 +259,20 @@ class _QuestionsContainerState extends State<QuestionsContainer> {
               questionText,
             ),
             style: TeXViewStyle(
-                contentColor: Theme.of(context).colorScheme.secondary,
-                backgroundColor: Theme.of(context).backgroundColor,
-                sizeUnit: TeXViewSizeUnit.pixels,
-                textAlign: TeXViewTextAlign.center,
-                fontStyle: TeXViewFontStyle(fontSize: textSize.toInt() + 5)),
+              contentColor: Theme.of(context).colorScheme.secondary,
+              backgroundColor: Theme.of(context).backgroundColor,
+              sizeUnit: TeXViewSizeUnit.pixels,
+              textAlign: TeXViewTextAlign.center,
+              fontStyle: TeXViewFontStyle(
+                fontSize: textSize.toInt() + 5,
+              ),
+            ),
           )
-        : Text(
-            questionText,
-            style: TextStyle(
-                height: 1.125,
-                color: Theme.of(context).colorScheme.secondary,
-                fontSize: textSize),
+        : TitleText(
+            text: questionText,
+            weight: FontWeight.w500,
+            size: Constants.bodyXLarge,
+            textColor: Constants.black1,
           );
   }
 
@@ -300,41 +311,35 @@ class _QuestionsContainerState extends State<QuestionsContainer> {
         return SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 17.5,
               ),
               widget.quizType == QuizTypes.battle ||
                       widget.quizType == QuizTypes.groupPlay
-                  ? SizedBox()
+                  ? const SizedBox()
                   : HorizontalTimerContainer(
                       quizTypes: widget.quizType,
                       timerAnimationController:
                           widget.timerAnimationController),
               widget.quizType == QuizTypes.battle ||
                       widget.quizType == QuizTypes.groupPlay
-                  ? SizedBox()
-                  : SizedBox(
+                  ? const SizedBox()
+                  : const SizedBox(
                       height: 15,
                     ),
-              Container(
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Align(
-                      alignment: AlignmentDirectional.topStart,
-                      child: _buildLevelContainer(),
-                    ),
-                    _buildCurrentCoins(),
-                    _buildCurrentQuestionIndex(),
-                  ],
-                ),
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  Align(
+                    alignment: AlignmentDirectional.topStart,
+                    child: _buildLevelContainer(),
+                  ),
+                  _buildCurrentCoins(),
+                  WidgetsUtil.verticalSpace24,
+                  _buildCurrentQuestionIndex(),
+                ],
               ),
-              Divider(
-                color: Theme.of(context).colorScheme.secondary,
-              ),
-              SizedBox(
-                height: 5.0,
-              ),
+              WidgetsUtil.verticalSpace8,
               Container(
                 alignment: Alignment.center,
                 child: _buildQuestionText(
@@ -345,9 +350,7 @@ class _QuestionsContainerState extends State<QuestionsContainer> {
                   ? SizedBox(
                       height: constraints.maxHeight * (0.0175),
                     )
-                  : SizedBox(
-                      height: constraints.maxHeight * (0.02),
-                    ),
+                  : WidgetsUtil.verticalSpace24,
               question.imageUrl != null && question.imageUrl!.isNotEmpty
                   ? Container(
                       width: MediaQuery.of(context).size.width,
@@ -387,39 +390,60 @@ class _QuestionsContainerState extends State<QuestionsContainer> {
                         ),
                       ),
                     )
-                  : Container(),
+                  : const SizedBox(),
               _buildOptions(question, constraints),
-              SizedBox(
-                height: 15.0,
-              ),
+              WidgetsUtil.verticalSpace16,
             ],
           ),
         );
       }
     });
 
-    return Container(
+    // return Container(
+    // transform: Matrix4.identity()..scale(scale),
+    // transformAlignment: Alignment.center,
+    // padding: const EdgeInsets.symmetric(horizontal: 25.0),
+    // width: MediaQuery.of(context).size.width *
+    //     UiUtils.quesitonContainerWidthPercentage,
+    // height: MediaQuery.of(context).size.height *
+    //     (UiUtils.questionContainerHeightPercentage -
+    //         0.045 * (widget.quizType == QuizTypes.groupPlay ? 1.0 : 0.0)),
+    // decoration: BoxDecoration(
+    //   color: Theme.of(context).backgroundColor,
+    //   borderRadius: BorderRadius.circular(
+    //     25,
+    //   ),
+    // ),
+    // child: showContent
+    //     ? SlideTransition(
+    //         position: widget.questionContentAnimation.drive(Tween<Offset>(
+    //             begin: const Offset(0.5, 0.0), end: Offset.zero)),
+    //         child: FadeTransition(
+    //           opacity: widget.questionContentAnimation,
+    //           child: child,
+    //         ),
+    //       )
+    //     : Container(),
+    // );
+    return CustomCard(
+      padding: const EdgeInsets.all(8.0),
       child: showContent
-          ? SlideTransition(
-              position: widget.questionContentAnimation.drive(
-                  Tween<Offset>(begin: Offset(0.5, 0.0), end: Offset.zero)),
-              child: FadeTransition(
-                opacity: widget.questionContentAnimation,
-                child: child,
+          ? Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: SlideTransition(
+                position: widget.questionContentAnimation.drive(
+                  Tween<Offset>(
+                    begin: const Offset(0.5, 0.0),
+                    end: Offset.zero,
+                  ),
+                ),
+                child: FadeTransition(
+                  opacity: widget.questionContentAnimation,
+                  child: child,
+                ),
               ),
             )
           : Container(),
-      transform: Matrix4.identity()..scale(scale),
-      transformAlignment: Alignment.center,
-      padding: EdgeInsets.symmetric(horizontal: 25.0),
-      width: MediaQuery.of(context).size.width *
-          UiUtils.quesitonContainerWidthPercentage,
-      height: MediaQuery.of(context).size.height *
-          (UiUtils.questionContainerHeightPercentage -
-              0.045 * (widget.quizType == QuizTypes.groupPlay ? 1.0 : 0.0)),
-      decoration: BoxDecoration(
-          color: Theme.of(context).backgroundColor,
-          borderRadius: BorderRadius.circular(25)),
     );
   }
 
@@ -430,12 +454,26 @@ class _QuestionsContainerState extends State<QuestionsContainer> {
     //so we need to add animation that slide and fade this question
     if (widget.currentQuestionIndex == questionIndex) {
       return FadeTransition(
-          opacity: widget.questionSlideAnimation
-              .drive(Tween<double>(begin: 1.0, end: 0.0)),
-          child: SlideTransition(
-              child: _buildQuesitonContainer(1.0, questionIndex, true, context),
-              position: widget.questionSlideAnimation.drive(
-                  Tween<Offset>(begin: Offset.zero, end: Offset(-1.5, 0.0)))));
+        opacity: widget.questionSlideAnimation
+            .drive(Tween<double>(begin: 1.0, end: 0.0)),
+        child: SlideTransition(
+          position: widget.questionSlideAnimation.drive(
+            Tween<Offset>(
+              begin: Offset.zero,
+              end: const Offset(
+                -1.5,
+                0.0,
+              ),
+            ),
+          ),
+          child: _buildQuesitonContainer(
+            1.0,
+            questionIndex,
+            true,
+            context,
+          ),
+        ),
+      );
     }
     //if the question is second or after current question
     //so we need to animation that scale this question
@@ -444,14 +482,19 @@ class _QuestionsContainerState extends State<QuestionsContainer> {
     else if (questionIndex > widget.currentQuestionIndex &&
         (questionIndex == widget.currentQuestionIndex + 1)) {
       return AnimatedBuilder(
-          animation: widget.questionAnimationController,
-          builder: (context, child) {
-            double scale = 0.95 +
-                widget.questionScaleUpAnimation.value -
-                widget.questionScaleDownAnimation.value;
-            return _buildQuesitonContainer(
-                scale, questionIndex, false, context);
-          });
+        animation: widget.questionAnimationController,
+        builder: (context, child) {
+          double scale = 0.95 +
+              widget.questionScaleUpAnimation.value -
+              widget.questionScaleDownAnimation.value;
+          return _buildQuesitonContainer(
+            scale,
+            questionIndex,
+            false,
+            context,
+          );
+        },
+      );
     }
     //to build question except top 2
 
@@ -481,42 +524,26 @@ class _QuestionsContainerState extends State<QuestionsContainer> {
   Widget build(BuildContext context) {
     //Font Size change Lister to change questions font size
     return BlocListener<SettingsCubit, SettingsState>(
-        bloc: context.read<SettingsCubit>(),
-        listener: (context, state) {
-          if (state.settingsModel!.playAreaFontSize != textSize) {
-            setState(() {
-              textSize =
-                  context.read<SettingsCubit>().getSettings().playAreaFontSize;
-            });
-          }
-        },
-        child: Padding(
-          padding: EdgeInsets.only(
-            top:
-                MediaQuery.of(context).padding.top + (widget.topPadding ?? 7.5),
-          ),
-          child: Stack(
-            alignment: Alignment.topCenter,
-            children: [
-              QuestionBackgroundCard(
-                heightPercentage: widget.quizType == QuizTypes.groupPlay
-                    ? UiUtils.questionContainerHeightPercentage - 0.045
-                    : UiUtils.questionContainerHeightPercentage,
-                opacity: 0.7,
-                topMarginPercentage: 0.02,
-                widthPercentage: 0.65,
-              ),
-              QuestionBackgroundCard(
-                heightPercentage: widget.quizType == QuizTypes.groupPlay
-                    ? UiUtils.questionContainerHeightPercentage - 0.045
-                    : UiUtils.questionContainerHeightPercentage,
-                opacity: 0.85,
-                topMarginPercentage: 0.01,
-                widthPercentage: 0.75,
-              ),
-              ..._buildQuesitons(context),
-            ],
-          ),
-        ));
+      bloc: context.read<SettingsCubit>(),
+      listener: (context, state) {
+        if (state.settingsModel!.playAreaFontSize != textSize) {
+          setState(() {
+            textSize =
+                context.read<SettingsCubit>().getSettings().playAreaFontSize;
+          });
+        }
+      },
+      child: Padding(
+        padding: EdgeInsets.only(
+          top: MediaQuery.of(context).padding.top + (widget.topPadding ?? 7.5),
+        ),
+        child: Stack(
+          alignment: Alignment.topCenter,
+          children: [
+            ..._buildQuesitons(context),
+          ],
+        ),
+      ),
+    );
   }
 }

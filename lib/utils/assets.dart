@@ -32,6 +32,7 @@ class Assets {
   static String star = 'assets/icons/star.png';
   static String world = 'assets/icons/world.png';
   static String local = 'assets/icons/local.png';
+  static String celebration = 'assets/svgs/celebration.svg';
 
   static String cardCircles = 'assets/images/card_circles.png';
   static String cardCircles1 = 'assets/images/card_circles1.png';

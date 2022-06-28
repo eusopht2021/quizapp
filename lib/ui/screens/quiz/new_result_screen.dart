@@ -29,20 +29,19 @@ import 'package:flutterquiz/features/quiz/quizRepository.dart';
 import 'package:flutterquiz/features/statistic/cubits/updateStatisticCubit.dart';
 import 'package:flutterquiz/features/statistic/statisticRepository.dart';
 import 'package:flutterquiz/features/systemConfig/cubits/systemConfigCubit.dart';
-import 'package:flutterquiz/ui/screens/quiz/widgets/radialResultContainer.dart';
-import 'package:flutterquiz/ui/widgets/circularImageContainer.dart';
 import 'package:flutterquiz/ui/widgets/customRoundedButton.dart';
-import 'package:flutterquiz/ui/widgets/pageBackgroundGradientContainer.dart';
 import 'package:flutterquiz/utils/answerEncryption.dart';
+import 'package:flutterquiz/utils/assets.dart';
 import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
+import 'package:flutterquiz/utils/size_config.dart';
 import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
 
-class ResultScreen extends StatefulWidget {
+class NewResultScreen extends StatefulWidget {
   final QuizTypes?
       quizType; //to show different kind of result data for different quiz type
   final int?
@@ -82,28 +81,28 @@ class ResultScreen extends StatefulWidget {
   // and guess the word
   final bool isPlayed; //
 
-  ResultScreen(
-      {Key? key,
-      required this.isPlayed,
-      this.exam,
-      this.correctExamAnswers,
-      this.incorrectExamAnswers,
-      this.obtainedMarks,
-      this.examCompletedInMinutes,
-      this.timeTakenToCompleteQuiz,
-      this.hasUsedAnyLifeline,
-      this.numberOfPlayer,
-      this.myPoints,
-      this.battleRoom,
-      this.questions,
-      this.unlockedLevel,
-      this.quizType,
-      this.subcategoryMaxLevel,
-      this.contestId,
-      required this.comprehension,
-      this.guessTheWordQuestions,
-      this.entryFee})
-      : super(key: key);
+  const NewResultScreen({
+    Key? key,
+    required this.isPlayed,
+    this.exam,
+    this.correctExamAnswers,
+    this.incorrectExamAnswers,
+    this.obtainedMarks,
+    this.examCompletedInMinutes,
+    this.timeTakenToCompleteQuiz,
+    this.hasUsedAnyLifeline,
+    this.numberOfPlayer,
+    this.myPoints,
+    this.battleRoom,
+    this.questions,
+    this.unlockedLevel,
+    this.quizType,
+    this.subcategoryMaxLevel,
+    this.contestId,
+    required this.comprehension,
+    this.guessTheWordQuestions,
+    this.entryFee,
+  }) : super(key: key);
 
   static Route<dynamic> route(RouteSettings routeSettings) {
     Map arguments = routeSettings.arguments as Map;
@@ -139,7 +138,7 @@ class ResultScreen extends StatefulWidget {
                   create: (_) => SetCategoryPlayed(QuizRepository()),
                 ),
               ],
-              child: ResultScreen(
+              child: NewResultScreen(
                 isPlayed: arguments['isPlayed'] ?? true,
                 comprehension:
                     arguments['comprehension'] ?? Comprehension.fromJson({}),
@@ -165,10 +164,10 @@ class ResultScreen extends StatefulWidget {
   }
 
   @override
-  _ResultScreenState createState() => _ResultScreenState();
+  _NewResultScreenState createState() => _NewResultScreenState();
 }
 
-class _ResultScreenState extends State<ResultScreen> {
+class _NewResultScreenState extends State<NewResultScreen> {
   final ScreenshotController screenshotController = ScreenshotController();
   List<Map<String, dynamic>> usersWithRank = [];
   late bool _isWinner;
@@ -702,64 +701,73 @@ class _ResultScreenState extends State<ResultScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SizedBox(
+        const SizedBox(
           height: 15.0,
         ),
         Platform.isIOS
-            ? Stack(children: [
-                Align(
+            ? Stack(
+                children: [
+                  Align(
                     alignment: Alignment.topLeft,
                     child: Padding(
                       padding: const EdgeInsets.only(
                         left: 15.0,
                       ),
                       child: InkWell(
-                          onTap: () {
-                            onPageBackCalls();
-                            Navigator.pop(context);
-                          },
-                          child: Container(
-                              padding: EdgeInsets.all(5.0),
-                              decoration: BoxDecoration(
-                                  border:
-                                      Border.all(color: Colors.transparent)),
-                              child: Icon(
-                                Icons.arrow_back_ios,
-                                color: Theme.of(context).backgroundColor,
-                              ))),
-                    )),
-                Container(
+                        onTap: () {
+                          onPageBackCalls();
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(5.0),
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.transparent)),
+                          child: Icon(
+                            Icons.arrow_back_ios,
+                            color: Theme.of(context).backgroundColor,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
                     alignment: Alignment.center,
                     child: Text(
-                      "$message",
+                      message,
                       style: TextStyle(
-                          fontSize: 19.0,
-                          color: Theme.of(context).backgroundColor),
-                    )),
-              ])
+                        fontSize: 19.0,
+                        color: Theme.of(context).backgroundColor,
+                      ),
+                    ),
+                  ),
+                ],
+              )
             : Container(
                 alignment: Alignment.center,
                 child: Text(
-                  "$message",
+                  message,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 19.0,
                     color: Theme.of(context).backgroundColor,
                   ),
-                )),
-        SizedBox(
+                ),
+              ),
+        const SizedBox(
           height: 5.0,
         ),
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 5.0),
+          padding: const EdgeInsets.symmetric(horizontal: 5.0),
           alignment: Alignment.center,
-          child: Text("$title",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 25.0 * MediaQuery.of(context).textScaleFactor * 1.25,
-                color: Theme.of(context).backgroundColor,
-              )),
-        )
+          child: Text(
+            title,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 25.0 * MediaQuery.of(context).textScaleFactor * 1.25,
+              color: Theme.of(context).backgroundColor,
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -773,12 +781,13 @@ class _ResultScreenState extends State<ResultScreen> {
           borderRadius: BorderRadius.circular(10.0)),
       width: MediaQuery.of(context).size.width * (0.2125),
       height: 30.0,
+      alignment: Alignment.center,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SvgPicture.asset(UiUtils.getImagePath(icon),
               color: Theme.of(context).colorScheme.secondary),
-          SizedBox(
+          const SizedBox(
             width: 5,
           ),
           Text(
@@ -787,240 +796,247 @@ class _ResultScreenState extends State<ResultScreen> {
           ),
         ],
       ),
-      alignment: Alignment.center,
     );
   }
 
   Widget _buildIndividualResultContainer(String userProfileUrl) {
-    return Stack(
-      clipBehavior: Clip.none,
+    return Column(
       children: [
-        Align(
-          alignment: Alignment.center,
-          child: SvgPicture.asset(
-            widget.quizType == QuizTypes.exam
-                ? UiUtils.getImagePath("celebration.svg")
-                : _isWinner
-                    ? UiUtils.getImagePath("celebration.svg")
-                    : UiUtils.getImagePath("celebration_loss.svg"),
-          ),
+        SvgPicture.asset(
+          Assets.celebration,
         ),
-        Align(
-          alignment: Alignment.topCenter,
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              double verticalSpacePercentage = 0.0;
-              double profileRadiusPercentage = 0.0;
-
-              double radialSizePercentage = 0.0;
-              if (constraints.maxHeight <
-                  UiUtils.profileHeightBreakPointResultScreen) {
-                verticalSpacePercentage = 0.015;
-                profileRadiusPercentage = 0.35; //test in
-                radialSizePercentage = 0.6;
-              } else {
-                verticalSpacePercentage = 0.035;
-                profileRadiusPercentage = 0.375;
-
-                radialSizePercentage = 0.525;
-              }
-
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  widget.quizType! == QuizTypes.exam
-                      ? _buildGreetingMessage(
-                          widget.exam!.title,
-                          AppLocalization.of(context)!
-                              .getTranslatedValues(examResultKey)!)
-                      : _isWinner
-                          ? _buildGreetingMessage(
-                              AppLocalization.of(context)!
-                                  .getTranslatedValues("victoryLbl")!,
-                              AppLocalization.of(context)!
-                                  .getTranslatedValues("congratulationsLbl")!)
-                          : _buildGreetingMessage(
-                              AppLocalization.of(context)!
-                                  .getTranslatedValues("defeatLbl")!,
-                              AppLocalization.of(context)!
-                                  .getTranslatedValues("betterNextLbl")!),
-                  SizedBox(
-                    height: constraints.maxHeight * verticalSpacePercentage,
-                  ),
-                  widget.quizType! == QuizTypes.exam
-                      ? Transform.translate(
-                          offset: Offset(0.0, -20.0), //
-                          child: RadialPercentageResultContainer(
-                            circleColor:
-                                Theme.of(context).colorScheme.secondary,
-                            arcColor: Theme.of(context).backgroundColor,
-                            arcStrokeWidth: 12.0,
-                            textFontSize: 20,
-                            circleStrokeWidth: 12.0,
-                            radiusPercentage: 0.27,
-                            percentage: winPercentage(),
-
-                            timeTakenToCompleteQuizInSeconds:
-                                widget.examCompletedInMinutes,
-                            size: Size(
-                                constraints.maxHeight * radialSizePercentage,
-                                constraints.maxHeight *
-                                    radialSizePercentage), //150.0 , 150.0
-                          ),
-                        )
-                      : Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            Center(
-                              child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Theme.of(context)
-                                        .primaryColor
-                                        .withOpacity(0.5),
-                                    shape: BoxShape.circle,
-                                  ),
-                                  height: constraints.maxHeight *
-                                      profileRadiusPercentage),
-                            ),
-                            Center(
-                              child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Theme.of(context).primaryColor,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  height: constraints.maxHeight *
-                                      (profileRadiusPercentage - 0.025)),
-                            ),
-                            Center(
-                              child: CircularImageContainer(
-                                  imagePath: userProfileUrl,
-                                  height: constraints.maxHeight *
-                                      (profileRadiusPercentage - 0.05),
-                                  width: constraints.maxWidth *
-                                      (profileRadiusPercentage - 0.05 + 0.15)),
-                            ),
-                          ],
-                        ),
-                  widget.quizType! == QuizTypes.exam
-                      ? Transform.translate(
-                          offset: Offset(0, -30.0),
-                          child: Text(
-                            "${widget.obtainedMarks}/${widget.exam!.totalMarks} ${AppLocalization.of(context)!.getTranslatedValues(markKey)!}",
-                            style: TextStyle(
-                              fontSize: 22.0 *
-                                  MediaQuery.of(context).textScaleFactor *
-                                  (1.1),
-                              fontWeight: FontWeight.w400,
-                              color: Theme.of(context)
-                                  .backgroundColor, //Theme.of(context).backgroundColor,
-                            ),
-                          ),
-                        )
-                      : Text(
-                          _isWinner
-                              ? AppLocalization.of(context)!
-                                  .getTranslatedValues("winnerLbl")!
-                              : AppLocalization.of(context)!
-                                  .getTranslatedValues("youLossLbl")!,
-                          style: TextStyle(
-                            fontSize: 25.0 *
-                                MediaQuery.of(context).textScaleFactor *
-                                (1.1),
-                            fontWeight: FontWeight.w400,
-                            color: Theme.of(context)
-                                .backgroundColor, //Theme.of(context).backgroundColor,
-                          ),
-                        )
-                ],
-              );
-            },
-          ),
-        ),
-
-        //incorrect answer
-        Align(
-          alignment: AlignmentDirectional.bottomStart,
-          child: _buildResultDataWithIconContainer(
-              widget.quizType == QuizTypes.exam
-                  ? "${widget.incorrectExamAnswers}/${totalQuestions()}"
-                  : "${totalQuestions() - correctAnswer()}/${totalQuestions()}",
-              "wrong.svg",
-              EdgeInsetsDirectional.only(
-                  start: 15.0, bottom: showCoinsAndScore() ? 20.0 : 30.0)),
-        ),
-        //correct answer
-        showCoinsAndScore()
-            ? Align(
-                alignment: AlignmentDirectional.bottomStart,
-                child: _buildResultDataWithIconContainer(
-                    "${correctAnswer()}/${totalQuestions()}",
-                    "correct.svg",
-                    EdgeInsetsDirectional.only(start: 15.0, bottom: 60.0)),
-              )
-            : Align(
-                alignment: Alignment.bottomRight,
-                child: _buildResultDataWithIconContainer(
-                    "${correctAnswer()}/${totalQuestions()}",
-                    "correct.svg",
-                    EdgeInsetsDirectional.only(end: 15.0, bottom: 30.0)),
-              ),
-
-        //points
-        showCoinsAndScore()
-            ? Align(
-                alignment: AlignmentDirectional.bottomEnd,
-                child: _buildResultDataWithIconContainer(
-                    "${widget.myPoints}",
-                    "score.svg",
-                    EdgeInsetsDirectional.only(end: 15.0, bottom: 60.0)),
-              )
-            : Container(),
-
-        //earned coins
-        showCoinsAndScore()
-            ? Align(
-                alignment: AlignmentDirectional.bottomEnd,
-                child: _buildResultDataWithIconContainer(
-                    "$_earnedCoins",
-                    "earnedCoin.svg",
-                    EdgeInsetsDirectional.only(end: 15.0, bottom: 20.0)),
-              )
-            : Container(),
-
-        //build radils percentage container
-        widget.quizType! == QuizTypes.exam
-            ? Container()
-            : Align(
-                alignment: Alignment.bottomCenter,
-                child: LayoutBuilder(builder: (context, constraints) {
-                  double radialSizePercentage = 0.0;
-                  if (constraints.maxHeight <
-                      UiUtils.profileHeightBreakPointResultScreen) {
-                    radialSizePercentage = 0.4;
-                  } else {
-                    radialSizePercentage = 0.325;
-                  }
-                  return Transform.translate(
-                    offset: Offset(0.0, 15.0), //
-                    child: RadialPercentageResultContainer(
-                      circleColor: Theme.of(context).colorScheme.secondary,
-                      arcColor: Theme.of(context).backgroundColor,
-                      arcStrokeWidth: 10.0,
-                      circleStrokeWidth: 10.0,
-                      radiusPercentage: 0.27,
-                      percentage: winPercentage(),
-                      timeTakenToCompleteQuizInSeconds:
-                          widget.timeTakenToCompleteQuiz?.toInt(),
-                      size: Size(
-                          constraints.maxHeight * radialSizePercentage,
-                          constraints.maxHeight *
-                              radialSizePercentage), //150.0 , 150.0
-                    ),
-                  );
-                }),
-              ),
       ],
     );
+    // return Stack(
+    //   clipBehavior: Clip.none,
+    //   children: [
+    //     Align(
+    //       alignment: Alignment.center,
+    //       child: SvgPicture.asset(
+    //         widget.quizType == QuizTypes.exam
+    //             ? UiUtils.getImagePath("celebration.svg")
+    //             : _isWinner
+    //                 ? UiUtils.getImagePath("celebration.svg")
+    //                 : UiUtils.getImagePath("celebration_loss.svg"),
+    //       ),
+    //     ),
+    //     Align(
+    //       alignment: Alignment.topCenter,
+    //       child: LayoutBuilder(
+    //         builder: (context, constraints) {
+    //           double verticalSpacePercentage = 0.0;
+    //           double profileRadiusPercentage = 0.0;
+    //
+    //           double radialSizePercentage = 0.0;
+    //           if (constraints.maxHeight <
+    //               UiUtils.profileHeightBreakPointResultScreen) {
+    //             verticalSpacePercentage = 0.015;
+    //             profileRadiusPercentage = 0.35; //test in
+    //             radialSizePercentage = 0.6;
+    //           } else {
+    //             verticalSpacePercentage = 0.035;
+    //             profileRadiusPercentage = 0.375;
+    //
+    //             radialSizePercentage = 0.525;
+    //           }
+    //
+    //           return Column(
+    //             mainAxisAlignment: MainAxisAlignment.start,
+    //             children: [
+    //               widget.quizType! == QuizTypes.exam
+    //                   ? _buildGreetingMessage(
+    //                       widget.exam!.title,
+    //                       AppLocalization.of(context)!
+    //                           .getTranslatedValues(examResultKey)!)
+    //                   : _isWinner
+    //                       ? _buildGreetingMessage(
+    //                           AppLocalization.of(context)!
+    //                               .getTranslatedValues("victoryLbl")!,
+    //                           AppLocalization.of(context)!
+    //                               .getTranslatedValues("congratulationsLbl")!)
+    //                       : _buildGreetingMessage(
+    //                           AppLocalization.of(context)!
+    //                               .getTranslatedValues("defeatLbl")!,
+    //                           AppLocalization.of(context)!
+    //                               .getTranslatedValues("betterNextLbl")!),
+    //               SizedBox(
+    //                 height: constraints.maxHeight * verticalSpacePercentage,
+    //               ),
+    //               widget.quizType! == QuizTypes.exam
+    //                   ? Transform.translate(
+    //                       offset: const Offset(0.0, -20.0), //
+    //                       child: RadialPercentageResultContainer(
+    //                         circleColor:
+    //                             Theme.of(context).colorScheme.secondary,
+    //                         arcColor: Theme.of(context).backgroundColor,
+    //                         arcStrokeWidth: 12.0,
+    //                         textFontSize: 20,
+    //                         circleStrokeWidth: 12.0,
+    //                         radiusPercentage: 0.27,
+    //                         percentage: winPercentage(),
+    //
+    //                         timeTakenToCompleteQuizInSeconds:
+    //                             widget.examCompletedInMinutes,
+    //                         size: Size(
+    //                             constraints.maxHeight * radialSizePercentage,
+    //                             constraints.maxHeight *
+    //                                 radialSizePercentage), //150.0 , 150.0
+    //                       ),
+    //                     )
+    //                   : Stack(
+    //                       alignment: Alignment.center,
+    //                       children: [
+    //                         Center(
+    //                           child: Container(
+    //                               decoration: BoxDecoration(
+    //                                 color: Theme.of(context)
+    //                                     .primaryColor
+    //                                     .withOpacity(0.5),
+    //                                 shape: BoxShape.circle,
+    //                               ),
+    //                               height: constraints.maxHeight *
+    //                                   profileRadiusPercentage),
+    //                         ),
+    //                         Center(
+    //                           child: Container(
+    //                               decoration: BoxDecoration(
+    //                                 color: Theme.of(context).primaryColor,
+    //                                 shape: BoxShape.circle,
+    //                               ),
+    //                               height: constraints.maxHeight *
+    //                                   (profileRadiusPercentage - 0.025)),
+    //                         ),
+    //                         Center(
+    //                           child: CircularImageContainer(
+    //                               imagePath: userProfileUrl,
+    //                               height: constraints.maxHeight *
+    //                                   (profileRadiusPercentage - 0.05),
+    //                               width: constraints.maxWidth *
+    //                                   (profileRadiusPercentage - 0.05 + 0.15)),
+    //                         ),
+    //                       ],
+    //                     ),
+    //               widget.quizType! == QuizTypes.exam
+    //                   ? Transform.translate(
+    //                       offset: const Offset(0, -30.0),
+    //                       child: Text(
+    //                         "${widget.obtainedMarks}/${widget.exam!.totalMarks} ${AppLocalization.of(context)!.getTranslatedValues(markKey)!}",
+    //                         style: TextStyle(
+    //                           fontSize: 22.0 *
+    //                               MediaQuery.of(context).textScaleFactor *
+    //                               (1.1),
+    //                           fontWeight: FontWeight.w400,
+    //                           color: Theme.of(context)
+    //                               .backgroundColor, //Theme.of(context).backgroundColor,
+    //                         ),
+    //                       ),
+    //                     )
+    //                   : Text(
+    //                       _isWinner
+    //                           ? AppLocalization.of(context)!
+    //                               .getTranslatedValues("winnerLbl")!
+    //                           : AppLocalization.of(context)!
+    //                               .getTranslatedValues("youLossLbl")!,
+    //                       style: TextStyle(
+    //                         fontSize: 25.0 *
+    //                             MediaQuery.of(context).textScaleFactor *
+    //                             (1.1),
+    //                         fontWeight: FontWeight.w400,
+    //                         color: Theme.of(context)
+    //                             .backgroundColor, //Theme.of(context).backgroundColor,
+    //                       ),
+    //                     )
+    //             ],
+    //           );
+    //         },
+    //       ),
+    //     ),
+    //
+    //     //incorrect answer
+    //     Align(
+    //       alignment: AlignmentDirectional.bottomStart,
+    //       child: _buildResultDataWithIconContainer(
+    //           widget.quizType == QuizTypes.exam
+    //               ? "${widget.incorrectExamAnswers}/${totalQuestions()}"
+    //               : "${totalQuestions() - correctAnswer()}/${totalQuestions()}",
+    //           "wrong.svg",
+    //           EdgeInsetsDirectional.only(
+    //               start: 15.0, bottom: showCoinsAndScore() ? 20.0 : 30.0)),
+    //     ),
+    //     //correct answer
+    //     showCoinsAndScore()
+    //         ? Align(
+    //             alignment: AlignmentDirectional.bottomStart,
+    //             child: _buildResultDataWithIconContainer(
+    //                 "${correctAnswer()}/${totalQuestions()}",
+    //                 "correct.svg",
+    //                 const EdgeInsetsDirectional.only(
+    //                     start: 15.0, bottom: 60.0)),
+    //           )
+    //         : Align(
+    //             alignment: Alignment.bottomRight,
+    //             child: _buildResultDataWithIconContainer(
+    //                 "${correctAnswer()}/${totalQuestions()}",
+    //                 "correct.svg",
+    //                 const EdgeInsetsDirectional.only(end: 15.0, bottom: 30.0)),
+    //           ),
+    //
+    //     //points
+    //     showCoinsAndScore()
+    //         ? Align(
+    //             alignment: AlignmentDirectional.bottomEnd,
+    //             child: _buildResultDataWithIconContainer(
+    //                 "${widget.myPoints}",
+    //                 "score.svg",
+    //                 const EdgeInsetsDirectional.only(end: 15.0, bottom: 60.0)),
+    //           )
+    //         : Container(),
+    //
+    //     //earned coins
+    //     showCoinsAndScore()
+    //         ? Align(
+    //             alignment: AlignmentDirectional.bottomEnd,
+    //             child: _buildResultDataWithIconContainer(
+    //                 "$_earnedCoins",
+    //                 "earnedCoin.svg",
+    //                 const EdgeInsetsDirectional.only(end: 15.0, bottom: 20.0)),
+    //           )
+    //         : Container(),
+    //
+    //     //build radils percentage container
+    //     widget.quizType! == QuizTypes.exam
+    //         ? Container()
+    //         : Align(
+    //             alignment: Alignment.bottomCenter,
+    //             child: LayoutBuilder(builder: (context, constraints) {
+    //               double radialSizePercentage = 0.0;
+    //               if (constraints.maxHeight <
+    //                   UiUtils.profileHeightBreakPointResultScreen) {
+    //                 radialSizePercentage = 0.4;
+    //               } else {
+    //                 radialSizePercentage = 0.325;
+    //               }
+    //               return Transform.translate(
+    //                 offset: const Offset(0.0, 15.0), //
+    //                 child: RadialPercentageResultContainer(
+    //                   circleColor: Theme.of(context).colorScheme.secondary,
+    //                   arcColor: Theme.of(context).backgroundColor,
+    //                   arcStrokeWidth: 10.0,
+    //                   circleStrokeWidth: 10.0,
+    //                   radiusPercentage: 0.27,
+    //                   percentage: winPercentage(),
+    //                   timeTakenToCompleteQuizInSeconds:
+    //                       widget.timeTakenToCompleteQuiz?.toInt(),
+    //                   size: Size(
+    //                       constraints.maxHeight * radialSizePercentage,
+    //                       constraints.maxHeight *
+    //                           radialSizePercentage), //150.0 , 150.0
+    //                 ),
+    //               );
+    //             }),
+    //           ),
+    //   ],
+    // );
   }
 
   Widget _buildBattleResultDetails() {
@@ -1105,7 +1121,7 @@ class _ResultScreenState extends State<ResultScreen> {
                   ),
                   _winnerId!.isEmpty
                       ? Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
                           child: Row(
                             children: [
                               Column(
@@ -1134,7 +1150,7 @@ class _ResultScreenState extends State<ResultScreen> {
                                     height: nameAndProfileSizedBoxHeight,
                                   ),
                                   Container(
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                         vertical: 4.0, horizontal: 5.0),
                                     decoration: BoxDecoration(
                                       color: Theme.of(context).backgroundColor,
@@ -1151,12 +1167,12 @@ class _ResultScreenState extends State<ResultScreen> {
                                       textAlign: TextAlign.center,
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 4,
                                   ),
                                   Container(
                                     width: constraints.maxWidth * (0.3),
-                                    padding: EdgeInsets.only(left: 10),
+                                    padding: const EdgeInsets.only(left: 10),
                                     child: Text(
                                       AppLocalization.of(context)!
                                           .getTranslatedValues("winnerLbl")!,
@@ -1167,7 +1183,7 @@ class _ResultScreenState extends State<ResultScreen> {
                                   ),
                                 ],
                               ),
-                              Spacer(),
+                              const Spacer(),
                               Column(
                                 children: [
                                   Stack(
@@ -1190,7 +1206,7 @@ class _ResultScreenState extends State<ResultScreen> {
                                     height: nameAndProfileSizedBoxHeight,
                                   ),
                                   Container(
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                         vertical: 4.0, horizontal: 5.0),
                                     decoration: BoxDecoration(
                                       color: Theme.of(context).backgroundColor,
@@ -1207,12 +1223,12 @@ class _ResultScreenState extends State<ResultScreen> {
                                       textAlign: TextAlign.center,
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 4,
                                   ),
                                   Container(
                                     width: constraints.maxWidth * (0.3),
-                                    padding: EdgeInsets.only(left: 10),
+                                    padding: const EdgeInsets.only(left: 10),
                                     child: Text(
                                       AppLocalization.of(context)!
                                           .getTranslatedValues("winnerLbl")!,
@@ -1228,7 +1244,7 @@ class _ResultScreenState extends State<ResultScreen> {
                         )
                       : Row(
                           children: [
-                            SizedBox(
+                            const SizedBox(
                               width: 20.0,
                             ),
                             Column(
@@ -1251,7 +1267,7 @@ class _ResultScreenState extends State<ResultScreen> {
                                   height: nameAndProfileSizedBoxHeight,
                                 ),
                                 Container(
-                                  padding: EdgeInsets.symmetric(
+                                  padding: const EdgeInsets.symmetric(
                                       vertical: 4.0, horizontal: 5.0),
                                   decoration: BoxDecoration(
                                     color: Theme.of(context).backgroundColor,
@@ -1268,13 +1284,13 @@ class _ResultScreenState extends State<ResultScreen> {
                                     textAlign: TextAlign.center,
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 4,
                                 ),
                                 Container(
                                   width: constraints.maxWidth * (0.3),
-                                  padding:
-                                      EdgeInsetsDirectional.only(start: 10),
+                                  padding: const EdgeInsetsDirectional.only(
+                                      start: 10),
                                   child: Text(
                                     AppLocalization.of(context)!
                                         .getTranslatedValues("winnerLbl")!,
@@ -1285,7 +1301,7 @@ class _ResultScreenState extends State<ResultScreen> {
                                 ),
                               ],
                             ),
-                            Spacer(),
+                            const Spacer(),
                             Transform.translate(
                               offset: Offset(0.0, translateOffsetdy),
                               child: Column(
@@ -1309,7 +1325,7 @@ class _ResultScreenState extends State<ResultScreen> {
                                     height: nameAndProfileSizedBoxHeight,
                                   ),
                                   Container(
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                         vertical: 4.0, horizontal: 5.0),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(5.0),
@@ -1326,13 +1342,13 @@ class _ResultScreenState extends State<ResultScreen> {
                                               Theme.of(context).primaryColor),
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 2.0,
                                   ),
                                   Container(
                                     width: constraints.maxWidth * (0.3),
-                                    padding:
-                                        EdgeInsetsDirectional.only(start: 10),
+                                    padding: const EdgeInsetsDirectional.only(
+                                        start: 10),
                                     child: Text(
                                       AppLocalization.of(context)!
                                           .getTranslatedValues("looserLbl")!,
@@ -1344,12 +1360,12 @@ class _ResultScreenState extends State<ResultScreen> {
                                 ],
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 20.0,
                             ),
                           ],
                         ),
-                  Spacer(),
+                  const Spacer(),
                   Container(
                     padding: EdgeInsets.symmetric(
                         vertical: constraints.maxHeight <
@@ -1400,11 +1416,16 @@ class _ResultScreenState extends State<ResultScreen> {
     return Screenshot(
       controller: screenshotController,
       child: Container(
-        height: MediaQuery.of(context).size.height * (0.575),
-        width: MediaQuery.of(context).size.width * (0.85),
+        // height: MediaQuery.of(context).size.height * (0.575),
+        width: SizeConfig.screenWidth,
+        margin: const EdgeInsets.all(
+          24,
+        ),
+        padding: const EdgeInsets.all(
+          24,
+        ),
         decoration: BoxDecoration(
-          boxShadow: [UiUtils.buildBoxShadow()],
-          color: Theme.of(context).primaryColor,
+          color: Constants.pink,
           borderRadius: BorderRadius.circular(20.0),
         ),
         child: _buildResultDetails(context),
@@ -1655,7 +1676,7 @@ class _ResultScreenState extends State<ResultScreen> {
                         ),
                       ));
             }, context),
-            SizedBox(
+            const SizedBox(
               height: 15.0,
             )
           ],
@@ -1679,7 +1700,7 @@ class _ResultScreenState extends State<ResultScreen> {
                 : List<GuessTheWordQuestion>.from([]),
           });
         }, context),
-        SizedBox(
+        const SizedBox(
           height: 15.0,
         )
       ],
@@ -1804,29 +1825,28 @@ class _ResultScreenState extends State<ResultScreen> {
           ),
         ],
         child: Scaffold(
-          body: Stack(
-            children: [
-              PageBackgroundGradientContainer(),
-              SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: 50.0,
-                    ),
-                    Center(child: _buildResultContainer(context)),
-                    SizedBox(
-                      height: 30.0,
-                    ),
-                    _buildResultButtons(context),
-                    SizedBox(
-                      height: 50.0,
-                    ),
-                  ],
+          backgroundColor: Constants.white,
+          body: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(
+                  height: 50.0,
                 ),
-              ),
-              Text('Hi'),
-            ],
+                Center(
+                  child: _buildResultContainer(
+                    context,
+                  ),
+                ),
+                const SizedBox(
+                  height: 30.0,
+                ),
+                _buildResultButtons(context),
+                const SizedBox(
+                  height: 50.0,
+                ),
+              ],
+            ),
           ),
         ),
       ),

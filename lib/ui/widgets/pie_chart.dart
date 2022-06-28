@@ -6,17 +6,17 @@ import '../../utils/constants.dart';
 
 class CustomPieChart extends StatelessWidget {
   final double value1, value2, radius;
+  final String? text;
+  final Color? mainColor;
 
   const CustomPieChart({
     Key? key,
     required this.value1,
     required this.value2,
     required this.radius,
-  })  : assert(
-          value1 + value2 == 100,
-          'Sum of both values must be equal to 100.',
-        ),
-        super(key: key);
+    this.text,
+    this.mainColor,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class CustomPieChart extends StatelessWidget {
               PieChartSectionData(
                 value: value1,
                 showTitle: false,
-                color: Constants.pink,
+                color: mainColor ?? Constants.pink,
                 radius: radius,
               ),
               PieChartSectionData(
@@ -45,7 +45,7 @@ class CustomPieChart extends StatelessWidget {
         ),
         Center(
           child: TitleText(
-            text: '${value1.toInt()}%',
+            text: text ?? '${value1.toInt()}%',
             size: Constants.bodySmall,
             weight: FontWeight.w500,
             textColor: Constants.white,

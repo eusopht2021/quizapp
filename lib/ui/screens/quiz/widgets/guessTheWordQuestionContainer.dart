@@ -3,12 +3,14 @@ import 'dart:math';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutterquiz/app/appLocalization.dart';
 import 'package:flutterquiz/features/ads/rewardedAdCubit.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/updateScoreAndCoinsCubit.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/userDetailsCubit.dart';
 import 'package:flutterquiz/features/quiz/models/guessTheWordQuestion.dart';
+import 'package:flutterquiz/features/quiz/models/quizType.dart';
 import 'package:flutterquiz/features/settings/settingsCubit.dart';
 import 'package:flutterquiz/ui/widgets/circularProgressContainner.dart';
 import 'package:flutterquiz/ui/widgets/horizontalTimerContainer.dart';
@@ -17,7 +19,6 @@ import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class GuessTheWordQuestionContainer extends StatefulWidget {
   final BoxConstraints constraints;
@@ -596,6 +597,7 @@ class GuessTheWordQuestionContainerState
                 height: 17.5,
               ),
               HorizontalTimerContainer(
+                  quizTypes: QuizTypes.guessTheWord,
                   timerAnimationController: widget.timerAnimationController),
               SizedBox(
                 height: 12.5,

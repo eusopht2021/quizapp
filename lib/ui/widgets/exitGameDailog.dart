@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterquiz/app/appLocalization.dart';
-import 'package:flutterquiz/ui/styles/colors.dart';
+import 'package:flutterquiz/utils/constants.dart';
 
 class ExitGameDailog extends StatelessWidget {
   final Function? onTapYes;
@@ -11,40 +11,42 @@ class ExitGameDailog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: AlertDialog(
-        backgroundColor: Theme.of(context).backgroundColor,
-        content: Text(
-          AppLocalization.of(context)!.getTranslatedValues("quizExitLbl")!,
-          style: TextStyle(color: Theme.of(context).colorScheme.secondary),
-        ),
-        actions: [
-          CupertinoButton(
-              child: Text(
-                AppLocalization.of(context)!.getTranslatedValues("yesBtn")!,
-                style: TextStyle(
-                  color: primaryColor,
-                ),
-              ),
-              onPressed: () {
-                if (onTapYes != null) {
-                  onTapYes!();
-                } else {
-                  Navigator.of(context).pop();
-
-                  Navigator.of(context).pop();
-                }
-              }),
-          CupertinoButton(
-              child: Text(AppLocalization.of(context)!.getTranslatedValues("noBtn")!,
-                  style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                  )),
-              onPressed: () {
-                Navigator.of(context).pop();
-              }),
-        ],
+    return AlertDialog(
+      backgroundColor: Constants.white,
+      content: Text(
+        AppLocalization.of(context)!.getTranslatedValues("quizExitLbl")!,
+        style: TextStyle(color: Theme.of(context).colorScheme.secondary),
       ),
+      actions: [
+        TextButton(
+          child: Text(
+            AppLocalization.of(context)!.getTranslatedValues("yesBtn")!,
+            style: TextStyle(
+              color: Constants.primaryColor,
+            ),
+          ),
+          onPressed: () {
+            if (onTapYes != null) {
+              onTapYes!();
+            } else {
+              Navigator.of(context).pop();
+
+              Navigator.of(context).pop();
+            }
+          },
+        ),
+        TextButton(
+          child: Text(
+            AppLocalization.of(context)!.getTranslatedValues("noBtn")!,
+            style: TextStyle(
+              color: Constants.primaryColor,
+            ),
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ],
     );
   }
 }
