@@ -1,4 +1,4 @@
-package com.wrteam.flutterquiz;
+package com.wss.quizsigns;
 
 import io.flutter.embedding.android.FlutterActivity;
 

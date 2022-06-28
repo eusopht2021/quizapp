@@ -33,13 +33,17 @@ class Assets {
   static String world = 'assets/icons/world.png';
   static String local = 'assets/icons/local.png';
   static String celebration = 'assets/svgs/celebration.svg';
-
+  static String schedule = 'assets/icons/scheduleIcon.png';
+  static String rank1 = 'assets/icons/Rank1.png';
+  static String rank2 = 'assets/icons/Rank2.png';
+  static String rank3 = 'assets/icons/Rank3.png';
   static String cardCircles = 'assets/images/card_circles.png';
   static String cardCircles1 = 'assets/images/card_circles1.png';
   static String backgroundCircle = 'assets/images/backgroundCircle.png';
 
   // ICONS
   static String crown = "assets/icons/medal.svg";
+  static String leaderBoardOutlined = "assets/icons/leaderboardoutlined.png";
 
   // CATEGORIES
   static String art = 'assets/images/quiz_categories/art.svg';
@@ -92,6 +96,9 @@ class Assets {
 
   //Flags
   static String turkey = 'assets/flags/turkey.png';
+  static String france = 'assets/flags/flagFrance.png';
+  static String portugal = 'assets/flags/flagPortugal.png';
+  static String canada = 'assets/flags/flagCanada.png';
 
   //Quiz Types
   static String boolean = 'assets/images/quiz_types/boolean.png';

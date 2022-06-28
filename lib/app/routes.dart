@@ -20,6 +20,7 @@ import 'package:flutterquiz/ui/screens/exam/examScreen.dart';
 import 'package:flutterquiz/ui/screens/exam/examsScreen.dart';
 import 'package:flutterquiz/ui/screens/introSliderScreen.dart';
 import 'package:flutterquiz/ui/screens/leaderBoardScreen.dart';
+import 'package:flutterquiz/ui/screens/new_leaderBoard.dart';
 import 'package:flutterquiz/ui/screens/notificationScreen.dart';
 import 'package:flutterquiz/ui/screens/profile/profile.dart';
 import 'package:flutterquiz/ui/screens/profile/selectProfilePictureScreen.dart';
@@ -64,6 +65,8 @@ class Routes {
 
   // static const login = "login";
   static const splash = 'splash';
+  static const discover = 'discover';
+  static const leaderboard = 'leaderboard';
   // static const signUp = "signUp";
   static const introSlider = "introSlider";
   static const selectProfile = "selectProfile";
@@ -184,7 +187,7 @@ class Routes {
       case category:
         return CategoryScreen.route(routeSettings);
       case leaderBoard:
-        return LeaderBoardScreen.route(routeSettings);
+        return NewLeaderBoardScreen.route(routeSettings);
       case bookmark:
         return CupertinoPageRoute(builder: (context) => const BookmarkScreen());
       case bookmarkQuiz:

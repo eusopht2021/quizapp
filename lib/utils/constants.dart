@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterquiz/features/wallet/models/payoutMethod.dart';
 
 const String appName = "Elite Quiz";
-const String packageName = "com.wrteam.flutterquiz";
+const String packageName = "com.wss.quizsigns";
 
 //supporated language codes
 //Add language code in this list
@@ -345,12 +345,14 @@ const String appName1 = 'Queezy';
 class Constants {
   static Color primaryColor = const Color(0xff6A5AE0);
   static Color secondaryColor = const Color(0xff9087E5);
+  static Color bluecolor = Color(0xff5144B6);
   static Color pink = const Color(0xffFF8FA2);
   static Color lightPink = const Color(0xffffa5b5);
   static Color accent1 = const Color(0xffFFD6DD);
   static Color accent2 = const Color(0xffC4D0FB);
   static Color accent3 = const Color(0xffC9F2E9);
   static Color secondaryAccent = const Color(0xffFFCCD5);
+  static Color accent4 = const Color(0xA9ADF3);
 
   static Color tulip = const Color(0xff88E2CE);
   static Color lightGreen = const Color(0xff53DF83);
@@ -369,6 +371,8 @@ class Constants {
   static Color lightwhite = Colors.white54;
   static Color secondaryTextColor = const Color(0xff660012);
   static Color orange = Colors.orange;
+  static Color orange1 = Color(0xffFFB380);
+  static Color darkorange = Color(0xffFF9B57);
 
   static double heading1 = 32;
   static double heading2 = 28;

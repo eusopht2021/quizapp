@@ -1,27 +1,38 @@
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutterquiz/app/appLocalization.dart';
+import 'package:flutterquiz/app/routes.dart';
+import 'package:flutterquiz/features/auth/cubits/authCubit.dart';
+import 'package:flutterquiz/features/badges/cubits/badgesCubit.dart';
+import 'package:flutterquiz/features/bookmark/cubits/audioQuestionBookmarkCubit.dart';
+import 'package:flutterquiz/features/bookmark/cubits/bookmarkCubit.dart';
+import 'package:flutterquiz/features/bookmark/cubits/guessTheWordBookmarkCubit.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/deleteAccountCubit.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/updateUserDetailsCubit.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/uploadProfileCubit.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/userDetailsCubit.dart';
 import 'package:flutterquiz/features/profileManagement/profileManagementRepository.dart';
-import 'package:flutterquiz/features/statistic/cubits/statisticsCubit.dart';
-import 'package:flutterquiz/features/statistic/statisticRepository.dart';
+import 'package:flutterquiz/ui/screens/profile/widgets/editProfileFieldBottomSheetContainer.dart';
+import 'package:flutterquiz/ui/widgets/circularImageContainer.dart';
+import 'package:flutterquiz/ui/widgets/customBackButton.dart';
 import 'package:flutterquiz/ui/widgets/custom_card.dart';
 import 'package:flutterquiz/ui/widgets/custom_donut_chart.dart';
 import 'package:flutterquiz/ui/widgets/default_layout.dart';
+import 'package:flutterquiz/ui/widgets/menuTile.dart';
 import 'package:flutterquiz/ui/widgets/title_text.dart';
 import 'package:flutterquiz/utils/assets.dart';
 import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/size_config.dart';
+import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
 import 'package:flutterquiz/utils/widgets_util.dart';
 
@@ -96,6 +107,59 @@ class _ProfileState extends State<Profile> {
           color: Constants.white,
         ),
         onPressed: () {
+          showDialog(
+              context: context,
+              builder: (_) => AlertDialog(
+                    content: Text(
+                      AppLocalization.of(context)!
+                          .getTranslatedValues("logoutDialogLbl")!,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.secondary,
+                      ),
+                    ),
+                    actions: [
+                      TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            Navigator.of(context).pop();
+
+                            context
+                                .read<BadgesCubit>()
+                                .updateState(BadgesInitial());
+                            context
+                                .read<BookmarkCubit>()
+                                .updateState(BookmarkInitial());
+                            context
+                                .read<GuessTheWordBookmarkCubit>()
+                                .updateState(GuessTheWordBookmarkInitial());
+
+                            context
+                                .read<AudioQuestionBookmarkCubit>()
+                                .updateState(AudioQuestionBookmarkInitial());
+
+                            context.read<AuthCubit>().signOut();
+                            Navigator.of(context)
+                                .pushReplacementNamed(Routes.loginScreen);
+                          },
+                          child: Text(
+                            AppLocalization.of(context)!
+                                .getTranslatedValues("yesBtn")!,
+                            style: TextStyle(
+                                color: Theme.of(context).primaryColor),
+                          )),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text(
+                            AppLocalization.of(context)!
+                                .getTranslatedValues("noBtn")!,
+                            style: TextStyle(
+                                color: Theme.of(context).primaryColor),
+                          )),
+                    ],
+                  ));
+
           log('Settings');
         },
       ),
@@ -453,29 +517,178 @@ class _ProfileState extends State<Profile> {
                 ),
               ),
             ],
-          );
-        } else if (state is StatisticFetchInProgress) {
-          return Center(
-            child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation(
-                Constants.primaryColor,
+          ),
+        ),
+        WidgetsUtil.verticalSpace32,
+        Padding(
+          padding: const EdgeInsets.only(left: 16, right: 16),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: Constants.primaryColor,
+            ),
+            height: 500,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 16, right: 16, top: 24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: TitleText(
+                          text: "Top performance by category",
+                          size: Constants.bodyXLarge,
+                          textColor: Constants.white,
+                          weight: FontWeight.w500,
+                        ),
+                      ),
+                      Container(
+                          height: 40,
+                          width: 40,
+                          decoration: BoxDecoration(
+                            color: Constants.white.withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Image.asset(Assets.leaderBoardOutlined)),
+                    ],
+                  ),
+                  WidgetsUtil.verticalSpace16,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        child: Row(
+                          children: [
+                            CircleAvatar(
+                              radius: 5,
+                              backgroundColor: Constants.accent1,
+                            ),
+                            WidgetsUtil.horizontalSpace8,
+                            TitleText(
+                              text: 'Math',
+                              weight: FontWeight.w500,
+                              textColor: Constants.white,
+                              align: TextAlign.left,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        child: Row(
+                          children: [
+                            CircleAvatar(
+                              radius: 5,
+                              backgroundColor: Constants.accent2,
+                            ),
+                            WidgetsUtil.horizontalSpace8,
+                            TitleText(
+                              text: 'Sports',
+                              weight: FontWeight.w500,
+                              textColor: Constants.white,
+                              align: TextAlign.left,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        child: Row(
+                          children: [
+                            CircleAvatar(
+                              radius: 5,
+                              backgroundColor: Constants.secondaryColor,
+                            ),
+                            WidgetsUtil.horizontalSpace8,
+                            TitleText(
+                              text: 'Music',
+                              weight: FontWeight.w500,
+                              textColor: Constants.white,
+                              align: TextAlign.left,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                    ],
+                  ),
+                  WidgetsUtil.verticalSpace16,
+                  _customBarChart(),
+                  WidgetsUtil.verticalSpace16,
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: 50,
+                        ),
+                        Expanded(
+                          child: Column(
+                            children: [
+                              TitleText(
+                                text: '3/10',
+                                weight: FontWeight.w500,
+                                textColor: Constants.white,
+                              ),
+                              SizedBox(
+                                width: 100,
+                                child: TitleText(
+                                  text: 'Questions Answered',
+                                  align: TextAlign.center,
+                                  textColor: Constants.white,
+                                  size: Constants.bodyXSmall,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Column(
+                            children: [
+                              TitleText(
+                                text: '8/10',
+                                weight: FontWeight.w500,
+                                textColor: Constants.white,
+                              ),
+                              SizedBox(
+                                width: 100,
+                                child: TitleText(
+                                  text: 'Questions Answered',
+                                  align: TextAlign.center,
+                                  size: Constants.bodyXSmall,
+                                  textColor: Constants.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Column(
+                            children: [
+                              TitleText(
+                                text: '6/10',
+                                weight: FontWeight.w500,
+                                textColor: Constants.white,
+                              ),
+                              SizedBox(
+                                width: 100,
+                                child: TitleText(
+                                  text: 'Questions Answered',
+                                  align: TextAlign.center,
+                                  size: Constants.bodyXSmall,
+                                  textColor: Constants.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
               ),
-            ),
-          );
-        } else if (state is StatisticFetchFailure) {
-          return Container(
-            margin: const EdgeInsets.all(20),
-            height: 250,
-            child: const TitleText(
-              text: '!!!!Error getting statistics!',
-            ),
-          );
-        }
-
-        return const Center(
-          child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation(
-              Colors.red,
             ),
           ),
         );
@@ -483,9 +696,75 @@ class _ProfileState extends State<Profile> {
     );
   }
 
+  Widget _customBarChart() {
+    return SizedBox(
+      height: 250,
+      child: BarChart(
+        BarChartData(
+            barTouchData: BarTouchData(enabled: true),
+            baselineY: 0.5,
+            minY: 0.0,
+            maxY: 100.0,
+            titlesData: FlTitlesData(
+              topTitles: AxisTitles(sideTitles: SideTitles()),
+              show: true,
+              leftTitles: AxisTitles(
+                sideTitles: SideTitles(
+                    reservedSize: 50,
+                    showTitles: true,
+                    getTitlesWidget: (value, meta) {
+                      return TitleText(
+                        text: '${value.toInt()}%',
+                        textColor: Constants.white,
+                        align: TextAlign.left,
+                      );
+                    }),
+              ),
+              rightTitles: AxisTitles(),
+            ),
+            borderData: FlBorderData(
+                show: true,
+                border: const Border(
+                  left: BorderSide.none,
+                  right: BorderSide.none,
+                  top: BorderSide.none,
+                )),
+            gridData: FlGridData(
+                drawVerticalLine: false,
+                drawHorizontalLine: true,
+                getDrawingHorizontalLine: (_) {
+                  return HorizontalLine(
+                      y: 100, color: Constants.white, dashArray: [8]);
+                }),
+            barGroups: [
+              BarChartGroupData(x: 1, barsSpace: 50, barRods: [
+                BarChartRodData(
+                    toY: 30,
+                    fromY: 0,
+                    width: 35,
+                    borderRadius: BorderRadius.circular(8),
+                    color: Constants.accent1),
+                BarChartRodData(
+                    toY: 80,
+                    fromY: 0,
+                    width: 36,
+                    borderRadius: BorderRadius.circular(8),
+                    color: Constants.accent2),
+                BarChartRodData(
+                    toY: 54,
+                    fromY: 0,
+                    width: 36,
+                    borderRadius: BorderRadius.circular(8),
+                    color: Constants.secondaryColor),
+              ]),
+            ]),
+      ),
+    );
+  }
+
   SizedBox _badgesTabItem() {
     return SizedBox(
-      height: 200,
+      height: 300,
       child: GridView.count(
         physics: const NeverScrollableScrollPhysics(),
         crossAxisCount: 3,

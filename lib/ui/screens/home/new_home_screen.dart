@@ -26,6 +26,7 @@ import 'package:flutterquiz/ui/screens/battle/widgets/randomOrPlayFrdDialog.dart
 import 'package:flutterquiz/ui/screens/battle/widgets/roomDialog.dart';
 import 'package:flutterquiz/ui/screens/home/widgets/appUnderMaintenanceDialog.dart';
 import 'package:flutterquiz/ui/screens/home/widgets/new_quiz_category_card.dart';
+import 'package:flutterquiz/ui/screens/leaderBoardScreen.dart';
 import 'package:flutterquiz/ui/screens/profile/widgets/editProfileFieldBottomSheetContainer.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/quizTypes.dart';
@@ -204,80 +205,86 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                 child: ListView(
               padding: EdgeInsets.zero,
               children: [
-                Container(
-                  height: 84,
-                  width: SizeConfig.screenWidth,
-                  margin: const EdgeInsets.only(
-                    left: 24,
-                    right: 24,
-                  ),
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage(
-                        Assets.swivels,
-                      ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pushNamed(Routes.leaderBoard);
+                  },
+                  child: Container(
+                    height: 84,
+                    width: SizeConfig.screenWidth,
+                    margin: const EdgeInsets.only(
+                      left: 24,
+                      right: 24,
                     ),
-                    borderRadius: BorderRadius.circular(20),
-                    color: Constants.secondaryAccent,
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        flex: 10,
-                        child: Container(
-                          margin: const EdgeInsets.only(
-                            left: 24,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              WidgetsUtil.verticalSpace16,
-                              TitleText(
-                                text: 'Recent Quiz'.toUpperCase(),
-                                size: Constants.bodySmall,
-                                weight: FontWeight.w500,
-                                textColor: Constants.secondaryTextColor,
-                              ),
-                              WidgetsUtil.verticalSpace8,
-                              Expanded(
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Expanded(
-                                      flex: 0,
-                                      child: Icon(
-                                        Icons.headphones,
-                                        color: Constants.secondaryTextColor,
-                                      ),
-                                    ),
-                                    WidgetsUtil.horizontalSpace8,
-                                    Expanded(
-                                      flex: 14,
-                                      child: TitleText(
-                                        text: 'A Basic Music Quiz',
-                                        size: Constants.bodyLarge,
-                                        weight: FontWeight.w500,
-                                        textColor: Constants.secondaryTextColor,
-                                      ),
-                                    ),
-                                  ],
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(
+                          Assets.swivels,
+                        ),
+                      ),
+                      borderRadius: BorderRadius.circular(20),
+                      color: Constants.secondaryAccent,
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 10,
+                          child: Container(
+                            margin: const EdgeInsets.only(
+                              left: 24,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                WidgetsUtil.verticalSpace16,
+                                TitleText(
+                                  text: 'Recent Quiz'.toUpperCase(),
+                                  size: Constants.bodySmall,
+                                  weight: FontWeight.w500,
+                                  textColor: Constants.secondaryTextColor,
                                 ),
-                              ),
-                            ],
+                                WidgetsUtil.verticalSpace8,
+                                Expanded(
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Expanded(
+                                        flex: 0,
+                                        child: Icon(
+                                          Icons.headphones,
+                                          color: Constants.secondaryTextColor,
+                                        ),
+                                      ),
+                                      WidgetsUtil.horizontalSpace8,
+                                      Expanded(
+                                        flex: 14,
+                                        child: TitleText(
+                                          text: 'A Basic Music Quiz',
+                                          size: Constants.bodyLarge,
+                                          weight: FontWeight.w500,
+                                          textColor:
+                                              Constants.secondaryTextColor,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      const Expanded(
-                        flex: 3,
-                        child: CustomPieChart(
-                          value1: 88,
-                          value2: 12,
-                          radius: 24,
+                        const Expanded(
+                          flex: 3,
+                          child: CustomPieChart(
+                            value1: 88,
+                            value2: 12,
+                            radius: 24,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 WidgetsUtil.verticalSpace24,
@@ -724,125 +731,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
         });
   }
 
-//  List<Widget> _buildQuizTypes(double statusBarPadding) {
-//     List<Widget> children = [];
-//     for (int i = 0; i < _quizTypes.length; i++) {
-//       children.add(_buildQuizType(i, statusBarPadding));
-//     }
-//     return children;
-//   }
-
-// Future<void> _onTapLocalNotification(String? payload) async {
-//     //
-//     String type = payload ?? "";
-//     if (type == "badges") {
-//       Navigator.of(context).pushNamed(Routes.badges);
-//     } else if (type == "category") {
-//       Navigator.of(context).pushNamed(
-//         Routes.category,
-//       );
-//     } else if (type == "payment_request") {
-//       Navigator.of(context).pushNamed(Routes.wallet);
-//     }
-//   }
-//    Future<void> generateImageNotification(String title, String msg, String image,
-//       String payloads, String type) async {
-//     var largeIconPath = await _downloadAndSaveFile(image, 'largeIcon');
-//     var bigPicturePath = await _downloadAndSaveFile(image, 'bigPicture');
-//     var bigPictureStyleInformation = BigPictureStyleInformation(
-//         FilePathAndroidBitmap(bigPicturePath),
-//         hideExpandedLargeIcon: true,
-//         contentTitle: title,
-//         htmlFormatContentTitle: true,
-//         summaryText: msg,
-//         htmlFormatSummaryText: true);
-//     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-//       'com.wrteam.flutterquiz', //channel id
-//       'flutterquiz', //channel name
-//       channelDescription: 'flutterquiz',
-//       largeIcon: FilePathAndroidBitmap(largeIconPath),
-//       styleInformation: bigPictureStyleInformation,
-//     );
-//     var platformChannelSpecifics =
-//         NotificationDetails(android: androidPlatformChannelSpecifics);
-//     await flutterLocalNotificationsPlugin
-//         .show(0, title, msg, platformChannelSpecifics, payload: payloads);
-//   }
-
-//   Future<String> _downloadAndSaveFile(String url, String fileName) async {
-//     final Directory directory = await getApplicationDocumentsDirectory();
-//     final String filePath = '${directory.path}/$fileName';
-//     print(" The Url is $url");
-//     final http.Response response = await http.get(Uri.parse(url));
-//     print("The Response is $response");
-//     final File file = File(filePath);
-//     await file.writeAsBytes(response.bodyBytes);
-//     return filePath;
-//   }
-
-// Future<void> setupInteractedMessage() async {
-//     //
-//     if (Platform.isIOS) {
-//       await FirebaseMessaging.instance
-//           .requestPermission(announcement: true, provisional: true);
-//     }
-
-//     FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
-//     // handle background notification
-//     FirebaseMessaging.onBackgroundMessage(UiUtils.onBackgroundMessage);
-//     //handle foreground notification
-//     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-//       print("Notification arrives : $message");
-//       var data = message.data;
-
-//       var title = data['title'].toString();
-//       var body = data['body'].toString();
-//       var type = data['type'].toString();
-
-//       var image = data['image'];
-
-//       //if notification type is badges then update badges in cubit list
-//       if (type == "badges") {
-//         String badgeType = data['badge_type'];
-//         Future.delayed(Duration.zero, () {
-//           context.read<BadgesCubit>().unlockBadge(badgeType);
-//         });
-//       }
-
-//       if (type == "payment_request") {
-//         Future.delayed(Duration.zero, () {
-//           context.read<UserDetailsCubit>().updateCoins(
-//                 addCoin: true,
-//                 coins: int.parse(data['coins'].toString()),
-//               );
-//         });
-//       }
-
-//       //payload is some data you want to pass in local notification
-//       image != null
-//           ? generateImageNotification(title, body, image, type, type)
-//           : generateSimpleNotification(title, body, type);
-//     });
-//   }
-
-  // notification on foreground
-  // Future<void> generateSimpleNotification(
-  //     String title, String body, String payloads) async {
-  //   var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-  //       'com.wrteam.flutterquiz', //channel id
-  //       'flutterquiz', //channel name
-  //       channelDescription: 'flutterquiz',
-  //       importance: Importance.max,
-  //       priority: Priority.high,
-  //       ticker: 'ticker');
-  //   const IOSNotificationDetails iosNotificationDetails =
-  //       IOSNotificationDetails();
-
-  //   var platformChannelSpecifics = NotificationDetails(
-  //       android: androidPlatformChannelSpecifics, iOS: iosNotificationDetails);
-  //   await flutterLocalNotificationsPlugin
-  //       .show(0, title, body, platformChannelSpecifics, payload: payloads);
-  // }
+//
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
