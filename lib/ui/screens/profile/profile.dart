@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'dart:ui';
 
 import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -20,19 +19,16 @@ import 'package:flutterquiz/features/profileManagement/cubits/updateUserDetailsC
 import 'package:flutterquiz/features/profileManagement/cubits/uploadProfileCubit.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/userDetailsCubit.dart';
 import 'package:flutterquiz/features/profileManagement/profileManagementRepository.dart';
-import 'package:flutterquiz/ui/screens/profile/widgets/editProfileFieldBottomSheetContainer.dart';
-import 'package:flutterquiz/ui/widgets/circularImageContainer.dart';
-import 'package:flutterquiz/ui/widgets/customBackButton.dart';
+import 'package:flutterquiz/features/statistic/cubits/statisticsCubit.dart';
+import 'package:flutterquiz/features/statistic/statisticRepository.dart';
 import 'package:flutterquiz/ui/widgets/custom_card.dart';
 import 'package:flutterquiz/ui/widgets/custom_donut_chart.dart';
 import 'package:flutterquiz/ui/widgets/default_layout.dart';
-import 'package:flutterquiz/ui/widgets/menuTile.dart';
 import 'package:flutterquiz/ui/widgets/title_text.dart';
 import 'package:flutterquiz/utils/assets.dart';
 import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/size_config.dart';
-import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
 import 'package:flutterquiz/utils/widgets_util.dart';
 
@@ -516,182 +512,185 @@ class _ProfileState extends State<Profile> {
                   ],
                 ),
               ),
-            ],
-          ),
-        ),
-        WidgetsUtil.verticalSpace32,
-        Padding(
-          padding: const EdgeInsets.only(left: 16, right: 16),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: Constants.primaryColor,
-            ),
-            height: 500,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 16, right: 16, top: 24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: TitleText(
-                          text: "Top performance by category",
-                          size: Constants.bodyXLarge,
-                          textColor: Constants.white,
-                          weight: FontWeight.w500,
-                        ),
-                      ),
-                      Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                            color: Constants.white.withOpacity(0.2),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Image.asset(Assets.leaderBoardOutlined)),
-                    ],
+              WidgetsUtil.verticalSpace32,
+              Padding(
+                padding: const EdgeInsets.only(left: 16, right: 16),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Constants.primaryColor,
                   ),
-                  WidgetsUtil.verticalSpace16,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        child: Row(
-                          children: [
-                            CircleAvatar(
-                              radius: 5,
-                              backgroundColor: Constants.accent1,
-                            ),
-                            WidgetsUtil.horizontalSpace8,
-                            TitleText(
-                              text: 'Math',
-                              weight: FontWeight.w500,
-                              textColor: Constants.white,
-                              align: TextAlign.left,
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        child: Row(
-                          children: [
-                            CircleAvatar(
-                              radius: 5,
-                              backgroundColor: Constants.accent2,
-                            ),
-                            WidgetsUtil.horizontalSpace8,
-                            TitleText(
-                              text: 'Sports',
-                              weight: FontWeight.w500,
-                              textColor: Constants.white,
-                              align: TextAlign.left,
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        child: Row(
-                          children: [
-                            CircleAvatar(
-                              radius: 5,
-                              backgroundColor: Constants.secondaryColor,
-                            ),
-                            WidgetsUtil.horizontalSpace8,
-                            TitleText(
-                              text: 'Music',
-                              weight: FontWeight.w500,
-                              textColor: Constants.white,
-                              align: TextAlign.left,
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                    ],
-                  ),
-                  WidgetsUtil.verticalSpace16,
-                  _customBarChart(),
-                  WidgetsUtil.verticalSpace16,
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                  height: 500,
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.only(left: 16, right: 16, top: 24),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(
-                          width: 50,
-                        ),
-                        Expanded(
-                          child: Column(
-                            children: [
-                              TitleText(
-                                text: '3/10',
-                                weight: FontWeight.w500,
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: TitleText(
+                                text: "Top performance by category",
+                                size: Constants.bodyXLarge,
                                 textColor: Constants.white,
+                                weight: FontWeight.w500,
                               ),
-                              SizedBox(
-                                width: 100,
-                                child: TitleText(
-                                  text: 'Questions Answered',
-                                  align: TextAlign.center,
-                                  textColor: Constants.white,
-                                  size: Constants.bodyXSmall,
+                            ),
+                            Container(
+                                height: 40,
+                                width: 40,
+                                decoration: BoxDecoration(
+                                  color: Constants.white.withOpacity(0.2),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Image.asset(Assets.leaderBoardOutlined)),
+                          ],
+                        ),
+                        WidgetsUtil.verticalSpace16,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              child: Row(
+                                children: [
+                                  CircleAvatar(
+                                    radius: 5,
+                                    backgroundColor: Constants.accent1,
+                                  ),
+                                  WidgetsUtil.horizontalSpace8,
+                                  TitleText(
+                                    text: 'Math',
+                                    weight: FontWeight.w500,
+                                    textColor: Constants.white,
+                                    align: TextAlign.left,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              child: Row(
+                                children: [
+                                  CircleAvatar(
+                                    radius: 5,
+                                    backgroundColor: Constants.accent2,
+                                  ),
+                                  WidgetsUtil.horizontalSpace8,
+                                  TitleText(
+                                    text: 'Sports',
+                                    weight: FontWeight.w500,
+                                    textColor: Constants.white,
+                                    align: TextAlign.left,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              child: Row(
+                                children: [
+                                  CircleAvatar(
+                                    radius: 5,
+                                    backgroundColor: Constants.secondaryColor,
+                                  ),
+                                  WidgetsUtil.horizontalSpace8,
+                                  TitleText(
+                                    text: 'Music',
+                                    weight: FontWeight.w500,
+                                    textColor: Constants.white,
+                                    align: TextAlign.left,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                          ],
+                        ),
+                        WidgetsUtil.verticalSpace16,
+                        _customBarChart(),
+                        WidgetsUtil.verticalSpace16,
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const SizedBox(
+                                width: 50,
+                              ),
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    TitleText(
+                                      text: '3/10',
+                                      weight: FontWeight.w500,
+                                      textColor: Constants.white,
+                                    ),
+                                    SizedBox(
+                                      width: 100,
+                                      child: TitleText(
+                                        text: 'Questions Answered',
+                                        align: TextAlign.center,
+                                        textColor: Constants.white,
+                                        size: Constants.bodyXSmall,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    TitleText(
+                                      text: '8/10',
+                                      weight: FontWeight.w500,
+                                      textColor: Constants.white,
+                                    ),
+                                    SizedBox(
+                                      width: 100,
+                                      child: TitleText(
+                                        text: 'Questions Answered',
+                                        align: TextAlign.center,
+                                        size: Constants.bodyXSmall,
+                                        textColor: Constants.white,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    TitleText(
+                                      text: '6/10',
+                                      weight: FontWeight.w500,
+                                      textColor: Constants.white,
+                                    ),
+                                    SizedBox(
+                                      width: 100,
+                                      child: TitleText(
+                                        text: 'Questions Answered',
+                                        align: TextAlign.center,
+                                        size: Constants.bodyXSmall,
+                                        textColor: Constants.white,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                        Expanded(
-                          child: Column(
-                            children: [
-                              TitleText(
-                                text: '8/10',
-                                weight: FontWeight.w500,
-                                textColor: Constants.white,
-                              ),
-                              SizedBox(
-                                width: 100,
-                                child: TitleText(
-                                  text: 'Questions Answered',
-                                  align: TextAlign.center,
-                                  size: Constants.bodyXSmall,
-                                  textColor: Constants.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                          child: Column(
-                            children: [
-                              TitleText(
-                                text: '6/10',
-                                weight: FontWeight.w500,
-                                textColor: Constants.white,
-                              ),
-                              SizedBox(
-                                width: 100,
-                                child: TitleText(
-                                  text: 'Questions Answered',
-                                  align: TextAlign.center,
-                                  size: Constants.bodyXSmall,
-                                  textColor: Constants.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        )
                       ],
                     ),
-                  )
-                ],
+                  ),
+                ),
               ),
-            ),
-          ),
-        );
+            ],
+          );
+        } else {
+          return const SizedBox();
+        }
       },
     );
   }

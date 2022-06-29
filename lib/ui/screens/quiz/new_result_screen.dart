@@ -30,6 +30,7 @@ import 'package:flutterquiz/features/statistic/cubits/updateStatisticCubit.dart'
 import 'package:flutterquiz/features/statistic/statisticRepository.dart';
 import 'package:flutterquiz/features/systemConfig/cubits/systemConfigCubit.dart';
 import 'package:flutterquiz/ui/widgets/customRoundedButton.dart';
+import 'package:flutterquiz/ui/widgets/title_text.dart';
 import 'package:flutterquiz/utils/answerEncryption.dart';
 import 'package:flutterquiz/utils/assets.dart';
 import 'package:flutterquiz/utils/constants.dart';
@@ -37,6 +38,7 @@ import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/size_config.dart';
 import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
+import 'package:flutterquiz/utils/widgets_util.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
@@ -802,8 +804,15 @@ class _NewResultScreenState extends State<NewResultScreen> {
   Widget _buildIndividualResultContainer(String userProfileUrl) {
     return Column(
       children: [
-        SvgPicture.asset(
+        Image.asset(
           Assets.celebration,
+        ),
+        WidgetsUtil.verticalSpace8,
+        TitleText(
+          text: 'You got  quiz points!',
+          size: Constants.bodyNormal,
+          weight: FontWeight.w500,
+          textColor: Constants.white,
         ),
       ],
     );
@@ -1039,6 +1048,17 @@ class _NewResultScreenState extends State<NewResultScreen> {
     // );
   }
 
+  String getBottomTrophyText() {
+    if (widget.quizType == QuizTypes.exam) {
+      return 'You got ${widget.obtainedMarks} total exam marks!';
+    } else {
+      if (_isWinner) {
+        return 'You are a winner!';
+      }
+      return 'You lose! But you can review your answers!';
+    }
+  }
+
   Widget _buildBattleResultDetails() {
     UserBattleRoomDetails? winnerDetails =
         widget.battleRoom!.user1!.uid == _winnerId
@@ -1096,24 +1116,17 @@ class _NewResultScreenState extends State<NewResultScreen> {
                                   .getTranslatedValues("betterNextLbl")!),
                   context.read<UserDetailsCubit>().getUserId() == _winnerId
                       ? Text(
-                          AppLocalization.of(context)!
-                                  .getTranslatedValues("youWin")! +
-                              " ${widget.entryFee} " +
-                              AppLocalization.of(context)!
-                                  .getTranslatedValues("coinsLbl")!,
+                          "${AppLocalization.of(context)!.getTranslatedValues("youWin")!} ${widget.entryFee} ${AppLocalization.of(context)!.getTranslatedValues("coinsLbl")!}",
                           style: TextStyle(
                               fontSize: 17.0,
                               color: Theme.of(context).backgroundColor),
                         )
                       : Text(
-                          AppLocalization.of(context)!
-                                  .getTranslatedValues("youLossLbl")! +
-                              " ${widget.entryFee} " +
-                              AppLocalization.of(context)!
-                                  .getTranslatedValues("coinsLbl")!,
+                          "${AppLocalization.of(context)!.getTranslatedValues("youLossLbl")!} ${widget.entryFee} ${AppLocalization.of(context)!.getTranslatedValues("coinsLbl")!}",
                           style: TextStyle(
-                              fontSize: 17.0,
-                              color: Theme.of(context).backgroundColor),
+                            fontSize: 17.0,
+                            color: Theme.of(context).backgroundColor,
+                          ),
                         ),
                   SizedBox(
                     height:
@@ -1415,20 +1428,51 @@ class _NewResultScreenState extends State<NewResultScreen> {
   Widget _buildResultContainer(BuildContext context) {
     return Screenshot(
       controller: screenshotController,
-      child: Container(
-        // height: MediaQuery.of(context).size.height * (0.575),
-        width: SizeConfig.screenWidth,
-        margin: const EdgeInsets.all(
-          24,
-        ),
-        padding: const EdgeInsets.all(
-          24,
-        ),
-        decoration: BoxDecoration(
-          color: Constants.pink,
-          borderRadius: BorderRadius.circular(20.0),
-        ),
-        child: _buildResultDetails(context),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                flex: 9,
+                child: Center(
+                  child: TitleText(
+                    text: _isWinner ? 'Good Job!' : 'Better luck next time!',
+                    size: Constants.heading3,
+                    align: TextAlign.center,
+                    weight: FontWeight.w500,
+                    textColor: Constants.black1,
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 1,
+                child: IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.close,
+                    color: Constants.black1,
+                    size: 24,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Container(
+            width: SizeConfig.screenWidth,
+            margin: const EdgeInsets.all(
+              24,
+            ),
+            padding: const EdgeInsets.all(
+              24,
+            ),
+            decoration: BoxDecoration(
+              color: Constants.pink,
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            child: _buildResultDetails(context),
+          ),
+        ],
       ),
     );
   }
@@ -1773,7 +1817,6 @@ class _NewResultScreenState extends State<NewResultScreen> {
     return WillPopScope(
       onWillPop: () {
         onPageBackCalls();
-
         return Future.value(true);
       },
       child: MultiBlocListener(
