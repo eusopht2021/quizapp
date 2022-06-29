@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'dart:ui';
 
 import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -8,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg_provider/flutter_svg_provider.dart' as svg;
 import 'package:flutterquiz/app/appLocalization.dart';
 import 'package:flutterquiz/app/routes.dart';
 import 'package:flutterquiz/features/auth/cubits/authCubit.dart';
@@ -20,19 +20,17 @@ import 'package:flutterquiz/features/profileManagement/cubits/updateUserDetailsC
 import 'package:flutterquiz/features/profileManagement/cubits/uploadProfileCubit.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/userDetailsCubit.dart';
 import 'package:flutterquiz/features/profileManagement/profileManagementRepository.dart';
-import 'package:flutterquiz/ui/screens/profile/widgets/editProfileFieldBottomSheetContainer.dart';
-import 'package:flutterquiz/ui/widgets/circularImageContainer.dart';
-import 'package:flutterquiz/ui/widgets/customBackButton.dart';
+import 'package:flutterquiz/features/statistic/cubits/statisticsCubit.dart';
+import 'package:flutterquiz/features/statistic/models/statisticModel.dart';
+import 'package:flutterquiz/features/statistic/statisticRepository.dart';
 import 'package:flutterquiz/ui/widgets/custom_card.dart';
 import 'package:flutterquiz/ui/widgets/custom_donut_chart.dart';
 import 'package:flutterquiz/ui/widgets/default_layout.dart';
-import 'package:flutterquiz/ui/widgets/menuTile.dart';
 import 'package:flutterquiz/ui/widgets/title_text.dart';
 import 'package:flutterquiz/utils/assets.dart';
 import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/size_config.dart';
-import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
 import 'package:flutterquiz/utils/widgets_util.dart';
 
@@ -56,12 +54,12 @@ class Profile extends StatefulWidget {
             ),
           ),
           BlocProvider<StatisticCubit>(
-            create: (context) => StatisticCubit(
+            create: (_) => StatisticCubit(
               StatisticRepository(),
             ),
           ),
         ],
-        child: const Profile(),
+        child: Profile(),
       ),
     );
   }
@@ -71,7 +69,18 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  int selectedIndex = 0;
+  @override
+  void initState() {
+    Future.delayed(Duration.zero, () {
+      context
+          .read<StatisticCubit>()
+          .getStatisticWithBattle(context.read<UserDetailsCubit>().getUserId());
+
+      setState(() {});
+    });
+  }
+
+  int selectedIndex = 1;
 
   List<String> statsFilter = [
     'Weekly',
@@ -86,16 +95,6 @@ class _ProfileState extends State<Profile> {
     'Stats',
     'Details',
   ];
-
-  @override
-  initState() {
-    super.initState();
-    Future.delayed(Duration.zero, () {
-      context
-          .read<StatisticCubit>()
-          .getStatisticWithBattle(context.read<UserDetailsCubit>().getUserId());
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -202,7 +201,7 @@ class _ProfileState extends State<Profile> {
             left: 8,
             right: 8,
             top: 70,
-            bottom: 8,
+            bottom: 16,
           ),
           child: SizedBox(
             width: SizeConfig.screenWidth,
@@ -246,71 +245,41 @@ class _ProfileState extends State<Profile> {
       case 0:
         return _badgesTabItem();
       case 1:
-        return _statsTabItem();
+        return _statsTabBlock();
       case 2:
-        return Container(
-          height: 300,
-          color: Colors.black,
-        );
+        return _detailsTab();
     }
     return const SizedBox();
   }
 
-  Widget _statsTabItem() {
-    return BlocConsumer<StatisticCubit, StatisticState>(
-      listener: (context, state) {
-        log('Listener State is ${state.runtimeType}');
-        if (state is StatisticInitial) {}
-        if (state is StatisticFetchFailure) {
-          UiUtils.setSnackbar(
-            'Failed to get Statistic',
-            context,
-            false,
-          );
-        }
-        if (state is StatisticFetchInProgress) {
-          log('StatisticFetchProgress');
-        }
-      },
-      builder: (context, state) {
-        log('State is ${state.runtimeType} ${state is StatisticInitial}');
-        if (state is StatisticFetchSuccess) {
-          return Column(
-            children: [
-              Container(
-                width: SizeConfig.screenWidth,
-                margin: const EdgeInsets.only(
-                  left: 16,
-                  right: 16,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(
-                    Constants.cardsRadius,
-                  ),
-                  image: DecorationImage(
-                    image: AssetImage(
-                      Assets.swivels1,
-                    ),
-                    alignment: Alignment.topLeft,
-                  ),
-                  color: const Color(0xffE8E5FA),
-                ),
-                child: Column(
-                  children: [
-                    WidgetsUtil.verticalSpace16,
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Container(
+  Widget _detailsTab() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Constants.indigoWithOpacity02,
+              ),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TitleText(
+                        text: "Recent matches",
+                        size: Constants.bodyXLarge,
+                        weight: FontWeight.w500,
+                      ),
+                      Container(
                         decoration: BoxDecoration(
                           color: Constants.white,
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        margin: const EdgeInsets.only(
-                          right: 16,
-                        ),
-                        height: 34,
-                        width: 100,
-                        alignment: Alignment.center,
                         child: DropdownButton<String>(
                           icon: const Icon(
                             CupertinoIcons.chevron_down,
@@ -336,192 +305,180 @@ class _ProfileState extends State<Profile> {
                           },
                         ),
                       ),
-                    ),
-                    WidgetsUtil.verticalSpace24,
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        left: 16,
-                        right: 16,
-                      ),
-                      child: TitleText(
-                        text:
-                            'You have played a total ${state.statisticModel.correctAnswers} quizzes this month!',
-                        textColor: Constants.black1,
-                        align: TextAlign.center,
-                        size: Constants.bodyXLarge,
-                        weight: FontWeight.w500,
-                      ),
-                    ),
-                    WidgetsUtil.verticalSpace16,
-                    CustomDonutChart(
-                      height: 148,
-                      radius: 10,
-                      value1: (37 / 50) * 100,
-                      value2: ((50 - 37) / 50) * 100,
-                      center: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              TitleText(
-                                text: '37',
-                                size: Constants.heading1,
-                                weight: FontWeight.w700,
-                                textColor: Constants.black1,
-                              ),
-                              TitleText(
-                                text: '/50',
-                                size: Constants.bodyNormal,
-                                weight: FontWeight.w500,
-                                textColor: Constants.grey2,
-                              ),
-                            ],
-                          ),
-                          TitleText(
-                            text: 'quiz played',
-                            weight: FontWeight.w500,
-                            size: Constants.bodySmall,
-                            textColor: Constants.grey2,
-                          ),
-                        ],
-                      ),
-                    ),
-                    WidgetsUtil.verticalSpace24,
-                    Row(
+                    ],
+                  ),
+                  WidgetsUtil.verticalSpace32,
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Expanded(
-                          child: Container(
-                            margin: const EdgeInsets.only(
-                              left: 16,
-                              right: 8,
+                        Badge(
+                          elevation: 0,
+                          showBadge: true,
+                          badgeContent: Image.asset(Assets.portugal),
+                          badgeColor: Colors.transparent,
+                          position: BadgePosition.bottomEnd(),
+                          child: Badge(
+                            elevation: 0,
+                            showBadge: true,
+                            badgeContent: SvgPicture.asset(
+                              Assets.crown,
+                              height: 30,
                             ),
-                            height: 100,
-                            padding: const EdgeInsets.only(
-                              left: 16,
-                              right: 16,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Constants.white,
-                              borderRadius: BorderRadius.circular(
-                                Constants.cardsRadius,
-                              ),
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      flex: 7,
-                                      child: TitleText(
-                                        text: '5',
-                                        size: Constants.heading1,
-                                        weight: FontWeight.w700,
-                                        textColor: Constants.black1,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      flex: 3,
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                          bottom: 20,
-                                        ),
-                                        child: SvgPicture.asset(
-                                          Assets.edit,
-                                          width: 20,
-                                          height: 20,
-                                          color: Constants.black1,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: TitleText(
-                                    text: 'Quiz created',
-                                    size: Constants.bodySmall,
-                                    weight: FontWeight.w500,
-                                    textColor: Constants.black1,
-                                  ),
-                                ),
-                              ],
+                            position: BadgePosition.topEnd(end: 25, top: -10),
+                            badgeColor: Colors.transparent,
+                            child: CircleAvatar(
+                              radius: 40,
+                              backgroundColor: Colors.transparent,
+                              backgroundImage: svg.Svg(Assets.woman1),
                             ),
                           ),
                         ),
-                        Expanded(
-                          child: Container(
-                            height: 100,
-                            margin: const EdgeInsets.only(
-                              left: 8,
-                              right: 16,
-                            ),
-                            padding: const EdgeInsets.only(
-                              left: 16,
-                              right: 16,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Constants.primaryColor,
-                              borderRadius: BorderRadius.circular(
-                                Constants.cardsRadius,
-                              ),
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      flex: 7,
-                                      child: TitleText(
-                                        text: '21',
-                                        size: Constants.heading1,
-                                        weight: FontWeight.w700,
-                                        textColor: Constants.white,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      flex: 3,
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                          bottom: 20,
-                                        ),
-                                        child: SvgPicture.asset(
-                                          Assets.medal1,
-                                          width: 20,
-                                          height: 20,
-                                          color: Constants.white,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: TitleText(
-                                    text: 'Quiz Won',
-                                    size: Constants.bodySmall,
-                                    weight: FontWeight.w500,
-                                    textColor: Constants.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                        TitleText(
+                          text: "VS",
+                          size: Constants.bodyXLarge,
+                          weight: FontWeight.w500,
                         ),
-                      ],
+                        CircleAvatar(
+                          radius: 40,
+                          backgroundColor: Colors.transparent,
+                          backgroundImage: svg.Svg(Assets.man4),
+                        ),
+                        Container(
+                          width: 100,
+                          height: 50,
+                          padding: EdgeInsets.symmetric(
+                              vertical: 12, horizontal: 12),
+                          decoration: BoxDecoration(
+                            color: Constants.lightGreen,
+                            borderRadius: BorderRadius.circular(9),
+                          ),
+                          child: TitleText(
+                            text: "+100 QP",
+                            size: Constants.bodyXLarge,
+                            weight: FontWeight.w500,
+                            textColor: Constants.white,
+                          ),
+                        )
+                      ]),
+                ],
+              )),
+        )
+      ],
+    );
+  }
+
+  Widget _statsTabBlock() {
+    return BlocConsumer<StatisticCubit, StatisticState>(
+        listener: (context, state) {
+      if (state is StatisticFetchFailure) {
+        if (state.errorMessageCode == unauthorizedAccessCode) {
+          UiUtils.showAlreadyLoggedInDialog(context: context);
+        }
+      }
+    }, builder: (context, state) {
+      if (state is StatisticFetchSuccess) {
+        return _statsTabItem();
+      }
+      if (state is StatisticFetchInProgress) {
+        return SizedBox(
+          height: 50,
+          width: 50,
+          child: CircularProgressIndicator(
+            color: Constants.primaryColor,
+          ),
+        );
+      }
+      return SizedBox();
+    });
+  }
+
+  Column _statsTabItem() {
+    StatisticModel model =
+        context.read<StatisticCubit>().getStatisticsDetails();
+    return Column(
+      children: [
+        Container(
+          width: SizeConfig.screenWidth,
+          margin: const EdgeInsets.only(
+            left: 16,
+            right: 16,
+          ),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(
+              Constants.cardsRadius,
+            ),
+            image: DecorationImage(
+              image: AssetImage(
+                Assets.swivels1,
+              ),
+              alignment: Alignment.topLeft,
+            ),
+            color: const Color(0xffE8E5FA),
+          ),
+          child: Column(
+            children: [
+              WidgetsUtil.verticalSpace16,
+              Align(
+                alignment: Alignment.centerRight,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Constants.white,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  margin: const EdgeInsets.only(
+                    right: 16,
+                  ),
+                  height: 34,
+                  width: 100,
+                  alignment: Alignment.center,
+                  child: DropdownButton<String>(
+                    icon: const Icon(
+                      CupertinoIcons.chevron_down,
                     ),
-                    WidgetsUtil.verticalSpace24,
-                  ],
+                    value: selectedStat,
+                    items: statsFilter.map((item) {
+                      return DropdownMenuItem<String>(
+                        value: item,
+                        child: TitleText(
+                          text: item,
+                          size: Constants.bodyXSmall,
+                          weight: FontWeight.w500,
+                          textColor: Constants.black1,
+                        ),
+                      );
+                    }).toList(),
+                    underline: const SizedBox(),
+                    onChanged: (String? value) {
+                      log('OnChanged: $value');
+                      setState(() {
+                        selectedStat = value!;
+                      });
+                    },
+                  ),
                 ),
               ),
+              WidgetsUtil.verticalSpace24,
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 16,
+                  right: 16,
+                ),
+                child: TitleText(
+                  text: 'You have played a total 24 quizzes this month!',
+                  textColor: Constants.black1,
+                  align: TextAlign.center,
+                  size: Constants.bodyXLarge,
+                  weight: FontWeight.w500,
+                ),
+              ),
+              WidgetsUtil.verticalSpace16,
+              _customDonutchartBloc(),
             ],
           ),
         ),
         WidgetsUtil.verticalSpace32,
         Padding(
-          padding: const EdgeInsets.only(left: 16, right: 16),
+          padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
@@ -615,7 +572,7 @@ class _ProfileState extends State<Profile> {
                     ],
                   ),
                   WidgetsUtil.verticalSpace16,
-                  _customBarChart(),
+                  _customBarchartBloc(),
                   WidgetsUtil.verticalSpace16,
                   Expanded(
                     child: Row(
@@ -628,7 +585,8 @@ class _ProfileState extends State<Profile> {
                           child: Column(
                             children: [
                               TitleText(
-                                text: '3/10',
+                                text:
+                                    '${model.correctAnswers} / ${model.answeredQuestions}',
                                 weight: FontWeight.w500,
                                 textColor: Constants.white,
                               ),
@@ -691,22 +649,137 @@ class _ProfileState extends State<Profile> {
               ),
             ),
           ),
+        ),
+      ],
+    );
+  }
+
+  Widget _customDonutchartBloc() {
+    return BlocConsumer<StatisticCubit, StatisticState>(
+        listener: (context, state) {
+      if (state is StatisticFetchFailure) {
+        if (state.errorMessageCode == unauthorizedAccessCode) {
+          UiUtils.showAlreadyLoggedInDialog(context: context);
+        }
+      }
+    }, builder: (context, state) {
+      if (state is StatisticFetchSuccess) {
+        return _customDonutchart();
+      }
+      if (state is StatisticFetchInProgress) {
+        return SizedBox(
+          height: 50,
+          width: 50,
+          child: Center(
+            child: CircularProgressIndicator(
+              color: Constants.primaryColor,
+            ),
+          ),
         );
-      },
+      }
+      return SizedBox();
+    });
+  }
+
+  double getValue1(StatisticModel model) {
+    log('Values are ${model.answeredQuestions} and ${model.correctAnswers}');
+    int totalQuestions = int.parse(model.answeredQuestions);
+    int correctAnswers = int.parse(model.correctAnswers);
+    double percentage = (correctAnswers / totalQuestions) * 100;
+    return percentage;
+  }
+
+  double getValue2(StatisticModel model) {
+    int totalQuestions = int.parse(model.answeredQuestions);
+    int correctAnswers = int.parse(model.correctAnswers);
+    double percentage =
+        ((totalQuestions - correctAnswers) / totalQuestions) * 100;
+
+    return percentage;
+  }
+
+  Widget _customBarchartBloc() {
+    return BlocConsumer<StatisticCubit, StatisticState>(
+        listener: (context, state) {
+      if (state is StatisticFetchFailure) {
+        if (state.errorMessageCode == unauthorizedAccessCode) {
+          UiUtils.showAlreadyLoggedInDialog(context: context);
+        }
+      }
+    }, builder: (context, state) {
+      if (state is StatisticFetchSuccess) {
+        return _customBarChart();
+      }
+      if (state is StatisticFetchInProgress) {
+        return SizedBox(
+          height: 50,
+          width: 50,
+          child: Center(
+            child: CircularProgressIndicator(
+              color: Constants.primaryColor,
+            ),
+          ),
+        );
+      }
+      return SizedBox();
+    });
+  }
+
+  Widget _customDonutchart() {
+    StatisticModel statisticModel =
+        context.read<StatisticCubit>().getStatisticsDetails();
+
+    return CustomDonutChart(
+      height: 148,
+      radius: 10,
+      value1: getValue1(statisticModel),
+      value2: getValue2(statisticModel),
+      center: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TitleText(
+                text: statisticModel.correctAnswers,
+                size: Constants.heading1,
+                weight: FontWeight.w700,
+                textColor: Constants.black1,
+              ),
+              TitleText(
+                text: '/${statisticModel.answeredQuestions}',
+                size: Constants.bodyNormal,
+                weight: FontWeight.w500,
+                textColor: Constants.grey2,
+              ),
+            ],
+          ),
+          TitleText(
+            text: 'Q\'s Attempted',
+            weight: FontWeight.w500,
+            size: 11,
+            textColor: Constants.grey2,
+          ),
+        ],
+      ),
     );
   }
 
   Widget _customBarChart() {
+    StatisticModel model =
+        context.read<StatisticCubit>().getStatisticsDetails();
     return SizedBox(
       height: 250,
       child: BarChart(
         BarChartData(
-            barTouchData: BarTouchData(enabled: true),
-            baselineY: 0.5,
-            minY: 0.0,
-            maxY: 100.0,
+            barTouchData: BarTouchData(
+                touchTooltipData: BarTouchTooltipData(
+              tooltipBgColor: Constants.white,
+            )),
+            baselineY: 0.1,
+            minY: 0,
+            maxY: 100,
             titlesData: FlTitlesData(
-              topTitles: AxisTitles(sideTitles: SideTitles()),
               show: true,
               leftTitles: AxisTitles(
                 sideTitles: SideTitles(
@@ -714,7 +787,7 @@ class _ProfileState extends State<Profile> {
                     showTitles: true,
                     getTitlesWidget: (value, meta) {
                       return TitleText(
-                        text: '${value.toInt()}%',
+                        text: "${(value.toInt())}%",
                         textColor: Constants.white,
                         align: TextAlign.left,
                       );
@@ -723,23 +796,24 @@ class _ProfileState extends State<Profile> {
               rightTitles: AxisTitles(),
             ),
             borderData: FlBorderData(
-                show: true,
-                border: const Border(
-                  left: BorderSide.none,
-                  right: BorderSide.none,
-                  top: BorderSide.none,
-                )),
+              show: true,
+              border: const Border(
+                left: BorderSide.none,
+                right: BorderSide.none,
+                top: BorderSide.none,
+              ),
+            ),
             gridData: FlGridData(
+                horizontalInterval: 20,
                 drawVerticalLine: false,
                 drawHorizontalLine: true,
                 getDrawingHorizontalLine: (_) {
-                  return HorizontalLine(
-                      y: 100, color: Constants.white, dashArray: [8]);
+                  return FlLine(color: Constants.white, dashArray: [8]);
                 }),
             barGroups: [
-              BarChartGroupData(x: 1, barsSpace: 50, barRods: [
+              BarChartGroupData(x: 0, barsSpace: 50, barRods: [
                 BarChartRodData(
-                    toY: 30,
+                    toY: getValue1(model).toInt().toDouble(),
                     fromY: 0,
                     width: 35,
                     borderRadius: BorderRadius.circular(8),
@@ -791,9 +865,6 @@ class _ProfileState extends State<Profile> {
               return Expanded(
                 child: GestureDetector(
                   onTap: () {
-                    if (index == 1) {
-                      context.read<StatisticCubit>().getStatisticsDetails();
-                    }
                     setState(() {
                       selectedIndex = index;
                     });

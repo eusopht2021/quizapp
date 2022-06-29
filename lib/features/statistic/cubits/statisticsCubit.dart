@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterquiz/features/statistic/models/statisticModel.dart';
@@ -51,8 +53,12 @@ class StatisticCubit extends Cubit<StatisticState> {
 
   StatisticModel getStatisticsDetails() {
     if (state is StatisticFetchSuccess) {
+      log("success state");
       return (state as StatisticFetchSuccess).statisticModel;
+    } else if (state is StatisticFetchFailure) {
+      log("error failed to get data");
     }
+    log('Error: ');
     return StatisticModel.fromJson({}, {});
   }
 }

@@ -44,6 +44,7 @@ class Assets {
   // ICONS
   static String crown = "assets/icons/medal.svg";
   static String leaderBoardOutlined = "assets/icons/leaderboardoutlined.png";
+  static String fireworks = "assets/icons/fireworks.png";
 
   // CATEGORIES
   static String art = 'assets/images/quiz_categories/art.svg';

@@ -21,6 +21,7 @@ import 'package:flutterquiz/features/profileManagement/models/userProfile.dart';
 import 'package:flutterquiz/features/profileManagement/profileManagementLocalDataSource.dart';
 import 'package:flutterquiz/features/profileManagement/profileManagementRepository.dart';
 import 'package:flutterquiz/features/quiz/cubits/quizCategoryCubit.dart';
+import 'package:flutterquiz/features/quiz/models/comprehension.dart';
 import 'package:flutterquiz/features/systemConfig/cubits/systemConfigCubit.dart';
 import 'package:flutterquiz/ui/screens/battle/widgets/randomOrPlayFrdDialog.dart';
 import 'package:flutterquiz/ui/screens/battle/widgets/roomDialog.dart';
@@ -28,6 +29,7 @@ import 'package:flutterquiz/ui/screens/home/widgets/appUnderMaintenanceDialog.da
 import 'package:flutterquiz/ui/screens/home/widgets/new_quiz_category_card.dart';
 import 'package:flutterquiz/ui/screens/leaderBoardScreen.dart';
 import 'package:flutterquiz/ui/screens/profile/widgets/editProfileFieldBottomSheetContainer.dart';
+import 'package:flutterquiz/ui/screens/quiz/new_result_screen.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/quizTypes.dart';
 import 'package:flutterquiz/utils/size_config.dart';
@@ -398,7 +400,9 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                           ),
                           const Spacer(),
                           InkWell(
-                            onTap: () => log('See All'),
+                            onTap: () {
+                              log('See All');
+                            },
                             child: TitleText(
                               text: 'See All',
                               textColor: Constants.primaryColor,

@@ -66,6 +66,8 @@ const String settingsThemeKey = "theme";
 
 const String databaseUrl = "https://elitequiz.wrteam.in";
 
+// const String databaseUrl = "https://cricketmobileapp.com/api";
+
 const String baseUrl = '$databaseUrl/Api/';
 
 const String accessValue = "8525";
@@ -353,6 +355,7 @@ class Constants {
   static Color accent3 = const Color(0xffC9F2E9);
   static Color secondaryAccent = const Color(0xffFFCCD5);
   static Color accent4 = const Color(0xA9ADF3);
+  static Color indigoWithOpacity02 = Colors.indigo.withOpacity(0.2);
 
   static Color tulip = const Color(0xff88E2CE);
   static Color lightGreen = const Color(0xff53DF83);

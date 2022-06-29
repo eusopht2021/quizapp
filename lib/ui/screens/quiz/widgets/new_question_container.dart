@@ -208,27 +208,27 @@ class _NewQuestionsContainerState extends State<NewQuestionsContainer> {
     );
   }
 
-  Widget _buildCurrentCoins() {
-    if (widget.lifeLines.isEmpty) {
-      return Container();
-    }
-    return BlocBuilder<UserDetailsCubit, UserDetailsState>(
-        bloc: context.read<UserDetailsCubit>(),
-        builder: (context, state) {
-          if (state is UserDetailsFetchSuccess) {
-            return Align(
-              alignment: AlignmentDirectional.topEnd,
-              child: Text(
-                AppLocalization.of(context)!.getTranslatedValues("coinsLbl")! +
-                    " : ${state.userProfile.coins}",
-                style:
-                    TextStyle(color: Theme.of(context).colorScheme.secondary),
-              ),
-            );
-          }
-          return Container();
-        });
-  }
+  // Widget _buildCurrentCoins() {
+  //   if (widget.lifeLines.isEmpty) {
+  //     return Container();
+  //   }
+  //   return BlocBuilder<UserDetailsCubit, UserDetailsState>(
+  //       bloc: context.read<UserDetailsCubit>(),
+  //       builder: (context, state) {
+  //         if (state is UserDetailsFetchSuccess) {
+  //           return Align(
+  //             alignment: AlignmentDirectional.topEnd,
+  //             child: Text(
+  //               AppLocalization.of(context)!.getTranslatedValues("coinsLbl")! +
+  //                   " : ${state.userProfile.coins}",
+  //               style:
+  //                   TextStyle(color: Theme.of(context).colorScheme.secondary),
+  //             ),
+  //           );
+  //         }
+  //         return Container();
+  //       });
+  // }
 
   Widget _buildCurrentQuestionIndex() {
     return Align(
@@ -334,7 +334,7 @@ class _NewQuestionsContainerState extends State<NewQuestionsContainer> {
                     alignment: AlignmentDirectional.topStart,
                     child: _buildLevelContainer(),
                   ),
-                  _buildCurrentCoins(),
+                  // _buildCurrentCoins(),
                   WidgetsUtil.verticalSpace24,
                   _buildCurrentQuestionIndex(),
                 ],
@@ -364,10 +364,9 @@ class _NewQuestionsContainerState extends State<NewQuestionsContainer> {
                         child: CachedNetworkImage(
                           placeholder: (context, _) {
                             return Center(
-                              child: CircularProgressContainer(
-                                useWhiteLoader: false,
-                              ),
-                            );
+                                child: CircularProgressIndicator(
+                              color: Constants.primaryColor,
+                            ));
                           },
                           imageUrl: question.imageUrl!,
                           imageBuilder: (context, imageProvider) {

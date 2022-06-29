@@ -16,6 +16,8 @@ import 'package:flutterquiz/ui/widgets/circularProgressContainner.dart';
 import 'package:flutterquiz/ui/widgets/customBackButton.dart';
 import 'package:flutterquiz/ui/widgets/errorContainer.dart';
 import 'package:flutterquiz/ui/widgets/pageBackgroundGradientContainer.dart';
+import 'package:flutterquiz/ui/widgets/title_text.dart';
+import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
@@ -69,7 +71,7 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           CustomBackButton(
-            iconColor: Theme.of(context).primaryColor,
+            iconColor: Constants.white,
           ),
         ],
       ),
@@ -83,8 +85,8 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
     }
     if (state is UnlockedLevelFetchInProgress) {
       return Center(
-        child: CircularProgressContainer(
-          useWhiteLoader: false,
+        child: CircularProgressIndicator(
+          color: Constants.white,
         ),
       );
     }
@@ -142,7 +144,7 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20.0),
-                  color: Theme.of(context).primaryColor,
+                  color: Constants.secondaryColor,
                 ),
                 alignment: Alignment.center,
                 height: 75.0,
@@ -150,15 +152,13 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
                   horizontal: 20.0,
                   vertical: 10.0,
                 ),
-                child: Text(
-                  AppLocalization.of(context)!
+                child: TitleText(
+                  text: AppLocalization.of(context)!
                           .getTranslatedValues("levelLbl")! +
                       " ${index + 1}",
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    color: Theme.of(context).backgroundColor,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  size: 20,
+                  weight: FontWeight.bold,
+                  textColor: Constants.white,
                 ),
               ),
             ),
@@ -169,9 +169,9 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Constants.primaryColor,
       body: Stack(
         children: [
-          PageBackgroundGradientContainer(),
           Column(
             children: <Widget>[
               _buildBackAndLanguageButton(),
@@ -202,14 +202,13 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
                       if (state is SubCategoryFetchInProgress ||
                           state is SubCategoryInitial) {
                         return Center(
-                          child: CircularProgressContainer(
-                            useWhiteLoader: false,
-                          ),
-                        );
+                            child: CircularProgressIndicator(
+                          color: Constants.white,
+                        ));
                       }
                       if (state is SubCategoryFetchFailure) {
                         return ErrorContainer(
-                          errorMessageColor: Theme.of(context).primaryColor,
+                          errorMessageColor: Constants.primaryColor,
                           errorMessage: AppLocalization.of(context)!
                               .getTranslatedValues(
                                   convertErrorCodeToLanguageKey(
@@ -357,27 +356,22 @@ class _SubcategoryContainerState extends State<SubcategoryContainer>
           scale: scaleAnimation.value,
           child: Container(
             decoration: BoxDecoration(
-                color: Colors.primaries.first.withOpacity(0.5),
+                color: Constants.secondaryColor,
                 borderRadius: BorderRadius.circular(20.0)),
             alignment: Alignment.center,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  widget.subcategory.subcategoryName!,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    height: 1.0,
-                    color: Theme.of(context).colorScheme.secondary,
-                    fontSize: 22.0,
-                  ),
+                TitleText(
+                  text: widget.subcategory.subcategoryName!,
+                  textColor: Constants.white,
+                  size: 22.0,
                 ),
-                Text(
-                  "${AppLocalization.of(context)!.getTranslatedValues(questionsKey)!} : ${widget.subcategory.noOfQue!}",
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.secondary,
-                    fontSize: 18.0,
-                  ),
+                TitleText(
+                  text:
+                      "${AppLocalization.of(context)!.getTranslatedValues(questionsKey)!} : ${widget.subcategory.noOfQue!}",
+                  textColor: Constants.white,
+                  size: 18,
                 ),
               ],
             ),

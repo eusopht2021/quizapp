@@ -1,6 +1,8 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,13 +32,16 @@ import 'package:flutterquiz/features/statistic/cubits/updateStatisticCubit.dart'
 import 'package:flutterquiz/features/statistic/statisticRepository.dart';
 import 'package:flutterquiz/features/systemConfig/cubits/systemConfigCubit.dart';
 import 'package:flutterquiz/ui/widgets/customRoundedButton.dart';
+import 'package:flutterquiz/ui/widgets/title_text.dart';
 import 'package:flutterquiz/utils/answerEncryption.dart';
 import 'package:flutterquiz/utils/assets.dart';
 import 'package:flutterquiz/utils/constants.dart';
+import 'package:flutterquiz/utils/custom_appbar.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/size_config.dart';
 import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
+import 'package:flutterquiz/utils/widgets_util.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
@@ -81,7 +86,7 @@ class NewResultScreen extends StatefulWidget {
   // and guess the word
   final bool isPlayed; //
 
-  const NewResultScreen({
+  NewResultScreen({
     Key? key,
     required this.isPlayed,
     this.exam,
@@ -173,7 +178,8 @@ class _NewResultScreenState extends State<NewResultScreen> {
   late bool _isWinner;
   int _earnedCoins = 0;
   String? _winnerId;
-
+  double accuracy = 0;
+  int correctAnswers = 0;
   bool _displayedAlreadyLoggedInDailog = false;
 
   @override
@@ -802,8 +808,17 @@ class _NewResultScreenState extends State<NewResultScreen> {
   Widget _buildIndividualResultContainer(String userProfileUrl) {
     return Column(
       children: [
-        SvgPicture.asset(
-          Assets.celebration,
+        Image.asset(
+          Assets.fireworks,
+        ),
+        WidgetsUtil.verticalSpace24,
+        TitleText(
+          text: _isWinner
+              ? "You got +${widget.myPoints} Points"
+              : "You did not get Points",
+          textColor: Constants.white,
+          size: 16,
+          weight: FontWeight.w500,
         ),
       ],
     );
@@ -1770,6 +1785,7 @@ class _NewResultScreenState extends State<NewResultScreen> {
 
   @override
   Widget build(BuildContext context) {
+    correctAnswers = 0;
     return WillPopScope(
       onWillPop: () {
         onPageBackCalls();
@@ -1825,25 +1841,217 @@ class _NewResultScreenState extends State<NewResultScreen> {
           ),
         ],
         child: Scaffold(
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(100),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(),
+                Padding(
+                  padding: const EdgeInsets.only(top: 50),
+                  child: TitleText(
+                    text: _isWinner ? "Congratulations" : "Defeat",
+                    textColor: Constants.black1,
+                    size: 24,
+                    weight: FontWeight.w500,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 50),
+                  child: Icon(
+                    Icons.close,
+                    size: 30,
+                  ),
+                ),
+              ],
+            ),
+          ),
           backgroundColor: Constants.white,
           body: SingleChildScrollView(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(
-                  height: 50.0,
-                ),
                 Center(
                   child: _buildResultContainer(
                     context,
                   ),
                 ),
-                const SizedBox(
-                  height: 30.0,
+                WidgetsUtil.verticalSpace24,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TitleText(
+                        text: "Accuration Answer",
+                        weight: FontWeight.w500,
+                        size: Constants.bodyXSmall,
+                      ),
+                      WidgetsUtil.verticalSpace16,
+                      SizedBox(
+                        height: 150,
+                        width: double.infinity,
+                        child: LineChart(
+                          LineChartData(
+                            lineTouchData: LineTouchData(
+                                touchTooltipData: LineTouchTooltipData(
+                                    tooltipBgColor: Constants.white)),
+                            borderData: FlBorderData(
+                                show: true,
+                                border: Border(
+                                    left: BorderSide.none,
+                                    right: BorderSide.none,
+                                    top: BorderSide.none,
+                                    bottom:
+                                        BorderSide(color: Constants.black1))),
+                            minX: 1,
+                            maxX: widget.questions!.length.toDouble(),
+                            maxY: 100,
+                            minY: 0,
+                            titlesData: FlTitlesData(
+                              show: true,
+                              leftTitles: AxisTitles(),
+                              rightTitles: AxisTitles(),
+                              topTitles: AxisTitles(),
+                              bottomTitles: AxisTitles(
+                                sideTitles: SideTitles(
+                                    interval: 1,
+                                    reservedSize: 50,
+                                    showTitles: true,
+                                    getTitlesWidget: ((value, meta) {
+                                      return TitleText(
+                                        text: value.toInt().toString(),
+                                        textColor: Constants.black1,
+                                        size: 15,
+                                        weight: FontWeight.w500,
+                                      );
+                                    })),
+                              ),
+                            ),
+                            gridData: FlGridData(
+                              show: true,
+                              drawHorizontalLine: false,
+                              drawVerticalLine: false,
+                            ),
+                            lineBarsData: [
+                              LineChartBarData(
+                                belowBarData: BarAreaData(
+                                    show: true,
+                                    color: Constants.primaryColor
+                                        .withOpacity(0.2)),
+                                color: Constants.primaryColor,
+                                dotData: FlDotData(show: false),
+                                spots: List.generate(
+                                  widget.questions!.length,
+                                  (index) {
+                                    if (AnswerEncryption.decryptCorrectAnswer(
+                                            rawKey: context
+                                                .read<UserDetailsCubit>()
+                                                .getUserFirebaseId(),
+                                            correctAnswer: widget
+                                                .questions![index]
+                                                .correctAnswer!) ==
+                                        widget.questions![index]
+                                            .submittedAnswerId) {
+                                      correctAnswers++;
+                                    }
+                                    accuracy =
+                                        (correctAnswers / (index + 1)) * 100;
+                                    log(accuracy.toString());
+                                    log("correct " + correctAnswers.toString());
+                                    return FlSpot(
+                                      index.toDouble() + 1,
+                                      accuracy.toInt().toDouble(),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                _buildResultButtons(context),
-                const SizedBox(
-                  height: 50.0,
+                WidgetsUtil.verticalSpace24,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TitleText(
+                            text: "CORRECT ANSWER",
+                            weight: FontWeight.w500,
+                            size: Constants.bodyXSmall,
+                            textColor: Constants.grey2,
+                          ),
+                          WidgetsUtil.verticalSpace8,
+                          TitleText(
+                            text: correctAnswers.toString(),
+                            weight: FontWeight.w500,
+                            size: Constants.bodyXLarge,
+                            textColor: Constants.black1,
+                          ),
+                          WidgetsUtil.verticalSpace16,
+                          TitleText(
+                            text: "Time Taken",
+                            weight: FontWeight.w500,
+                            size: Constants.bodyXSmall,
+                            textColor: Constants.grey2,
+                          ),
+                          WidgetsUtil.verticalSpace8,
+                          TitleText(
+                            text: getTime(),
+                            weight: FontWeight.w500,
+                            size: Constants.bodyXLarge,
+                            textColor: Constants.black1,
+                          ),
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TitleText(
+                            text: "Accuracy",
+                            weight: FontWeight.w500,
+                            size: Constants.bodyXSmall,
+                            textColor: Constants.grey2,
+                          ),
+                          WidgetsUtil.verticalSpace8,
+                          TitleText(
+                            text: accuracy.toInt().toString() + "%",
+                            weight: FontWeight.w500,
+                            size: Constants.bodyXLarge,
+                            textColor: Constants.black1,
+                          ),
+                          WidgetsUtil.verticalSpace16,
+                          TitleText(
+                            text: "Incorrect Answer",
+                            weight: FontWeight.w500,
+                            size: Constants.bodyXSmall,
+                            textColor: Constants.grey2,
+                          ),
+                          WidgetsUtil.verticalSpace8,
+                          TitleText(
+                            text:
+                                "${widget.questions!.length - correctAnswers}",
+                            weight: FontWeight.w500,
+                            size: Constants.bodyXLarge,
+                            textColor: Constants.black1,
+                          ),
+                        ],
+                      ),
+                      SizedBox(),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: _buildResultButtons(context),
                 ),
               ],
             ),
@@ -1851,5 +2059,14 @@ class _NewResultScreenState extends State<NewResultScreen> {
         ),
       ),
     );
+  }
+
+  String getTime() {
+    Duration duration =
+        Duration(seconds: widget.timeTakenToCompleteQuiz!.toInt());
+    String time = '';
+    time = time + '${duration.inMinutes}';
+    time = time + ':${duration.inSeconds % 60}';
+    return time;
   }
 }

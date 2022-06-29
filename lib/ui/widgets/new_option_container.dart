@@ -5,6 +5,7 @@ import 'package:flutter_tex/flutter_tex.dart';
 import 'package:flutterquiz/features/quiz/models/answerOption.dart';
 import 'package:flutterquiz/features/quiz/models/quizType.dart';
 import 'package:flutterquiz/features/settings/settingsCubit.dart';
+import 'package:flutterquiz/ui/widgets/title_text.dart';
 // Import package
 import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
@@ -95,7 +96,7 @@ class _NewOptionContainerState extends State<NewOptionContainer>
   late TextSpan textSpan = TextSpan(
     text: widget.answerOption.title,
     style: TextStyle(
-      color: Theme.of(context).backgroundColor,
+      color: Constants.black1,
       height: 1.0,
       fontSize: 16.0,
     ),
@@ -199,49 +200,59 @@ class _NewOptionContainerState extends State<NewOptionContainer>
             alignment: Alignment.center,
             children: [
               Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 15.0,
-                  vertical: maxLines > 2 ? 7.50 : 0,
-                ),
-                decoration: BoxDecoration(
-                  color: _buildOptionBackgroundColor(),
-                  borderRadius: BorderRadius.circular(
-                    Constants.cardsRadius,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 15.0,
+                    vertical: maxLines > 2 ? 7.50 : 0,
                   ),
-                  border: Border.all(
-                    color: Constants.grey5,
+                  decoration: BoxDecoration(
+                    color: _buildOptionBackgroundColor(),
+                    borderRadius: BorderRadius.circular(
+                      Constants.cardsRadius,
+                    ),
+                    border: Border.all(
+                      color: Constants.grey5,
+                    ),
                   ),
-                ),
-                alignment: AlignmentDirectional.centerStart,
-                child:
-                    //if question type is 1 means render latex question
-                    widget.quizType == QuizTypes.mathMania
-                        ? TeXView(
-                            child: TeXViewInkWell(
-                              rippleEffect: false,
-                              onTap: (_) {
-                                //
-                                _onTapOptionContainer();
-                              },
-                              child: TeXViewDocument(
-                                widget.answerOption.title!,
+                  alignment: AlignmentDirectional.centerStart,
+                  child:
+                      //if question type is 1 means render latex question
+                      widget.quizType == QuizTypes.mathMania
+                          ? TeXView(
+                              child: TeXViewInkWell(
+                                rippleEffect: false,
+                                onTap: (_) {
+                                  //
+                                  _onTapOptionContainer();
+                                },
+                                child: TeXViewDocument(
+                                  widget.answerOption.title!,
+                                ),
+                                id: widget.answerOption.id!,
                               ),
-                              id: widget.answerOption.id!,
-                            ),
-                            style: TeXViewStyle(
-                              contentColor: Constants.black1,
-                              backgroundColor: Constants.white,
-                              sizeUnit: TeXViewSizeUnit.pixels,
-                              textAlign: TeXViewTextAlign.center,
-                              fontStyle: TeXViewFontStyle(
-                                fontSize: Constants.bodyNormal.toInt(),
-                                fontWeight: TeXViewFontWeight.w500,
-                                fontFamily: 'Rubik',
+                              style: TeXViewStyle(
+                                contentColor: Constants.black1,
+                                backgroundColor: Constants.white,
+                                sizeUnit: TeXViewSizeUnit.pixels,
+                                textAlign: TeXViewTextAlign.center,
+                                fontStyle: TeXViewFontStyle(
+                                  fontSize: Constants.bodyNormal.toInt(),
+                                  fontWeight: TeXViewFontWeight.w500,
+                                  fontFamily: 'Rubik',
+                                ),
                               ),
-                            ),
-                          )
-                        : RichText(text: textSpan),
-              ),
+                            )
+                          : Center(
+                              child: TitleText(
+                                text: widget.answerOption.title!,
+                                textColor: Constants.black1,
+                                weight: FontWeight.w400,
+                                size: 16,
+                              ),
+                            )
+                  // : RichText(
+                  //     text: textSpan,
+                  //   ),
+                  ),
               widget.showAnswerCorrectness
                   ? IgnorePointer(
                       ignoring: true,

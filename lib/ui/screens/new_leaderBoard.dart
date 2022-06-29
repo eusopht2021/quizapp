@@ -914,62 +914,80 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
               child: SingleChildScrollView(
                 controller: scrollController,
                 child: Column(
-                    children: List.generate(leaderBoardList.length, (index) {
-                  if (index <= 3) {
-                    return SizedBox();
-                  } else {
-                    return Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Container(
-                        height: 100,
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          elevation: 0,
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 16, left: 16),
-                            child: Row(children: [
-                              Expanded(
-                                flex: 1,
-                                child: CircleAvatar(
-                                  backgroundColor: Constants.black1,
-                                  radius: 60,
-                                  child: CircleAvatar(
-                                    radius: 40,
-                                    foregroundColor: Constants.grey2,
-                                    backgroundColor: Constants.white,
-                                    child: TitleText(
-                                      text: index.toString(),
+                  children: List.generate(
+                    leaderBoardList.length,
+                    (index) {
+                      if (index == null) {
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 20),
+                          child: SizedBox(
+                            width: double.infinity,
+                            child: Icon(
+                              Icons.group_add_outlined,
+                              size: 150,
+                              color: Constants.grey1.withOpacity(0.2),
+                            ),
+                          ),
+                        );
+                      } else if (index > 3) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Container(
+                            height: 100,
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)),
+                              elevation: 0,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(right: 16, left: 16),
+                                child: Row(children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: CircleAvatar(
+                                      backgroundColor: Constants.black1,
+                                      radius: 60,
+                                      child: CircleAvatar(
+                                        radius: 40,
+                                        foregroundColor: Constants.grey2,
+                                        backgroundColor: Constants.white,
+                                        child: TitleText(
+                                          text: index.toString(),
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
+                                  Expanded(
+                                    flex: 9,
+                                    child: ListTile(
+                                      leading: CircleAvatar(
+                                        backgroundColor: Colors.transparent,
+                                        backgroundImage: NetworkImage(
+                                            leaderBoardList[index]['profile'] ??
+                                                ""),
+                                      ),
+                                      title: TitleText(
+                                        text: leaderBoardList[index]['name'] ??
+                                            "",
+                                      ),
+                                      subtitle: TitleText(
+                                        text:
+                                            '${leaderBoardList[index]['score'] ?? "0"}' +
+                                                ' points',
+                                      ),
+                                    ),
+                                  )
+                                ]),
                               ),
-                              Expanded(
-                                flex: 9,
-                                child: ListTile(
-                                  leading: CircleAvatar(
-                                    backgroundColor: Colors.transparent,
-                                    backgroundImage: NetworkImage(
-                                        leaderBoardList[index]['profile'] ??
-                                            ""),
-                                  ),
-                                  title: TitleText(
-                                    text: leaderBoardList[index]['name'] ?? "",
-                                  ),
-                                  subtitle: TitleText(
-                                    text:
-                                        '${leaderBoardList[index]['score'] ?? "0"}' +
-                                            ' points',
-                                  ),
-                                ),
-                              )
-                            ]),
+                            ),
                           ),
-                        ),
-                      ),
-                    );
-                  }
-                })),
+                        );
+                      } else {
+                        return SizedBox();
+                      }
+                    },
+                  ),
+                ),
               ),
             ),
           );
