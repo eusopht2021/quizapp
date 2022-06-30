@@ -32,6 +32,7 @@ import 'package:flutterquiz/features/statistic/cubits/updateStatisticCubit.dart'
 import 'package:flutterquiz/features/statistic/statisticRepository.dart';
 import 'package:flutterquiz/features/systemConfig/cubits/systemConfigCubit.dart';
 import 'package:flutterquiz/ui/widgets/customRoundedButton.dart';
+import 'package:flutterquiz/ui/widgets/custom_button.dart';
 import 'package:flutterquiz/ui/widgets/title_text.dart';
 import 'package:flutterquiz/utils/answerEncryption.dart';
 import 'package:flutterquiz/utils/assets.dart';
@@ -783,8 +784,7 @@ class _NewResultScreenState extends State<NewResultScreen> {
     return Container(
       margin: margin,
       decoration: BoxDecoration(
-          color: Theme.of(context).backgroundColor,
-          borderRadius: BorderRadius.circular(10.0)),
+          color: Constants.white, borderRadius: BorderRadius.circular(10.0)),
       width: MediaQuery.of(context).size.width * (0.2125),
       height: 30.0,
       alignment: Alignment.center,
@@ -820,238 +820,10 @@ class _NewResultScreenState extends State<NewResultScreen> {
           size: 16,
           weight: FontWeight.w500,
         ),
+        WidgetsUtil.verticalSpace24,
+        newReviewAnswersButton(),
       ],
     );
-    // return Stack(
-    //   clipBehavior: Clip.none,
-    //   children: [
-    //     Align(
-    //       alignment: Alignment.center,
-    //       child: SvgPicture.asset(
-    //         widget.quizType == QuizTypes.exam
-    //             ? UiUtils.getImagePath("celebration.svg")
-    //             : _isWinner
-    //                 ? UiUtils.getImagePath("celebration.svg")
-    //                 : UiUtils.getImagePath("celebration_loss.svg"),
-    //       ),
-    //     ),
-    //     Align(
-    //       alignment: Alignment.topCenter,
-    //       child: LayoutBuilder(
-    //         builder: (context, constraints) {
-    //           double verticalSpacePercentage = 0.0;
-    //           double profileRadiusPercentage = 0.0;
-    //
-    //           double radialSizePercentage = 0.0;
-    //           if (constraints.maxHeight <
-    //               UiUtils.profileHeightBreakPointResultScreen) {
-    //             verticalSpacePercentage = 0.015;
-    //             profileRadiusPercentage = 0.35; //test in
-    //             radialSizePercentage = 0.6;
-    //           } else {
-    //             verticalSpacePercentage = 0.035;
-    //             profileRadiusPercentage = 0.375;
-    //
-    //             radialSizePercentage = 0.525;
-    //           }
-    //
-    //           return Column(
-    //             mainAxisAlignment: MainAxisAlignment.start,
-    //             children: [
-    //               widget.quizType! == QuizTypes.exam
-    //                   ? _buildGreetingMessage(
-    //                       widget.exam!.title,
-    //                       AppLocalization.of(context)!
-    //                           .getTranslatedValues(examResultKey)!)
-    //                   : _isWinner
-    //                       ? _buildGreetingMessage(
-    //                           AppLocalization.of(context)!
-    //                               .getTranslatedValues("victoryLbl")!,
-    //                           AppLocalization.of(context)!
-    //                               .getTranslatedValues("congratulationsLbl")!)
-    //                       : _buildGreetingMessage(
-    //                           AppLocalization.of(context)!
-    //                               .getTranslatedValues("defeatLbl")!,
-    //                           AppLocalization.of(context)!
-    //                               .getTranslatedValues("betterNextLbl")!),
-    //               SizedBox(
-    //                 height: constraints.maxHeight * verticalSpacePercentage,
-    //               ),
-    //               widget.quizType! == QuizTypes.exam
-    //                   ? Transform.translate(
-    //                       offset: const Offset(0.0, -20.0), //
-    //                       child: RadialPercentageResultContainer(
-    //                         circleColor:
-    //                             Theme.of(context).colorScheme.secondary,
-    //                         arcColor: Theme.of(context).backgroundColor,
-    //                         arcStrokeWidth: 12.0,
-    //                         textFontSize: 20,
-    //                         circleStrokeWidth: 12.0,
-    //                         radiusPercentage: 0.27,
-    //                         percentage: winPercentage(),
-    //
-    //                         timeTakenToCompleteQuizInSeconds:
-    //                             widget.examCompletedInMinutes,
-    //                         size: Size(
-    //                             constraints.maxHeight * radialSizePercentage,
-    //                             constraints.maxHeight *
-    //                                 radialSizePercentage), //150.0 , 150.0
-    //                       ),
-    //                     )
-    //                   : Stack(
-    //                       alignment: Alignment.center,
-    //                       children: [
-    //                         Center(
-    //                           child: Container(
-    //                               decoration: BoxDecoration(
-    //                                 color: Theme.of(context)
-    //                                     .primaryColor
-    //                                     .withOpacity(0.5),
-    //                                 shape: BoxShape.circle,
-    //                               ),
-    //                               height: constraints.maxHeight *
-    //                                   profileRadiusPercentage),
-    //                         ),
-    //                         Center(
-    //                           child: Container(
-    //                               decoration: BoxDecoration(
-    //                                 color: Theme.of(context).primaryColor,
-    //                                 shape: BoxShape.circle,
-    //                               ),
-    //                               height: constraints.maxHeight *
-    //                                   (profileRadiusPercentage - 0.025)),
-    //                         ),
-    //                         Center(
-    //                           child: CircularImageContainer(
-    //                               imagePath: userProfileUrl,
-    //                               height: constraints.maxHeight *
-    //                                   (profileRadiusPercentage - 0.05),
-    //                               width: constraints.maxWidth *
-    //                                   (profileRadiusPercentage - 0.05 + 0.15)),
-    //                         ),
-    //                       ],
-    //                     ),
-    //               widget.quizType! == QuizTypes.exam
-    //                   ? Transform.translate(
-    //                       offset: const Offset(0, -30.0),
-    //                       child: Text(
-    //                         "${widget.obtainedMarks}/${widget.exam!.totalMarks} ${AppLocalization.of(context)!.getTranslatedValues(markKey)!}",
-    //                         style: TextStyle(
-    //                           fontSize: 22.0 *
-    //                               MediaQuery.of(context).textScaleFactor *
-    //                               (1.1),
-    //                           fontWeight: FontWeight.w400,
-    //                           color: Theme.of(context)
-    //                               .backgroundColor, //Theme.of(context).backgroundColor,
-    //                         ),
-    //                       ),
-    //                     )
-    //                   : Text(
-    //                       _isWinner
-    //                           ? AppLocalization.of(context)!
-    //                               .getTranslatedValues("winnerLbl")!
-    //                           : AppLocalization.of(context)!
-    //                               .getTranslatedValues("youLossLbl")!,
-    //                       style: TextStyle(
-    //                         fontSize: 25.0 *
-    //                             MediaQuery.of(context).textScaleFactor *
-    //                             (1.1),
-    //                         fontWeight: FontWeight.w400,
-    //                         color: Theme.of(context)
-    //                             .backgroundColor, //Theme.of(context).backgroundColor,
-    //                       ),
-    //                     )
-    //             ],
-    //           );
-    //         },
-    //       ),
-    //     ),
-    //
-    //     //incorrect answer
-    //     Align(
-    //       alignment: AlignmentDirectional.bottomStart,
-    //       child: _buildResultDataWithIconContainer(
-    //           widget.quizType == QuizTypes.exam
-    //               ? "${widget.incorrectExamAnswers}/${totalQuestions()}"
-    //               : "${totalQuestions() - correctAnswer()}/${totalQuestions()}",
-    //           "wrong.svg",
-    //           EdgeInsetsDirectional.only(
-    //               start: 15.0, bottom: showCoinsAndScore() ? 20.0 : 30.0)),
-    //     ),
-    //     //correct answer
-    //     showCoinsAndScore()
-    //         ? Align(
-    //             alignment: AlignmentDirectional.bottomStart,
-    //             child: _buildResultDataWithIconContainer(
-    //                 "${correctAnswer()}/${totalQuestions()}",
-    //                 "correct.svg",
-    //                 const EdgeInsetsDirectional.only(
-    //                     start: 15.0, bottom: 60.0)),
-    //           )
-    //         : Align(
-    //             alignment: Alignment.bottomRight,
-    //             child: _buildResultDataWithIconContainer(
-    //                 "${correctAnswer()}/${totalQuestions()}",
-    //                 "correct.svg",
-    //                 const EdgeInsetsDirectional.only(end: 15.0, bottom: 30.0)),
-    //           ),
-    //
-    //     //points
-    //     showCoinsAndScore()
-    //         ? Align(
-    //             alignment: AlignmentDirectional.bottomEnd,
-    //             child: _buildResultDataWithIconContainer(
-    //                 "${widget.myPoints}",
-    //                 "score.svg",
-    //                 const EdgeInsetsDirectional.only(end: 15.0, bottom: 60.0)),
-    //           )
-    //         : Container(),
-    //
-    //     //earned coins
-    //     showCoinsAndScore()
-    //         ? Align(
-    //             alignment: AlignmentDirectional.bottomEnd,
-    //             child: _buildResultDataWithIconContainer(
-    //                 "$_earnedCoins",
-    //                 "earnedCoin.svg",
-    //                 const EdgeInsetsDirectional.only(end: 15.0, bottom: 20.0)),
-    //           )
-    //         : Container(),
-    //
-    //     //build radils percentage container
-    //     widget.quizType! == QuizTypes.exam
-    //         ? Container()
-    //         : Align(
-    //             alignment: Alignment.bottomCenter,
-    //             child: LayoutBuilder(builder: (context, constraints) {
-    //               double radialSizePercentage = 0.0;
-    //               if (constraints.maxHeight <
-    //                   UiUtils.profileHeightBreakPointResultScreen) {
-    //                 radialSizePercentage = 0.4;
-    //               } else {
-    //                 radialSizePercentage = 0.325;
-    //               }
-    //               return Transform.translate(
-    //                 offset: const Offset(0.0, 15.0), //
-    //                 child: RadialPercentageResultContainer(
-    //                   circleColor: Theme.of(context).colorScheme.secondary,
-    //                   arcColor: Theme.of(context).backgroundColor,
-    //                   arcStrokeWidth: 10.0,
-    //                   circleStrokeWidth: 10.0,
-    //                   radiusPercentage: 0.27,
-    //                   percentage: winPercentage(),
-    //                   timeTakenToCompleteQuizInSeconds:
-    //                       widget.timeTakenToCompleteQuiz?.toInt(),
-    //                   size: Size(
-    //                       constraints.maxHeight * radialSizePercentage,
-    //                       constraints.maxHeight *
-    //                           radialSizePercentage), //150.0 , 150.0
-    //                 ),
-    //               );
-    //             }),
-    //           ),
-    //   ],
-    // );
   }
 
   Widget _buildBattleResultDetails() {
@@ -1600,6 +1372,115 @@ class _NewResultScreenState extends State<NewResultScreen> {
     }, context);
   }
 
+  Widget newReviewAnswersButton() {
+    if (context.read<SystemConfigCubit>().isPaymentRequestEnable()) {
+      if (widget.quizType == QuizTypes.quizZone ||
+          widget.quizType == QuizTypes.audioQuestions ||
+          widget.quizType == QuizTypes.guessTheWord ||
+          widget.quizType == QuizTypes.funAndLearn ||
+          widget.quizType == QuizTypes.mathMania) {
+        return CustomButton(
+            backgroundColor: Constants.white.withOpacity(0.5),
+            text: "Review Answers",
+            onPressed: () {
+              //
+              final updateCoinsCubit = context.read<UpdateScoreAndCoinsCubit>();
+              showDialog(
+                  context: context,
+                  builder: (_) => AlertDialog(
+                        actions: [
+                          TextButton(
+                              onPressed: () {
+                                //check if user has enough coins
+                                if (int.parse(context
+                                        .read<UserDetailsCubit>()
+                                        .getCoins()!) <
+                                    reviewAnswersDeductCoins) {
+                                  UiUtils.errorMessageDialog(
+                                      context,
+                                      AppLocalization.of(context)!
+                                          .getTranslatedValues(
+                                              notEnoughCoinsKey));
+                                  return;
+                                }
+
+                                //update coins
+
+                                updateCoinsCubit.updateCoins(
+                                    context
+                                        .read<UserDetailsCubit>()
+                                        .getUserId(),
+                                    reviewAnswersDeductCoins,
+                                    false,
+                                    reviewAnswerLbl);
+
+                                context.read<UserDetailsCubit>().updateCoins(
+                                      addCoin: false,
+                                      coins: reviewAnswersDeductCoins,
+                                    );
+                                //close the dialog
+
+                                Navigator.of(context).pop();
+                                //navigate to review answer
+
+                                Navigator.of(context).pushNamed(
+                                    Routes.reviewAnswers,
+                                    arguments: {
+                                      "quizType": widget.quizType,
+                                      "questions": widget.quizType ==
+                                              QuizTypes.guessTheWord
+                                          ? List<Question>.from([])
+                                          : widget.questions,
+                                      "guessTheWordQuestions": widget
+                                                  .quizType ==
+                                              QuizTypes.guessTheWord
+                                          ? widget.guessTheWordQuestions
+                                          : List<GuessTheWordQuestion>.from([]),
+                                    });
+                              },
+                              child: Text(
+                                AppLocalization.of(context)!
+                                    .getTranslatedValues(continueLbl)!,
+                                style: TextStyle(
+                                    color: Theme.of(context).primaryColor),
+                              )),
+                          TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text(
+                                AppLocalization.of(context)!
+                                    .getTranslatedValues(cancelButtonKey)!,
+                                style: TextStyle(
+                                    color: Theme.of(context).primaryColor),
+                              )),
+                        ],
+                        content: Text(
+                          "$reviewAnswersDeductCoins ${AppLocalization.of(context)!.getTranslatedValues(coinsWillBeDeductedKey)!}",
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.secondary),
+                        ),
+                      ));
+            });
+      }
+    }
+    return CustomButton(
+      onPressed: () {
+        Navigator.of(context).pushNamed(Routes.reviewAnswers, arguments: {
+          "quizType": widget.quizType,
+          "questions": widget.quizType == QuizTypes.guessTheWord
+              ? List<Question>.from([])
+              : widget.questions,
+          "guessTheWordQuestions": widget.quizType == QuizTypes.guessTheWord
+              ? widget.guessTheWordQuestions
+              : List<GuessTheWordQuestion>.from([]),
+        });
+      },
+      text: "Review Answers",
+      backgroundColor: Constants.white.withOpacity(0.5),
+    );
+  }
+
   Widget _buildReviewAnswersButton() {
     if (context.read<SystemConfigCubit>().isPaymentRequestEnable()) {
       if (widget.quizType == QuizTypes.quizZone ||
@@ -1722,6 +1603,191 @@ class _NewResultScreenState extends State<NewResultScreen> {
     );
   }
 
+//new playagain button
+  Widget newPlayAgainButton() {
+    if (widget.quizType == QuizTypes.selfChallenge) {
+      return Container();
+    } else if (widget.quizType == QuizTypes.audioQuestions) {
+      if (_isWinner) {
+        return Container();
+      }
+
+      return CustomButton(
+        backgroundColor: Constants.white.withOpacity(0.5),
+        text: AppLocalization.of(context)!.getTranslatedValues("playAgainBtn")!,
+        onPressed: () {
+          Navigator.of(context).pushReplacementNamed(Routes.quiz, arguments: {
+            "numberOfPlayer": 1,
+            "isPlayed": widget.isPlayed,
+            "quizType": QuizTypes.audioQuestions,
+            "subcategoryId": widget.questions!.first.subcategoryId == "0"
+                ? ""
+                : widget.questions!.first.subcategoryId,
+            "categoryId": widget.questions!.first.subcategoryId == "0"
+                ? widget.questions!.first.categoryId
+                : "",
+          });
+        },
+      );
+    } else if (widget.quizType == QuizTypes.guessTheWord) {
+      if (_isWinner) {
+        return Container();
+      }
+
+      return CustomButton(
+        text: AppLocalization.of(context)!.getTranslatedValues("playAgainBtn")!,
+        backgroundColor: Constants.white.withOpacity(0.5),
+        onPressed: () {
+          Navigator.of(context)
+              .pushReplacementNamed(Routes.guessTheWord, arguments: {
+            "isPlayed": widget.isPlayed,
+            "type": widget.guessTheWordQuestions!.first.subcategory == "0"
+                ? "category"
+                : "subcategory",
+            "typeId": widget.guessTheWordQuestions!.first.subcategory == "0"
+                ? widget.guessTheWordQuestions!.first.category
+                : widget.guessTheWordQuestions!.first.subcategory,
+          });
+        },
+      );
+    } else if (widget.quizType == QuizTypes.funAndLearn) {
+      return Container();
+    } else if (widget.quizType == QuizTypes.quizZone) {
+      //if user is winner
+      if (_isWinner) {
+        //we need to check if currentLevel is last level or not
+        int maxLevel = int.parse(widget.subcategoryMaxLevel!);
+        int currentLevel = int.parse(widget.questions!.first.level!);
+        if (maxLevel == currentLevel) {
+          return Container();
+        }
+        return CustomButton(
+          text:
+              AppLocalization.of(context)!.getTranslatedValues("nextLevelBtn")!,
+          backgroundColor: Constants.white.withOpacity(0.5),
+          onPressed: () {
+            //if given level is same as unlocked level then we need to update level
+            //else do not update level
+            int? unlockedLevel = int.parse(widget.questions!.first.level!) ==
+                    widget.unlockedLevel
+                ? (widget.unlockedLevel! + 1)
+                : widget.unlockedLevel;
+            //play quiz for next level
+            Navigator.of(context).pushReplacementNamed(Routes.quiz, arguments: {
+              "numberOfPlayer": widget.numberOfPlayer,
+              "quizType": widget.quizType,
+              //if subcategory id is empty for question means we need to fetch quesitons by it's category
+              "categoryId": widget.questions!.first.subcategoryId == "0"
+                  ? widget.questions!.first.categoryId
+                  : "",
+              "subcategoryId": widget.questions!.first.subcategoryId == "0"
+                  ? ""
+                  : widget.questions!.first.subcategoryId,
+              "level": (currentLevel + 1).toString(), //increase level
+              "subcategoryMaxLevel": widget.subcategoryMaxLevel,
+              "unlockedLevel": unlockedLevel,
+            });
+          },
+        );
+      }
+      //if user failed to complete this level
+      return CustomButton(
+        text: AppLocalization.of(context)!.getTranslatedValues("playAgainBtn")!,
+        backgroundColor: Constants.white.withOpacity(0.5),
+        onPressed: () {
+          //to play this level again (for quizZone quizType)
+          Navigator.of(context).pushReplacementNamed(Routes.quiz, arguments: {
+            "numberOfPlayer": widget.numberOfPlayer,
+            "quizType": widget.quizType,
+            //if subcategory id is empty for question means we need to fetch quesitons by it's category
+            "categoryId": widget.questions!.first.subcategoryId == "0"
+                ? widget.questions!.first.categoryId
+                : "",
+            "subcategoryId": widget.questions!.first.subcategoryId == "0"
+                ? ""
+                : widget.questions!.first.subcategoryId,
+            "level": widget.questions!.first.level,
+            "unlockedLevel": widget.unlockedLevel,
+            "subcategoryMaxLevel": widget.subcategoryMaxLevel,
+          });
+        },
+      );
+    }
+
+    return Container();
+  }
+
+//new result buttons
+  Widget newResultButtons() {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 15, left: 24, right: 24),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Expanded(
+            flex: 9,
+            child: CustomButton(
+              text: "Done",
+              onPressed: () {
+                Navigator.of(context).popUntil((route) => route.isFirst);
+              },
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: GestureDetector(
+              onTap: () async {
+                try {
+                  //capturing image
+                  final image = await screenshotController.capture();
+                  //root directory path
+                  final directory =
+                      (await getApplicationDocumentsDirectory()).path;
+
+                  String fileName =
+                      DateTime.now().microsecondsSinceEpoch.toString();
+                  //create file with given path
+                  File file = await File("$directory/$fileName.png").create();
+                  //write as bytes
+                  await file.writeAsBytes(image!.buffer.asUint8List());
+
+                  await Share.shareFiles(
+                    [file.path],
+                    text: AppLocalization.of(context)!
+                        .getTranslatedValues("myScoreLbl")!,
+                  );
+                } catch (e) {
+                  UiUtils.setSnackbar(
+                      AppLocalization.of(context)!.getTranslatedValues(
+                          convertErrorCodeToLanguageKey(
+                              defaultErrorMessageCode))!,
+                      context,
+                      false);
+                }
+              },
+              child: Container(
+                height: 56,
+                width: 56,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Constants.primaryColor.withOpacity(0.2),
+                  ),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Icon(
+                  Icons.share_outlined,
+                  color: Constants.primaryColor,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+//result buttons
   Widget _buildResultButtons(BuildContext context) {
     double betweenButoonSpace = 15.0;
     if (widget.quizType == QuizTypes.battle) {
@@ -1859,9 +1925,14 @@ class _NewResultScreenState extends State<NewResultScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 50),
-                  child: Icon(
-                    Icons.close,
-                    size: 30,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).popUntil((route) => route.isFirst);
+                    },
+                    child: Icon(
+                      Icons.close,
+                      size: 30,
+                    ),
                   ),
                 ),
               ],
@@ -1877,7 +1948,7 @@ class _NewResultScreenState extends State<NewResultScreen> {
                     context,
                   ),
                 ),
-                WidgetsUtil.verticalSpace24,
+                WidgetsUtil.verticalSpace20,
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Column(
@@ -1890,7 +1961,7 @@ class _NewResultScreenState extends State<NewResultScreen> {
                       ),
                       WidgetsUtil.verticalSpace16,
                       SizedBox(
-                        height: 150,
+                        height: 130,
                         width: double.infinity,
                         child: LineChart(
                           LineChartData(
@@ -1959,7 +2030,8 @@ class _NewResultScreenState extends State<NewResultScreen> {
                                     accuracy =
                                         (correctAnswers / (index + 1)) * 100;
                                     log(accuracy.toString());
-                                    log("correct " + correctAnswers.toString());
+                                    log("correct answers " +
+                                        correctAnswers.toString());
                                     return FlSpot(
                                       index.toDouble() + 1,
                                       accuracy.toInt().toDouble(),
@@ -2049,13 +2121,16 @@ class _NewResultScreenState extends State<NewResultScreen> {
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(24),
-                  child: _buildResultButtons(context),
-                ),
+
+                // Padding(
+                //   padding: const EdgeInsets.all(24),
+                //   child: _buildResultButtons(context),
+                // ),
               ],
             ),
           ),
+          //bottomnavigationbar
+          bottomNavigationBar: newResultButtons(),
         ),
       ),
     );

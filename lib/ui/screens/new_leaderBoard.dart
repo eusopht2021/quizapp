@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,6 +20,7 @@ import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/custom_appbar.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/size_config.dart';
+import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
 import 'package:flutterquiz/utils/widgets_util.dart';
 import 'package:hive/hive.dart';
@@ -115,41 +118,44 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
   bool? isCollapse;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: Constants.primaryColor, body: topDesign());
+    return Scaffold(
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(60),
+          child: CustomAppBar(
+            title: "Leaderboard",
+            onBackTapped: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
+        backgroundColor: Constants.primaryColor,
+        body: Container(
+          height: SizeConfig.screenHeight,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(Assets.backgroundCircle),
+            ),
+          ),
+          child: topDesign(),
+        ));
   }
 
   Widget topDesign() {
     return SingleChildScrollView(
-      child: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(Assets.backgroundCircle),
-          ),
-        ),
-        child: Column(
-          children: [
-            PreferredSize(
-              preferredSize: const Size.fromWidth(10),
-              child: CustomAppBar(
-                title: "Leaderboard",
-                onBackTapped: () {
-                  Navigator.pop(context);
-                },
+      child: Column(
+        children: [
+          WidgetsUtil.verticalSpace24,
+          Container(
+              width: SizeConfig.screenWidth,
+              height: 50,
+              margin: EdgeInsets.symmetric(horizontal: 24),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Constants.black1.withOpacity(0.3),
               ),
-            ),
-            WidgetsUtil.verticalSpace24,
-            Container(
-                width: SizeConfig.screenWidth,
-                height: 50,
-                margin: EdgeInsets.symmetric(horizontal: 24),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Constants.black1.withOpacity(0.3),
-                ),
-                child: _tabBar()),
-            _tabItem(),
-          ],
-        ),
+              child: _tabBar()),
+          _tabItem(),
+        ],
       ),
     );
   }
@@ -172,24 +178,22 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
               ),
               height: 40,
               width: 100,
-              child: Expanded(
-                child: Container(
-                  padding: EdgeInsets.only(
-                    top: 8,
-                    bottom: 8,
+              child: Container(
+                padding: EdgeInsets.only(
+                  top: 8,
+                  bottom: 8,
+                ),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    color: selectTab == index
+                        ? Constants.secondaryColor
+                        : Colors.transparent),
+                child: Center(
+                  child: TitleText(
+                    text: tabItems[index],
+                    textColor: Constants.white,
+                    weight: FontWeight.w500,
                   ),
-                  child: Center(
-                    child: TitleText(
-                      text: tabItems[index],
-                      textColor: Constants.white,
-                      weight: FontWeight.w500,
-                    ),
-                  ),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      color: selectTab == index
-                          ? Constants.secondaryColor
-                          : Colors.transparent),
                 ),
               ),
             ),
@@ -898,6 +902,13 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
   }
 
   Widget leaderBoardList(List leaderBoardList, hasMore) {
+    List draggable = [];
+    for (int i = 0; i < leaderBoardList.length; i++) {
+      if (i > 3) {
+        draggable.add(leaderBoardList[i]);
+      }
+    }
+    log('Draggable: ${draggable.length}');
     return DraggableScrollableSheet(
         snap: true,
         expand: true,
@@ -914,79 +925,73 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
               child: SingleChildScrollView(
                 controller: scrollController,
                 child: Column(
-                  children: List.generate(
-                    leaderBoardList.length,
-                    (index) {
-                      if (index == null) {
-                        return Padding(
-                          padding: const EdgeInsets.only(top: 20),
-                          child: SizedBox(
-                            width: double.infinity,
-                            child: Icon(
-                              Icons.group_add_outlined,
-                              size: 150,
-                              color: Constants.grey1.withOpacity(0.2),
-                            ),
+                  children: [
+                    if (draggable.isEmpty)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: Icon(
+                            Icons.group_add_outlined,
+                            size: 150,
+                            color: Constants.grey1.withOpacity(0.2),
                           ),
-                        );
-                      } else if (index > 3) {
+                        ),
+                      )
+                    else
+                      ...List.generate(draggable.length, (index) {
                         return Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: Container(
-                            height: 100,
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20)),
-                              elevation: 0,
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(right: 16, left: 16),
-                                child: Row(children: [
-                                  Expanded(
-                                    flex: 1,
-                                    child: CircleAvatar(
-                                      backgroundColor: Constants.black1,
-                                      radius: 60,
+                            padding: const EdgeInsets.all(8),
+                            child: SizedBox(
+                              height: 100,
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20)),
+                                elevation: 0,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      right: 16, left: 16),
+                                  child: Row(children: [
+                                    Expanded(
+                                      flex: 1,
                                       child: CircleAvatar(
-                                        radius: 40,
-                                        foregroundColor: Constants.grey2,
-                                        backgroundColor: Constants.white,
-                                        child: TitleText(
-                                          text: index.toString(),
+                                        backgroundColor: Constants.black1,
+                                        radius: 60,
+                                        child: CircleAvatar(
+                                          radius: 40,
+                                          foregroundColor: Constants.grey2,
+                                          backgroundColor: Constants.white,
+                                          child: TitleText(
+                                            text: (index + 4).toString(),
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  Expanded(
-                                    flex: 9,
-                                    child: ListTile(
-                                      leading: CircleAvatar(
-                                        backgroundColor: Colors.transparent,
-                                        backgroundImage: NetworkImage(
-                                            leaderBoardList[index]['profile'] ??
-                                                ""),
+                                    Expanded(
+                                      flex: 9,
+                                      child: ListTile(
+                                        leading: CircleAvatar(
+                                          backgroundColor: Colors.transparent,
+                                          backgroundImage: NetworkImage(
+                                              draggable[index]['profile'] ??
+                                                  ""),
+                                        ),
+                                        title: TitleText(
+                                          text: draggable[index]['name'] ?? "",
+                                        ),
+                                        subtitle: TitleText(
+                                          text:
+                                              '${draggable[index]['score'] ?? "0"}' +
+                                                  ' points',
+                                        ),
                                       ),
-                                      title: TitleText(
-                                        text: leaderBoardList[index]['name'] ??
-                                            "",
-                                      ),
-                                      subtitle: TitleText(
-                                        text:
-                                            '${leaderBoardList[index]['score'] ?? "0"}' +
-                                                ' points',
-                                      ),
-                                    ),
-                                  )
-                                ]),
+                                    )
+                                  ]),
+                                ),
                               ),
-                            ),
-                          ),
-                        );
-                      } else {
-                        return SizedBox();
-                      }
-                    },
-                  ),
+                            ));
+                      }),
+                  ],
                 ),
               ),
             ),

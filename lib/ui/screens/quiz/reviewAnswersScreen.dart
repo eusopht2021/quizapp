@@ -17,12 +17,20 @@ import 'package:flutterquiz/ui/screens/quiz/widgets/musicPlayerContainer.dart';
 import 'package:flutterquiz/ui/screens/quiz/widgets/questionContainer.dart';
 
 import 'package:flutterquiz/ui/widgets/customRoundedButton.dart';
+import 'package:flutterquiz/ui/widgets/custom_button.dart';
+import 'package:flutterquiz/ui/widgets/custom_card.dart';
+import 'package:flutterquiz/ui/widgets/default_layout.dart';
 import 'package:flutterquiz/ui/widgets/pageBackgroundGradientContainer.dart';
 import 'package:flutterquiz/ui/widgets/roundedAppbar.dart';
+import 'package:flutterquiz/ui/widgets/title_text.dart';
 import 'package:flutterquiz/utils/answerEncryption.dart';
+import 'package:flutterquiz/utils/constants.dart';
+import 'package:flutterquiz/utils/custom_appbar.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
+import 'package:flutterquiz/utils/size_config.dart';
 import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
+import 'package:flutterquiz/utils/widgets_util.dart';
 
 class ReviewAnswersScreen extends StatefulWidget {
   final List<Question> questions;
@@ -164,6 +172,52 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
     return widget.guessTheWordQuestions.isNotEmpty;
   }
 
+  Widget _newgetOptionsContainer(Question question,
+      {String? optionId, AnswerOption? option}) {
+    String correctAnswerId = AnswerEncryption.decryptCorrectAnswer(
+        rawKey: context.read<UserDetailsCubit>().getUserFirebaseId(),
+        correctAnswer: question.correctAnswer!);
+
+    return Column(
+      children: [
+        if (question.attempted) ...{
+          question.submittedAnswerId == question.correctAnswer
+              ? Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    color: getOptionColor(question, option!.id),
+                  ),
+                  width: MediaQuery.of(context).size.width * (0.8),
+                  margin: EdgeInsets.only(top: 15.0),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+                  child: widget.quizType == QuizTypes.mathMania
+                      ? TeXView(
+                          child: TeXViewDocument(
+                            option.title!,
+                          ),
+                          style: TeXViewStyle(
+                              contentColor: Theme.of(context).backgroundColor,
+                              backgroundColor: Colors.transparent,
+                              sizeUnit: TeXViewSizeUnit.pixels,
+                              textAlign: TeXViewTextAlign.center,
+                              fontStyle: TeXViewFontStyle(fontSize: 19)),
+                        )
+                      : Text(
+                          option.title!,
+                          style: TextStyle(
+                              color: Theme.of(context).backgroundColor),
+                        ),
+                )
+              : Container(
+                  color: Constants.accent2,
+                  height: 50,
+                ),
+        }
+      ],
+    );
+  }
+
   Color getOptionColor(Question question, String? optionId) {
     String correctAnswerId = AnswerEncryption.decryptCorrectAnswer(
         rawKey: context.read<UserDetailsCubit>().getUserFirebaseId(),
@@ -232,6 +286,57 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
     }
   }
 
+  Widget _newBuildBottomMenu() {
+    return _currentIndex == (getQuestionsLength() - 1)
+        ? SizedBox(
+            width: double.infinity,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 16),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: CustomButton(
+                      verticalMargin: 5,
+                      onPressed: () {
+                        if (_currentIndex != 0) {
+                          _pageController!.animateToPage(_currentIndex - 1,
+                              duration: Duration(milliseconds: 500),
+                              curve: Curves.easeInOut);
+                        }
+                      },
+                      text: "Previous",
+                    ),
+                  ),
+                  Expanded(
+                    child: CustomButton(
+                      verticalMargin: 5,
+                      onPressed: () {
+                        Navigator.of(context)
+                            .popUntil((route) => route.isFirst);
+                      },
+                      text: "Done",
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          )
+        : Padding(
+            padding: const EdgeInsets.only(bottom: 16),
+            child: CustomButton(
+              verticalMargin: 0,
+              onPressed: () {
+                if (_currentIndex != (getQuestionsLength() - 1)) {
+                  _pageController!.animateToPage(_currentIndex + 1,
+                      duration: Duration(milliseconds: 500),
+                      curve: Curves.easeInOut);
+                }
+              },
+              text: "Next",
+            ),
+          );
+  }
+
   Widget _buildBottomMenu(BuildContext context) {
     return Container(
       alignment: Alignment.center,
@@ -282,7 +387,7 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
   Widget _buildOption(AnswerOption option, Question question) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15.0),
+        borderRadius: BorderRadius.circular(16),
         color: getOptionColor(question, option.id),
       ),
       width: MediaQuery.of(context).size.width * (0.8),
@@ -370,18 +475,18 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                    AppLocalization.of(context)!.getTranslatedValues(notesKey)!,
-                    style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18.0)),
+                TitleText(
+                    text: AppLocalization.of(context)!
+                        .getTranslatedValues(notesKey)!,
+                    textColor: Theme.of(context).primaryColor,
+                    weight: FontWeight.bold,
+                    size: 18.0),
                 SizedBox(
                   height: 10.0,
                 ),
-                Text(
-                  notes,
-                  style: TextStyle(color: Theme.of(context).primaryColor),
+                TitleText(
+                  text: notes,
+                  textColor: Constants.primaryColor,
                 ),
               ],
             ),
@@ -391,14 +496,23 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
   Widget _buildQuestionAndOptions(Question question, int index) {
     return SingleChildScrollView(
       padding: EdgeInsets.only(
+          left: 16,
+          right: 16,
           top: 35.0,
           bottom: MediaQuery.of(context).size.height *
                   UiUtils.bottomMenuPercentage +
               25),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
+          TitleText(
+            text: "QUESTIONS ${index + 1} of ${getQuestionsLength()}",
+            size: 14,
+            weight: FontWeight.w500,
+            textColor: Constants.grey2,
+          ),
+          WidgetsUtil.verticalSpace8,
           QuestionContainer(
             isMathQuestion: widget.quizType == QuizTypes.mathMania,
             question: question,
@@ -415,7 +529,9 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
               : Container(),
 
           //build options
+
           _buildOptions(question),
+          // _newgetOptionsContainer(question), start from here
           _buildNotes(question.note!),
         ],
       ),
@@ -450,8 +566,8 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
   }
 
   Widget _buildQuestions() {
-    return Container(
-      height: MediaQuery.of(context).size.height * (0.85),
+    return SizedBox(
+      height: SizeConfig.screenHeight,
       child: PageView.builder(
           onPageChanged: (index) {
             if (_hasAudioQuestion()) {
@@ -504,57 +620,72 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
     );
   }
 
-  Widget _buildAppbar() {
-    return Align(
-      alignment: Alignment.topCenter,
-      child: RoundedAppbar(
-        title: AppLocalization.of(context)!
-            .getTranslatedValues("reviewAnswerLbl")!,
-        trailingWidget: widget.questions.isEmpty
-            ? _buildReportButton(context.read<ReportQuestionCubit>())
-            : widget.questions.first.audio!.isNotEmpty
-                ? _buildReportButton(context.read<ReportQuestionCubit>())
-                : Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      // Transform.translate(
-                      //   offset: Offset(5.0, 10.0),
-                      //   child: BookmarkButton(
-                      //     bookmarkButtonColor: Theme.of(context).primaryColor,
-                      //     bookmarkFillColor: Theme.of(context).primaryColor,
-                      //     question: widget.questions[_currentIndex],
-                      //   ),
-                      // ),
-                      _buildReportButton(context.read<ReportQuestionCubit>()),
-                    ],
-                  ),
-      ),
-    );
+  Widget _newAppBar() {
+    return PreferredSize(
+        child: CustomAppBar(onBackTapped: () {}, title: "Answer Explanation"),
+        preferredSize: Size.fromHeight(50));
   }
+
+  // Widget _buildAppbar() {
+  //   return Align(
+  //     alignment: Alignment.topCenter,
+  //     child: RoundedAppbar(
+  //       title: AppLocalization.of(context)!
+  //           .getTranslatedValues("reviewAnswerLbl")!,
+  //       trailingWidget: widget.questions.isEmpty
+  //           ? _buildReportButton(context.read<ReportQuestionCubit>())
+  //           : widget.questions.first.audio!.isNotEmpty
+  //               ? _buildReportButton(context.read<ReportQuestionCubit>())
+  //               : Row(
+  //                   crossAxisAlignment: CrossAxisAlignment.center,
+  //                   mainAxisSize: MainAxisSize.min,
+  //                   children: [
+  //                     // Transform.translate(
+  //                     //   offset: Offset(5.0, 10.0),
+  //                     //   child: BookmarkButton(
+  //                     //     bookmarkButtonColor: Theme.of(context).primaryColor,
+  //                     //     bookmarkFillColor: Theme.of(context).primaryColor,
+  //                     //     question: widget.questions[_currentIndex],
+  //                     //   ),
+  //                     // ),
+  //                     _buildReportButton(context.read<ReportQuestionCubit>()),
+  //                   ],
+  //                 ),
+  //     ),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          PageBackgroundGradientContainer(),
-          _buildAppbar(),
-          Align(
-            alignment: Alignment.topCenter,
-            child: Padding(
-              padding: EdgeInsets.only(
-                top: MediaQuery.of(context).size.height *
-                    UiUtils.appBarHeightPercentage,
+      backgroundColor: Constants.white,
+      body: DefaultLayout(
+        showBackButton: false,
+        backgroundColor: Constants.primaryColor,
+        title: "Answers Explanation",
+        action: Icon(
+          Icons.close,
+          size: 40,
+        ),
+        titleColor: Constants.white,
+        child: CustomCard(
+          child: Column(
+            children: [
+              // _newAppBar(),
+              Expanded(
+                flex: 7,
+                child: _buildQuestions(),
               ),
-              child: _buildQuestions(),
-            ),
+              Spacer(),
+              Expanded(child: _newBuildBottomMenu()),
+
+              // Align(
+              //   alignment: Alignment.bottomCenter,
+              //   child: _buildBottomMenu(context),
+              // ),
+            ],
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: _buildBottomMenu(context),
-          ),
-        ],
+        ),
       ),
     );
   }

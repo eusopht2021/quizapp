@@ -11,6 +11,7 @@ class DefaultLayout extends StatelessWidget {
   final Color? titleColor;
   final Widget? action;
   final bool? expandBodyBehindAppBar;
+  final bool? showBackButton;
 
   const DefaultLayout({
     Key? key,
@@ -19,6 +20,7 @@ class DefaultLayout extends StatelessWidget {
     this.backgroundColor,
     this.titleColor,
     this.action,
+    this.showBackButton,
     this.expandBodyBehindAppBar,
   }) : super(key: key);
 
@@ -31,6 +33,7 @@ class DefaultLayout extends StatelessWidget {
         title: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               TitleText(
                 text: title,
@@ -47,18 +50,20 @@ class DefaultLayout extends StatelessWidget {
         actions: [
           action ?? SizedBox(),
         ],
-        leading: InkWell(
-          onTap: () => Navigator.pop(context),
-          child: Container(
-            padding: const EdgeInsets.all(
-              15,
-            ),
-            child: Image.asset(
-              Assets.backIcon,
-              color: titleColor,
-            ),
-          ),
-        ),
+        leading: (showBackButton ?? true)
+            ? InkWell(
+                onTap: () => Navigator.pop(context),
+                child: Container(
+                  padding: const EdgeInsets.all(
+                    15,
+                  ),
+                  child: Image.asset(
+                    Assets.backIcon,
+                    color: titleColor,
+                  ),
+                ),
+              )
+            : SizedBox(),
       ),
       body: child,
     );

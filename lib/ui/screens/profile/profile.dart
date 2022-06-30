@@ -222,7 +222,7 @@ class _ProfileState extends State<Profile> {
                   WidgetsUtil.verticalSpace24,
                   _statsCard(state),
                   WidgetsUtil.verticalSpace16,
-                  _tabs(),
+                  _tabs(state.userProfile.profileUrl!),
                 ],
               ),
             ),
@@ -240,19 +240,19 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  Widget _tabItem() {
+  Widget _tabItem(String profile) {
     switch (selectedIndex) {
       case 0:
         return _badgesTabItem();
       case 1:
-        return _statsTabBlock();
+        return _statsTabBloc();
       case 2:
-        return _detailsTab();
+        return _detailsTab(profile);
     }
     return const SizedBox();
   }
 
-  Widget _detailsTab() {
+  Widget _detailsTab(String profile) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -267,6 +267,7 @@ class _ProfileState extends State<Profile> {
               ),
               child: Column(
                 children: [
+                  WidgetsUtil.verticalSpace16,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -275,34 +276,40 @@ class _ProfileState extends State<Profile> {
                         size: Constants.bodyXLarge,
                         weight: FontWeight.w500,
                       ),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Constants.white,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: DropdownButton<String>(
-                          icon: const Icon(
-                            CupertinoIcons.chevron_down,
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 8),
+                          decoration: BoxDecoration(
+                            color: Constants.white,
+                            borderRadius: BorderRadius.circular(12),
                           ),
-                          value: selectedStat,
-                          items: statsFilter.map((item) {
-                            return DropdownMenuItem<String>(
-                              value: item,
-                              child: TitleText(
-                                text: item,
-                                size: Constants.bodyXSmall,
-                                weight: FontWeight.w500,
-                                textColor: Constants.black1,
-                              ),
-                            );
-                          }).toList(),
-                          underline: const SizedBox(),
-                          onChanged: (String? value) {
-                            log('OnChanged: $value');
-                            setState(() {
-                              selectedStat = value!;
-                            });
-                          },
+                          height: 34,
+                          alignment: Alignment.center,
+                          child: DropdownButton<String>(
+                            icon: const Icon(
+                              CupertinoIcons.chevron_down,
+                            ),
+                            value: selectedStat,
+                            items: statsFilter.map((item) {
+                              return DropdownMenuItem<String>(
+                                value: item,
+                                child: TitleText(
+                                  text: item,
+                                  size: Constants.bodyXSmall,
+                                  weight: FontWeight.w500,
+                                  textColor: Constants.black1,
+                                ),
+                              );
+                            }).toList(),
+                            underline: const SizedBox(),
+                            onChanged: (String? value) {
+                              log('OnChanged: $value');
+                              setState(() {
+                                selectedStat = value!;
+                              });
+                            },
+                          ),
                         ),
                       ),
                     ],
@@ -324,12 +331,12 @@ class _ProfileState extends State<Profile> {
                               Assets.crown,
                               height: 30,
                             ),
-                            position: BadgePosition.topEnd(end: 25, top: -10),
+                            position: BadgePosition.topEnd(end: 20, top: -20),
                             badgeColor: Colors.transparent,
                             child: CircleAvatar(
-                              radius: 40,
+                              radius: 35,
                               backgroundColor: Colors.transparent,
-                              backgroundImage: svg.Svg(Assets.woman1),
+                              backgroundImage: NetworkImage(profile),
                             ),
                           ),
                         ),
@@ -339,9 +346,67 @@ class _ProfileState extends State<Profile> {
                           weight: FontWeight.w500,
                         ),
                         CircleAvatar(
-                          radius: 40,
+                          radius: 35,
                           backgroundColor: Colors.transparent,
                           backgroundImage: svg.Svg(Assets.man4),
+                        ),
+                        Container(
+                          width: 100,
+                          height: 50,
+                          padding: EdgeInsets.symmetric(
+                              vertical: 12, horizontal: 12),
+                          decoration: BoxDecoration(
+                            color: Constants.lightGreen,
+                            borderRadius: BorderRadius.circular(9),
+                          ),
+                          child: TitleText(
+                            text: "+100 QP",
+                            size: Constants.bodyXLarge,
+                            weight: FontWeight.w500,
+                            textColor: Constants.white,
+                          ),
+                        )
+                      ]),
+                  WidgetsUtil.verticalSpace24,
+                  Divider(
+                    color: Constants.grey3,
+                    thickness: 2,
+                  ),
+                  WidgetsUtil.verticalSpace32,
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Badge(
+                          elevation: 0,
+                          showBadge: true,
+                          badgeContent: Image.asset(Assets.portugal),
+                          badgeColor: Colors.transparent,
+                          position: BadgePosition.bottomEnd(),
+                          child: Badge(
+                            elevation: 0,
+                            showBadge: true,
+                            badgeContent: SvgPicture.asset(
+                              Assets.crown,
+                              height: 30,
+                            ),
+                            position: BadgePosition.topEnd(end: 20, top: -20),
+                            badgeColor: Colors.transparent,
+                            child: CircleAvatar(
+                              radius: 35,
+                              backgroundColor: Colors.transparent,
+                              backgroundImage: NetworkImage(profile),
+                            ),
+                          ),
+                        ),
+                        TitleText(
+                          text: "VS",
+                          size: Constants.bodyXLarge,
+                          weight: FontWeight.w500,
+                        ),
+                        CircleAvatar(
+                          radius: 35,
+                          backgroundColor: Colors.transparent,
+                          backgroundImage: svg.Svg(Assets.man5),
                         ),
                         Container(
                           width: 100,
@@ -367,7 +432,7 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  Widget _statsTabBlock() {
+  Widget _statsTabBloc() {
     return BlocConsumer<StatisticCubit, StatisticState>(
         listener: (context, state) {
       if (state is StatisticFetchFailure) {
@@ -854,7 +919,7 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  Widget _tabs() {
+  Widget _tabs(profile) {
     return Column(
       children: [
         //tabs
@@ -902,7 +967,7 @@ class _ProfileState extends State<Profile> {
         ),
         //tabItems
         WidgetsUtil.verticalSpace16,
-        _tabItem(),
+        _tabItem(profile),
       ],
     );
   }

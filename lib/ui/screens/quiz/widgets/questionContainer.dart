@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tex/flutter_tex.dart';
 import 'package:flutterquiz/features/quiz/models/question.dart';
 import 'package:flutterquiz/ui/widgets/circularProgressContainner.dart';
+import 'package:flutterquiz/utils/constants.dart';
 
 class QuestionContainer extends StatelessWidget {
   final Question? question;
@@ -29,20 +30,20 @@ class QuestionContainer extends StatelessWidget {
             Flexible(
               child: Container(
                 alignment: Alignment.centerLeft,
-                padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width * (0.1)),
                 child: isMathQuestion
                     ? TeXView(
                         child: TeXViewDocument(
                           question!.question!,
                         ),
                         style: TeXViewStyle(
-                            contentColor:
-                                questionColor ?? Theme.of(context).primaryColor,
+                            contentColor: questionColor ?? Constants.black1,
                             backgroundColor: Colors.transparent,
                             sizeUnit: TeXViewSizeUnit.pixels,
                             textAlign: TeXViewTextAlign.center,
-                            fontStyle: TeXViewFontStyle(fontSize: 23)),
+                            fontStyle: TeXViewFontStyle(
+                              fontSize: Constants.bodyXLarge.toInt(),
+                              fontWeight: TeXViewFontWeight.w500,
+                            )),
                       )
                     : Text(
                         questionNumber == null
@@ -50,7 +51,7 @@ class QuestionContainer extends StatelessWidget {
                             : "$questionNumber. " + "${question!.question}",
                         style: TextStyle(
                             fontSize: 18.0,
-                            fontWeight: FontWeight.w400,
+                            fontWeight: FontWeight.w500,
                             color: questionColor ??
                                 Theme.of(context).primaryColor),
                       ),

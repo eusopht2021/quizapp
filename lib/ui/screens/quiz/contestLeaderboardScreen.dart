@@ -10,6 +10,7 @@ import 'package:flutterquiz/features/quiz/quizRemoteDataSoure.dart';
 import 'package:flutterquiz/features/quiz/quizRepository.dart';
 import 'package:flutterquiz/ui/styles/colors.dart';
 import 'package:flutterquiz/ui/widgets/customBackButton.dart';
+import 'package:flutterquiz/ui/widgets/custom_button.dart';
 import 'package:flutterquiz/ui/widgets/errorContainer.dart';
 import 'package:flutterquiz/ui/widgets/pageBackgroundGradientContainer.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
