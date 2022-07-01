@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg_provider/flutter_svg_provider.dart' as svg;
 import 'package:flutterquiz/app/appLocalization.dart';
 import 'package:flutterquiz/features/leaderBoard/cubit/leaderBoardAllTimeCubit.dart';
 import 'package:flutterquiz/features/leaderBoard/cubit/leaderBoardDailyCubit.dart';
@@ -215,6 +216,45 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
     return const SizedBox();
   }
 
+  double _topPosition(index) {
+    double position = 0;
+    index == 0
+        ? position = 30.0
+        : index == 1
+            ? position = 60.0
+            : index == 2
+                ? position = 140.0
+                : null;
+
+    return position;
+  }
+
+  double? _leftPosition(index) {
+    double? position = 0;
+    index == 0
+        ? position = 0
+        : index == 1
+            ? position = 50
+            // : index == 2
+            //     ? position = 60
+            : index == 2
+                ? position = null
+                : null;
+    return position;
+  }
+
+  double? _rightPosition(index) {
+    double? position = 0;
+    index == 0
+        ? position = 0
+        : index == 2
+            ? position = 50
+            : index == 1
+                ? position = null
+                : null;
+    return position;
+  }
+
   Widget _monthlyTab() {
     return BlocConsumer<LeaderBoardMonthlyCubit, LeaderBoardMonthlyState>(
         bloc: context.read<LeaderBoardMonthlyCubit>(),
@@ -256,17 +296,27 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
           final monthlyList =
               (state as LeaderBoardMonthlySuccess).leaderBoardDetails;
           final hasMore = state.hasMore;
+          final podiumList = [];
+          for (int i = 0; i < monthlyList.length; i++) {
+            if (i == 0) {
+              continue;
+            } else {
+              podiumList.add(monthlyList[i]);
+            }
+          }
           return Column(
             children: [
-              WidgetsUtil.verticalSpace16,
+              WidgetsUtil.verticalSpace24,
               SizedBox(
-                  height: SizeConfig.screenHeight,
-                  child: Stack(children: [
-                    Positioned(
-                      top: 50,
-                      left: 145,
-                      child: Column(
-                        children: [
+                height: SizeConfig.screenHeight,
+                child: Stack(
+                  children: [
+                    ...List.generate(podiumList.length, (index) {
+                      return Positioned(
+                        top: _topPosition(index),
+                        left: _leftPosition(index),
+                        right: _rightPosition(index),
+                        child: Column(children: [
                           Badge(
                             elevation: 0,
                             showBadge: true,
@@ -274,162 +324,108 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                             badgeColor: Colors.transparent,
                             position: BadgePosition.bottomEnd(),
                             child: Badge(
-                              elevation: 0,
-                              showBadge: true,
-                              badgeContent: SvgPicture.asset(
-                                Assets.crown,
-                                height: 30,
-                              ),
-                              position: BadgePosition.topEnd(end: 5, top: -20),
-                              badgeColor: Colors.transparent,
-                              child: CircleAvatar(
-                                radius: 25,
-                                backgroundColor: Colors.transparent,
-                                backgroundImage: CachedNetworkImageProvider(
-                                  monthlyList[1]['profile'],
-                                ),
-                              ),
-                            ),
+                                elevation: 0,
+                                showBadge: true,
+                                badgeContent: index == 0
+                                    ? SvgPicture.asset(
+                                        Assets.crown,
+                                        height: 30,
+                                      )
+                                    : SizedBox(),
+                                position:
+                                    BadgePosition.topEnd(end: 5, top: -20),
+                                badgeColor: Colors.transparent,
+                                child: CircleAvatar(
+                                  radius: 25,
+                                  backgroundColor: Colors.transparent,
+                                  backgroundImage: CachedNetworkImageProvider(
+                                    index == 0
+                                        ? podiumList[0]['profile']
+                                        : index == 1
+                                            ? podiumList[1]['profile']
+                                            : index == 2
+                                                ? podiumList[2]['profile']
+                                                : "",
+                                  ),
+                                )),
                           ),
                           WidgetsUtil.verticalSpace20,
                           SizedBox(
                             width: 100,
                             child: TitleText(
-                              text: monthlyList[1]['name']!.isNotEmpty
-                                  ? monthlyList[1]['name']!
-                                  : "...",
+                              text: index == 0
+                                  ? podiumList[0]['name']!.isNotEmpty
+                                      ? podiumList[0]['name']!
+                                      : ""
+                                  : index == 1
+                                      ? podiumList[1]['name']!.isNotEmpty
+                                          ? podiumList[1]['name']!
+                                          : ""
+                                      : index == 2
+                                          ? podiumList[2]['name']!.isNotEmpty
+                                              ? podiumList[2]['name']!
+                                              : ""
+                                          : "",
                               textColor: Constants.white,
                               size: Constants.bodySmall,
                               align: TextAlign.center,
                             ),
                           ),
                           WidgetsUtil.verticalSpace4,
-                          _QPContainer(
-                            Center(
-                              child: TitleText(
-                                text: monthlyList[1]['score']!.isNotEmpty
-                                    ? monthlyList[1]['score']!
-                                    : "...",
-                                size: Constants.bodyXSmall,
-                                textColor: Constants.white,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                          index < 3
+                              ? _QPContainer(
+                                  Center(
+                                    child: TitleText(
+                                      text: index == 0
+                                          ? podiumList[0]['score']!.isNotEmpty
+                                              ? podiumList[0]['score']!
+                                              : ""
+                                          : index == 1
+                                              ? podiumList[1]['score']!
+                                                      .isNotEmpty
+                                                  ? podiumList[1]['score']!
+                                                  : ""
+                                              : index == 2
+                                                  ? podiumList[2]['score']!
+                                                          .isNotEmpty
+                                                      ? podiumList[2]['score']!
+                                                      : ""
+                                                  : "",
+                                      size: Constants.bodyXSmall,
+                                      textColor: Constants.white,
+                                    ),
+                                  ),
+                                )
+                              : SizedBox(),
+                        ]),
+                      );
+                    }),
+                    Stack(
+                      children: [
+                        Positioned(
+                          top: 180,
+                          right: 133,
+                          left: 132,
+                          child: Image.asset(Assets.rank1),
+                        ),
+                        Positioned(
+                          top: 210,
+                          right: 243,
+                          left: 28,
+                          child: Image.asset(Assets.rank2),
+                        ),
+                        Positioned(
+                          top: 260,
+                          right: 28,
+                          left: 242,
+                          child: Image.asset(Assets.rank3),
+                        ),
+                        leaderBoardList(podiumList, hasMore),
+                      ],
                     ),
-                    Positioned(
-                      top: 60,
-                      left: 40,
-                      child: Column(
-                        children: [
-                          Badge(
-                            showBadge: true,
-                            badgeColor: Colors.transparent,
-                            position: BadgePosition.bottomEnd(),
-                            elevation: 0,
-                            badgeContent: Image.asset(Assets.france),
-                            child: CircleAvatar(
-                              radius: 25,
-                              backgroundColor: Colors.transparent,
-                              backgroundImage: CachedNetworkImageProvider(
-                                monthlyList[2]['profile'],
-                              ),
-                            ),
-                          ),
-                          WidgetsUtil.verticalSpace20,
-                          SizedBox(
-                            width: 100,
-                            child: TitleText(
-                              text: monthlyList[2]['name']!.isNotEmpty
-                                  ? monthlyList[2]['name']!
-                                  : "...",
-                              textColor: Constants.white,
-                              size: Constants.bodySmall,
-                              align: TextAlign.center,
-                            ),
-                          ),
-                          WidgetsUtil.verticalSpace4,
-                          _QPContainer(
-                            Center(
-                              child: TitleText(
-                                text: monthlyList[2]['score']!.isNotEmpty
-                                    ? monthlyList[2]['score']!
-                                    : "...",
-                                size: Constants.bodyXSmall,
-                                textColor: Constants.white,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Positioned(
-                      top: 110,
-                      right: 40,
-                      child: Column(
-                        children: [
-                          Badge(
-                            showBadge: true,
-                            badgeColor: Colors.transparent,
-                            position: BadgePosition.bottomEnd(),
-                            elevation: 0,
-                            badgeContent: Image.asset(Assets.portugal),
-                            child: CircleAvatar(
-                              radius: 25,
-                              backgroundColor: Colors.transparent,
-                              backgroundImage: CachedNetworkImageProvider(
-                                monthlyList[3]['profile'],
-                              ),
-                            ),
-                          ),
-                          WidgetsUtil.verticalSpace20,
-                          SizedBox(
-                            width: 100,
-                            child: TitleText(
-                              text: monthlyList[3]['name']!.isNotEmpty
-                                  ? monthlyList[3]['name']!
-                                  : "...",
-                              textColor: Constants.white,
-                              size: Constants.bodySmall,
-                              align: TextAlign.center,
-                            ),
-                          ),
-                          WidgetsUtil.verticalSpace4,
-                          _QPContainer(
-                            Center(
-                              child: TitleText(
-                                text: monthlyList[3]['score']!.isNotEmpty
-                                    ? monthlyList[3]['score']!
-                                    : "...",
-                                size: Constants.bodyXSmall,
-                                textColor: Constants.white,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Positioned(
-                      top: 180,
-                      right: 133,
-                      left: 132,
-                      child: Image.asset(Assets.rank1),
-                    ),
-                    Positioned(
-                      top: 210,
-                      right: 243,
-                      left: 28,
-                      child: Image.asset(Assets.rank2),
-                    ),
-                    Positioned(
-                      top: 260,
-                      right: 28,
-                      left: 242,
-                      child: Image.asset(Assets.rank3),
-                    ),
-                    leaderBoardList(monthlyList, hasMore),
-                  ])),
+                  ],
+                ),
+              ),
             ],
           );
         });
@@ -473,206 +469,162 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
           final dailyList =
               (state as LeaderBoardDailySuccess).leaderBoardDetails;
           final hasMore = state.hasMore;
+          final podiumList = [];
+          for (int i = 0; i < dailyList.length; i++) {
+            if (i == 0) {
+              continue;
+            } else {
+              podiumList.add(dailyList[i]);
+            }
+          }
           return Column(
             children: [
               WidgetsUtil.verticalSpace24,
+              // Positioned(
+              //         right: 25,
+              //         child: Container(
+              //           padding: EdgeInsets.all(5),
+              //           height: 34,
+              //           width: 140,
+              //           decoration: BoxDecoration(
+              //               borderRadius: BorderRadius.circular(12),
+              //               color: Constants.bluecolor),
+              //           child: Row(
+              //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //             children: [
+              //               Image.asset(Assets.schedule),
+              //               WidgetsUtil.horizontalSpace8,
+              //               Expanded(
+              //                 child: TitleText(
+              //                   text: "06d 23h 00m",
+              //                   weight: FontWeight.w500,
+              //                   size: 12,
+              //                   textColor: Constants.white,
+              //                 ),
+              //               ),
+              //             ],
+              //           ),
+              //         ),
+              //       ),
+
               SizedBox(
                 height: SizeConfig.screenHeight,
-                child: Stack(children: [
-                  Positioned(
-                    right: 25,
-                    child: Container(
-                      padding: EdgeInsets.all(5),
-                      height: 34,
-                      width: 140,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: Constants.bluecolor),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Image.asset(Assets.schedule),
-                          WidgetsUtil.horizontalSpace8,
-                          Expanded(
-                            child: TitleText(
-                              text: "06d 23h 00m",
-                              weight: FontWeight.w500,
-                              size: 12,
-                              textColor: Constants.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: 50,
-                    left: 145,
-                    child: Column(
-                      children: [
-                        Badge(
-                          elevation: 0,
-                          showBadge: true,
-                          badgeContent: Image.asset(Assets.portugal),
-                          badgeColor: Colors.transparent,
-                          position: BadgePosition.bottomEnd(),
-                          child: Badge(
+                child: Stack(
+                  children: [
+                    ...List.generate(podiumList.length, (index) {
+                      return Positioned(
+                        top: _topPosition(index),
+                        left: _leftPosition(index),
+                        right: _rightPosition(index),
+                        child: Column(children: [
+                          Badge(
                             elevation: 0,
                             showBadge: true,
-                            badgeContent: SvgPicture.asset(
-                              Assets.crown,
-                              height: 30,
-                            ),
-                            position: BadgePosition.topEnd(end: 5, top: -20),
+                            badgeContent: Image.asset(Assets.portugal),
                             badgeColor: Colors.transparent,
-                            child: CircleAvatar(
-                              radius: 25,
-                              backgroundColor: Colors.transparent,
-                              backgroundImage: CachedNetworkImageProvider(
-                                dailyList[1]['profile'],
-                              ),
-                            ),
+                            position: BadgePosition.bottomEnd(),
+                            child: Badge(
+                                elevation: 0,
+                                showBadge: true,
+                                badgeContent: index == 0
+                                    ? SvgPicture.asset(
+                                        Assets.crown,
+                                        height: 30,
+                                      )
+                                    : SizedBox(),
+                                position:
+                                    BadgePosition.topEnd(end: 5, top: -20),
+                                badgeColor: Colors.transparent,
+                                child: CircleAvatar(
+                                  radius: 25,
+                                  backgroundColor: Colors.transparent,
+                                  backgroundImage: CachedNetworkImageProvider(
+                                    index == 0
+                                        ? podiumList[0]['profile']
+                                        : index == 1
+                                            ? podiumList[1]['profile']
+                                            : index == 2
+                                                ? podiumList[2]['profile']
+                                                : "",
+                                  ),
+                                )),
                           ),
-                        ),
-                        WidgetsUtil.verticalSpace20,
-                        SizedBox(
-                          width: 100,
-                          child: TitleText(
-                            text: dailyList[1]['name']!.isNotEmpty
-                                ? dailyList[1]['name']!
-                                : "...",
-                            textColor: Constants.white,
-                            size: Constants.bodySmall,
-                            align: TextAlign.center,
-                          ),
-                        ),
-                        WidgetsUtil.verticalSpace4,
-                        _QPContainer(
-                          Center(
+                          WidgetsUtil.verticalSpace20,
+                          SizedBox(
+                            width: 100,
                             child: TitleText(
-                              text: dailyList[1]['score']!.isNotEmpty
-                                  ? dailyList[1]['score']!
-                                  : "...",
-                              size: Constants.bodyXSmall,
+                              text: index == 0
+                                  ? podiumList[0]['name']!.isNotEmpty
+                                      ? podiumList[0]['name']!
+                                      : ""
+                                  : index == 1
+                                      ? podiumList[1]['name']!.isNotEmpty
+                                          ? podiumList[1]['name']!
+                                          : ""
+                                      : index == 2
+                                          ? podiumList[2]['name']!.isNotEmpty
+                                              ? podiumList[2]['name']!
+                                              : ""
+                                          : "",
                               textColor: Constants.white,
+                              size: Constants.bodySmall,
+                              align: TextAlign.center,
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Positioned(
-                    top: 60,
-                    left: 40,
-                    child: Column(
+                          WidgetsUtil.verticalSpace4,
+                          index < 3
+                              ? _QPContainer(
+                                  Center(
+                                    child: TitleText(
+                                      text: index == 0
+                                          ? podiumList[0]['score']!.isNotEmpty
+                                              ? podiumList[0]['score']!
+                                              : ""
+                                          : index == 1
+                                              ? podiumList[1]['score']!
+                                                      .isNotEmpty
+                                                  ? podiumList[1]['score']!
+                                                  : ""
+                                              : index == 2
+                                                  ? podiumList[2]['score']!
+                                                          .isNotEmpty
+                                                      ? podiumList[2]['score']!
+                                                      : ""
+                                                  : "",
+                                      size: Constants.bodyXSmall,
+                                      textColor: Constants.white,
+                                    ),
+                                  ),
+                                )
+                              : SizedBox(),
+                        ]),
+                      );
+                    }),
+                    Stack(
                       children: [
-                        Badge(
-                          showBadge: true,
-                          badgeColor: Colors.transparent,
-                          position: BadgePosition.bottomEnd(),
-                          elevation: 0,
-                          badgeContent: Image.asset(Assets.france),
-                          child: CircleAvatar(
-                            radius: 25,
-                            backgroundColor: Colors.transparent,
-                            backgroundImage: CachedNetworkImageProvider(
-                              dailyList[2]['profile'],
-                            ),
-                          ),
+                        Positioned(
+                          top: 180,
+                          right: 133,
+                          left: 132,
+                          child: Image.asset(Assets.rank1),
                         ),
-                        WidgetsUtil.verticalSpace20,
-                        SizedBox(
-                          width: 100,
-                          child: TitleText(
-                            text: dailyList[2]['name']!.isNotEmpty
-                                ? dailyList[2]['name']!
-                                : "...",
-                            textColor: Constants.white,
-                            size: Constants.bodySmall,
-                            align: TextAlign.center,
-                          ),
+                        Positioned(
+                          top: 210,
+                          right: 243,
+                          left: 28,
+                          child: Image.asset(Assets.rank2),
                         ),
-                        WidgetsUtil.verticalSpace4,
-                        _QPContainer(
-                          Center(
-                            child: TitleText(
-                              text: dailyList[2]['score']!.isNotEmpty
-                                  ? dailyList[2]['score']!
-                                  : "...",
-                              size: Constants.bodyXSmall,
-                              textColor: Constants.white,
-                            ),
-                          ),
+                        Positioned(
+                          top: 260,
+                          right: 28,
+                          left: 242,
+                          child: Image.asset(Assets.rank3),
                         ),
+                        leaderBoardList(dailyList, hasMore),
                       ],
                     ),
-                  ),
-                  Positioned(
-                    top: 110,
-                    right: 40,
-                    child: Column(
-                      children: [
-                        Badge(
-                          showBadge: true,
-                          badgeColor: Colors.transparent,
-                          position: BadgePosition.bottomEnd(),
-                          elevation: 0,
-                          badgeContent: Image.asset(Assets.portugal),
-                          child: CircleAvatar(
-                            radius: 25,
-                            backgroundColor: Colors.transparent,
-                            backgroundImage: CachedNetworkImageProvider(
-                              dailyList[3]['profile'],
-                            ),
-                          ),
-                        ),
-                        WidgetsUtil.verticalSpace20,
-                        SizedBox(
-                          width: 100,
-                          child: TitleText(
-                            text: dailyList[3]['name']!.isNotEmpty
-                                ? dailyList[3]['name']!
-                                : "...",
-                            textColor: Constants.white,
-                            size: Constants.bodySmall,
-                            align: TextAlign.center,
-                          ),
-                        ),
-                        WidgetsUtil.verticalSpace4,
-                        _QPContainer(
-                          Center(
-                            child: TitleText(
-                              text: dailyList[3]['score']!.isNotEmpty
-                                  ? dailyList[3]['score']!
-                                  : "...",
-                              size: Constants.bodyXSmall,
-                              textColor: Constants.white,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Positioned(
-                    top: 180,
-                    right: 133,
-                    left: 132,
-                    child: Image.asset(Assets.rank1),
-                  ),
-                  Positioned(
-                    top: 210,
-                    right: 243,
-                    left: 28,
-                    child: Image.asset(Assets.rank2),
-                  ),
-                  Positioned(
-                    top: 260,
-                    right: 28,
-                    left: 242,
-                    child: Image.asset(Assets.rank3),
-                  ),
-                  leaderBoardList(dailyList, hasMore),
-                ]),
+                  ],
+                ),
               ),
             ],
           );
@@ -720,181 +672,136 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
           final allTimeList =
               (state as LeaderBoardAllTimeSuccess).leaderBoardDetails;
           final hasMore = state.hasMore;
+
+          final podiumList = [];
+          for (int i = 0; i < allTimeList.length; i++) {
+            if (i == 0) {
+              continue;
+            } else {
+              podiumList.add(allTimeList[i]);
+            }
+          }
           return Column(
             children: [
               WidgetsUtil.verticalSpace24,
               SizedBox(
                 height: SizeConfig.screenHeight,
-                child: Stack(children: [
-                  Positioned(
-                    top: 40,
-                    left: 145,
-                    child: Column(
-                      children: [
-                        Badge(
-                          elevation: 0,
-                          showBadge: true,
-                          badgeContent: Image.asset(Assets.portugal),
-                          badgeColor: Colors.transparent,
-                          position: BadgePosition.bottomEnd(),
-                          child: Badge(
+                child: Stack(
+                  children: [
+                    ...List.generate(podiumList.length, (index) {
+                      return Positioned(
+                        top: _topPosition(index),
+                        left: _leftPosition(index),
+                        right: _rightPosition(index),
+                        child: Column(children: [
+                          Badge(
                             elevation: 0,
                             showBadge: true,
-                            badgeContent: SvgPicture.asset(
-                              Assets.crown,
-                              height: 30,
-                            ),
-                            position: BadgePosition.topEnd(end: 5, top: -20),
+                            badgeContent: Image.asset(Assets.portugal),
                             badgeColor: Colors.transparent,
-                            child: CircleAvatar(
-                              radius: 25,
-                              backgroundColor: Colors.transparent,
-                              backgroundImage: CachedNetworkImageProvider(
-                                allTimeList[1]['profile'],
-                              ),
-                            ),
+                            position: BadgePosition.bottomEnd(),
+                            child: Badge(
+                                elevation: 0,
+                                showBadge: true,
+                                badgeContent: index == 0
+                                    ? SvgPicture.asset(
+                                        Assets.crown,
+                                        height: 30,
+                                      )
+                                    : SizedBox(),
+                                position:
+                                    BadgePosition.topEnd(end: 5, top: -20),
+                                badgeColor: Colors.transparent,
+                                child: CircleAvatar(
+                                  radius: 25,
+                                  backgroundColor: Colors.transparent,
+                                  backgroundImage: CachedNetworkImageProvider(
+                                    index == 0
+                                        ? podiumList[0]['profile']
+                                        : index == 1
+                                            ? podiumList[1]['profile']
+                                            : index == 2
+                                                ? podiumList[2]['profile']
+                                                : "",
+                                  ),
+                                )),
                           ),
-                        ),
-                        WidgetsUtil.verticalSpace20,
-                        SizedBox(
-                          width: 100,
-                          height: 40,
-                          child: TitleText(
-                            text: allTimeList[1]['name']!.isNotEmpty
-                                ? allTimeList[1]['name']!
-                                : "...",
-                            textColor: Constants.white,
-                            size: Constants.bodySmall,
-                            align: TextAlign.center,
-                          ),
-                        ),
-                        WidgetsUtil.verticalSpace4,
-                        _QPContainer(
-                          Center(
+                          WidgetsUtil.verticalSpace20,
+                          SizedBox(
+                            width: 100,
                             child: TitleText(
-                              text: allTimeList[1]['score']!.isNotEmpty
-                                  ? allTimeList[1]['score']!
-                                  : "...",
-                              size: Constants.bodyXSmall,
+                              text: index == 0
+                                  ? podiumList[0]['name']!.isNotEmpty
+                                      ? podiumList[0]['name']!
+                                      : ""
+                                  : index == 1
+                                      ? podiumList[1]['name']!.isNotEmpty
+                                          ? podiumList[1]['name']!
+                                          : ""
+                                      : index == 2
+                                          ? podiumList[2]['name']!.isNotEmpty
+                                              ? podiumList[2]['name']!
+                                              : ""
+                                          : "",
                               textColor: Constants.white,
+                              size: Constants.bodySmall,
+                              align: TextAlign.center,
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Positioned(
-                    top: 60,
-                    left: 40,
-                    child: Column(
+                          WidgetsUtil.verticalSpace4,
+                          index < 3
+                              ? _QPContainer(
+                                  Center(
+                                    child: TitleText(
+                                      text: index == 0
+                                          ? podiumList[0]['score']!.isNotEmpty
+                                              ? podiumList[0]['score']!
+                                              : ""
+                                          : index == 1
+                                              ? podiumList[1]['score']!
+                                                      .isNotEmpty
+                                                  ? podiumList[1]['score']!
+                                                  : ""
+                                              : index == 2
+                                                  ? podiumList[2]['score']!
+                                                          .isNotEmpty
+                                                      ? podiumList[2]['score']!
+                                                      : ""
+                                                  : "",
+                                      size: Constants.bodyXSmall,
+                                      textColor: Constants.white,
+                                    ),
+                                  ),
+                                )
+                              : SizedBox(),
+                        ]),
+                      );
+                    }),
+                    Stack(
                       children: [
-                        Badge(
-                          showBadge: true,
-                          badgeColor: Colors.transparent,
-                          position: BadgePosition.bottomEnd(),
-                          elevation: 0,
-                          badgeContent: Image.asset(Assets.france),
-                          child: CircleAvatar(
-                            radius: 25,
-                            backgroundColor: Colors.transparent,
-                            backgroundImage: CachedNetworkImageProvider(
-                              allTimeList[2]['profile'],
-                            ),
-                          ),
+                        Positioned(
+                          top: 180,
+                          right: 133,
+                          left: 132,
+                          child: Image.asset(Assets.rank1),
                         ),
-                        WidgetsUtil.verticalSpace20,
-                        SizedBox(
-                          width: 100,
-                          child: TitleText(
-                            text: allTimeList[2]['name']!.isNotEmpty
-                                ? allTimeList[2]['name']!
-                                : "...",
-                            textColor: Constants.white,
-                            size: Constants.bodySmall,
-                            align: TextAlign.center,
-                          ),
+                        Positioned(
+                          top: 210,
+                          right: 243,
+                          left: 28,
+                          child: Image.asset(Assets.rank2),
                         ),
-                        WidgetsUtil.verticalSpace4,
-                        _QPContainer(
-                          Center(
-                            child: TitleText(
-                              text: allTimeList[2]['score']!.isNotEmpty
-                                  ? allTimeList[2]['score']!
-                                  : "...",
-                              size: Constants.bodyXSmall,
-                              textColor: Constants.white,
-                            ),
-                          ),
+                        Positioned(
+                          top: 260,
+                          right: 28,
+                          left: 242,
+                          child: Image.asset(Assets.rank3),
                         ),
+                        leaderBoardList(podiumList, hasMore),
                       ],
                     ),
-                  ),
-                  Positioned(
-                    top: 110,
-                    right: 40,
-                    child: Column(
-                      children: [
-                        Badge(
-                          showBadge: true,
-                          badgeColor: Colors.transparent,
-                          position: BadgePosition.bottomEnd(),
-                          elevation: 0,
-                          badgeContent: Image.asset(Assets.portugal),
-                          child: CircleAvatar(
-                            radius: 25,
-                            backgroundColor: Colors.transparent,
-                            backgroundImage: CachedNetworkImageProvider(
-                              allTimeList[3]['profile'],
-                            ),
-                          ),
-                        ),
-                        WidgetsUtil.verticalSpace20,
-                        SizedBox(
-                          width: 100,
-                          child: TitleText(
-                            text: allTimeList[3]['name']!.isNotEmpty
-                                ? allTimeList[3]['name']!
-                                : "...",
-                            textColor: Constants.white,
-                            size: Constants.bodySmall,
-                            align: TextAlign.center,
-                          ),
-                        ),
-                        WidgetsUtil.verticalSpace4,
-                        _QPContainer(
-                          Center(
-                            child: TitleText(
-                              text: allTimeList[3]['score']!.isNotEmpty
-                                  ? allTimeList[3]['score']!
-                                  : "...",
-                              size: Constants.bodyXSmall,
-                              textColor: Constants.white,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Positioned(
-                    top: 180,
-                    right: 133,
-                    left: 132,
-                    child: Image.asset(Assets.rank1),
-                  ),
-                  Positioned(
-                    top: 210,
-                    right: 243,
-                    left: 28,
-                    child: Image.asset(Assets.rank2),
-                  ),
-                  Positioned(
-                    top: 260,
-                    right: 28,
-                    left: 242,
-                    child: Image.asset(Assets.rank3),
-                  ),
-                  leaderBoardList(allTimeList, hasMore),
-                ]),
+                  ],
+                ),
               ),
             ],
           );

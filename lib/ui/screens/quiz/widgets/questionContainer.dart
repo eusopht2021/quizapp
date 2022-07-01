@@ -52,8 +52,7 @@ class QuestionContainer extends StatelessWidget {
                         style: TextStyle(
                             fontSize: 18.0,
                             fontWeight: FontWeight.w500,
-                            color: questionColor ??
-                                Theme.of(context).primaryColor),
+                            color: questionColor ?? Constants.black1),
                       ),
               ),
             ),

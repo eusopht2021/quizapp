@@ -27,6 +27,7 @@ import 'package:flutterquiz/utils/answerEncryption.dart';
 import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/custom_appbar.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
+import 'package:flutterquiz/utils/quizTypes.dart';
 import 'package:flutterquiz/utils/size_config.dart';
 import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
@@ -172,51 +173,50 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
     return widget.guessTheWordQuestions.isNotEmpty;
   }
 
-  Widget _newgetOptionsContainer(Question question,
-      {String? optionId, AnswerOption? option}) {
-    String correctAnswerId = AnswerEncryption.decryptCorrectAnswer(
-        rawKey: context.read<UserDetailsCubit>().getUserFirebaseId(),
-        correctAnswer: question.correctAnswer!);
+  // Widget _newgetOptionsContainer(Question question,
+  //     {String? optionId, AnswerOption? option}) {
+  //   String correctAnswerId = AnswerEncryption.decryptCorrectAnswer(
+  //       rawKey: context.read<UserDetailsCubit>().getUserFirebaseId(),
+  //       correctAnswer: question.correctAnswer!);
 
-    return Column(
-      children: [
-        if (question.attempted) ...{
-          question.submittedAnswerId == question.correctAnswer
-              ? Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    color: getOptionColor(question, option!.id),
-                  ),
-                  width: MediaQuery.of(context).size.width * (0.8),
-                  margin: EdgeInsets.only(top: 15.0),
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
-                  child: widget.quizType == QuizTypes.mathMania
-                      ? TeXView(
-                          child: TeXViewDocument(
-                            option.title!,
-                          ),
-                          style: TeXViewStyle(
-                              contentColor: Theme.of(context).backgroundColor,
-                              backgroundColor: Colors.transparent,
-                              sizeUnit: TeXViewSizeUnit.pixels,
-                              textAlign: TeXViewTextAlign.center,
-                              fontStyle: TeXViewFontStyle(fontSize: 19)),
-                        )
-                      : Text(
-                          option.title!,
-                          style: TextStyle(
-                              color: Theme.of(context).backgroundColor),
-                        ),
-                )
-              : Container(
-                  color: Constants.accent2,
-                  height: 50,
-                ),
-        }
-      ],
-    );
-  }
+  //   return Column(
+  //     children: [
+  //       if (question.attempted) ...{
+  //         question.submittedAnswerId == question.correctAnswer
+  //             ? Container(
+  //                 decoration: BoxDecoration(
+  //                   borderRadius: BorderRadius.circular(16),
+  //                   color: getOptionColor(question, option!.id),
+  //                 ),
+  //                 width: MediaQuery.of(context).size.width * (0.8),
+  //                 margin: EdgeInsets.only(top: 15.0),
+  //                 padding:
+  //                     EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+  //                 child: widget.quizType == QuizTypes.mathMania
+  //                     ? TeXView(
+  //                         child: TeXViewDocument(
+  //                           option.title!,
+  //                         ),
+  //                         style: TeXViewStyle(
+  //                             contentColor: Constants.black1,
+  //                             backgroundColor: Colors.transparent,
+  //                             sizeUnit: TeXViewSizeUnit.pixels,
+  //                             textAlign: TeXViewTextAlign.center,
+  //                             fontStyle: TeXViewFontStyle(fontSize: 19)),
+  //                       )
+  //                     : Text(
+  //                         option.title!,
+  //                         style: TextStyle(color: Constants.black1),
+  //                       ),
+  //               )
+  //             : Container(
+  //                 color: Constants.accent2,
+  //                 height: 50,
+  //               ),
+  //       }
+  //     ],
+  //   );
+  // }
 
   Color getOptionColor(Question question, String? optionId) {
     String correctAnswerId = AnswerEncryption.decryptCorrectAnswer(
@@ -413,11 +413,141 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
   }
 
   Widget _buildOptions(Question question) {
-    return Column(
-      children: question.answerOptions!.map((option) {
-        return _buildOption(option, question);
-      }).toList(),
-    );
+    // AnswerOption option = AnswerOption();
+    for (int i = 0; i < question.answerOptions!.length; i++) {
+      AnswerOption option = question.answerOptions![i];
+      option.id == question.submittedAnswerId;
+      String correctAnswerId = AnswerEncryption.decryptCorrectAnswer(
+          rawKey: context.read<UserDetailsCubit>().getUserFirebaseId(),
+          correctAnswer: question.correctAnswer!);
+      print("options " + option.id!);
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          TitleText(
+            text: question.submittedAnswerId == correctAnswerId
+                ? "CORRECT ANSWER"
+                : "SELECTED ANSWER",
+            size: Constants.bodyXSmall,
+            textColor: Constants.grey2,
+            weight: FontWeight.w500,
+          ),
+          Container(
+            decoration: BoxDecoration(
+                border: question.submittedAnswerId == correctAnswerId
+                    ? Border()
+                    : Border.all(color: Colors.red),
+                borderRadius: BorderRadius.circular(16),
+                color: question.submittedAnswerId == correctAnswerId
+                    ? Constants.lightGreen
+                    : Colors.white
+                // color:
+                ),
+            width: MediaQuery.of(context).size.width * (0.8),
+            margin: EdgeInsets.only(top: 15.0),
+            padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                widget.quizType == QuizTypes.mathMania
+                    ? Expanded(
+                        child: TeXView(
+                          child: TeXViewDocument(
+                            option.title!,
+                          ),
+                          style: TeXViewStyle(
+                              contentColor:
+                                  question.submittedAnswerId == correctAnswerId
+                                      ? Constants.white
+                                      : Colors.red,
+                              backgroundColor: Colors.transparent,
+                              sizeUnit: TeXViewSizeUnit.pixels,
+                              textAlign: TeXViewTextAlign.center,
+                              fontStyle: TeXViewFontStyle(fontSize: 19)),
+                        ),
+                      )
+                    : Text(
+                        option.title!,
+                        style: TextStyle(
+                            color: question.submittedAnswerId == correctAnswerId
+                                ? Constants.white
+                                : Colors.red),
+                      ),
+                Icon(
+                  question.submittedAnswerId == correctAnswerId
+                      ? Icons.check
+                      : Icons.close,
+                  color: question.submittedAnswerId == correctAnswerId
+                      ? Constants.white
+                      : Colors.red,
+                ),
+              ],
+            ),
+          ),
+          WidgetsUtil.verticalSpace24,
+          question.submittedAnswerId != correctAnswerId
+              ? TitleText(
+                  text: "CORRECT ANSWER",
+                  size: Constants.bodyXSmall,
+                  textColor: Constants.grey2,
+                  weight: FontWeight.w500,
+                )
+              : SizedBox(),
+          question.submittedAnswerId != correctAnswerId
+              ? Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    color: Constants.lightGreen,
+
+                    // color:
+                  ),
+                  width: MediaQuery.of(context).size.width * (0.8),
+                  margin: EdgeInsets.only(top: 15.0),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      widget.quizType == QuizTypes.mathMania
+                          ? Expanded(
+                              child: TeXView(
+                                child: TeXViewDocument(
+                                  correctAnswerId,
+                                ),
+                                style: TeXViewStyle(
+                                    contentColor: Constants.white,
+                                    backgroundColor: Colors.transparent,
+                                    sizeUnit: TeXViewSizeUnit.pixels,
+                                    textAlign: TeXViewTextAlign.center,
+                                    fontStyle: TeXViewFontStyle(fontSize: 19)),
+                              ),
+                            )
+                          : Text(
+                              option.title!,
+                              style: TextStyle(color: Constants.white),
+                            ),
+                      Icon(
+                        Icons.check,
+                        color: Constants.white,
+                      ),
+                    ],
+                  ),
+                )
+              : Container()
+        ],
+      );
+
+      // return Container();
+
+      // return Column(
+      //   children: question.answerOptions!.map((option) {
+      //     return _buildOption(option, question);
+      //   }).toList(),
+      // );
+    }
+    return Container();
+//
   }
 
   Widget _buildGuessTheWordOptionAndAnswer(
@@ -529,7 +659,7 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
               : Container(),
 
           //build options
-
+//newbuild and old build option here
           _buildOptions(question),
           // _newgetOptionsContainer(question), start from here
           _buildNotes(question.note!),
@@ -663,9 +793,12 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
         showBackButton: false,
         backgroundColor: Constants.primaryColor,
         title: "Answers Explanation",
-        action: Icon(
-          Icons.close,
-          size: 40,
+        action: IconButton(
+          onPressed: () {
+            Navigator.popUntil(context, (route) => route.isFirst);
+          },
+          icon: Icon(Icons.close),
+          iconSize: 40,
         ),
         titleColor: Constants.white,
         child: CustomCard(
