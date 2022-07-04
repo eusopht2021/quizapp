@@ -116,13 +116,13 @@ class _OptionContainerState extends State<OptionContainer>
 
   Color _buildOptionBackgroundColor() {
     if (widget.showAnswerCorrectness) {
-      return Theme.of(context).colorScheme.secondary;
+      return Constants.white;
     }
     if (widget.hasSubmittedAnswerForCurrentQuestion() &&
         widget.submittedAnswerId == widget.answerOption.id) {
-      return Theme.of(context).primaryColor;
+      return Constants.lightGreen;
     }
-    return Theme.of(context).colorScheme.secondary;
+    return Colors.red;
   }
 
   void _onTapOptionContainer() {
@@ -175,9 +175,11 @@ class _OptionContainerState extends State<OptionContainer>
             alignment: Alignment.center,
             children: [
               Container(
+                decoration: BoxDecoration(
+                  color: _buildOptionBackgroundColor(),
+                ),
                 padding: EdgeInsets.symmetric(
                     horizontal: 15.0, vertical: maxLines > 2 ? 7.50 : 0),
-                color: _buildOptionBackgroundColor(),
                 alignment: AlignmentDirectional.centerStart,
                 child:
                     //if question type is 1 means render latex question
@@ -194,9 +196,8 @@ class _OptionContainerState extends State<OptionContainer>
                                 ),
                                 id: widget.answerOption.id!),
                             style: TeXViewStyle(
-                                contentColor: Theme.of(context).backgroundColor,
-                                backgroundColor:
-                                    Theme.of(context).colorScheme.secondary,
+                                contentColor: Constants.black1,
+                                backgroundColor: Constants.black1,
                                 sizeUnit: TeXViewSizeUnit.pixels,
                                 textAlign: TeXViewTextAlign.center,
                                 fontStyle: TeXViewFontStyle(fontSize: 21)),
@@ -220,30 +221,20 @@ class _OptionContainerState extends State<OptionContainer>
                               .drive(Tween<double>(begin: 40.0, end: 20))
                               .value;
 
-                          return Opacity(
-                            opacity: topContainerOpacityAnimation.value,
-                            child: Container(
-                              alignment: Alignment.center,
-                              child: Transform.scale(
-                                scale: answerCorrectnessAnimation.value,
-                                child: Opacity(
-                                  opacity: answerCorrectnessAnimation.value,
-                                  child: widget.answerOption.id ==
-                                          widget.correctOptionId
-                                      ? Icon(Icons.check,
-                                          color:
-                                              Theme.of(context).backgroundColor)
-                                      : Icon(Icons.close,
-                                          color: Theme.of(context)
-                                              .backgroundColor),
-                                ),
-                              ),
-                              decoration: BoxDecoration(
-                                  color: Theme.of(context).primaryColor,
-                                  borderRadius:
-                                      BorderRadius.circular(borderRadius)),
-                              width: optionWidth * width,
-                              height: widget.constraints.maxHeight * height,
+                          return Container(
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                color: _buildOptionBackgroundColor(),
+                                borderRadius:
+                                    BorderRadius.circular(borderRadius)),
+                            width: optionWidth * width,
+                            height: widget.constraints.maxHeight * height,
+                            child: Transform.scale(
+                              scale: answerCorrectnessAnimation.value,
+                              child: widget.answerOption.id ==
+                                      widget.correctOptionId
+                                  ? Icon(Icons.check, color: Constants.white)
+                                  : Icon(Icons.close, color: Colors.red),
                             ),
                           );
                         },
@@ -262,10 +253,7 @@ class _OptionContainerState extends State<OptionContainer>
   Widget build(BuildContext context) {
     textSpan = TextSpan(
         text: widget.answerOption.title,
-        style: TextStyle(
-            color: Theme.of(context).backgroundColor,
-            height: 1.0,
-            fontSize: 16.0));
+        style: TextStyle(color: Constants.black1, height: 1.0, fontSize: 16.0));
     return GestureDetector(
       onTapCancel: () {
         animationController.reverse();

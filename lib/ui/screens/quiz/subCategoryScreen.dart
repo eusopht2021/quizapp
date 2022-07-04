@@ -11,6 +11,7 @@ import 'package:flutterquiz/ui/widgets/customBackButton.dart';
 import 'package:flutterquiz/ui/widgets/errorContainer.dart';
 import 'package:flutterquiz/ui/widgets/pageBackgroundGradientContainer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
 
@@ -56,7 +57,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
       child: Padding(
         padding: EdgeInsetsDirectional.only(top: 15.0, start: 20),
         child: CustomBackButton(
-          iconColor: Theme.of(context).primaryColor,
+          iconColor: Constants.white,
         ),
       ),
     );
@@ -79,8 +80,8 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
           if (state is SubCategoryFetchInProgress ||
               state is SubCategoryInitial) {
             return Center(
-              child: CircularProgressContainer(
-                useWhiteLoader: false,
+              child: CircularProgressIndicator(
+                color: Constants.white,
               ),
             );
           }
@@ -121,7 +122,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                       margin: EdgeInsets.all(15),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20.0),
-                          color: Theme.of(context).primaryColor),
+                          color: Constants.secondaryColor),
                       child: ListTile(
                         onTap: () {
                           if (widget.quizType == QuizTypes.guessTheWord) {
@@ -161,12 +162,13 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                         trailing: Icon(
                           Icons.navigate_next_outlined,
                           size: 40,
-                          color: Theme.of(context).backgroundColor,
+                          color: Constants.white,
                         ),
                         title: Text(
                           subCategoryList[index].subcategoryName!,
                           style: TextStyle(
-                              color: Theme.of(context).backgroundColor),
+                            color: Constants.white,
+                          ),
                         ),
                       ));
                 },
@@ -186,13 +188,13 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Constants.primaryColor,
       body: Padding(
         padding: EdgeInsets.only(
           top: MediaQuery.of(context).padding.top,
         ),
         child: Stack(
           children: [
-            PageBackgroundGradientContainer(),
             _buildSubCategory(),
             _buildBackButton(),
             _buildBannerAd(),

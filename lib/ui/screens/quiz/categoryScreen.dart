@@ -15,6 +15,7 @@ import 'package:flutterquiz/ui/widgets/default_layout.dart';
 import 'package:flutterquiz/ui/widgets/errorContainer.dart';
 import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
+import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
 
 class CategoryScreen extends StatefulWidget {
@@ -73,7 +74,7 @@ class _CategoryScreen extends State<CategoryScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           CustomBackButton(
-            iconColor: Theme.of(context).primaryColor,
+            iconColor: Constants.white,
           )
         ],
       ),
@@ -166,8 +167,12 @@ class _CategoryScreen extends State<CategoryScreen> {
                     }
                   } else if (widget.quizType == QuizTypes.audioQuestions) {
                     //noOf means how many subcategory it has
+                    log("  audio questions " + categoryList[index].toString());
 
                     if (categoryList[index].noOf == "0") {
+                      log("  audio questions " +
+                          categoryList[index].toString());
+
                       //
                       Navigator.of(context).pushNamed(Routes.quiz, arguments: {
                         "numberOfPlayer": 1,
@@ -249,15 +254,12 @@ class _CategoryScreen extends State<CategoryScreen> {
                           color: Theme.of(context).backgroundColor,
                         ),
                       ),
-                      trailing: Icon(
-                        Icons.navigate_next_outlined,
-                        size: 40,
-                        color: Theme.of(context).backgroundColor,
-                      ),
+                      trailing: Icon(Icons.navigate_next_outlined,
+                          size: 40, color: Constants.white),
                       title: Text(
                         categoryList[index].categoryName!,
                         style:
-                            TextStyle(color: Theme.of(context).backgroundColor),
+                            TextStyle(color: Constants.white),
                       ),
                     )),
               );

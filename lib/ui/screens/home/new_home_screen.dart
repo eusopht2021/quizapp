@@ -540,7 +540,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
         _quizTypes.removeWhere(
             (element) => element.quizTypeEnum == QuizTypes.dailyQuiz);
       }
-      if (!systemCubit.getIsAudioQuestionAvailable()) {
+      if (!systemCubit.getIsAudioQuestionAvailable() == "0") {
         _quizTypes.removeWhere(
             (element) => element.quizTypeEnum == QuizTypes.audioQuestions);
       }

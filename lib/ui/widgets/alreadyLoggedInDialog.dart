@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutterquiz/app/appLocalization.dart';
 import 'package:flutterquiz/app/routes.dart';
+import 'package:flutterquiz/ui/widgets/title_text.dart';
 import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
 
@@ -27,10 +28,9 @@ class AlreadyLoggedInDialog extends StatelessWidget {
           SizedBox(
             height: 15.0,
           ),
-          Text(
-            "Already logged in other device",
-            style: TextStyle(color: Theme.of(context).colorScheme.secondary),
-          ),
+          TitleText(
+              text: "Already logged in other device",
+              textColor: Theme.of(context).colorScheme.secondary),
           SizedBox(
             height: 15.0,
           ),

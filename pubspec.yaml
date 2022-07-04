@@ -51,15 +51,17 @@ dependencies:
   in_app_purchase: ^2.0.0
   internet_connection_checker: ^0.0.1+2
   device_info_plus: ^3.2.1
-
+  music_visualizer: ^1.0.2
   ios_insecure_screen_detector: ^0.0.2
   intl: ^0.17.0
   animated_bottom_navigation_bar: ^0.3.3
   intl_phone_field: ^2.1.0
   fl_chart: ^0.50.6
   jaguar_jwt: ^3.0.0
-  just_audio: ^0.9.12
+  just_audio:
+    path: D:\just_audio_clone\just_audio\just_audio
   launch_review: ^3.0.1
+ 
   lottie: ^1.1.0
   octo_image: ^1.0.0+1
   #otp_autofill: ^1.1.0
@@ -82,6 +84,7 @@ dependencies:
   badges: ^2.0.3
   html: ^0.15.0
   timer_count_down: ^2.2.1
+  permission_handler: ^10.0.0
   
 
 dev_dependencies:

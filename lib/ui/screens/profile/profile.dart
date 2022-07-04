@@ -921,7 +921,7 @@ class _ProfileState extends State<Profile> {
 
   Widget _tabs(profile) {
     return Column(
-      children: [
+      children: [ 
         //tabs
         Row(
           children: List.generate(

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -173,51 +175,6 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
     return widget.guessTheWordQuestions.isNotEmpty;
   }
 
-  // Widget _newgetOptionsContainer(Question question,
-  //     {String? optionId, AnswerOption? option}) {
-  //   String correctAnswerId = AnswerEncryption.decryptCorrectAnswer(
-  //       rawKey: context.read<UserDetailsCubit>().getUserFirebaseId(),
-  //       correctAnswer: question.correctAnswer!);
-
-  //   return Column(
-  //     children: [
-  //       if (question.attempted) ...{
-  //         question.submittedAnswerId == question.correctAnswer
-  //             ? Container(
-  //                 decoration: BoxDecoration(
-  //                   borderRadius: BorderRadius.circular(16),
-  //                   color: getOptionColor(question, option!.id),
-  //                 ),
-  //                 width: MediaQuery.of(context).size.width * (0.8),
-  //                 margin: EdgeInsets.only(top: 15.0),
-  //                 padding:
-  //                     EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
-  //                 child: widget.quizType == QuizTypes.mathMania
-  //                     ? TeXView(
-  //                         child: TeXViewDocument(
-  //                           option.title!,
-  //                         ),
-  //                         style: TeXViewStyle(
-  //                             contentColor: Constants.black1,
-  //                             backgroundColor: Colors.transparent,
-  //                             sizeUnit: TeXViewSizeUnit.pixels,
-  //                             textAlign: TeXViewTextAlign.center,
-  //                             fontStyle: TeXViewFontStyle(fontSize: 19)),
-  //                       )
-  //                     : Text(
-  //                         option.title!,
-  //                         style: TextStyle(color: Constants.black1),
-  //                       ),
-  //               )
-  //             : Container(
-  //                 color: Constants.accent2,
-  //                 height: 50,
-  //               ),
-  //       }
-  //     ],
-  //   );
-  // }
-
   Color getOptionColor(Question question, String? optionId) {
     String correctAnswerId = AnswerEncryption.decryptCorrectAnswer(
         rawKey: context.read<UserDetailsCubit>().getUserFirebaseId(),
@@ -296,7 +253,7 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
                 children: [
                   Expanded(
                     child: CustomButton(
-                      verticalMargin: 5,
+                      verticalMargin: 0,
                       onPressed: () {
                         if (_currentIndex != 0) {
                           _pageController!.animateToPage(_currentIndex - 1,
@@ -309,7 +266,7 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
                   ),
                   Expanded(
                     child: CustomButton(
-                      verticalMargin: 5,
+                      verticalMargin: 0,
                       onPressed: () {
                         Navigator.of(context)
                             .popUntil((route) => route.isFirst);
@@ -323,65 +280,86 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
           )
         : Padding(
             padding: const EdgeInsets.only(bottom: 16),
-            child: CustomButton(
-              verticalMargin: 0,
-              onPressed: () {
-                if (_currentIndex != (getQuestionsLength() - 1)) {
-                  _pageController!.animateToPage(_currentIndex + 1,
-                      duration: Duration(milliseconds: 500),
-                      curve: Curves.easeInOut);
-                }
-              },
-              text: "Next",
+            child: Row(
+              children: [
+                _currentIndex >= 1
+                    ? Expanded(
+                        child: CustomButton(
+                          verticalMargin: 0,
+                          onPressed: () {
+                            if (_currentIndex != 0) {
+                              _pageController!.animateToPage(_currentIndex - 1,
+                                  duration: Duration(milliseconds: 500),
+                                  curve: Curves.easeInOut);
+                            }
+                          },
+                          text: "Previous",
+                        ),
+                      )
+                    : SizedBox(),
+                Expanded(
+                  child: CustomButton(
+                    verticalMargin: 0,
+                    onPressed: () {
+                      if (_currentIndex != (getQuestionsLength() - 1)) {
+                        _pageController!.animateToPage(_currentIndex + 1,
+                            duration: Duration(milliseconds: 500),
+                            curve: Curves.easeInOut);
+                      }
+                    },
+                    text: "Next",
+                  ),
+                ),
+              ],
             ),
           );
   }
 
-  Widget _buildBottomMenu(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      padding: EdgeInsets.symmetric(horizontal: 5.0),
-      decoration: BoxDecoration(boxShadow: [
-        BoxShadow(color: Colors.black.withOpacity(0.35), blurRadius: 5.0)
-      ], color: Theme.of(context).backgroundColor),
-      height: MediaQuery.of(context).size.height * UiUtils.bottomMenuPercentage,
-      child: Row(
-        children: [
-          IconButton(
-              onPressed: () {
-                if (_currentIndex != 0) {
-                  _pageController!.animateToPage(_currentIndex - 1,
-                      duration: Duration(milliseconds: 500),
-                      curve: Curves.easeInOut);
-                }
-              },
-              icon: Icon(
-                Icons.arrow_back_ios,
-                color: Theme.of(context).primaryColor,
-              )),
-          Spacer(),
-          Text(
-            "${_currentIndex + 1}/${getQuestionsLength()}",
-            style: TextStyle(
-                color: Theme.of(context).primaryColor, fontSize: 18.0),
-          ),
-          Spacer(),
-          IconButton(
-              onPressed: () {
-                if (_currentIndex != (getQuestionsLength() - 1)) {
-                  _pageController!.animateToPage(_currentIndex + 1,
-                      duration: Duration(milliseconds: 500),
-                      curve: Curves.easeInOut);
-                }
-              },
-              icon: Icon(
-                Icons.arrow_forward_ios,
-                color: Theme.of(context).primaryColor,
-              )),
-        ],
-      ),
-    );
-  }
+  // Widget _buildBottomMenu(BuildContext context) {
+  //   return Container(
+  //     alignment: Alignment.center,
+  //     padding: EdgeInsets.symmetric(horizontal: 5.0),
+  //     decoration: BoxDecoration(boxShadow: [
+  //       BoxShadow(color: Colors.black.withOpacity(0.35), blurRadius: 5.0)
+  //     ], color: Theme.of(context).backgroundColor),
+  //     height: MediaQuery.of(context).size.height * UiUtils.bottomMenuPercentage,
+  //     child: Row(
+  //       children: [
+  //         IconButton(
+  //             onPressed: () {
+  //               if (_currentIndex != 0) {
+  //                 _pageController!.animateToPage(_currentIndex - 1,
+  //                     duration: Duration(milliseconds: 500),
+  //                     curve: Curves.easeInOut);
+  //               }
+  //             },
+  //             icon: Icon(
+  //               Icons.arrow_back_ios,
+  //               color: Theme.of(context).primaryColor,
+  //             )),
+  //         Spacer(),
+  //         Text(
+  //           "${_currentIndex + 1}/${getQuestionsLength()}",
+  //           style: TextStyle(
+  //               color: Theme.of(context).primaryColor, fontSize: 18.0),
+  //         ),
+  //         Spacer(),
+  //         IconButton(
+  //             onPressed: () {
+  //               if (_currentIndex != (getQuestionsLength() - 1)) {
+  //                 _pageController!.animateToPage(_currentIndex + 1,
+  //                     duration: Duration(milliseconds: 500),
+  //                     curve: Curves.easeInOut);
+  //               }
+  //             },
+  //             icon: Icon(
+  //               Icons.arrow_forward_ios,
+  //               color: Theme.of(context).primaryColor,
+  //             )),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   //to build option of given question
   Widget _buildOption(AnswerOption option, Question question) {
@@ -416,15 +394,40 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
     // AnswerOption option = AnswerOption();
     for (int i = 0; i < question.answerOptions!.length; i++) {
       AnswerOption option = question.answerOptions![i];
+
       option.id == question.submittedAnswerId;
       String correctAnswerId = AnswerEncryption.decryptCorrectAnswer(
           rawKey: context.read<UserDetailsCubit>().getUserFirebaseId(),
           correctAnswer: question.correctAnswer!);
-      print("options " + option.id!);
+      String correctAnswerTitle = '';
+      String submittedAnswer = '';
+      for (int i = 0; i < question.answerOptions!.length; i++) {
+        AnswerOption answerOption = question.answerOptions![i];
+        print(" Math Question " +
+            question.question.toString() +
+            "  " +
+            answerOption.title! +
+            "selected option");
+
+        if (answerOption.id == correctAnswerId) {
+          correctAnswerTitle = answerOption.title!;
+        }
+        if (answerOption.id == question.submittedAnswerId) {
+          submittedAnswer = answerOption.title!;
+        }
+      }
+      print(" Question ${_currentIndex + 1}   ${option.title!}  " +
+          " " +
+          " " +
+          option.id! +
+          "  Correct Answer is  " +
+          correctAnswerId.toString() +
+          correctAnswerTitle);
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          WidgetsUtil.verticalSpace20,
           TitleText(
             text: question.submittedAnswerId == correctAnswerId
                 ? "CORRECT ANSWER"
@@ -435,12 +438,16 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
           ),
           Container(
             decoration: BoxDecoration(
-                border: question.submittedAnswerId == correctAnswerId
-                    ? Border()
-                    : Border.all(color: Colors.red),
+                border: question.attempted
+                    ? question.submittedAnswerId == correctAnswerId
+                        ? Border()
+                        : Border.all(color: Colors.red)
+                    : Border(),
                 borderRadius: BorderRadius.circular(16),
-                color: question.submittedAnswerId == correctAnswerId
-                    ? Constants.lightGreen
+                color: question.attempted
+                    ? question.submittedAnswerId == correctAnswerId
+                        ? Constants.lightGreen
+                        : Colors.white
                     : Colors.white
                 // color:
                 ),
@@ -454,13 +461,15 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
                     ? Expanded(
                         child: TeXView(
                           child: TeXViewDocument(
-                            option.title!,
+                            submittedAnswer,
                           ),
                           style: TeXViewStyle(
-                              contentColor:
-                                  question.submittedAnswerId == correctAnswerId
+                              contentColor: question.attempted
+                                  ? question.submittedAnswerId ==
+                                          correctAnswerId
                                       ? Constants.white
-                                      : Colors.red,
+                                      : Colors.red
+                                  : Colors.red,
                               backgroundColor: Colors.transparent,
                               sizeUnit: TeXViewSizeUnit.pixels,
                               textAlign: TeXViewTextAlign.center,
@@ -468,18 +477,25 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
                         ),
                       )
                     : Text(
-                        option.title!,
+                        submittedAnswer,
                         style: TextStyle(
-                            color: question.submittedAnswerId == correctAnswerId
-                                ? Constants.white
-                                : Colors.red),
+                          color: question.attempted
+                              ? question.submittedAnswerId == correctAnswerId
+                                  ? Constants.white
+                                  : Colors.red
+                              : Colors.red,
+                        ),
                       ),
                 Icon(
-                  question.submittedAnswerId == correctAnswerId
-                      ? Icons.check
+                  question.attempted
+                      ? question.submittedAnswerId == correctAnswerId
+                          ? Icons.check
+                          : Icons.close
                       : Icons.close,
-                  color: question.submittedAnswerId == correctAnswerId
-                      ? Constants.white
+                  color: question.attempted
+                      ? question.submittedAnswerId == correctAnswerId
+                          ? Constants.white
+                          : Colors.red
                       : Colors.red,
                 ),
               ],
@@ -513,7 +529,7 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
                           ? Expanded(
                               child: TeXView(
                                 child: TeXViewDocument(
-                                  correctAnswerId,
+                                  correctAnswerTitle,
                                 ),
                                 style: TeXViewStyle(
                                     contentColor: Constants.white,
@@ -524,7 +540,7 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
                               ),
                             )
                           : Text(
-                              option.title!,
+                              correctAnswerTitle,
                               style: TextStyle(color: Constants.white),
                             ),
                       Icon(
@@ -608,7 +624,7 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
                 TitleText(
                     text: AppLocalization.of(context)!
                         .getTranslatedValues(notesKey)!,
-                    textColor: Theme.of(context).primaryColor,
+                    textColor: Constants.black1,
                     weight: FontWeight.bold,
                     size: 18.0),
                 SizedBox(
@@ -616,7 +632,7 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
                 ),
                 TitleText(
                   text: notes,
-                  textColor: Constants.primaryColor,
+                  textColor: Constants.black1,
                 ),
               ],
             ),
@@ -750,12 +766,6 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
     );
   }
 
-  Widget _newAppBar() {
-    return PreferredSize(
-        child: CustomAppBar(onBackTapped: () {}, title: "Answer Explanation"),
-        preferredSize: Size.fromHeight(50));
-  }
-
   // Widget _buildAppbar() {
   //   return Align(
   //     alignment: Alignment.topCenter,
@@ -795,13 +805,14 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
         title: "Answers Explanation",
         action: IconButton(
           onPressed: () {
-            Navigator.popUntil(context, (route) => route.isFirst);
+            Navigator.pop(context);
           },
           icon: Icon(Icons.close),
           iconSize: 40,
         ),
         titleColor: Constants.white,
         child: CustomCard(
+          padding: EdgeInsets.only(left: 8, right: 8, bottom: 8),
           child: Column(
             children: [
               // _newAppBar(),

@@ -15,6 +15,7 @@ import 'package:flutterquiz/features/systemConfig/cubits/systemConfigCubit.dart'
 import 'package:flutterquiz/ui/screens/battle/widgets/customDialog.dart';
 import 'package:flutterquiz/ui/screens/battle/widgets/waitingForPlayersDialog.dart';
 import 'package:flutterquiz/ui/widgets/customRoundedButton.dart';
+import 'package:flutterquiz/ui/widgets/title_text.dart';
 import 'package:flutterquiz/ui/widgets/watchRewardAdDialog.dart';
 import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
@@ -298,14 +299,13 @@ class _RoomDialogState extends State<RoomDialog> {
       key: Key("joinTab"),
       children: [
         Container(
-            alignment: Alignment.center,
-            child: Text(
-              AppLocalization.of(context)!
+          alignment: Alignment.center,
+          child: TitleText(
+              text: AppLocalization.of(context)!
                   .getTranslatedValues(enterRoomCodeHereKey)!,
-              style: TextStyle(
-                  color: Theme.of(context).colorScheme.secondary,
-                  fontSize: 18.0),
-            )),
+              textColor: Constants.primaryColor,
+              size: 18.0),
+        ),
         SizedBox(
           height: constraints.maxHeight * (0.04),
         ),
@@ -314,20 +314,25 @@ class _RoomDialogState extends State<RoomDialog> {
           margin:
               EdgeInsets.symmetric(horizontal: constraints.maxWidth * (0.1)),
           decoration: BoxDecoration(
-              color: Theme.of(context).canvasColor,
+              color: Constants.white,
               borderRadius: BorderRadius.circular(25.0)),
           height: constraints.maxHeight * (0.115),
           child: TextField(
-            style: TextStyle(color: Theme.of(context).primaryColor),
+            style: TextStyle(
+              color: Constants.primaryColor,
+            ),
             keyboardType: TextInputType.number,
-            cursorColor: Theme.of(context).primaryColor,
+            cursorColor: Constants.black1,
             decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: AppLocalization.of(context)!
-                    .getTranslatedValues(enterCodeLbl),
-                hintStyle: TextStyle(
-                  color: Theme.of(context).primaryColor,
-                )),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              hintText: AppLocalization.of(context)!
+                  .getTranslatedValues(enterCodeLbl),
+              hintStyle: TextStyle(
+                color: Constants.secondaryColor,
+              ),
+            ),
             controller: roomCodeEditingController,
           ),
         ),
@@ -379,7 +384,7 @@ class _RoomDialogState extends State<RoomDialog> {
                                 );
                           },
                     widthPercentage: UiUtils.dailogWidthPercentage - 0.1,
-                    backgroundColor: Theme.of(context).primaryColor,
+                    backgroundColor: Constants.primaryColor,
                     buttonTitle: state is BattleRoomJoining
                         ? AppLocalization.of(context)!
                             .getTranslatedValues('joiningLoadingLbl')!
@@ -441,7 +446,7 @@ class _RoomDialogState extends State<RoomDialog> {
                                 );
                           },
                     widthPercentage: UiUtils.dailogWidthPercentage - 0.1,
-                    backgroundColor: Theme.of(context).primaryColor,
+                    backgroundColor: Constants.primaryColor,
                     buttonTitle: state is MultiUserBattleRoomInProgress
                         ? AppLocalization.of(context)!
                             .getTranslatedValues('joiningLoadingLbl')!
@@ -449,7 +454,7 @@ class _RoomDialogState extends State<RoomDialog> {
                             .getTranslatedValues(joinRoomKey)!,
                     radius: 25.0,
                     elevation: 5.0,
-                    titleColor: Theme.of(context).backgroundColor,
+                    titleColor: Constants.white,
                     shadowColor:
                         Theme.of(context).primaryColor.withOpacity(0.3),
                     showBorder: false,

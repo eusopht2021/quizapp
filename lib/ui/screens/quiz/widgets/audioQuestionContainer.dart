@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:music_visualizer/music_visualizer.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:flutterquiz/features/quiz/models/quizType.dart';
 import 'package:flutterquiz/ui/widgets/horizontalTimerContainer.dart';
 import 'package:flutterquiz/ui/widgets/optionContainer.dart';
 import 'package:flutterquiz/utils/answerEncryption.dart';
+import 'package:flutterquiz/utils/constants.dart';
 import 'package:just_audio/just_audio.dart';
 
 class AudioQuestionContainer extends StatefulWidget {
@@ -101,20 +103,20 @@ class AudioQuestionContainerState extends State<AudioQuestionContainer> {
           },
           icon: Icon(
             Icons.error,
-            color: Theme.of(context).colorScheme.secondary,
+            color: Constants.white,
           ));
     }
     if (_isLoading || _isBuffering) {
       return IconButton(
           onPressed: null,
           icon: Container(
-              height: 20,
-              width: 20,
-              child: Center(
+            height: 20,
+            width: 20,
+            child: Center(
                 child: CircularProgressIndicator(
-                  color: Theme.of(context).colorScheme.secondary,
-                ),
-              )));
+              color: Constants.white,
+            )),
+          ));
     }
 
     if (_hasCompleted) {
@@ -124,7 +126,7 @@ class AudioQuestionContainerState extends State<AudioQuestionContainer> {
           },
           icon: Icon(
             Icons.restart_alt,
-            color: Theme.of(context).colorScheme.secondary,
+            color: Constants.white,
           ));
     }
     if (_isPlaying) {
@@ -138,7 +140,7 @@ class AudioQuestionContainerState extends State<AudioQuestionContainer> {
           },
           icon: Icon(
             Icons.pause,
-            color: Theme.of(context).colorScheme.secondary,
+            color: Constants.white,
           ));
     }
 
@@ -150,7 +152,7 @@ class AudioQuestionContainerState extends State<AudioQuestionContainer> {
         },
         icon: Icon(
           Icons.play_arrow,
-          color: Theme.of(context).colorScheme.secondary,
+          color: Constants.white,
         ));
   }
 
@@ -168,9 +170,40 @@ class AudioQuestionContainerState extends State<AudioQuestionContainer> {
     setState(() {});
   }
 
+ 
+
+  final List<Color> colors = [
+    Constants.primaryColor,
+    Constants.accent2,
+    Constants.primaryColor,
+    Constants.accent2,
+    Constants.primaryColor,
+    Constants.accent2,
+    Constants.primaryColor,
+    Constants.accent2,
+    Constants.primaryColor,
+    Constants.accent2,
+    Constants.primaryColor,
+    Constants.accent2,
+    Constants.primaryColor,
+    Constants.accent2,
+    Constants.primaryColor,
+    Constants.accent2,
+    Constants.primaryColor,
+    Constants.accent2,
+    Constants.primaryColor,
+    Constants.accent2,
+    Constants.primaryColor,
+    Constants.accent2,
+  ];
+
+  final List<int> duration = [900, 700, 600, 800, 500];
+  final List<int> stopduration = [0];
+
   @override
   Widget build(BuildContext context) {
     final question = widget.questions[widget.currentQuestionIndex];
+
     return SingleChildScrollView(
         child: Column(
       children: [
@@ -191,8 +224,7 @@ class AudioQuestionContainerState extends State<AudioQuestionContainer> {
                 alignment: Alignment.center,
                 child: Text(
                   "${widget.currentQuestionIndex + 1} | ${widget.questions.length}",
-                  style:
-                      TextStyle(color: Theme.of(context).colorScheme.secondary),
+                  style: TextStyle(color: Constants.black1),
                 ),
               ),
             ],
@@ -200,7 +232,7 @@ class AudioQuestionContainerState extends State<AudioQuestionContainer> {
         ),
 
         Divider(
-          color: Theme.of(context).colorScheme.secondary,
+          color: Constants.white,
         ),
         SizedBox(
           height: 5.0,
@@ -210,9 +242,7 @@ class AudioQuestionContainerState extends State<AudioQuestionContainer> {
           child: Text(
             "${question.question}",
             style: TextStyle(
-                height: 1.125,
-                fontSize: textSize,
-                color: Theme.of(context).colorScheme.secondary),
+                height: 1.125, fontSize: textSize, color: Constants.black1),
           ),
         ),
 
@@ -220,55 +250,74 @@ class AudioQuestionContainerState extends State<AudioQuestionContainer> {
           height: widget.constraints.maxHeight * (0.04),
         ),
         Container(
+          height: 100,
           width: widget.constraints.maxWidth * 1.2,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              color: Theme.of(context).primaryColor.withOpacity(0.1)),
+              color: Colors.transparent),
           padding: EdgeInsets.symmetric(
               horizontal: widget.constraints.maxWidth * (0.05), vertical: 10.0),
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CurrentDurationContainer(audioPlayer: _audioPlayer),
-                  Spacer(),
-                  _buildPlayAudioContainer(),
-                  Spacer(),
-                  Container(
-                    alignment: Alignment.centerRight,
-                    //decoration: BoxDecoration(border: Border.all()),
-                    width: MediaQuery.of(context).size.width * (0.1),
-                    child: Text(
-                      "${_audioDuration.inSeconds}s",
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.secondary,
-                      ),
-                    ),
-                  ),
-                ],
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    if (!_isPlaying) {
+                      _audioPlayer.play();
+                      _isPlaying = true;
+                    } else if (_isPlaying) {
+                      _audioPlayer.pause();
+                      _isPlaying = false;
+                    }
+                  });
+                },
+                child: MusicVisualizer(
+                    barCount: colors.length,
+                    colors: colors,
+                    duration: duration),
               ),
-              Stack(
-                children: [
-                  Align(
-                    alignment: AlignmentDirectional.centerStart,
-                    child: BufferedDurationContainer(audioPlayer: _audioPlayer),
-                  ),
-                  Align(
-                    alignment: AlignmentDirectional.centerStart,
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      child: CurrentDurationSliderContainer(
-                        audioPlayer: _audioPlayer,
-                        duration: _audioDuration,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: widget.constraints.minHeight * (0.025),
-              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     CurrentDurationContainer(audioPlayer: _audioPlayer),
+              //     Spacer(),
+              //     _buildPlayAudioContainer(),
+              //     Spacer(),
+              //     Container(
+              //       alignment: Alignment.centerRight,
+              //       //decoration: BoxDecoration(border: Border.all()),
+              //       width: MediaQuery.of(context).size.width * (0.1),
+              //       child: Text(
+              //         "${_audioDuration.inSeconds}s",
+              //         style: TextStyle(
+              //           color: Constants.white,
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              // Stack(
+              //   children: [
+              //     Align(
+              //       alignment: AlignmentDirectional.centerStart,
+              //       child: BufferedDurationContainer(audioPlayer: _audioPlayer),
+              //     ),
+              //     Align(
+              //       alignment: AlignmentDirectional.centerStart,
+              //       child: SizedBox(
+              //         width: MediaQuery.of(context).size.width,
+              //         height: 100,
+              //         // child: CurrentDurationSliderContainer(
+              //         //   audioPlayer: _audioPlayer,
+              //         //   duration: _audioDuration,
+
+              //         // child:
+              //     )
+              //   ],
+              // ),
+              // SizedBox(
+              //   height: widget.constraints.minHeight * (0.025),
+              // ),
             ],
           ),
         ),
@@ -303,13 +352,12 @@ class AudioQuestionContainerState extends State<AudioQuestionContainer> {
                           child: Center(
                             child: Text(
                               "-",
-                              style: TextStyle(
-                                  color: Theme.of(context).backgroundColor),
+                              style: TextStyle(color: Constants.black1),
                             ),
                           ),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
-                            color: Theme.of(context).colorScheme.secondary,
+                            color: Constants.white,
                           ),
                           margin: EdgeInsets.only(
                               top: widget.constraints.maxHeight * (0.015)),
@@ -343,11 +391,12 @@ class _CurrentDurationSliderContainerState
   double currentValue = 0.0;
 
   late StreamSubscription<Duration> streamSubscription;
-
   @override
   void initState() {
     streamSubscription =
         widget.audioPlayer.positionStream.listen(currentDurationListener);
+
+    ;
     super.initState();
   }
 
@@ -373,22 +422,26 @@ class _CurrentDurationSliderContainerState
               enabledThumbRadius: 6.5,
             ),
           ),
-      child: Container(
-        height: 5.0,
-        width: MediaQuery.of(context).size.width,
-        child: Slider(
-            min: 0.0,
-            max: widget.duration.inSeconds.toDouble(),
-            activeColor: Theme.of(context).primaryColor.withOpacity(0.6),
-            inactiveColor: Theme.of(context).primaryColor.withOpacity(0.3),
-            value: currentValue,
-            thumbColor: Theme.of(context).colorScheme.secondary,
-            onChanged: (value) {
-              setState(() {
-                currentValue = value;
-              });
-              widget.audioPlayer.seek(Duration(seconds: value.toInt()));
-            }),
+      child: Column(
+        children: [
+          Container(
+            height: 5.0,
+            width: MediaQuery.of(context).size.width,
+            child: Slider(
+                min: 0.0,
+                max: widget.duration.inSeconds.toDouble(),
+                activeColor: Theme.of(context).primaryColor.withOpacity(0.6),
+                inactiveColor: Theme.of(context).primaryColor.withOpacity(0.3),
+                value: currentValue,
+                thumbColor: Theme.of(context).colorScheme.secondary,
+                onChanged: (value) {
+                  setState(() {
+                    currentValue = value;
+                  });
+                  widget.audioPlayer.seek(Duration(seconds: value.toInt()));
+                }),
+          ),
+        ],
       ),
     );
   }
@@ -483,11 +536,15 @@ class _CurrentDurationContainerState extends State<CurrentDurationContainer> {
       alignment: Alignment.centerLeft,
       //decoration: BoxDecoration(border: Border.all()),
       width: MediaQuery.of(context).size.width * (0.1),
-      child: Text(
-        "${currentDuration.inSeconds}",
-        style: TextStyle(
-          color: Theme.of(context).colorScheme.secondary,
-        ),
+      child: Column(
+        children: [
+          Text(
+            "${currentDuration.inSeconds}",
+            style: TextStyle(
+              color: Constants.white,
+            ),
+          ),
+        ],
       ),
     );
   }

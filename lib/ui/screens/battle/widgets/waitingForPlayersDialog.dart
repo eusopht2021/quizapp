@@ -9,6 +9,7 @@ import 'package:flutterquiz/features/profileManagement/cubits/userDetailsCubit.d
 import 'package:flutterquiz/features/quiz/models/quizType.dart';
 import 'package:flutterquiz/ui/screens/battle/widgets/customDialog.dart';
 import 'package:flutterquiz/ui/widgets/exitGameDailog.dart';
+import 'package:flutterquiz/ui/widgets/title_text.dart';
 import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
@@ -70,13 +71,10 @@ class _WaitingForPlayesDialogState extends State<WaitingForPlayesDialog> {
                 : name,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              color: Theme.of(context).backgroundColor,
-            ),
+            style: TextStyle(color: Constants.white),
           ),
           decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor,
-            border: Border.all(color: Theme.of(context).primaryColor),
+            color: Constants.primaryColor,
             borderRadius: BorderRadius.circular(10.0),
           ),
         ),
@@ -209,10 +207,7 @@ class _WaitingForPlayesDialogState extends State<WaitingForPlayesDialog> {
       child: Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(UiUtils.dailogRadius),
-            gradient: UiUtils.buildLinerGradient([
-              Theme.of(context).scaffoldBackgroundColor,
-              Theme.of(context).canvasColor
-            ], Alignment.topCenter, Alignment.bottomCenter)),
+            color: Constants.white),
         child: widget.quizType == QuizTypes.battle
             ? BlocListener<BattleRoomCubit, BattleRoomState>(
                 bloc: context.read<BattleRoomCubit>(),
@@ -259,7 +254,7 @@ class _WaitingForPlayesDialogState extends State<WaitingForPlayesDialog> {
                             topLeft: Radius.circular(UiUtils.dailogRadius),
                             topRight: Radius.circular(UiUtils.dailogRadius),
                           ),
-                          color: Theme.of(context).primaryColor,
+                          color: Constants.primaryColor,
                         ),
                         child: Padding(
                           padding: EdgeInsets.symmetric(horizontal: 5.0),
@@ -267,17 +262,15 @@ class _WaitingForPlayesDialogState extends State<WaitingForPlayesDialog> {
                             children: [
                               Align(
                                 alignment: Alignment.center,
-                                child: Text(
-                                  AppLocalization.of(context)!
+                                child: TitleText(
+                                  text: AppLocalization.of(context)!
                                           .getTranslatedValues(
                                               'entryAmountLbl')! +
                                       " : ${context.read<BattleRoomCubit>().getEntryFee()}",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Theme.of(context).backgroundColor,
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                  align: TextAlign.center,
+                                  textColor: Constants.white,
+                                  size: 16.0,
+                                  weight: FontWeight.bold,
                                 ),
                               ),
                               Align(
@@ -467,7 +460,7 @@ class _WaitingForPlayesDialogState extends State<WaitingForPlayesDialog> {
                                       .getTranslatedValues('startLbl')!,
                                   style: TextStyle(
                                       fontSize: 20.0,
-                                      color: Theme.of(context).primaryColor)),
+                                      color: Constants.primaryColor)),
                             );
                           }
                           if (state is BattleRoomUserFound) {
@@ -508,7 +501,7 @@ class _WaitingForPlayesDialogState extends State<WaitingForPlayesDialog> {
                                       .getTranslatedValues('startLbl')!,
                                   style: TextStyle(
                                       fontSize: 20.0,
-                                      color: Theme.of(context).primaryColor)),
+                                      color: Constants.primaryColor)),
                             );
                           }
                           return Container();
@@ -561,7 +554,7 @@ class _WaitingForPlayesDialogState extends State<WaitingForPlayesDialog> {
                             topLeft: Radius.circular(UiUtils.dailogRadius),
                             topRight: Radius.circular(UiUtils.dailogRadius),
                           ),
-                          color: Theme.of(context).primaryColor,
+                          color: Constants.primaryColor,
                         ),
                         child: Padding(
                           padding: EdgeInsets.symmetric(horizontal: 5.0),
@@ -576,7 +569,7 @@ class _WaitingForPlayesDialogState extends State<WaitingForPlayesDialog> {
                                       " : ${context.read<MultiUserBattleRoomCubit>().getEntryFee()}",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                    color: Theme.of(context).backgroundColor,
+                                    color: Constants.white,
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -687,7 +680,7 @@ class _WaitingForPlayesDialogState extends State<WaitingForPlayesDialog> {
                         height: constraints.maxHeight * (0.027),
                       ),
                       CircleAvatar(
-                        backgroundColor: Theme.of(context).primaryColor,
+                        backgroundColor: Constants.primaryColor,
                         child: Text(
                           AppLocalization.of(context)!
                               .getTranslatedValues('vsLbl')!,
@@ -795,8 +788,9 @@ class _WaitingForPlayesDialogState extends State<WaitingForPlayesDialog> {
                                   AppLocalization.of(context)!
                                       .getTranslatedValues('startLbl')!,
                                   style: TextStyle(
-                                      fontSize: 20.0,
-                                      color: Theme.of(context).primaryColor)),
+                                    fontSize: 20.0,
+                                    color: Constants.primaryColor,
+                                  )),
                             );
                           }
                           return Container();

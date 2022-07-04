@@ -101,8 +101,9 @@ class QuestionContainer extends StatelessWidget {
                       },
                       imageUrl: question!.imageUrl!,
                       placeholder: (context, url) => Center(
-                          child:
-                              CircularProgressContainer(useWhiteLoader: false)),
+                          child: CircularProgressIndicator(
+                        color: Constants.primaryColor,
+                      )),
                     ),
                   ),
         question!.imageUrl == null

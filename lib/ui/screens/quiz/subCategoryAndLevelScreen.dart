@@ -85,10 +85,9 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
     }
     if (state is UnlockedLevelFetchInProgress) {
       return Center(
-        child: CircularProgressIndicator(
-          color: Constants.white,
-        ),
-      );
+          child: CircularProgressIndicator(
+        color: Constants.white,
+      ));
     }
     if (state is UnlockedLevelFetchFailure) {
       return Center(
