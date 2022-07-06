@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:music_visualizer/music_visualizer.dart';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,10 +7,11 @@ import 'package:flutterquiz/features/profileManagement/cubits/userDetailsCubit.d
 import 'package:flutterquiz/features/quiz/models/question.dart';
 import 'package:flutterquiz/features/quiz/models/quizType.dart';
 import 'package:flutterquiz/ui/widgets/horizontalTimerContainer.dart';
-import 'package:flutterquiz/ui/widgets/optionContainer.dart';
+import 'package:flutterquiz/ui/widgets/new_option_container.dart';
 import 'package:flutterquiz/utils/answerEncryption.dart';
 import 'package:flutterquiz/utils/constants.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:music_visualizer/music_visualizer.dart';
 
 class AudioQuestionContainer extends StatefulWidget {
   final BoxConstraints constraints;
@@ -41,7 +42,7 @@ class AudioQuestionContainerState extends State<AudioQuestionContainer> {
   late bool _showOption = false;
   late AudioPlayer _audioPlayer;
   late StreamSubscription<ProcessingState> _processingStateStreamSubscription;
-  late bool _isPlaying = false;
+  late bool _isPlaying = true;
   late Duration _audioDuration = Duration.zero;
   late bool _hasCompleted = false;
   late bool _hasError = false;
@@ -85,76 +86,78 @@ class AudioQuestionContainerState extends State<AudioQuestionContainer> {
     } else if (event == ProcessingState.buffering) {
       _isBuffering = true;
     } else if (event == ProcessingState.completed) {
-      if (!_showOption) {
-        _showOption = true;
-        widget.timerAnimationController.forward(from: 0.0);
-      }
+      // if (!_showOption) {
+      //   _showOption = true;
+      //   widget.timerAnimationController.forward(from: 0.0);
+      // }
+      widget.timerAnimationController.forward(from: 0.0);
+
       _hasCompleted = true;
     }
 
     setState(() {});
   }
 
-  Widget _buildPlayAudioContainer() {
-    if (_hasError) {
-      return IconButton(
-          onPressed: () {
-            //retry
-          },
-          icon: Icon(
-            Icons.error,
-            color: Constants.white,
-          ));
-    }
-    if (_isLoading || _isBuffering) {
-      return IconButton(
-          onPressed: null,
-          icon: Container(
-            height: 20,
-            width: 20,
-            child: Center(
-                child: CircularProgressIndicator(
-              color: Constants.white,
-            )),
-          ));
-    }
+// Widget _buildPlayAudioContainer() {
+  //   if (_hasError) {
+  //     return IconButton(
+  //         onPressed: () {
+  //           //retry
+  //         },
+  //         icon: Icon(
+  //           Icons.error,
+  //           color: Constants.white,
+  //         ));
+  //   }
+  //   if (_isLoading || _isBuffering) {
+  //     return IconButton(
+  //         onPressed: null,
+  //         icon: Container(
+  //           height: 20,
+  //           width: 20,
+  //           child: Center(
+  //               child: CircularProgressIndicator(
+  //             color: Constants.white,
+  //           )),
+  //         ));
+  //   }
 
-    if (_hasCompleted) {
-      return IconButton(
-          onPressed: () {
-            _audioPlayer.seek(Duration.zero);
-          },
-          icon: Icon(
-            Icons.restart_alt,
-            color: Constants.white,
-          ));
-    }
-    if (_isPlaying) {
-      return IconButton(
-          onPressed: () {
-            //
+  //   if (_hasCompleted) {
+  //     return IconButton(
+  //         onPressed: () {
+  //           _audioPlayer.seek(Duration.zero);
+  //         },
+  //         icon: Icon(
+  //           Icons.restart_alt,
+  //           color: Constants.white,
+  //         ));
+  //   }
+  //   if (_isPlaying) {
+  //     return IconButton(
+  //         onPressed: () {
+  //           //
 
-            _audioPlayer.pause();
-            _isPlaying = false;
-            setState(() {});
-          },
-          icon: Icon(
-            Icons.pause,
-            color: Constants.white,
-          ));
-    }
+  //           _audioPlayer.pause();
+  //           _isPlaying = false;
+  //           setState(() {});
+  //         },
+  //         icon: Icon(
+  //           Icons.pause,
+  //           color: Constants.white,
+  //         ));
+  //   }
 
-    return IconButton(
-        onPressed: () {
-          _audioPlayer.play();
-          _isPlaying = true;
-          setState(() {});
-        },
-        icon: Icon(
-          Icons.play_arrow,
-          color: Constants.white,
-        ));
-  }
+  //   return IconButton(
+  //       onPressed: () {
+  //         _audioPlayer.play();
+  //         _isPlaying = true;
+  //         setState(() {});
+  //       },
+  //       icon: Icon(
+  //         Icons.play_arrow,
+  //         color: Constants.white,
+  //       ));
+  // }
 
   @override
   void dispose() {
@@ -169,8 +172,6 @@ class AudioQuestionContainerState extends State<AudioQuestionContainer> {
     _showOption = true;
     setState(() {});
   }
-
- 
 
   final List<Color> colors = [
     Constants.primaryColor,
@@ -198,8 +199,8 @@ class AudioQuestionContainerState extends State<AudioQuestionContainer> {
   ];
 
   final List<int> duration = [900, 700, 600, 800, 500];
-  final List<int> stopduration = [0];
-
+  final List<int> stopduration = [1, 1];
+  bool isAnimating = false;
   @override
   Widget build(BuildContext context) {
     final question = widget.questions[widget.currentQuestionIndex];
@@ -260,21 +261,31 @@ class AudioQuestionContainerState extends State<AudioQuestionContainer> {
           child: Column(
             children: [
               InkWell(
-                onTap: () {
-                  setState(() {
-                    if (!_isPlaying) {
-                      _audioPlayer.play();
-                      _isPlaying = true;
-                    } else if (_isPlaying) {
-                      _audioPlayer.pause();
+                onTap: () async {
+                  if (_isPlaying) {
+                    await _audioPlayer.stop();
+                    log("if state");
+
+                    setState(() {
                       _isPlaying = false;
-                    }
-                  });
+                      isAnimating = true;
+                    });
+                  } else {
+                    await _audioPlayer.play();
+                    log("else state");
+                    setState(() {
+                      _isPlaying = true;
+                      isAnimating = false;
+                    });
+                  }
                 },
                 child: MusicVisualizer(
-                    barCount: colors.length,
-                    colors: colors,
-                    duration: duration),
+                  barCount: colors.length,
+                  colors: colors,
+                  duration: duration,
+                  curve: Curves.easeInOut,
+                  isAnimating: isAnimating,
+                ),
               ),
               // Row(
               //   mainAxisAlignment: MainAxisAlignment.center,
@@ -328,7 +339,7 @@ class AudioQuestionContainerState extends State<AudioQuestionContainer> {
         _showOption
             ? Column(
                 children: question.answerOptions!.map((option) {
-                  return OptionContainer(
+                  return NewOptionContainer(
                     quizType: QuizTypes.audioQuestions,
                     submittedAnswerId: question.submittedAnswerId,
                     showAnswerCorrectness: widget.showAnswerCorrectness,

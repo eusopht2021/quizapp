@@ -144,12 +144,45 @@ class _NewHomeScreenState extends State<NewHomeScreen>
             ));
           }
           if (state is UserDetailsFetchFailure) {
-            return const Text('Error something is wrong!');
+            return Center(
+              child: Container(
+                  padding: EdgeInsets.all(20),
+                  width: SizeConfig.screenWidth,
+                  color: Constants.secondaryColor,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        flex: 3,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50)),
+                          child: Image.asset(
+                            Assets.lightIcon,
+                            color: Constants.grey4,
+                            colorBlendMode: BlendMode.overlay,
+                          ),
+                        ),
+                      ),
+                      WidgetsUtil.verticalSpace20,
+                      Expanded(
+                        flex: 2,
+                        child: const TitleText(
+                          align: TextAlign.center,
+                          text: 'Error !! something is wrong!',
+                          size: 30,
+                          textColor: Colors.white,
+                          weight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  )),
+            );
           }
           UserProfile userProfile =
               (state as UserDetailsFetchSuccess).userProfile;
           if (userProfile.status == "0") {
-            return const Text('Error something is wrong!');
+            return Center(child: const Text('Error something is wrong!'));
           }
           return Column(children: [
             Container(

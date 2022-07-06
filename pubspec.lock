@@ -310,7 +310,7 @@ packages:
     source: hosted
     version: "5.0.1"
   equatable:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: equatable
       url: "https://pub.dartlang.org"
@@ -829,9 +829,9 @@ packages:
   music_visualizer:
     dependency: "direct main"
     description:
-      name: music_visualizer
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "D:\\music_visualizer_clone\\music_visualizer_package"
+      relative: false
+    source: path
     version: "1.0.2"
   nested:
     dependency: transitive

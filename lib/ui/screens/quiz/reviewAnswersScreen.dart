@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
@@ -34,11 +35,15 @@ import 'package:flutterquiz/utils/size_config.dart';
 import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
 import 'package:flutterquiz/utils/widgets_util.dart';
+import 'package:just_audio/just_audio.dart';
+import 'package:music_visualizer/music_visualizer.dart';
 
 class ReviewAnswersScreen extends StatefulWidget {
   final List<Question> questions;
   final QuizTypes quizType;
   final List<GuessTheWordQuestion> guessTheWordQuestions;
+  AnimationController? timerAnimationController;
+  int questionCurrentIndex = 0;
 
   ReviewAnswersScreen(
       {Key? key,
@@ -77,6 +82,7 @@ class ReviewAnswersScreen extends StatefulWidget {
 class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
   PageController? _pageController;
   int _currentIndex = 0;
+
   List<GlobalKey<MusicPlayerContainerState>> musicPlayerContainerKeys = [];
 
   @override
@@ -85,6 +91,7 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
     if (_hasAudioQuestion()) {
       widget.questions.forEach((element) {
         musicPlayerContainerKeys.add(GlobalKey<MusicPlayerContainerState>());
+        initializeAudio();
       });
     }
 
@@ -97,6 +104,85 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
     }
     return false;
   }
+
+  void initializeAudio() async {
+    _audioPlayer = AudioPlayer();
+
+    try {
+      var result = await _audioPlayer
+          .setUrl(widget.questions[widget.questionCurrentIndex].audio!);
+      _audioDuration = result ?? Duration.zero;
+      _processingStateStreamSubscription =
+          _audioPlayer.processingStateStream.listen(_processingStateListener);
+    } catch (e) {
+      print(e.toString());
+      _hasError = true;
+    }
+    setState(() {});
+  }
+
+  void _processingStateListener(ProcessingState event) {
+    print(event.toString());
+    if (event == ProcessingState.ready) {
+      if (_isLoading) {
+        _isLoading = false;
+      }
+
+      _audioPlayer.play();
+      _isPlaying = true;
+      _isBuffering = false;
+      _hasCompleted = false;
+    } else if (event == ProcessingState.buffering) {
+      _isBuffering = true;
+    } else if (event == ProcessingState.completed) {
+      // if (!_showOption) {
+      //   _showOption = true;
+      //   widget.timerAnimationController.forward(from: 0.0);
+      // }
+      widget.timerAnimationController!.forward(from: 0.0);
+
+      _hasCompleted = true;
+    }
+
+    setState(() {});
+  }
+
+  final List<Color> colors = [
+    Constants.primaryColor,
+    Constants.accent2,
+    Constants.primaryColor,
+    Constants.accent2,
+    Constants.primaryColor,
+    Constants.accent2,
+    Constants.primaryColor,
+    Constants.accent2,
+    Constants.primaryColor,
+    Constants.accent2,
+    Constants.primaryColor,
+    Constants.accent2,
+    Constants.primaryColor,
+    Constants.accent2,
+    Constants.primaryColor,
+    Constants.accent2,
+    Constants.primaryColor,
+    Constants.accent2,
+    Constants.primaryColor,
+    Constants.accent2,
+    Constants.primaryColor,
+    Constants.accent2,
+  ];
+  late StreamSubscription<Duration> streamSubscription;
+  final List<int> duration = [900, 700, 600, 800, 500];
+  final List<int> stopduration = [1, 1];
+  bool isAnimating = false;
+  late AudioPlayer _audioPlayer;
+  late StreamSubscription<ProcessingState> _processingStateStreamSubscription;
+  late bool _isPlaying = true;
+  late Duration _audioDuration = Duration.zero;
+  late bool _hasCompleted = false;
+  late bool _hasError = false;
+  late bool _isBuffering = false;
+  late bool _isLoading = true;
 
   void showNotes() {
     if (widget.questions[_currentIndex].note!.isEmpty) {
@@ -423,101 +509,36 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
           "  Correct Answer is  " +
           correctAnswerId.toString() +
           correctAnswerTitle);
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          WidgetsUtil.verticalSpace20,
-          TitleText(
-            text: question.submittedAnswerId == correctAnswerId
-                ? "CORRECT ANSWER"
-                : "SELECTED ANSWER",
-            size: Constants.bodyXSmall,
-            textColor: Constants.grey2,
-            weight: FontWeight.w500,
-          ),
-          Container(
-            decoration: BoxDecoration(
-                border: question.attempted
-                    ? question.submittedAnswerId == correctAnswerId
-                        ? Border()
-                        : Border.all(color: Colors.red)
-                    : Border(),
-                borderRadius: BorderRadius.circular(16),
-                color: question.attempted
-                    ? question.submittedAnswerId == correctAnswerId
-                        ? Constants.lightGreen
-                        : Colors.white
-                    : Colors.white
-                // color:
-                ),
-            width: MediaQuery.of(context).size.width * (0.8),
-            margin: EdgeInsets.only(top: 15.0),
-            padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      return !question.attempted
+          ? SizedBox()
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                widget.quizType == QuizTypes.mathMania
-                    ? Expanded(
-                        child: TeXView(
-                          child: TeXViewDocument(
-                            submittedAnswer,
-                          ),
-                          style: TeXViewStyle(
-                              contentColor: question.attempted
-                                  ? question.submittedAnswerId ==
-                                          correctAnswerId
-                                      ? Constants.white
-                                      : Colors.red
-                                  : Colors.red,
-                              backgroundColor: Colors.transparent,
-                              sizeUnit: TeXViewSizeUnit.pixels,
-                              textAlign: TeXViewTextAlign.center,
-                              fontStyle: TeXViewFontStyle(fontSize: 19)),
-                        ),
-                      )
-                    : Text(
-                        submittedAnswer,
-                        style: TextStyle(
-                          color: question.attempted
-                              ? question.submittedAnswerId == correctAnswerId
-                                  ? Constants.white
-                                  : Colors.red
-                              : Colors.red,
-                        ),
-                      ),
-                Icon(
-                  question.attempted
-                      ? question.submittedAnswerId == correctAnswerId
-                          ? Icons.check
-                          : Icons.close
-                      : Icons.close,
-                  color: question.attempted
-                      ? question.submittedAnswerId == correctAnswerId
-                          ? Constants.white
-                          : Colors.red
-                      : Colors.red,
-                ),
-              ],
-            ),
-          ),
-          WidgetsUtil.verticalSpace24,
-          question.submittedAnswerId != correctAnswerId
-              ? TitleText(
-                  text: "CORRECT ANSWER",
+                WidgetsUtil.verticalSpace20,
+                TitleText(
+                  text: question.submittedAnswerId == correctAnswerId
+                      ? "CORRECT ANSWER"
+                      : "SELECTED ANSWER",
                   size: Constants.bodyXSmall,
                   textColor: Constants.grey2,
                   weight: FontWeight.w500,
-                )
-              : SizedBox(),
-          question.submittedAnswerId != correctAnswerId
-              ? Container(
+                ),
+                Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    color: Constants.lightGreen,
-
-                    // color:
-                  ),
+                      border: question.attempted
+                          ? question.submittedAnswerId == correctAnswerId
+                              ? Border()
+                              : Border.all(color: Colors.red)
+                          : Border(),
+                      borderRadius: BorderRadius.circular(16),
+                      color: question.attempted
+                          ? question.submittedAnswerId == correctAnswerId
+                              ? Constants.lightGreen
+                              : Colors.white
+                          : Colors.white
+                      // color:
+                      ),
                   width: MediaQuery.of(context).size.width * (0.8),
                   margin: EdgeInsets.only(top: 15.0),
                   padding:
@@ -529,10 +550,15 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
                           ? Expanded(
                               child: TeXView(
                                 child: TeXViewDocument(
-                                  correctAnswerTitle,
+                                  submittedAnswer,
                                 ),
                                 style: TeXViewStyle(
-                                    contentColor: Constants.white,
+                                    contentColor: question.attempted
+                                        ? question.submittedAnswerId ==
+                                                correctAnswerId
+                                            ? Constants.white
+                                            : Colors.red
+                                        : Colors.red,
                                     backgroundColor: Colors.transparent,
                                     sizeUnit: TeXViewSizeUnit.pixels,
                                     textAlign: TeXViewTextAlign.center,
@@ -540,19 +566,84 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
                               ),
                             )
                           : Text(
-                              correctAnswerTitle,
-                              style: TextStyle(color: Constants.white),
+                              submittedAnswer,
+                              style: TextStyle(
+                                color: question.attempted
+                                    ? question.submittedAnswerId ==
+                                            correctAnswerId
+                                        ? Constants.white
+                                        : Colors.red
+                                    : Colors.red,
+                              ),
                             ),
                       Icon(
-                        Icons.check,
-                        color: Constants.white,
+                        question.attempted
+                            ? question.submittedAnswerId == correctAnswerId
+                                ? Icons.check
+                                : Icons.close
+                            : Icons.close,
+                        color: question.attempted
+                            ? question.submittedAnswerId == correctAnswerId
+                                ? Constants.white
+                                : Colors.red
+                            : Colors.red,
                       ),
                     ],
                   ),
-                )
-              : Container()
-        ],
-      );
+                ),
+                WidgetsUtil.verticalSpace24,
+                question.submittedAnswerId != correctAnswerId
+                    ? TitleText(
+                        text: "CORRECT ANSWER",
+                        size: Constants.bodyXSmall,
+                        textColor: Constants.grey2,
+                        weight: FontWeight.w500,
+                      )
+                    : SizedBox(),
+                question.submittedAnswerId != correctAnswerId
+                    ? Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
+                          color: Constants.lightGreen,
+
+                          // color:
+                        ),
+                        width: MediaQuery.of(context).size.width * (0.8),
+                        margin: EdgeInsets.only(top: 15.0),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 20.0, vertical: 15.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            widget.quizType == QuizTypes.mathMania
+                                ? Expanded(
+                                    child: TeXView(
+                                      child: TeXViewDocument(
+                                        correctAnswerTitle,
+                                      ),
+                                      style: TeXViewStyle(
+                                          contentColor: Constants.white,
+                                          backgroundColor: Colors.transparent,
+                                          sizeUnit: TeXViewSizeUnit.pixels,
+                                          textAlign: TeXViewTextAlign.center,
+                                          fontStyle:
+                                              TeXViewFontStyle(fontSize: 19)),
+                                    ),
+                                  )
+                                : Text(
+                                    correctAnswerTitle,
+                                    style: TextStyle(color: Constants.white),
+                                  ),
+                            Icon(
+                              Icons.check,
+                              color: Constants.white,
+                            ),
+                          ],
+                        ),
+                      )
+                    : Container()
+              ],
+            );
 
       // return Container();
 
@@ -666,11 +757,42 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
           _hasAudioQuestion()
               ? BlocProvider<MusicPlayerCubit>(
                   create: (_) => MusicPlayerCubit(),
-                  child: MusicPlayerContainer(
-                    currentIndex: _currentIndex,
-                    index: index,
-                    url: question.audio!,
-                    key: musicPlayerContainerKeys[index],
+                  // child: MusicPlayerContainer(
+                  //   currentIndex: _currentIndex,
+                  //   index: index,
+                  //   url: question.audio!,
+                  //   key: musicPlayerContainerKeys[index],
+                  // ))
+
+                  child: SizedBox(
+                    height: 100,
+                    child: InkWell(
+                      onTap: () async {
+                        if (_isPlaying) {
+                          await _audioPlayer.stop();
+                          log("if state");
+
+                          setState(() {
+                            _isPlaying = false;
+                            isAnimating = true;
+                          });
+                        } else {
+                          await _audioPlayer.play();
+                          log("else state");
+                          setState(() {
+                            _isPlaying = true;
+                            isAnimating = false;
+                          });
+                        }
+                      },
+                      child: MusicVisualizer(
+                        barCount: colors.length,
+                        colors: colors,
+                        duration: duration,
+                        curve: Curves.easeInOut,
+                        isAnimating: isAnimating,
+                      ),
+                    ),
                   ))
               : Container(),
 

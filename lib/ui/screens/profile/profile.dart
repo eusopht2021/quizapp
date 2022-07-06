@@ -331,7 +331,8 @@ class _ProfileState extends State<Profile> {
                               Assets.crown,
                               height: 30,
                             ),
-                            position: BadgePosition.topEnd(end: 20, top: -20),
+                            position:
+                                BadgePosition.topStart(start: 15, top: -20),
                             badgeColor: Colors.transparent,
                             child: CircleAvatar(
                               radius: 35,
@@ -389,7 +390,8 @@ class _ProfileState extends State<Profile> {
                               Assets.crown,
                               height: 30,
                             ),
-                            position: BadgePosition.topEnd(end: 20, top: -20),
+                            position:
+                                BadgePosition.topStart(start: 15, top: -20),
                             badgeColor: Colors.transparent,
                             child: CircleAvatar(
                               radius: 35,
@@ -921,7 +923,7 @@ class _ProfileState extends State<Profile> {
 
   Widget _tabs(profile) {
     return Column(
-      children: [ 
+      children: [
         //tabs
         Row(
           children: List.generate(

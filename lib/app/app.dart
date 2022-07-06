@@ -39,6 +39,8 @@ import 'package:flutterquiz/features/systemConfig/systemConfigRepository.dart';
 import 'package:flutterquiz/features/tournament/cubits/tournamentBattleCubit.dart';
 import 'package:flutterquiz/features/tournament/cubits/tournamentCubit.dart';
 import 'package:flutterquiz/features/tournament/tournamentRepository.dart';
+import 'package:flutterquiz/ui/navigation/navbarcubit.dart';
+import 'package:flutterquiz/ui/navigation/navigation.dart';
 import 'package:flutterquiz/ui/styles/theme/appTheme.dart';
 import 'package:flutterquiz/ui/styles/theme/themeCubit.dart';
 import 'package:flutterquiz/utils/constants.dart';
@@ -161,6 +163,10 @@ class MyApp extends StatelessWidget {
           create: (_) => ComprehensionCubit(QuizRepository()),
         ),
 
+        /// New Cubit
+
+        BlocProvider<NavigationCubit>(
+            create: (_) => NavigationCubit(Navigation())),
         //
         //Setting this cubit globally so we can fetch again once
         //set quiz categories success

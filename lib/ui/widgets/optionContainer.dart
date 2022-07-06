@@ -116,13 +116,13 @@ class _OptionContainerState extends State<OptionContainer>
 
   Color _buildOptionBackgroundColor() {
     if (widget.showAnswerCorrectness) {
-      return Constants.white;
+      return Theme.of(context).colorScheme.secondary;
     }
     if (widget.hasSubmittedAnswerForCurrentQuestion() &&
         widget.submittedAnswerId == widget.answerOption.id) {
-      return Constants.lightGreen;
+      return Theme.of(context).primaryColor;
     }
-    return Colors.red;
+    return Theme.of(context).colorScheme.secondary;
   }
 
   void _onTapOptionContainer() {
@@ -252,8 +252,13 @@ class _OptionContainerState extends State<OptionContainer>
   @override
   Widget build(BuildContext context) {
     textSpan = TextSpan(
-        text: widget.answerOption.title,
-        style: TextStyle(color: Constants.black1, height: 1.0, fontSize: 16.0));
+      text: widget.answerOption.title,
+      style: TextStyle(
+        color: Constants.white,
+        height: 1.0,
+        fontSize: 16.0,
+      ),
+    );
     return GestureDetector(
       onTapCancel: () {
         animationController.reverse();

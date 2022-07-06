@@ -302,19 +302,19 @@ class _NewQuizScreenState extends State<NewQuizScreen>
   //change to next Question
 
   void changeQuestion() {
-    // questionAnimationController.forward(from: 0.0).then((value) {
-    //   //need to dispose the animation controllers
-    //   questionAnimationController.dispose();
-    //   questionContentAnimationController.dispose();
-    //   //initializeAnimation again
-    //   setState(() {
-    //     initializeAnimation();
-    //     currentQuestionIndex++;
-    //     markLifeLineUsed();
-    //   });
-    //   //load content(options, image etc) of question
-    //   questionContentAnimationController.forward();
-    // });
+    questionAnimationController.forward(from: 0.0).then((value) {
+      //need to dispose the animation controllers
+      questionAnimationController.dispose();
+      questionContentAnimationController.dispose();
+      //initializeAnimation again
+      setState(() {
+        initializeAnimation();
+        currentQuestionIndex++;
+        markLifeLineUsed();
+      });
+      //load content(options, image etc) of question
+      questionContentAnimationController.forward();
+    });
   }
 
   //if user has submitted the answer for current question
@@ -414,7 +414,7 @@ class _NewQuizScreenState extends State<NewQuizScreen>
             ),
             child: CustomRoundedButton(
               widthPercentage: MediaQuery.of(context).size.width * (0.5),
-              backgroundColor: Theme.of(context).primaryColor,
+              backgroundColor: Constants.primaryColor,
               buttonTitle: AppLocalization.of(context)!
                   .getTranslatedValues(showOptionsKey)!,
               radius: 5,
