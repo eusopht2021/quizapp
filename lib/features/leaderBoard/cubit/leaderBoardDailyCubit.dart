@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutterquiz/ui/screens/new_leaderBoard.dart';
 import 'package:flutterquiz/utils/apiBodyParameterLabels.dart';
 import 'package:flutterquiz/utils/apiUtils.dart';
 import 'package:flutterquiz/utils/constants.dart';
@@ -30,7 +31,8 @@ class LeaderBoardDailyFailure extends LeaderBoardDailyState {
 
 class LeaderBoardDailyCubit extends Cubit<LeaderBoardDailyState> {
   static late String profileD, nameD, scoreD, rankD;
-  LeaderBoardDailyCubit() : super(LeaderBoardDailyInitial());
+  LeaderBoardDailyCubit([NewLeaderBoardScreen? newLeaderBoardScreen])
+      : super(LeaderBoardDailyInitial());
 
   Future<Map<String, dynamic>> _fetchData({
     required String limit,

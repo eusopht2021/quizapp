@@ -22,7 +22,11 @@ import 'package:flutterquiz/features/bookmark/cubits/bookmarkCubit.dart';
 import 'package:flutterquiz/features/bookmark/cubits/guessTheWordBookmarkCubit.dart';
 import 'package:flutterquiz/features/exam/cubits/examCubit.dart';
 import 'package:flutterquiz/features/exam/examRepository.dart';
+import 'package:flutterquiz/features/leaderBoard/cubit/leaderBoardAllTimeCubit.dart';
+import 'package:flutterquiz/features/leaderBoard/cubit/leaderBoardDailyCubit.dart';
+import 'package:flutterquiz/features/leaderBoard/cubit/leaderBoardMonthlyCubit.dart';
 import 'package:flutterquiz/features/localization/appLocalizationCubit.dart';
+import 'package:flutterquiz/features/profileManagement/cubits/uploadProfileCubit.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/userDetailsCubit.dart';
 import 'package:flutterquiz/features/profileManagement/profileManagementRepository.dart';
 import 'package:flutterquiz/features/quiz/cubits/comprehensionCubit.dart';
@@ -41,6 +45,8 @@ import 'package:flutterquiz/features/tournament/cubits/tournamentCubit.dart';
 import 'package:flutterquiz/features/tournament/tournamentRepository.dart';
 import 'package:flutterquiz/ui/navigation/navbarcubit.dart';
 import 'package:flutterquiz/ui/navigation/navigation.dart';
+import 'package:flutterquiz/ui/screens/new_leaderBoard.dart';
+import 'package:flutterquiz/ui/screens/profile/profile.dart';
 import 'package:flutterquiz/ui/styles/theme/appTheme.dart';
 import 'package:flutterquiz/ui/styles/theme/themeCubit.dart';
 import 'package:flutterquiz/utils/constants.dart';
@@ -163,11 +169,24 @@ class MyApp extends StatelessWidget {
           create: (_) => ComprehensionCubit(QuizRepository()),
         ),
 
-        /// New Cubit
+        /// New Navigation Cubit
 
         BlocProvider<NavigationCubit>(
             create: (_) => NavigationCubit(Navigation())),
+
+//new Leaderboard Cubit
+        BlocProvider<LeaderBoardDailyCubit>(
+            create: (_) => LeaderBoardDailyCubit(NewLeaderBoardScreen())),
+
+        BlocProvider<LeaderBoardMonthlyCubit>(
+            create: (_) => LeaderBoardMonthlyCubit(NewLeaderBoardScreen())),
+
+        BlocProvider<LeaderBoardAllTimeCubit>(
+            create: (_) => LeaderBoardAllTimeCubit(NewLeaderBoardScreen())),
         //
+        BlocProvider<UploadProfileCubit>(
+            create: (_) => UploadProfileCubit(ProfileManagementRepository())),
+
         //Setting this cubit globally so we can fetch again once
         //set quiz categories success
         BlocProvider<QuizCategoryCubit>(

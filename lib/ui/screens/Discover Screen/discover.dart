@@ -73,7 +73,8 @@ class _DiscoverState extends State<Discover> {
         children: [
           CustomAppBar(
             title: 'Discover',
-            onBackTapped: () => log('OnBackTapped'),
+            // onBackTapped: () => log('OnBackTapped'),
+            showBackButton: false,
           ),
           WidgetsUtil.verticalSpace16,
           CustomTextField(

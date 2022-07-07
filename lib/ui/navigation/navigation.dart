@@ -81,6 +81,9 @@ class _NavigationState extends State<Navigation> {
           ),
           activeIndex: selectedIndex,
           onTap: (index) {
+            setState(() {
+              selectedIndex = index;
+            });
             if (index == 0) {
               BlocProvider.of<NavigationCubit>(context)
                   .getNavBarItem(NavbarItems.newhome);
@@ -90,6 +93,9 @@ class _NavigationState extends State<Navigation> {
             } else if (index == 2) {
               BlocProvider.of<NavigationCubit>(context)
                   .getNavBarItem(NavbarItems.leaderboard);
+            } else if (index == 3) {
+              BlocProvider.of<NavigationCubit>(context)
+                  .getNavBarItem(NavbarItems.profile);
             }
           },
         );
@@ -147,6 +153,8 @@ class _NavigationState extends State<Navigation> {
           return Discover();
         } else if (state.navbarItems == NavbarItems.leaderboard) {
           return NewLeaderBoardScreen();
+        } else if (state.navbarItems == NavbarItems.profile) {
+          return Profile();
         }
         return Container();
       }),

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutterquiz/ui/screens/new_leaderBoard.dart';
 import 'package:flutterquiz/utils/apiBodyParameterLabels.dart';
 import 'package:flutterquiz/utils/apiUtils.dart';
 import 'package:flutterquiz/utils/constants.dart';
@@ -37,7 +38,8 @@ class LeaderBoardMonthlyFailure extends LeaderBoardMonthlyState {
 
 class LeaderBoardMonthlyCubit extends Cubit<LeaderBoardMonthlyState> {
   static late String profileM, nameM, scoreM, rankM;
-  LeaderBoardMonthlyCubit() : super(LeaderBoardMonthlyInitial());
+  LeaderBoardMonthlyCubit([NewLeaderBoardScreen? newLeaderBoardScreen])
+      : super(LeaderBoardMonthlyInitial());
 
   Future<Map<String, dynamic>> _fetchData({
     required String limit,

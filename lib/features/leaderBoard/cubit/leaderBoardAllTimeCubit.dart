@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutterquiz/ui/screens/new_leaderBoard.dart';
 import 'package:flutterquiz/utils/apiBodyParameterLabels.dart';
 import 'package:flutterquiz/utils/apiUtils.dart';
 import 'package:flutterquiz/utils/constants.dart';
@@ -35,7 +36,8 @@ class LeaderBoardAllTimeFailure extends LeaderBoardAllTimeState {
 
 class LeaderBoardAllTimeCubit extends Cubit<LeaderBoardAllTimeState> {
   static late String profileA, nameA, scoreA, rankA;
-  LeaderBoardAllTimeCubit() : super(LeaderBoardAllTimeInitial());
+  LeaderBoardAllTimeCubit([NewLeaderBoardScreen? newLeaderBoardScreen])
+      : super(LeaderBoardAllTimeInitial());
 
   Future<Map<String, dynamic>> _fetchData({
     required String limit,

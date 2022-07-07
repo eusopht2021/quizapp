@@ -1927,7 +1927,8 @@ class _NewResultScreenState extends State<NewResultScreen> {
                   padding: const EdgeInsets.only(top: 50),
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.of(context).popUntil((route) => route.isFirst);
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, Routes.home, (route) => true);
                     },
                     child: Icon(
                       Icons.close,

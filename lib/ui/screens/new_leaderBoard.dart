@@ -124,9 +124,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
           preferredSize: const Size.fromHeight(60),
           child: CustomAppBar(
             title: "Leaderboard",
-            onBackTapped: () {
-              Navigator.pop(context);
-            },
+            showBackButton: false,
           ),
         ),
         backgroundColor: Constants.primaryColor,
@@ -234,7 +232,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
     index == 0
         ? position = 0
         : index == 1
-            ? position = 50
+            ? position = 30
             // : index == 2
             //     ? position = 60
             : index == 2
@@ -248,7 +246,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
     index == 0
         ? position = 0
         : index == 2
-            ? position = 50
+            ? position = 40
             : index == 1
                 ? position = null
                 : null;
@@ -316,88 +314,104 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                         top: _topPosition(index),
                         left: _leftPosition(index),
                         right: _rightPosition(index),
-                        child: Column(children: [
-                          Badge(
-                            elevation: 0,
-                            showBadge: true,
-                            badgeContent: Image.asset(Assets.portugal),
-                            badgeColor: Colors.transparent,
-                            position: BadgePosition.bottomEnd(),
-                            child: Badge(
-                                elevation: 0,
-                                showBadge: true,
-                                badgeContent: index == 0
-                                    ? SvgPicture.asset(
-                                        Assets.crown,
-                                        height: 30,
-                                      )
-                                    : SizedBox(),
-                                position:
-                                    BadgePosition.topEnd(end: 5, top: -20),
-                                badgeColor: Colors.transparent,
-                                child: CircleAvatar(
-                                  radius: 25,
-                                  backgroundColor: Colors.transparent,
-                                  backgroundImage: CachedNetworkImageProvider(
-                                    index == 0
-                                        ? podiumList[0]['profile']
-                                        : index == 1
-                                            ? podiumList[1]['profile']
-                                            : index == 2
-                                                ? podiumList[2]['profile']
-                                                : "",
-                                  ),
-                                )),
-                          ),
-                          WidgetsUtil.verticalSpace20,
-                          SizedBox(
-                            width: 100,
-                            child: TitleText(
-                              text: index == 0
-                                  ? podiumList[0]['name']!.isNotEmpty
-                                      ? podiumList[0]['name']!
-                                      : ""
-                                  : index == 1
-                                      ? podiumList[1]['name']!.isNotEmpty
-                                          ? podiumList[1]['name']!
-                                          : ""
-                                      : index == 2
-                                          ? podiumList[2]['name']!.isNotEmpty
-                                              ? podiumList[2]['name']!
-                                              : ""
-                                          : "",
-                              textColor: Constants.white,
-                              size: Constants.bodySmall,
-                              align: TextAlign.center,
-                            ),
-                          ),
-                          WidgetsUtil.verticalSpace4,
-                          index < 3
-                              ? _QPContainer(
-                                  Center(
-                                    child: TitleText(
-                                      text: index == 0
-                                          ? podiumList[0]['score']!.isNotEmpty
-                                              ? podiumList[0]['score']!
-                                              : ""
-                                          : index == 1
-                                              ? podiumList[1]['score']!
-                                                      .isNotEmpty
-                                                  ? podiumList[1]['score']!
-                                                  : ""
-                                              : index == 2
-                                                  ? podiumList[2]['score']!
-                                                          .isNotEmpty
-                                                      ? podiumList[2]['score']!
-                                                      : ""
-                                                  : "",
-                                      size: Constants.bodyXSmall,
-                                      textColor: Constants.white,
+                        child: index < 3
+                            ? Column(
+                                children: [
+                                  Badge(
+                                    elevation: 0,
+                                    showBadge: true,
+                                    badgeContent: Image.asset(Assets.portugal),
+                                    badgeColor: Colors.transparent,
+                                    position: BadgePosition.bottomEnd(),
+                                    child: Badge(
+                                      elevation: 0,
+                                      showBadge: true,
+                                      badgeContent: index == 0
+                                          ? SvgPicture.asset(
+                                              Assets.crown,
+                                              height: 30,
+                                            )
+                                          : SizedBox(),
+                                      position: BadgePosition.topEnd(
+                                          end: 5, top: -20),
+                                      badgeColor: Colors.transparent,
+                                      child: CircleAvatar(
+                                        radius: 25,
+                                        backgroundColor: Colors.transparent,
+                                        backgroundImage:
+                                            CachedNetworkImageProvider(
+                                          index == 0
+                                              ? podiumList[0]['profile']
+                                              : index == 1
+                                                  ? podiumList[1]['profile']
+                                                  : index == 2
+                                                      ? podiumList[2]['profile']
+                                                      : "",
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                )
-                              : SizedBox(),
-                        ]),
+                                  Column(children: [
+                                    WidgetsUtil.verticalSpace20,
+                                    SizedBox(
+                                      width: 50,
+                                      child: TitleText(
+                                        text: index == 0
+                                            ? podiumList[0]['name']!.isNotEmpty
+                                                ? podiumList[0]['name']!
+                                                : ""
+                                            : index == 1
+                                                ? podiumList[1]['name']!
+                                                        .isNotEmpty
+                                                    ? podiumList[1]['name']!
+                                                    : ""
+                                                : index == 2
+                                                    ? podiumList[2]['name']!
+                                                            .isNotEmpty
+                                                        ? podiumList[2]['name']!
+                                                        : ""
+                                                    : "",
+                                        textColor: Constants.white,
+                                        size: Constants.bodySmall,
+                                        align: TextAlign.center,
+                                      ),
+                                    ),
+                                    WidgetsUtil.verticalSpace4,
+                                    index < 3
+                                        ? _QPContainer(
+                                            Center(
+                                              child: TitleText(
+                                                text: index == 0
+                                                    ? podiumList[0]['score']!
+                                                            .isNotEmpty
+                                                        ? podiumList[0]
+                                                            ['score']!
+                                                        : ""
+                                                    : index == 1
+                                                        ? podiumList[1]
+                                                                    ['score']!
+                                                                .isNotEmpty
+                                                            ? podiumList[1]
+                                                                ['score']!
+                                                            : ""
+                                                        : index == 2
+                                                            ? podiumList[2][
+                                                                        'score']!
+                                                                    .isNotEmpty
+                                                                ? podiumList[2]
+                                                                    ['score']!
+                                                                : ""
+                                                            : "",
+                                                size: Constants.bodyXSmall,
+                                                textColor: Constants.white,
+                                              ),
+                                            ),
+                                          )
+                                        : SizedBox(),
+                                  ]),
+                                ],
+                              )
+                            : SizedBox(),
                       );
                     }),
                     Stack(
@@ -405,22 +419,22 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                         Positioned(
                           top: 180,
                           right: 133,
-                          left: 132,
+                          left: 133,
                           child: Image.asset(Assets.rank1),
                         ),
                         Positioned(
                           top: 210,
-                          right: 243,
-                          left: 28,
+                          // right: 243,
+                          left: 30,
                           child: Image.asset(Assets.rank2),
                         ),
                         Positioned(
                           top: 260,
-                          right: 28,
-                          left: 242,
+                          right: 30,
+                          // left: 242,
                           child: Image.asset(Assets.rank3),
                         ),
-                        leaderBoardList(podiumList, hasMore),
+                        leaderBoardList(podiumList, controllerM, hasMore),
                       ],
                     ),
                   ],
@@ -516,88 +530,96 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                         top: _topPosition(index),
                         left: _leftPosition(index),
                         right: _rightPosition(index),
-                        child: Column(children: [
-                          Badge(
-                            elevation: 0,
-                            showBadge: true,
-                            badgeContent: Image.asset(Assets.portugal),
-                            badgeColor: Colors.transparent,
-                            position: BadgePosition.bottomEnd(),
-                            child: Badge(
-                                elevation: 0,
-                                showBadge: true,
-                                badgeContent: index == 0
-                                    ? SvgPicture.asset(
-                                        Assets.crown,
-                                        height: 30,
+                        child: index < 3
+                            ? Column(children: [
+                                Badge(
+                                  elevation: 0,
+                                  showBadge: true,
+                                  badgeContent: Image.asset(Assets.portugal),
+                                  badgeColor: Colors.transparent,
+                                  position: BadgePosition.bottomEnd(),
+                                  child: Badge(
+                                      elevation: 0,
+                                      showBadge: true,
+                                      badgeContent: index == 0
+                                          ? SvgPicture.asset(
+                                              Assets.crown,
+                                              height: 30,
+                                            )
+                                          : SizedBox(),
+                                      position: BadgePosition.topEnd(
+                                          end: 5, top: -20),
+                                      badgeColor: Colors.transparent,
+                                      child: CircleAvatar(
+                                        radius: 25,
+                                        backgroundColor: Colors.transparent,
+                                        backgroundImage:
+                                            CachedNetworkImageProvider(
+                                          index == 0
+                                              ? podiumList[0]['profile']
+                                              : index == 1
+                                                  ? podiumList[1]['profile']
+                                                  : index == 2
+                                                      ? podiumList[2]['profile']
+                                                      : "",
+                                        ),
+                                      )),
+                                ),
+                                WidgetsUtil.verticalSpace20,
+                                SizedBox(
+                                  width: 100,
+                                  child: TitleText(
+                                    text: index == 0
+                                        ? podiumList[0]['name']!.isNotEmpty
+                                            ? podiumList[0]['name']!
+                                            : ""
+                                        : index == 1
+                                            ? podiumList[1]['name']!.isNotEmpty
+                                                ? podiumList[1]['name']!
+                                                : ""
+                                            : index == 2
+                                                ? podiumList[2]['name']!
+                                                        .isNotEmpty
+                                                    ? podiumList[2]['name']!
+                                                    : ""
+                                                : "",
+                                    textColor: Constants.white,
+                                    size: Constants.bodySmall,
+                                    align: TextAlign.center,
+                                  ),
+                                ),
+                                WidgetsUtil.verticalSpace4,
+                                index < 3
+                                    ? _QPContainer(
+                                        Center(
+                                          child: TitleText(
+                                            text: index == 0
+                                                ? podiumList[0]['score']!
+                                                        .isNotEmpty
+                                                    ? podiumList[0]['score']!
+                                                    : ""
+                                                : index == 1
+                                                    ? podiumList[1]['score']!
+                                                            .isNotEmpty
+                                                        ? podiumList[1]
+                                                            ['score']!
+                                                        : ""
+                                                    : index == 2
+                                                        ? podiumList[2]
+                                                                    ['score']!
+                                                                .isNotEmpty
+                                                            ? podiumList[2]
+                                                                ['score']!
+                                                            : ""
+                                                        : "",
+                                            size: Constants.bodyXSmall,
+                                            textColor: Constants.white,
+                                          ),
+                                        ),
                                       )
                                     : SizedBox(),
-                                position:
-                                    BadgePosition.topEnd(end: 5, top: -20),
-                                badgeColor: Colors.transparent,
-                                child: CircleAvatar(
-                                  radius: 25,
-                                  backgroundColor: Colors.transparent,
-                                  backgroundImage: CachedNetworkImageProvider(
-                                    index == 0
-                                        ? podiumList[0]['profile']
-                                        : index == 1
-                                            ? podiumList[1]['profile']
-                                            : index == 2
-                                                ? podiumList[2]['profile']
-                                                : "",
-                                  ),
-                                )),
-                          ),
-                          WidgetsUtil.verticalSpace20,
-                          SizedBox(
-                            width: 100,
-                            child: TitleText(
-                              text: index == 0
-                                  ? podiumList[0]['name']!.isNotEmpty
-                                      ? podiumList[0]['name']!
-                                      : ""
-                                  : index == 1
-                                      ? podiumList[1]['name']!.isNotEmpty
-                                          ? podiumList[1]['name']!
-                                          : ""
-                                      : index == 2
-                                          ? podiumList[2]['name']!.isNotEmpty
-                                              ? podiumList[2]['name']!
-                                              : ""
-                                          : "",
-                              textColor: Constants.white,
-                              size: Constants.bodySmall,
-                              align: TextAlign.center,
-                            ),
-                          ),
-                          WidgetsUtil.verticalSpace4,
-                          index < 3
-                              ? _QPContainer(
-                                  Center(
-                                    child: TitleText(
-                                      text: index == 0
-                                          ? podiumList[0]['score']!.isNotEmpty
-                                              ? podiumList[0]['score']!
-                                              : ""
-                                          : index == 1
-                                              ? podiumList[1]['score']!
-                                                      .isNotEmpty
-                                                  ? podiumList[1]['score']!
-                                                  : ""
-                                              : index == 2
-                                                  ? podiumList[2]['score']!
-                                                          .isNotEmpty
-                                                      ? podiumList[2]['score']!
-                                                      : ""
-                                                  : "",
-                                      size: Constants.bodyXSmall,
-                                      textColor: Constants.white,
-                                    ),
-                                  ),
-                                )
-                              : SizedBox(),
-                        ]),
+                              ])
+                            : SizedBox(),
                       );
                     }),
                     Stack(
@@ -605,22 +627,22 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                         Positioned(
                           top: 180,
                           right: 133,
-                          left: 132,
+                          left: 133,
                           child: Image.asset(Assets.rank1),
                         ),
                         Positioned(
                           top: 210,
-                          right: 243,
-                          left: 28,
+                          // right: 243,
+                          left: 30,
                           child: Image.asset(Assets.rank2),
                         ),
                         Positioned(
                           top: 260,
-                          right: 28,
-                          left: 242,
+                          right: 30,
+                          // left: 242,
                           child: Image.asset(Assets.rank3),
                         ),
-                        leaderBoardList(dailyList, hasMore),
+                        leaderBoardList(dailyList, controllerD, hasMore),
                       ],
                     ),
                   ],
@@ -693,88 +715,100 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                         top: _topPosition(index),
                         left: _leftPosition(index),
                         right: _rightPosition(index),
-                        child: Column(children: [
-                          Badge(
-                            elevation: 0,
-                            showBadge: true,
-                            badgeContent: Image.asset(Assets.portugal),
-                            badgeColor: Colors.transparent,
-                            position: BadgePosition.bottomEnd(),
-                            child: Badge(
-                                elevation: 0,
-                                showBadge: true,
-                                badgeContent: index == 0
-                                    ? SvgPicture.asset(
-                                        Assets.crown,
-                                        height: 30,
-                                      )
-                                    : SizedBox(),
-                                position:
-                                    BadgePosition.topEnd(end: 5, top: -20),
-                                badgeColor: Colors.transparent,
-                                child: CircleAvatar(
-                                  radius: 25,
-                                  backgroundColor: Colors.transparent,
-                                  backgroundImage: CachedNetworkImageProvider(
-                                    index == 0
-                                        ? podiumList[0]['profile']
-                                        : index == 1
-                                            ? podiumList[1]['profile']
-                                            : index == 2
-                                                ? podiumList[2]['profile']
-                                                : "",
+                        child: index < 3
+                            ? Column(
+                                children: [
+                                  Badge(
+                                    elevation: 0,
+                                    showBadge: true,
+                                    badgeContent: Image.asset(Assets.portugal),
+                                    badgeColor: Colors.transparent,
+                                    position: BadgePosition.bottomEnd(),
+                                    child: Badge(
+                                        elevation: 0,
+                                        showBadge: true,
+                                        badgeContent: index == 0
+                                            ? SvgPicture.asset(
+                                                Assets.crown,
+                                                height: 30,
+                                              )
+                                            : SizedBox(),
+                                        position: BadgePosition.topEnd(
+                                            end: 5, top: -20),
+                                        badgeColor: Colors.transparent,
+                                        child: CircleAvatar(
+                                          radius: 25,
+                                          backgroundColor: Colors.transparent,
+                                          backgroundImage:
+                                              CachedNetworkImageProvider(
+                                            index == 0
+                                                ? podiumList[0]['profile']
+                                                : index == 1
+                                                    ? podiumList[1]['profile']
+                                                    : index == 2
+                                                        ? podiumList[2]
+                                                            ['profile']
+                                                        : "",
+                                          ),
+                                        )),
                                   ),
-                                )),
-                          ),
-                          WidgetsUtil.verticalSpace20,
-                          SizedBox(
-                            width: 100,
-                            child: TitleText(
-                              text: index == 0
-                                  ? podiumList[0]['name']!.isNotEmpty
-                                      ? podiumList[0]['name']!
-                                      : ""
-                                  : index == 1
-                                      ? podiumList[1]['name']!.isNotEmpty
-                                          ? podiumList[1]['name']!
-                                          : ""
-                                      : index == 2
-                                          ? podiumList[2]['name']!.isNotEmpty
-                                              ? podiumList[2]['name']!
-                                              : ""
-                                          : "",
-                              textColor: Constants.white,
-                              size: Constants.bodySmall,
-                              align: TextAlign.center,
-                            ),
-                          ),
-                          WidgetsUtil.verticalSpace4,
-                          index < 3
-                              ? _QPContainer(
-                                  Center(
+                                  WidgetsUtil.verticalSpace20,
+                                  SizedBox(
+                                    width: 100,
                                     child: TitleText(
                                       text: index == 0
-                                          ? podiumList[0]['score']!.isNotEmpty
-                                              ? podiumList[0]['score']!
+                                          ? podiumList[0]['name']!.isNotEmpty
+                                              ? podiumList[0]['name']!
                                               : ""
                                           : index == 1
-                                              ? podiumList[1]['score']!
+                                              ? podiumList[1]['name']!
                                                       .isNotEmpty
-                                                  ? podiumList[1]['score']!
+                                                  ? podiumList[1]['name']!
                                                   : ""
                                               : index == 2
-                                                  ? podiumList[2]['score']!
+                                                  ? podiumList[2]['name']!
                                                           .isNotEmpty
-                                                      ? podiumList[2]['score']!
+                                                      ? podiumList[2]['name']!
                                                       : ""
                                                   : "",
-                                      size: Constants.bodyXSmall,
                                       textColor: Constants.white,
+                                      size: Constants.bodySmall,
+                                      align: TextAlign.center,
                                     ),
                                   ),
-                                )
-                              : SizedBox(),
-                        ]),
+                                  WidgetsUtil.verticalSpace4,
+                                  index < 3
+                                      ? _QPContainer(
+                                          Center(
+                                            child: TitleText(
+                                              text: index == 0
+                                                  ? podiumList[0]['score']!
+                                                          .isNotEmpty
+                                                      ? podiumList[0]['score']!
+                                                      : ""
+                                                  : index == 1
+                                                      ? podiumList[1]['score']!
+                                                              .isNotEmpty
+                                                          ? podiumList[1]
+                                                              ['score']!
+                                                          : ""
+                                                      : index == 2
+                                                          ? podiumList[2]
+                                                                      ['score']!
+                                                                  .isNotEmpty
+                                                              ? podiumList[2]
+                                                                  ['score']!
+                                                              : ""
+                                                          : "",
+                                              size: Constants.bodyXSmall,
+                                              textColor: Constants.white,
+                                            ),
+                                          ),
+                                        )
+                                      : SizedBox(),
+                                ],
+                              )
+                            : SizedBox(),
                       );
                     }),
                     Stack(
@@ -787,17 +821,17 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                         ),
                         Positioned(
                           top: 210,
-                          right: 243,
-                          left: 28,
+                          // right: 243,
+                          left: 30,
                           child: Image.asset(Assets.rank2),
                         ),
                         Positioned(
                           top: 260,
-                          right: 28,
-                          left: 242,
+                          right: 30,
+                          // left: 242,
                           child: Image.asset(Assets.rank3),
                         ),
-                        leaderBoardList(podiumList, hasMore),
+                        leaderBoardList(podiumList, controllerA, hasMore),
                       ],
                     ),
                   ],
@@ -808,7 +842,8 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
         });
   }
 
-  Widget leaderBoardList(List leaderBoardList, hasMore) {
+  Widget leaderBoardList(
+      List leaderBoardList, ScrollController controller, hasMore) {
     List draggable = [];
     for (int i = 0; i < leaderBoardList.length; i++) {
       if (i > 3) {
@@ -818,90 +853,100 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
     log('Draggable: ${draggable.length}');
     return DraggableScrollableSheet(
         snap: true,
-        expand: true,
         initialChildSize: 0.5,
         minChildSize: 0.5,
         maxChildSize: 1.0,
-        builder: ((context, scrollController) {
+        builder: ((context, controller) {
           return NotchedCard(
             child: Container(
               height: double.infinity,
               decoration: BoxDecoration(
                   color: Constants.grey5,
                   borderRadius: BorderRadius.circular(20)),
-              child: SingleChildScrollView(
-                controller: scrollController,
-                child: Column(
-                  children: [
-                    if (draggable.isEmpty)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 20),
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: Icon(
-                            Icons.group_add_outlined,
-                            size: 150,
-                            color: Constants.grey1.withOpacity(0.2),
-                          ),
+              child: ListView(
+                shrinkWrap: true,
+                controller: controller,
+                // child: Column(
+                children: [
+                  if (draggable.isEmpty)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: Icon(
+                          Icons.group_add_outlined,
+                          size: 150,
+                          color: Constants.grey1.withOpacity(0.2),
                         ),
-                      )
-                    else
-                      ...List.generate(draggable.length, (index) {
-                        return Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: SizedBox(
-                              height: 100,
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20)),
-                                elevation: 0,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      right: 16, left: 16),
-                                  child: Row(children: [
-                                    Expanded(
-                                      flex: 1,
-                                      child: CircleAvatar(
-                                        backgroundColor: Constants.black1,
-                                        radius: 60,
+                      ),
+                    )
+                  else
+                    ...List.generate(
+                      draggable.length,
+                      (index) {
+                        if (index == draggable.length) {
+                          return SizedBox(
+                            height: 50,
+                          );
+                        } else {
+                          return Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: SizedBox(
+                                height: 100,
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                  elevation: 0,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        right: 16, left: 16),
+                                    child: Row(children: [
+                                      Expanded(
+                                        flex: 1,
                                         child: CircleAvatar(
-                                          radius: 40,
-                                          foregroundColor: Constants.grey2,
-                                          backgroundColor: Constants.white,
-                                          child: TitleText(
-                                            text: (index + 4).toString(),
+                                          backgroundColor: Constants.black1,
+                                          radius: 60,
+                                          child: CircleAvatar(
+                                            radius: 40,
+                                            foregroundColor: Constants.grey2,
+                                            backgroundColor: Constants.white,
+                                            child: TitleText(
+                                              text: (index + 4).toString(),
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    Expanded(
-                                      flex: 9,
-                                      child: ListTile(
-                                        leading: CircleAvatar(
-                                          backgroundColor: Colors.transparent,
-                                          backgroundImage: NetworkImage(
-                                              draggable[index]['profile'] ??
-                                                  ""),
+                                      Expanded(
+                                        flex: 9,
+                                        child: ListTile(
+                                          leading: CircleAvatar(
+                                            backgroundColor: Colors.transparent,
+                                            backgroundImage: NetworkImage(
+                                                draggable[index]['profile'] ??
+                                                    ""),
+                                          ),
+                                          title: TitleText(
+                                            text:
+                                                draggable[index]['name'] ?? "",
+                                          ),
+                                          subtitle: TitleText(
+                                            text:
+                                                '${draggable[index]['score'] ?? "0"}' +
+                                                    ' points',
+                                          ),
                                         ),
-                                        title: TitleText(
-                                          text: draggable[index]['name'] ?? "",
-                                        ),
-                                        subtitle: TitleText(
-                                          text:
-                                              '${draggable[index]['score'] ?? "0"}' +
-                                                  ' points',
-                                        ),
-                                      ),
-                                    )
-                                  ]),
+                                      )
+                                    ]),
+                                  ),
                                 ),
-                              ),
-                            ));
-                      }),
-                  ],
-                ),
+                              ));
+                        }
+                      },
+                    ),
+                ],
               ),
             ),
+            // ),
           );
         }));
   }
