@@ -14,11 +14,14 @@ import 'package:flutterquiz/features/quiz/models/quizType.dart';
 import 'package:flutterquiz/features/settings/settingsCubit.dart';
 import 'package:flutterquiz/ui/widgets/circularProgressContainner.dart';
 import 'package:flutterquiz/ui/widgets/horizontalTimerContainer.dart';
+import 'package:flutterquiz/ui/widgets/title_text.dart';
 import 'package:flutterquiz/ui/widgets/watchRewardAdDialog.dart';
 import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
+import 'package:flutterquiz/utils/size_config.dart';
 import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
+import 'package:flutterquiz/utils/widgets_util.dart';
 
 class GuessTheWordQuestionContainer extends StatefulWidget {
   final BoxConstraints constraints;
@@ -244,8 +247,8 @@ class GuessTheWordQuestionContainerState
                     bottom: BorderSide(
                         width: border,
                         color: currentSelectedIndex == answerBoxIndex
-                            ? Theme.of(context).primaryColor
-                            : Theme.of(context).colorScheme.secondary))),
+                            ? Constants.primaryColor
+                            : Constants.secondaryColor))),
             margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 2.5),
             height: optionBoxContainerHeight,
             width: 35.0,
@@ -280,29 +283,32 @@ class GuessTheWordQuestionContainerState
                             (1.0 -
                                 topContainerAnimations[answerBoxIndex].value),
                         color: currentSelectedIndex == answerBoxIndex
-                            ? Theme.of(context).primaryColor
-                            : Theme.of(context).colorScheme.secondary,
+                            ? Constants.primaryColor
+                            : Constants.secondaryColor,
                       );
                     },
                   ),
-                  Text(
-                    //submitted answer contains the index of option
-                    //length of answerbox is same as submittedAnswer
-                    submittedAnswer[answerBoxIndex] == -1
-                        ? ""
-                        : widget.questions[widget.currentQuestionIndex]
-                                    .options[submittedAnswer[answerBoxIndex]] ==
-                                " "
-                            ? "-"
-                            : widget.questions[widget.currentQuestionIndex]
-                                .options[submittedAnswer[answerBoxIndex]], //
-                    //
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.0,
-                        color: currentSelectedIndex == answerBoxIndex
-                            ? Theme.of(context).primaryColor
-                            : Theme.of(context).colorScheme.secondary),
+                  Expanded(
+                    child: Text(
+                      //submitted answer contains the index of option
+                      //length of answerbox is same as submittedAnswer
+                      submittedAnswer[answerBoxIndex] == -1
+                          ? ""
+                          : widget.questions[widget.currentQuestionIndex]
+                                          .options[
+                                      submittedAnswer[answerBoxIndex]] ==
+                                  " "
+                              ? "-"
+                              : widget.questions[widget.currentQuestionIndex]
+                                  .options[submittedAnswer[answerBoxIndex]], //
+                      //
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20.0,
+                          color: currentSelectedIndex == answerBoxIndex
+                              ? Constants.primaryColor
+                              : Constants.secondaryColor),
+                    ),
                   )
                 ],
               ),
@@ -374,7 +380,7 @@ class GuessTheWordQuestionContainerState
           margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 5),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15.0),
-              color: Theme.of(context).primaryColor),
+              color: Constants.primaryColor),
           height: optionBoxContainerHeight,
           width: optionBoxContainerHeight,
           padding: EdgeInsets.symmetric(
@@ -384,7 +390,7 @@ class GuessTheWordQuestionContainerState
           child: letter == "!"
               ? Icon(
                   Icons.arrow_back,
-                  color: Theme.of(context).backgroundColor,
+                  color: Constants.white,
                 )
               : letter == " "
                   ? SvgPicture.asset(
@@ -508,12 +514,12 @@ class GuessTheWordQuestionContainerState
           alignment: Alignment.center,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15.0),
-              color: Theme.of(context).primaryColor),
+              color: Constants.primaryColor),
           margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 5),
           child: Text(
             AppLocalization.of(context)!.getTranslatedValues(hintKey)!,
             style: TextStyle(
-              color: Theme.of(context).backgroundColor,
+              color: Constants.white,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -535,28 +541,33 @@ class GuessTheWordQuestionContainerState
       mainAxisSize: MainAxisSize.min,
       children: [
         CircleAvatar(
-          backgroundColor: correctAnswer
-              ? Theme.of(context).primaryColor
-              : Theme.of(context).colorScheme.secondary,
+          backgroundColor:
+              correctAnswer ? Constants.secondaryColor : Constants.primaryColor,
           radius: 20,
           child: Center(
             child: Icon(correctAnswer ? Icons.check : Icons.close,
-                color: Theme.of(context).backgroundColor),
+                color: Constants.white),
           ),
         ),
-        SizedBox(
-          height: 5.0,
-        ),
-        Text(
-          UiUtils.buildGuessTheWordQuestionAnswer(getSubmittedAnswer()),
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: correctAnswer
-                ? Theme.of(context).primaryColor
-                : Theme.of(context).colorScheme.secondary,
-            fontSize: 20.0,
-            letterSpacing: 1.0,
-          ),
+        // SizedBox(
+        //   height: 5.0,
+        // ),
+
+        WidgetsUtil.verticalSpace8,
+        TitleText(
+          text: UiUtils.buildGuessTheWordQuestionAnswer(getSubmittedAnswer()),
+
+          textColor: correctAnswer ? Constants.primaryColor : Colors.red,
+          weight: FontWeight.w500,
+          size: Constants.bodyLarge,
+          // style: TextStyle(
+          //   fontWeight: FontWeight.bold,
+          //   color: correctAnswer
+          //       ? Theme.of(context).primaryColor
+          //       : Theme.of(context).colorScheme.secondary,
+          //   fontSize: 20.0,
+          //   letterSpacing: 1.0,
+          // ),
         )
       ],
     );
@@ -567,10 +578,12 @@ class GuessTheWordQuestionContainerState
         bloc: context.read<UserDetailsCubit>(),
         builder: (context, state) {
           if (state is UserDetailsFetchSuccess) {
-            return Text(
-              AppLocalization.of(context)!.getTranslatedValues("coinsLbl")! +
+            return TitleText(
+              text: AppLocalization.of(context)!
+                      .getTranslatedValues("coinsLbl")! +
                   " : ${state.userProfile.coins}",
-              style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+              // style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+              textColor: Constants.black1,
             );
           }
           return SizedBox();
@@ -591,107 +604,112 @@ class GuessTheWordQuestionContainerState
           }
         },
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 17.5,
-              ),
-              HorizontalTimerContainer(
-                  quizTypes: QuizTypes.guessTheWord,
-                  timerAnimationController: widget.timerAnimationController),
-              SizedBox(
-                height: 12.5,
-              ),
-              Container(
-                child: Stack(
-                  children: [
-                    Align(
-                      alignment: AlignmentDirectional.centerEnd,
-                      child:
-                          widget.showHint ? _buildCurrentCoins() : SizedBox(),
-                    ),
-                    Align(
-                      alignment: AlignmentDirectional.center,
-                      child: Text(
-                        "${widget.currentQuestionIndex + 1} | ${widget.questions.length}",
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.secondary),
+          child: SizedBox(
+            height: SizeConfig.screenHeight,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 17.5,
+                ),
+                HorizontalTimerContainer(
+                    quizTypes: QuizTypes.guessTheWord,
+                    timerAnimationController: widget.timerAnimationController),
+                SizedBox(
+                  height: 12.5,
+                ),
+                Container(
+                  child: Stack(
+                    children: [
+                      Align(
+                        alignment: AlignmentDirectional.centerEnd,
+                        child:
+                            widget.showHint ? _buildCurrentCoins() : SizedBox(),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              Divider(
-                color: Theme.of(context).colorScheme.secondary,
-              ),
-              SizedBox(
-                height: 5.0,
-              ),
-              //
-              Container(
-                alignment: Alignment.center,
-                child: Text(
-                  "${question.question}",
-                  style: TextStyle(
-                      height: 1.125,
-                      fontSize: textSize,
-                      color: Theme.of(context).colorScheme.secondary),
-                ),
-              ),
-              SizedBox(
-                height: widget.constraints.maxHeight * (0.025),
-              ),
-              question.image.isNotEmpty
-                  ? Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(25.0)),
-                      width: MediaQuery.of(context).size.width,
-                      height: widget.constraints.maxHeight * (0.275),
-                      alignment: Alignment.center,
-                      child: CachedNetworkImage(
-                        placeholder: (context, _) {
-                          return Center(
-                            child: CircularProgressContainer(
-                              useWhiteLoader: false,
-                            ),
-                          );
-                        },
-                        imageUrl: question.image,
-                        imageBuilder: (context, imageProvider) {
-                          return Container(
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: imageProvider, fit: BoxFit.cover),
-                              borderRadius: BorderRadius.circular(25.0),
-                            ),
-                          );
-                        },
-                        errorWidget: (context, image, _) => Center(
-                          child: Icon(
-                            Icons.error,
-                            color: Theme.of(context).primaryColor,
-                          ),
+                      Align(
+                        alignment: AlignmentDirectional.center,
+                        child: TitleText(
+                          text:
+                              "${widget.currentQuestionIndex + 1} | ${widget.questions.length}",
+                          textColor: Constants.black1,
+                          // style: TextStyle(
+                          //     color: Theme.of(context).colorScheme.secondary),
                         ),
                       ),
-                    )
-                  : Container(),
-              SizedBox(
-                height: widget.constraints.maxHeight * (0.025),
-              ),
-              AnimatedSwitcher(
-                  duration: Duration(milliseconds: 300),
-                  child:
-                      widget.questions[widget.currentQuestionIndex].hasAnswered
-                          ? _buildAnswerCorrectness()
-                          : _buildAnswerBoxes()),
-              SizedBox(
-                height: widget.constraints.maxHeight * (0.04),
-              ),
-              _buildOptions(question.options),
-              SizedBox(
-                height: 15.0,
-              ),
-            ],
+                    ],
+                  ),
+                ),
+                Divider(
+                  color: Constants.black1,
+                ),
+                SizedBox(
+                  height: 5.0,
+                ),
+                //
+                Container(
+                  alignment: Alignment.center,
+                  child: TitleText(
+                      text: "${question.question}", size: Constants.bodyNormal
+                      //   style: TextStyle(
+                      //       height: 1.125,
+                      //       fontSize: textSize,
+                      //       color: Theme.of(context).colorScheme.secondary),
+                      ),
+                ),
+                SizedBox(
+                  height: widget.constraints.maxHeight * (0.025),
+                ),
+                question.image.isNotEmpty
+                    ? Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25.0)),
+                        width: MediaQuery.of(context).size.width,
+                        height: widget.constraints.maxHeight * (0.275),
+                        alignment: Alignment.center,
+                        child: CachedNetworkImage(
+                          placeholder: (context, _) {
+                            return Center(
+                              child: CircularProgressIndicator(
+                                color: Constants.primaryColor,
+                              ),
+                            );
+                          },
+                          imageUrl: question.image,
+                          imageBuilder: (context, imageProvider) {
+                            return Container(
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: imageProvider, fit: BoxFit.cover),
+                                borderRadius: BorderRadius.circular(25.0),
+                              ),
+                            );
+                          },
+                          errorWidget: (context, image, _) => Center(
+                            child: Icon(
+                              Icons.error,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          ),
+                        ),
+                      )
+                    : Container(),
+                SizedBox(
+                  height: widget.constraints.maxHeight * (0.025),
+                ),
+                AnimatedSwitcher(
+                    duration: Duration(milliseconds: 300),
+                    child: widget
+                            .questions[widget.currentQuestionIndex].hasAnswered
+                        ? _buildAnswerCorrectness()
+                        : _buildAnswerBoxes()),
+                SizedBox(
+                  height: widget.constraints.maxHeight * (0.04),
+                ),
+                _buildOptions(question.options),
+                SizedBox(
+                  height: 15.0,
+                ),
+              ],
+            ),
           ),
         ));
   }

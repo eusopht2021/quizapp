@@ -167,11 +167,10 @@ class _CategoryScreen extends State<CategoryScreen> {
                     }
                   } else if (widget.quizType == QuizTypes.audioQuestions) {
                     //noOf means how many subcategory it has
-                    log("  audio questions " + categoryList[index].toString());
+                    log("  audio questions ${categoryList[index]}");
 
                     if (categoryList[index].noOf == "0") {
-                      log("  audio questions " +
-                          categoryList[index].toString());
+                      log("  audio questions ${categoryList[index]}");
 
                       //
                       Navigator.of(context).pushNamed(Routes.quiz, arguments: {

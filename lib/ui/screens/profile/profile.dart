@@ -99,6 +99,7 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
+      showBackButton: false,
       title: '',
       action: IconButton(
         icon: Icon(
@@ -540,6 +541,7 @@ class _ProfileState extends State<Profile> {
               ),
               WidgetsUtil.verticalSpace16,
               _customDonutchartBloc(),
+              WidgetsUtil.verticalSpace16,
             ],
           ),
         ),

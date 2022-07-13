@@ -738,21 +738,21 @@ packages:
   just_audio:
     dependency: "direct main"
     description:
-      path: "G:\\just_audio_clone\\just_audio\\just_audio"
+      path: "E:\\just_audio_clone\\just_audio\\just_audio"
       relative: false
     source: path
     version: "0.10.1"
   just_audio_platform_interface:
     dependency: transitive
     description:
-      path: "../just_audio_clone/just_audio/just_audio_platform_interface"
+      path: "../../just_audio_clone/just_audio/just_audio_platform_interface"
       relative: true
     source: path
     version: "4.2.0"
   just_audio_web:
     dependency: transitive
     description:
-      path: "../just_audio_clone/just_audio/just_audio_web"
+      path: "../../just_audio_clone/just_audio/just_audio_web"
       relative: true
     source: path
     version: "0.4.7"
@@ -829,7 +829,7 @@ packages:
   music_visualizer:
     dependency: "direct main"
     description:
-      path: "G:\\music_visualizer_clone\\music_visualizer_package"
+      path: "E:\\music_visualizer_clone\\music_visualizer_package"
       relative: false
     source: path
     version: "1.0.2"

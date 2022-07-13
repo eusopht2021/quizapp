@@ -241,9 +241,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
               padding: EdgeInsets.zero,
               children: [
                 GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pushNamed(Routes.leaderBoard);
-                  },
+                  onTap: () {},
                   child: Container(
                     height: 84,
                     width: SizeConfig.screenWidth,
@@ -581,7 +579,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
         _quizTypes.removeWhere(
             (element) => element.quizTypeEnum == QuizTypes.funAndLearn);
       }
-      if (!systemCubit.getIsGuessTheWordAvailable()) {
+      if (!systemCubit.getIsGuessTheWordAvailable() == "0") {
         _quizTypes.removeWhere(
             (element) => element.quizTypeEnum == QuizTypes.guessTheWord);
       }

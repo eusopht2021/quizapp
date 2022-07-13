@@ -24,7 +24,7 @@ class CustomDonutChart extends StatelessWidget {
           child: PieChart(
             PieChartData(
               startDegreeOffset: 270,
-              centerSpaceRadius: 55,
+              centerSpaceRadius: 60,
               sectionsSpace: 0,
               sections: [
                 PieChartSectionData(

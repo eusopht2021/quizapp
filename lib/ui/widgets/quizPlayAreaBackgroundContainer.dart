@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterquiz/utils/constants.dart';
 
 class QuizPlayAreaBackgroundContainer extends StatelessWidget {
   final double? heightPercentage;
@@ -11,7 +12,7 @@ class QuizPlayAreaBackgroundContainer extends StatelessWidget {
       height: MediaQuery.of(context).size.height * (heightPercentage ?? 0.885),
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor,
+        color: Constants.primaryColor,
         borderRadius:
             BorderRadiusDirectional.only(bottomEnd: Radius.circular(100)),
         boxShadow: [

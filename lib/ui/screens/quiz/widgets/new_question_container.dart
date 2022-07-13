@@ -12,7 +12,6 @@ import 'package:flutterquiz/features/settings/settingsCubit.dart';
 import 'package:flutterquiz/ui/screens/quiz/new_quiz_screen.dart';
 import 'package:flutterquiz/ui/screens/quiz/widgets/audioQuestionContainer.dart';
 import 'package:flutterquiz/ui/screens/quiz/widgets/guessTheWordQuestionContainer.dart';
-import 'package:flutterquiz/ui/widgets/circularProgressContainner.dart';
 import 'package:flutterquiz/ui/widgets/custom_card.dart';
 import 'package:flutterquiz/ui/widgets/horizontalTimerContainer.dart';
 import 'package:flutterquiz/ui/widgets/new_option_container.dart';
@@ -425,6 +424,7 @@ class _NewQuestionsContainerState extends State<NewQuestionsContainer> {
     //     : Container(),
     // );
     return CustomCard(
+      // height: SizeConfig.screenHeight,
       padding: const EdgeInsets.all(8.0),
       child: showContent
           ? Padding(
@@ -533,9 +533,7 @@ class _NewQuestionsContainerState extends State<NewQuestionsContainer> {
         }
       },
       child: Padding(
-        padding: EdgeInsets.only(
-          top: MediaQuery.of(context).padding.top + (widget.topPadding ?? 7.5),
-        ),
+        padding: EdgeInsets.only(top: 100),
         child: Stack(
           alignment: Alignment.topCenter,
           children: [

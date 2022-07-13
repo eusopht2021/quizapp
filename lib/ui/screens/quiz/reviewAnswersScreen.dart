@@ -512,7 +512,7 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
       return !question.attempted
           ? SizedBox()
           : Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 WidgetsUtil.verticalSpace20,

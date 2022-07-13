@@ -16,10 +16,13 @@ import 'package:flutterquiz/features/quiz/cubits/guessTheWordQuizCubit.dart';
 import 'package:flutterquiz/features/quiz/models/quizType.dart';
 import 'package:flutterquiz/features/quiz/quizRepository.dart';
 import 'package:flutterquiz/ui/screens/quiz/widgets/guessTheWordQuestionContainer.dart';
+import 'package:flutterquiz/ui/screens/quiz/widgets/new_question_container.dart';
 
 import 'package:flutterquiz/ui/widgets/circularProgressContainner.dart';
 import 'package:flutterquiz/ui/widgets/customBackButton.dart';
 import 'package:flutterquiz/ui/widgets/customRoundedButton.dart';
+import 'package:flutterquiz/ui/widgets/custom_button.dart';
+import 'package:flutterquiz/ui/widgets/default_layout.dart';
 import 'package:flutterquiz/ui/widgets/errorContainer.dart';
 import 'package:flutterquiz/ui/widgets/exitGameDailog.dart';
 import 'package:flutterquiz/ui/widgets/pageBackgroundGradientContainer.dart';
@@ -29,6 +32,7 @@ import 'package:flutterquiz/ui/widgets/settingButton.dart';
 import 'package:flutterquiz/ui/widgets/settingsDialogContainer.dart';
 import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
+import 'package:flutterquiz/utils/size_config.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
 
 class GuessTheWordQuizScreen extends StatefulWidget {
@@ -206,6 +210,7 @@ class _GuessTheWordQuizScreenState extends State<GuessTheWordQuizScreen>
       } else {
         //change question
         changeQuestion();
+
         timerAnimationController.forward(from: 0.0);
       }
     }
@@ -263,15 +268,15 @@ class _GuessTheWordQuizScreenState extends State<GuessTheWordQuizScreen>
       if (state is GuessTheWordQuizIntial ||
           state is GuessTheWordQuizFetchInProgress) {
         return Center(
-          child: CircularProgressContainer(
-            useWhiteLoader: true,
+          child: CircularProgressIndicator(
+            color: Constants.white,
           ),
         );
       }
       if (state is GuessTheWordQuizFetchSuccess) {
         return Align(
           alignment: Alignment.topCenter,
-          child: QuestionsContainer(
+          child: NewQuestionsContainer(
             timerAnimationController: timerAnimationController,
             quizType: QuizTypes.guessTheWord,
             showAnswerCorrectness: true,
@@ -322,24 +327,24 @@ class _GuessTheWordQuizScreenState extends State<GuessTheWordQuizScreen>
             child: Padding(
               padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).size.height * (0.025)),
-              child: CustomRoundedButton(
-                widthPercentage: 0.5,
-                backgroundColor: Theme.of(context).primaryColor,
-                buttonTitle: AppLocalization.of(context)!
+              child: CustomButton(
+                // widthPercentage: 0.5,
+                backgroundColor: Constants.primaryColor,
+                text: AppLocalization.of(context)!
                     .getTranslatedValues("submitBtn")!,
-                elevation: 5.0,
-                shadowColor: Colors.black45,
-                titleColor: Theme.of(context).backgroundColor,
-                fontWeight: FontWeight.bold,
-                onTap: () {
+                // elevation: 5.0,
+                // shadowColor: Colors.black45,
+                // titleColor: Theme.of(context).backgroundColor,
+                // fontWeight: FontWeight.bold,
+                onPressed: () {
                   //
                   updateBookmarkAnswer();
                   submitAnswer(questionContainerKeys[_currentQuestionIndex]
                       .currentState!
                       .getSubmittedAnswer());
                 },
-                radius: 10.0,
-                showBorder: false,
+                // radius: 10.0,
+                // showBorder: false,
                 height: 45,
               ),
             ),
@@ -481,39 +486,39 @@ class _GuessTheWordQuizScreenState extends State<GuessTheWordQuizScreen>
     );
   }
 
-  Widget _buildTopMenu() {
-    return Align(
-      alignment: Alignment.topCenter,
-      child: Container(
-        margin: EdgeInsets.only(
-            right: MediaQuery.of(context).size.width *
-                ((1.0 - UiUtils.quesitonContainerWidthPercentage) * 0.5),
-            left: MediaQuery.of(context).size.width *
-                ((1.0 - UiUtils.quesitonContainerWidthPercentage) * 0.5),
-            top: MediaQuery.of(context).padding.top),
-        child: Row(
-          children: [
-            CustomBackButton(
-              onTap: () {
-                onTapBackButton();
-              },
-              iconColor: Theme.of(context).backgroundColor,
-            ),
-            Spacer(),
-            SettingButton(onPressed: () {
-              toggleSettingDialog();
-              showDialog(
-                  context: context,
-                  builder: (_) => SettingsDialogContainer()).then((value) {
-                toggleSettingDialog();
-              });
-            }),
-            _buildBookmarkButton(context.read<GuessTheWordQuizCubit>()),
-          ],
-        ),
-      ),
-    );
-  }
+  // Widget _buildTopMenu() {
+  //   return Align(
+  //     alignment: Alignment.topCenter,
+  //     child: Container(
+  //       margin: EdgeInsets.only(
+  //           right: MediaQuery.of(context).size.width *
+  //               ((1.0 - UiUtils.quesitonContainerWidthPercentage) * 0.5),
+  //           left: MediaQuery.of(context).size.width *
+  //               ((1.0 - UiUtils.quesitonContainerWidthPercentage) * 0.5),
+  //           top: MediaQuery.of(context).padding.top),
+  //       child: Row(
+  //         children: [
+  //           CustomBackButton(
+  //             onTap: () {
+  //               onTapBackButton();
+  //             },
+  //             iconColor: Theme.of(context).backgroundColor,
+  //           ),
+  //           Spacer(),
+  //           SettingButton(onPressed: () {
+  //             toggleSettingDialog();
+  //             showDialog(
+  //                 context: context,
+  //                 builder: (_) => SettingsDialogContainer()).then((value) {
+  //               toggleSettingDialog();
+  //             });
+  //           }),
+  //           _buildBookmarkButton(context.read<GuessTheWordQuizCubit>()),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -558,20 +563,65 @@ class _GuessTheWordQuizScreenState extends State<GuessTheWordQuizScreen>
             },
           ),
         ],
-        child: Scaffold(
-          body: Stack(
-            children: [
-              PageBackgroundGradientContainer(),
-              Align(
-                alignment: Alignment.topCenter,
-                child: QuizPlayAreaBackgroundContainer(heightPercentage: 0.885),
+        // child: Scaffold(
+        //   backgroundColor: Constants.primaryColor,
+        //   body: Stack(
+        //     children: [
+        //       // Align(
+        //       //   alignment: Alignment.topCenter,
+        //       //   child: QuizPlayAreaBackgroundContainer(heightPercentage: 0.885),
+        //       // ),
+        //       _buildQuesitons(guessTheWordQuizCubit),
+        //       _buildSubmitButton(guessTheWordQuizCubit),
+        //       _buildTopMenu(),
+        //     ],
+        //   ),
+        // ),
+
+        child: DefaultLayout(
+            expandBodyBehindAppBar: true,
+            showBackButton: false,
+            action: SizedBox(
+              width: SizeConfig.screenWidth,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 5),
+                child: Row(
+                  children: [
+                    CustomBackButton(
+                      onTap: () {
+                        onTapBackButton();
+                      },
+                      iconColor: Theme.of(context).backgroundColor,
+                    ),
+                    Spacer(),
+                    SettingButton(
+                      onPressed: () {
+                        toggleSettingDialog();
+                        showDialog(
+                                context: context,
+                                builder: (_) => SettingsDialogContainer())
+                            .then((value) {
+                          toggleSettingDialog();
+                        });
+                      },
+                    ),
+                    _buildBookmarkButton(context.read<GuessTheWordQuizCubit>()),
+                  ],
+                ),
               ),
-              _buildQuesitons(guessTheWordQuizCubit),
-              _buildSubmitButton(guessTheWordQuizCubit),
-              _buildTopMenu(),
-            ],
-          ),
-        ),
+            ),
+            backgroundColor: Constants.primaryColor,
+            title: "",
+            child: SizedBox(
+              height: SizeConfig.screenHeight,
+              child: Stack(
+                children: [
+                  _buildQuesitons(guessTheWordQuizCubit),
+                  _buildSubmitButton(guessTheWordQuizCubit),
+                  // _buildTopMenu(),
+                ],
+              ),
+            )),
       ),
     );
   }

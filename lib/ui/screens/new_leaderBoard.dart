@@ -221,7 +221,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
         : index == 1
             ? position = 60.0
             : index == 2
-                ? position = 140.0
+                ? position = 100.0
                 : null;
 
     return position;
@@ -304,7 +304,6 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
           }
           return Column(
             children: [
-              WidgetsUtil.verticalSpace24,
               SizedBox(
                 height: SizeConfig.screenHeight,
                 child: Stack(
@@ -315,15 +314,14 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                         left: _leftPosition(index),
                         right: _rightPosition(index),
                         child: index < 3
-                            ? Column(
-                                children: [
-                                  Badge(
-                                    elevation: 0,
-                                    showBadge: true,
-                                    badgeContent: Image.asset(Assets.portugal),
-                                    badgeColor: Colors.transparent,
-                                    position: BadgePosition.bottomEnd(),
-                                    child: Badge(
+                            ? Column(children: [
+                                Badge(
+                                  elevation: 0,
+                                  showBadge: true,
+                                  badgeContent: Image.asset(Assets.portugal),
+                                  badgeColor: Colors.transparent,
+                                  position: BadgePosition.bottomEnd(),
+                                  child: Badge(
                                       elevation: 0,
                                       showBadge: true,
                                       badgeContent: index == 0
@@ -348,93 +346,114 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                                                       ? podiumList[2]['profile']
                                                       : "",
                                         ),
-                                      ),
-                                    ),
-                                  ),
-                                  Column(children: [
-                                    WidgetsUtil.verticalSpace20,
-                                    SizedBox(
-                                      width: 50,
-                                      child: TitleText(
-                                        text: index == 0
-                                            ? podiumList[0]['name']!.isNotEmpty
-                                                ? podiumList[0]['name']!
-                                                : ""
-                                            : index == 1
+                                      )),
+                                ),
+                                WidgetsUtil.verticalSpace20,
+                                SizedBox(
+                                  width: 100,
+                                  height: 20,
+                                  child: TitleText(
+                                    text: index == 0
+                                        ? podiumList[0]['name']!.isNotEmpty
+                                            ? podiumList[0]['name']!
+                                            : ""
+                                        : index == 1
+                                            ? podiumList[1]['name']!.isNotEmpty
                                                 ? podiumList[1]['name']!
+                                                : ""
+                                            : index == 2
+                                                ? podiumList[2]['name']!
                                                         .isNotEmpty
-                                                    ? podiumList[1]['name']!
-                                                    : ""
-                                                : index == 2
                                                     ? podiumList[2]['name']!
-                                                            .isNotEmpty
-                                                        ? podiumList[2]['name']!
-                                                        : ""
-                                                    : "",
-                                        textColor: Constants.white,
-                                        size: Constants.bodySmall,
-                                        align: TextAlign.center,
-                                      ),
-                                    ),
-                                    WidgetsUtil.verticalSpace4,
-                                    index < 3
-                                        ? _QPContainer(
-                                            Center(
-                                              child: TitleText(
-                                                text: index == 0
+                                                    : ""
+                                                : "",
+                                    textColor: Constants.white,
+                                    size: Constants.bodySmall,
+                                    align: TextAlign.center,
+                                  ),
+                                ),
+                                WidgetsUtil.verticalSpace4,
+                                index < 3
+                                    ? _QPContainer(
+                                        Center(
+                                          child: TitleText(
+                                            text: index == 0
+                                                ? podiumList[0]['score']!
+                                                        .isNotEmpty
                                                     ? podiumList[0]['score']!
+                                                    : ""
+                                                : index == 1
+                                                    ? podiumList[1]['score']!
                                                             .isNotEmpty
-                                                        ? podiumList[0]
+                                                        ? podiumList[1]
                                                             ['score']!
                                                         : ""
-                                                    : index == 1
-                                                        ? podiumList[1]
+                                                    : index == 2
+                                                        ? podiumList[2]
                                                                     ['score']!
                                                                 .isNotEmpty
-                                                            ? podiumList[1]
+                                                            ? podiumList[2]
                                                                 ['score']!
                                                             : ""
-                                                        : index == 2
-                                                            ? podiumList[2][
-                                                                        'score']!
-                                                                    .isNotEmpty
-                                                                ? podiumList[2]
-                                                                    ['score']!
-                                                                : ""
-                                                            : "",
-                                                size: Constants.bodyXSmall,
-                                                textColor: Constants.white,
-                                              ),
-                                            ),
-                                          )
-                                        : SizedBox(),
-                                  ]),
-                                ],
-                              )
+                                                        : "",
+                                            size: Constants.bodyXSmall,
+                                            textColor: Constants.white,
+                                          ),
+                                        ),
+                                      )
+                                    : SizedBox(),
+                              ])
                             : SizedBox(),
                       );
                     }),
                     Stack(
                       children: [
-                        Positioned(
-                          top: 180,
-                          right: 133,
-                          left: 133,
-                          child: Image.asset(Assets.rank1),
+                        Align(
+                          heightFactor: 2.3,
+                          alignment: Alignment.center,
+                          child: SizedBox(
+                            width: SizeConfig.screenWidth,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  flex: 2,
+                                  child: SizedBox(),
+                                ),
+                                Expanded(
+                                  flex: 5,
+                                  child: Image.asset(
+                                    Assets.rank2,
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 5,
+                                  child: Image.asset(
+                                    Assets.rank1,
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 5,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 80),
+                                    child: Image.asset(
+                                      Assets.rank3,
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 2,
+                                  child: SizedBox(),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
-                        Positioned(
-                          top: 210,
-                          // right: 243,
-                          left: 30,
-                          child: Image.asset(Assets.rank2),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 50),
+                          child:
+                              leaderBoardList(podiumList, controllerM, hasMore),
                         ),
-                        Positioned(
-                          top: 260,
-                          right: 30,
-                          // left: 242,
-                          child: Image.asset(Assets.rank3),
-                        ),
-                        leaderBoardList(podiumList, controllerM, hasMore),
                       ],
                     ),
                   ],
@@ -493,34 +512,6 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
           }
           return Column(
             children: [
-              WidgetsUtil.verticalSpace24,
-              // Positioned(
-              //         right: 25,
-              //         child: Container(
-              //           padding: EdgeInsets.all(5),
-              //           height: 34,
-              //           width: 140,
-              //           decoration: BoxDecoration(
-              //               borderRadius: BorderRadius.circular(12),
-              //               color: Constants.bluecolor),
-              //           child: Row(
-              //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              //             children: [
-              //               Image.asset(Assets.schedule),
-              //               WidgetsUtil.horizontalSpace8,
-              //               Expanded(
-              //                 child: TitleText(
-              //                   text: "06d 23h 00m",
-              //                   weight: FontWeight.w500,
-              //                   size: 12,
-              //                   textColor: Constants.white,
-              //                 ),
-              //               ),
-              //             ],
-              //           ),
-              //         ),
-              //       ),
-
               SizedBox(
                 height: SizeConfig.screenHeight,
                 child: Stack(
@@ -568,6 +559,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                                 WidgetsUtil.verticalSpace20,
                                 SizedBox(
                                   width: 100,
+                                  height: 20,
                                   child: TitleText(
                                     text: index == 0
                                         ? podiumList[0]['name']!.isNotEmpty
@@ -624,25 +616,52 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                     }),
                     Stack(
                       children: [
-                        Positioned(
-                          top: 180,
-                          right: 133,
-                          left: 133,
-                          child: Image.asset(Assets.rank1),
+                        Align(
+                          heightFactor: 2.3,
+                          alignment: Alignment.center,
+                          child: SizedBox(
+                            width: SizeConfig.screenWidth,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  flex: 2,
+                                  child: SizedBox(),
+                                ),
+                                Expanded(
+                                  flex: 5,
+                                  child: Image.asset(
+                                    Assets.rank2,
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 5,
+                                  child: Image.asset(
+                                    Assets.rank1,
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 5,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 80),
+                                    child: Image.asset(
+                                      Assets.rank3,
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 2,
+                                  child: SizedBox(),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
-                        Positioned(
-                          top: 210,
-                          // right: 243,
-                          left: 30,
-                          child: Image.asset(Assets.rank2),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 50),
+                          child:
+                              leaderBoardList(dailyList, controllerD, hasMore),
                         ),
-                        Positioned(
-                          top: 260,
-                          right: 30,
-                          // left: 242,
-                          child: Image.asset(Assets.rank3),
-                        ),
-                        leaderBoardList(dailyList, controllerD, hasMore),
                       ],
                     ),
                   ],
@@ -705,7 +724,6 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
           }
           return Column(
             children: [
-              WidgetsUtil.verticalSpace24,
               SizedBox(
                 height: SizeConfig.screenHeight,
                 child: Stack(
@@ -755,6 +773,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                                   WidgetsUtil.verticalSpace20,
                                   SizedBox(
                                     width: 100,
+                                    height: 20,
                                     child: TitleText(
                                       text: index == 0
                                           ? podiumList[0]['name']!.isNotEmpty
@@ -813,25 +832,52 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                     }),
                     Stack(
                       children: [
-                        Positioned(
-                          top: 180,
-                          right: 133,
-                          left: 132,
-                          child: Image.asset(Assets.rank1),
+                        Align(
+                          heightFactor: 2.3,
+                          alignment: Alignment.center,
+                          child: SizedBox(
+                            width: SizeConfig.screenWidth,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  flex: 2,
+                                  child: SizedBox(),
+                                ),
+                                Expanded(
+                                  flex: 5,
+                                  child: Image.asset(
+                                    Assets.rank2,
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 5,
+                                  child: Image.asset(
+                                    Assets.rank1,
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 5,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 80),
+                                    child: Image.asset(
+                                      Assets.rank3,
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 2,
+                                  child: SizedBox(),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
-                        Positioned(
-                          top: 210,
-                          // right: 243,
-                          left: 30,
-                          child: Image.asset(Assets.rank2),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 50),
+                          child:
+                              leaderBoardList(podiumList, controllerA, hasMore),
                         ),
-                        Positioned(
-                          top: 260,
-                          right: 30,
-                          // left: 242,
-                          child: Image.asset(Assets.rank3),
-                        ),
-                        leaderBoardList(podiumList, controllerA, hasMore),
                       ],
                     ),
                   ],
@@ -853,8 +899,8 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
     log('Draggable: ${draggable.length}');
     return DraggableScrollableSheet(
         snap: true,
-        initialChildSize: 0.5,
-        minChildSize: 0.5,
+        initialChildSize: 0.55,
+        minChildSize: 0.55,
         maxChildSize: 1.0,
         builder: ((context, controller) {
           return NotchedCard(
@@ -862,7 +908,9 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
               height: double.infinity,
               decoration: BoxDecoration(
                   color: Constants.grey5,
-                  borderRadius: BorderRadius.circular(20)),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20))),
               child: ListView(
                 shrinkWrap: true,
                 controller: controller,
@@ -889,57 +937,53 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                             height: 50,
                           );
                         } else {
-                          return Padding(
-                              padding: const EdgeInsets.all(8),
-                              child: SizedBox(
-                                height: 100,
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20)),
-                                  elevation: 0,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        right: 16, left: 16),
-                                    child: Row(children: [
-                                      Expanded(
-                                        flex: 1,
-                                        child: CircleAvatar(
-                                          backgroundColor: Constants.black1,
-                                          radius: 60,
-                                          child: CircleAvatar(
-                                            radius: 40,
-                                            foregroundColor: Constants.grey2,
-                                            backgroundColor: Constants.white,
-                                            child: TitleText(
-                                              text: (index + 4).toString(),
-                                            ),
-                                          ),
+                          return SizedBox(
+                            height: 100,
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)),
+                              elevation: 0,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(right: 16, left: 16),
+                                child: Row(children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: CircleAvatar(
+                                      backgroundColor: Constants.black1,
+                                      radius: 60,
+                                      child: CircleAvatar(
+                                        radius: 40,
+                                        foregroundColor: Constants.grey2,
+                                        backgroundColor: Constants.white,
+                                        child: TitleText(
+                                          text: (index + 4).toString(),
                                         ),
                                       ),
-                                      Expanded(
-                                        flex: 9,
-                                        child: ListTile(
-                                          leading: CircleAvatar(
-                                            backgroundColor: Colors.transparent,
-                                            backgroundImage: NetworkImage(
-                                                draggable[index]['profile'] ??
-                                                    ""),
-                                          ),
-                                          title: TitleText(
-                                            text:
-                                                draggable[index]['name'] ?? "",
-                                          ),
-                                          subtitle: TitleText(
-                                            text:
-                                                '${draggable[index]['score'] ?? "0"}' +
-                                                    ' points',
-                                          ),
-                                        ),
-                                      )
-                                    ]),
+                                    ),
                                   ),
-                                ),
-                              ));
+                                  Expanded(
+                                    flex: 9,
+                                    child: ListTile(
+                                      leading: CircleAvatar(
+                                        backgroundColor: Colors.transparent,
+                                        backgroundImage: NetworkImage(
+                                            draggable[index]['profile'] ?? ""),
+                                      ),
+                                      title: TitleText(
+                                        text: draggable[index]['name'] ?? "",
+                                      ),
+                                      subtitle: TitleText(
+                                        text:
+                                            '${draggable[index]['score'] ?? "0"}' +
+                                                ' points',
+                                      ),
+                                    ),
+                                  )
+                                ]),
+                              ),
+                            ),
+                          );
                         }
                       },
                     ),

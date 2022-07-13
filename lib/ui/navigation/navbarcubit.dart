@@ -20,7 +20,7 @@ class NavigationCubit extends Cubit<NavigationbarState> {
         emit(NavigationbarState(NavbarItems.leaderboard, 2));
         break;
       case NavbarItems.profile:
-        // TODO: Handle this case.
+     
         emit(NavigationbarState(NavbarItems.profile, 3));
 
         break;

@@ -128,8 +128,9 @@ class _DiscoverState extends State<Discover> {
   }
 
   _tabs() {
+    log(quizTypes.length.toString());
     return Row(
-      children: List.generate(quizTypes.length, (index) {
+      children: List.generate(searchTabs.length, (index) {
         return Expanded(
           child: InkWell(
             onTap: () {
