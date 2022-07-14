@@ -61,6 +61,7 @@ dependencies:
   equatable: ^2.0.3
   fl_chart: ^0.50.6
   jaguar_jwt: ^3.0.0
+  
   just_audio:
     path: E:\just_audio_clone\just_audio\just_audio
   launch_review: ^3.0.1

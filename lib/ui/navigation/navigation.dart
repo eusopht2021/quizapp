@@ -154,7 +154,7 @@ class _NavigationState extends State<Navigation> {
         } else if (state.navbarItems == NavbarItems.leaderboard) {
           return NewLeaderBoardScreen();
         } else if (state.navbarItems == NavbarItems.profile) {
-          return Profile();
+          return Profile(routefromHomeScreen: false);
         }
         return Container();
       }),

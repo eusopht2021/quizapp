@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:intl/intl.dart';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -35,9 +37,16 @@ import 'package:flutterquiz/utils/uiUtils.dart';
 import 'package:flutterquiz/utils/widgets_util.dart';
 
 class Profile extends StatefulWidget {
-  const Profile({Key? key}) : super(key: key);
+  final bool routefromHomeScreen;
+
+  const Profile({
+    Key? key,
+    required this.routefromHomeScreen,
+  }) : super(key: key);
 
   static Route<dynamic> route(RouteSettings routeSettings) {
+    final arguments = routeSettings.arguments as Map<String, bool>;
+    log(arguments.toString());
     return MaterialPageRoute(
       builder: (context) => MultiBlocProvider(
         providers: [
@@ -59,7 +68,9 @@ class Profile extends StatefulWidget {
             ),
           ),
         ],
-        child: Profile(),
+        child: Profile(
+          routefromHomeScreen: arguments['routefromHomeScreen']!,
+        ),
       ),
     );
   }
@@ -99,7 +110,7 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
-      showBackButton: false,
+      showBackButton: widget.routefromHomeScreen,
       title: '',
       action: IconButton(
         icon: Icon(
@@ -532,7 +543,8 @@ class _ProfileState extends State<Profile> {
                   right: 16,
                 ),
                 child: TitleText(
-                  text: 'You have played a total 24 quizzes this month!',
+                  text:
+                      'You have answered total ${_totalAnswers(model.answeredQuestions)} questions!',
                   textColor: Constants.black1,
                   align: TextAlign.center,
                   size: Constants.bodyXLarge,
@@ -794,6 +806,26 @@ class _ProfileState extends State<Profile> {
     });
   }
 
+  String _correctAnswers(String correctanswers) {
+    final numberFormat = NumberFormat.compactCurrency(
+      decimalDigits: 2,
+      symbol: '',
+    );
+    String correctanswer = numberFormat.format(num.parse(correctanswers));
+
+    return correctanswer;
+  }
+
+  String _totalAnswers(String totalAnswers) {
+    final numberFormat = NumberFormat.compactCurrency(
+      decimalDigits: 2,
+      symbol: '',
+    );
+    String answeredQuestion = numberFormat.format(num.parse(totalAnswers));
+
+    return answeredQuestion;
+  }
+
   Widget _customDonutchart() {
     StatisticModel statisticModel =
         context.read<StatisticCubit>().getStatisticsDetails();
@@ -810,13 +842,13 @@ class _ProfileState extends State<Profile> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TitleText(
-                text: statisticModel.correctAnswers,
-                size: Constants.heading1,
+                text: _correctAnswers(statisticModel.correctAnswers),
+                size: Constants.bodyXLarge,
                 weight: FontWeight.w700,
                 textColor: Constants.black1,
               ),
               TitleText(
-                text: '/${statisticModel.answeredQuestions}',
+                text: "/${_totalAnswers(statisticModel.answeredQuestions)}",
                 size: Constants.bodyNormal,
                 weight: FontWeight.w500,
                 textColor: Constants.grey2,

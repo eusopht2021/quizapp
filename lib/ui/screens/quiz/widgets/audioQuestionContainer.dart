@@ -10,6 +10,7 @@ import 'package:flutterquiz/ui/widgets/horizontalTimerContainer.dart';
 import 'package:flutterquiz/ui/widgets/new_option_container.dart';
 import 'package:flutterquiz/utils/answerEncryption.dart';
 import 'package:flutterquiz/utils/constants.dart';
+import 'package:flutterquiz/utils/widgets_util.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:music_visualizer/music_visualizer.dart';
 
@@ -42,8 +43,10 @@ class AudioQuestionContainerState extends State<AudioQuestionContainer> {
   late bool _showOption = false;
   late AudioPlayer _audioPlayer;
   late StreamSubscription<ProcessingState> _processingStateStreamSubscription;
+  late StreamSubscription<Duration> _streamSubscription;
   late bool _isPlaying = true;
   late Duration _audioDuration = Duration.zero;
+  Duration bufferedSeconds = Duration.zero;
   late bool _hasCompleted = false;
   late bool _hasError = false;
   late bool _isBuffering = false;
@@ -65,6 +68,11 @@ class AudioQuestionContainerState extends State<AudioQuestionContainer> {
       _audioDuration = result ?? Duration.zero;
       _processingStateStreamSubscription =
           _audioPlayer.processingStateStream.listen(_processingStateListener);
+      _streamSubscription = _audioPlayer.positionStream.listen((audioDuration) {
+        bufferedSeconds = audioDuration;
+        // log("Seconds: $bufferedSeconds");
+        setState(() {});
+      });
     } catch (e) {
       print(e.toString());
       _hasError = true;
@@ -163,10 +171,11 @@ class AudioQuestionContainerState extends State<AudioQuestionContainer> {
   void dispose() {
     _processingStateStreamSubscription.cancel();
     _audioPlayer.dispose();
+    _streamSubscription.cancel();
     super.dispose();
   }
 
-  bool get showOption => _showOption;
+  // bool get showOption => _showOption;
 
   void changeShowOption() {
     _showOption = true;
@@ -260,33 +269,48 @@ class AudioQuestionContainerState extends State<AudioQuestionContainer> {
               horizontal: widget.constraints.maxWidth * (0.05), vertical: 10.0),
           child: Column(
             children: [
-              InkWell(
-                onTap: () async {
-                  if (_isPlaying) {
-                    await _audioPlayer.stop();
-                    log("if state");
+              SizedBox(
+                height: 50,
+                child: InkWell(
+                  onTap: () async {
+                    if (_isPlaying) {
+                      await _audioPlayer.stop();
+                      log("if state");
 
-                    setState(() {
-                      _isPlaying = false;
-                      isAnimating = true;
-                    });
-                  } else {
-                    await _audioPlayer.play();
-                    log("else state");
-                    setState(() {
-                      _isPlaying = true;
-                      isAnimating = false;
-                    });
-                  }
-                },
-                child: MusicVisualizer(
-                  barCount: colors.length,
-                  colors: colors,
-                  duration: duration,
-                  curve: Curves.easeInOut,
-                  isAnimating: isAnimating,
+                      setState(() {
+                        _isPlaying = false;
+                        isAnimating = true;
+                      });
+                    } else {
+                      await _audioPlayer.play();
+                      log("else state");
+                      setState(() {
+                        _isPlaying = true;
+                        isAnimating = false;
+                      });
+                    }
+                  },
+                  child: MusicVisualizer(
+                    barCount: colors.length,
+                    colors: colors,
+                    duration: duration,
+                    curve: Curves.easeInOut,
+                    isAnimating: isAnimating,
+                  ),
                 ),
               ),
+              WidgetsUtil.verticalSpace8,
+              SizedBox(
+                height: 20,
+                child: Row(
+                  children: [
+                    Text(bufferedSeconds.inSeconds.toString()),
+                    Spacer(),
+                    Text(_audioDuration.inSeconds.toString()),
+                  ],
+                ),
+              )
+
               // Row(
               //   mainAxisAlignment: MainAxisAlignment.center,
               //   children: [
@@ -336,47 +360,47 @@ class AudioQuestionContainerState extends State<AudioQuestionContainer> {
         SizedBox(
           height: widget.constraints.maxHeight * (0.04),
         ),
-        _showOption
-            ? Column(
-                children: question.answerOptions!.map((option) {
-                  return NewOptionContainer(
-                    quizType: QuizTypes.audioQuestions,
-                    submittedAnswerId: question.submittedAnswerId,
-                    showAnswerCorrectness: widget.showAnswerCorrectness,
-                    showAudiencePoll: false,
-                    hasSubmittedAnswerForCurrentQuestion:
-                        widget.hasSubmittedAnswerForCurrentQuestion,
-                    constraints: widget.constraints,
-                    answerOption: option,
-                    correctOptionId: AnswerEncryption.decryptCorrectAnswer(
-                        rawKey: context
-                            .read<UserDetailsCubit>()
-                            .getUserFirebaseId(),
-                        correctAnswer: question.correctAnswer!),
-                    submitAnswer: widget.submitAnswer,
-                  );
-                }).toList(),
-              )
-            : Column(
-                children: question.answerOptions!
-                    .map((e) => Container(
-                          child: Center(
-                            child: Text(
-                              "-",
-                              style: TextStyle(color: Constants.black1),
-                            ),
-                          ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: Constants.white,
-                          ),
-                          margin: EdgeInsets.only(
-                              top: widget.constraints.maxHeight * (0.015)),
-                          height: widget.constraints.maxHeight * (0.105),
-                          width: widget.constraints.maxWidth * (0.95),
-                        ))
-                    .toList(),
-              ),
+
+        Column(
+          children: question.answerOptions!.map((option) {
+            return NewOptionContainer(
+              quizType: QuizTypes.audioQuestions,
+              submittedAnswerId: question.submittedAnswerId,
+              showAnswerCorrectness: widget.showAnswerCorrectness,
+              showAudiencePoll: false,
+              hasSubmittedAnswerForCurrentQuestion:
+                  widget.hasSubmittedAnswerForCurrentQuestion,
+              constraints: widget.constraints,
+              answerOption: option,
+              correctOptionId: AnswerEncryption.decryptCorrectAnswer(
+                  rawKey: context.read<UserDetailsCubit>().getUserFirebaseId(),
+                  correctAnswer: question.correctAnswer!),
+              submitAnswer: widget.submitAnswer,
+            );
+          }).toList(),
+        )
+        // _showOption
+        //     ?
+        //     : Column(
+        //         children: question.answerOptions!
+        //             .map((e) => Container(
+        //                   child: Center(
+        //                     child: Text(
+        //                       "-",
+        //                       style: TextStyle(color: Constants.black1),
+        //                     ),
+        //                   ),
+        //                   decoration: BoxDecoration(
+        //                     borderRadius: BorderRadius.circular(20),
+        //                     color: Constants.white,
+        //                   ),
+        //                   margin: EdgeInsets.only(
+        //                       top: widget.constraints.maxHeight * (0.015)),
+        //                   height: widget.constraints.maxHeight * (0.105),
+        //                   width: widget.constraints.maxWidth * (0.95),
+        //                 ))
+        //             .toList(),
+        //       ),
 
         //
       ],
@@ -407,7 +431,7 @@ class _CurrentDurationSliderContainerState
     streamSubscription =
         widget.audioPlayer.positionStream.listen(currentDurationListener);
 
-    ;
+    
     super.initState();
   }
 

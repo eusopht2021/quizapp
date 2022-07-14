@@ -57,22 +57,30 @@ class ReviewAnswersScreen extends StatefulWidget {
     //arguments will map and keys of the map are following
     //questions and guessTheWordQuestions
     return CupertinoPageRoute(
-        builder: (_) => MultiBlocProvider(
-                providers: [
-                  BlocProvider<UpdateBookmarkCubit>(
-                    create: (context) =>
-                        UpdateBookmarkCubit(BookmarkRepository()),
-                  ),
-                  BlocProvider<ReportQuestionCubit>(
-                      create: (_) =>
-                          ReportQuestionCubit(ReportQuestionRepository())),
-                ],
-                child: ReviewAnswersScreen(
-                  quizType: arguments!['quizType'],
-                  guessTheWordQuestions: arguments['guessTheWordQuestions'] ??
-                      List<GuessTheWordQuestion>.from([]),
-                  questions: arguments['questions'] ?? List<Question>.from([]),
-                )));
+      builder: (_) => MultiBlocProvider(
+        providers: [
+          BlocProvider<UpdateBookmarkCubit>(
+            create: (context) => UpdateBookmarkCubit(
+              BookmarkRepository(),
+            ),
+          ),
+          BlocProvider<ReportQuestionCubit>(
+            create: (_) => ReportQuestionCubit(
+              ReportQuestionRepository(),
+            ),
+          ),
+          BlocProvider<MusicPlayerCubit>(
+            create: (_) => MusicPlayerCubit(),
+          ),
+        ],
+        child: ReviewAnswersScreen(
+          quizType: arguments!['quizType'],
+          guessTheWordQuestions: arguments['guessTheWordQuestions'] ??
+              List<GuessTheWordQuestion>.from([]),
+          questions: arguments['questions'] ?? List<Question>.from([]),
+        ),
+      ),
+    );
   }
 
   @override
@@ -82,7 +90,9 @@ class ReviewAnswersScreen extends StatefulWidget {
 class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
   PageController? _pageController;
   int _currentIndex = 0;
+  Duration bufferedSeconds = Duration.zero;
 
+  double currentValue = 0.0;
   List<GlobalKey<MusicPlayerContainerState>> musicPlayerContainerKeys = [];
 
   @override
@@ -91,11 +101,27 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
     if (_hasAudioQuestion()) {
       widget.questions.forEach((element) {
         musicPlayerContainerKeys.add(GlobalKey<MusicPlayerContainerState>());
-        initializeAudio();
+        initializeAudio(_currentIndex);
+      });
+      streamSubscription = _audioPlayer.positionStream.listen((audioDuration) {
+        bufferedSeconds = audioDuration;
+        // log("Seconds: $bufferedSeconds");
+        setState(() {});
       });
     }
 
     super.initState();
+  }
+
+  void currentDurationListener(Duration duration) {
+    currentValue = duration.inSeconds.toDouble();
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    _audioPlayer.dispose();
+    super.dispose();
   }
 
   bool _hasAudioQuestion() {
@@ -105,15 +131,30 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
     return false;
   }
 
-  void initializeAudio() async {
+  void initializeAudio(int currentIndex) async {
     _audioPlayer = AudioPlayer();
 
     try {
-      var result = await _audioPlayer
-          .setUrl(widget.questions[widget.questionCurrentIndex].audio!);
+      var result =
+          await _audioPlayer.setUrl(widget.questions[currentIndex].audio!);
       _audioDuration = result ?? Duration.zero;
       _processingStateStreamSubscription =
           _audioPlayer.processingStateStream.listen(_processingStateListener);
+    } catch (e) {
+      print(e.toString());
+      _hasError = true;
+    }
+    setState(() {});
+  }
+
+  void changeAudio(int currentIndex) async {
+    _audioPlayer.stop();
+
+    try {
+      var result =
+          await _audioPlayer.setUrl(widget.questions[currentIndex].audio!);
+      _audioDuration = result ?? Duration.zero;
+      _audioPlayer.play();
     } catch (e) {
       print(e.toString());
       _hasError = true;
@@ -659,47 +700,180 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
 
   Widget _buildGuessTheWordOptionAndAnswer(
       GuessTheWordQuestion guessTheWordQuestion) {
-    return Container(
-      margin: EdgeInsets.symmetric(
-          horizontal: MediaQuery.of(context).size.width * (0.1)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: 25.0,
-          ),
-          Padding(
-            padding: const EdgeInsetsDirectional.only(start: 0.0),
-            child: Text(
-              AppLocalization.of(context)!.getTranslatedValues("yourAnsLbl")! +
-                  " : " +
-                  "${UiUtils.buildGuessTheWordQuestionAnswer(guessTheWordQuestion.submittedAnswer)}",
-              style: TextStyle(
-                  fontSize: 18.0,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        // SizedBox(
+        //   height: 25.0,
+        // ),
+        // TitleText(
+        //   text: AppLocalization.of(context)!.getTranslatedValues("yourAnsLbl")!,
+        //   textColor: Constants.black1,
+        //   size: Constants.bodyXLarge,
+        // ),
+        // Padding(
+        //   padding: const EdgeInsetsDirectional.only(start: 0.0),
+        //   child: Container(
+        //     child: TitleText(
+        //         text:
+        //             "${UiUtils.buildGuessTheWordQuestionAnswer(guessTheWordQuestion.submittedAnswer)}",
+        //         size: 18.0,
+        //         textColor: UiUtils.buildGuessTheWordQuestionAnswer(
+        //                     guessTheWordQuestion.submittedAnswer) ==
+        //                 guessTheWordQuestion.answer
+        //             ? Theme.of(context).primaryColor
+        //             : Theme.of(context).colorScheme.secondary),
+        //   ),
+        // ),
+        // UiUtils.buildGuessTheWordQuestionAnswer(
+        //             guessTheWordQuestion.submittedAnswer) ==
+        //         guessTheWordQuestion.answer
+        //     ? SizedBox()
+        //     : Padding(
+        //         padding: const EdgeInsetsDirectional.only(start: 0.0),
+        //         child: Text(
+        //           AppLocalization.of(context)!
+        //                   .getTranslatedValues("correctAndLbl")! +
+        //               ":" +
+        //               " ${guessTheWordQuestion.answer}",
+        //           style: TextStyle(
+        //               fontSize: 18.0, color: Theme.of(context).primaryColor),
+        //         ),
+        //       )
+
+        WidgetsUtil.verticalSpace20,
+        TitleText(
+          text: UiUtils.buildGuessTheWordQuestionAnswer(
+                      guessTheWordQuestion.submittedAnswer) ==
+                  guessTheWordQuestion.answer
+              ? "CORRECT ANSWER"
+              : "SELECTED ANSWER",
+          size: Constants.bodyXSmall,
+          textColor: Constants.grey2,
+          weight: FontWeight.w500,
+        ),
+        Container(
+          decoration: BoxDecoration(
+              border: UiUtils.buildGuessTheWordQuestionAnswer(
+                          guessTheWordQuestion.submittedAnswer) ==
+                      guessTheWordQuestion.answer
+                  ? Border()
+                  : Border.all(color: Colors.red),
+              borderRadius: BorderRadius.circular(16),
+              color: UiUtils.buildGuessTheWordQuestionAnswer(
+                          guessTheWordQuestion.submittedAnswer) ==
+                      guessTheWordQuestion.answer
+                  ? Constants.lightGreen
+                  : Colors.white
+
+              // color:
+              ),
+          width: MediaQuery.of(context).size.width * (0.8),
+          margin: EdgeInsets.only(top: 15.0),
+          padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              widget.quizType == QuizTypes.mathMania
+                  ? Expanded(
+                      child: TeXView(
+                        child: TeXViewDocument(
+                            UiUtils.buildGuessTheWordQuestionAnswer(
+                                guessTheWordQuestion.submittedAnswer)),
+                        style: TeXViewStyle(
+                            contentColor:
+                                UiUtils.buildGuessTheWordQuestionAnswer(
+                                            guessTheWordQuestion
+                                                .submittedAnswer) ==
+                                        guessTheWordQuestion.answer
+                                    ? Constants.white
+                                    : Colors.red,
+                            backgroundColor: Colors.transparent,
+                            sizeUnit: TeXViewSizeUnit.pixels,
+                            textAlign: TeXViewTextAlign.center,
+                            fontStyle: TeXViewFontStyle(fontSize: 19)),
+                      ),
+                    )
+                  : Text(
+                      UiUtils.buildGuessTheWordQuestionAnswer(
+                          guessTheWordQuestion.submittedAnswer),
+                      style: TextStyle(
+                          color: UiUtils.buildGuessTheWordQuestionAnswer(
+                                      guessTheWordQuestion.submittedAnswer) ==
+                                  guessTheWordQuestion.answer
+                              ? Constants.white
+                              : Colors.red),
+                    ),
+              Icon(
+                  UiUtils.buildGuessTheWordQuestionAnswer(
+                              guessTheWordQuestion.submittedAnswer) ==
+                          guessTheWordQuestion.answer
+                      ? Icons.check
+                      : Icons.close,
                   color: UiUtils.buildGuessTheWordQuestionAnswer(
                               guessTheWordQuestion.submittedAnswer) ==
                           guessTheWordQuestion.answer
-                      ? Theme.of(context).primaryColor
-                      : Theme.of(context).colorScheme.secondary),
-            ),
+                      ? Constants.white
+                      : Colors.red),
+            ],
           ),
-          UiUtils.buildGuessTheWordQuestionAnswer(
-                      guessTheWordQuestion.submittedAnswer) ==
-                  guessTheWordQuestion.answer
-              ? SizedBox()
-              : Padding(
-                  padding: const EdgeInsetsDirectional.only(start: 0.0),
-                  child: Text(
-                    AppLocalization.of(context)!
-                            .getTranslatedValues("correctAndLbl")! +
-                        ":" +
-                        " ${guessTheWordQuestion.answer}",
-                    style: TextStyle(
-                        fontSize: 18.0, color: Theme.of(context).primaryColor),
-                  ),
-                )
-        ],
-      ),
+        ),
+        WidgetsUtil.verticalSpace24,
+
+        //not section
+        UiUtils.buildGuessTheWordQuestionAnswer(
+                    guessTheWordQuestion.submittedAnswer) !=
+                guessTheWordQuestion.answer
+            ? TitleText(
+                text: "CORRECT ANSWER",
+                size: Constants.bodyXSmall,
+                textColor: Constants.grey2,
+                weight: FontWeight.w500,
+              )
+            : SizedBox(),
+        UiUtils.buildGuessTheWordQuestionAnswer(
+                    guessTheWordQuestion.submittedAnswer) !=
+                guessTheWordQuestion.answer
+            ? Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  color: Constants.lightGreen,
+
+                  // color:
+                ),
+                width: MediaQuery.of(context).size.width * (0.8),
+                margin: EdgeInsets.only(top: 15.0),
+                padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    widget.quizType == QuizTypes.mathMania
+                        ? Expanded(
+                            child: TeXView(
+                              child: TeXViewDocument(
+                                guessTheWordQuestion.answer,
+                              ),
+                              style: TeXViewStyle(
+                                  contentColor: Constants.white,
+                                  backgroundColor: Colors.transparent,
+                                  sizeUnit: TeXViewSizeUnit.pixels,
+                                  textAlign: TeXViewTextAlign.center,
+                                  fontStyle: TeXViewFontStyle(fontSize: 19)),
+                            ),
+                          )
+                        : Text(
+                            guessTheWordQuestion.answer,
+                            style: TextStyle(color: Constants.white),
+                          ),
+                    Icon(
+                      Icons.check,
+                      color: Constants.white,
+                    ),
+                  ],
+                ),
+              )
+            : Container()
+      ],
     );
   }
 
@@ -755,45 +929,51 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
             question: question,
           ),
           _hasAudioQuestion()
-              ? BlocProvider<MusicPlayerCubit>(
-                  create: (_) => MusicPlayerCubit(),
-                  // child: MusicPlayerContainer(
-                  //   currentIndex: _currentIndex,
-                  //   index: index,
-                  //   url: question.audio!,
-                  //   key: musicPlayerContainerKeys[index],
-                  // ))
+              ? Column(
+                  children: [
+                    SizedBox(
+                      height: 100,
+                      child: InkWell(
+                        onTap: () async {
+                          if (_isPlaying) {
+                            await _audioPlayer.stop();
+                            log("if state");
 
-                  child: SizedBox(
-                    height: 100,
-                    child: InkWell(
-                      onTap: () async {
-                        if (_isPlaying) {
-                          await _audioPlayer.stop();
-                          log("if state");
-
-                          setState(() {
-                            _isPlaying = false;
-                            isAnimating = true;
-                          });
-                        } else {
-                          await _audioPlayer.play();
-                          log("else state");
-                          setState(() {
-                            _isPlaying = true;
-                            isAnimating = false;
-                          });
-                        }
-                      },
-                      child: MusicVisualizer(
-                        barCount: colors.length,
-                        colors: colors,
-                        duration: duration,
-                        curve: Curves.easeInOut,
-                        isAnimating: isAnimating,
+                            setState(() {
+                              _isPlaying = false;
+                              isAnimating = true;
+                            });
+                          } else {
+                            await _audioPlayer.play();
+                            log("else state");
+                            setState(() {
+                              _isPlaying = true;
+                              isAnimating = false;
+                            });
+                          }
+                        },
+                        child: MusicVisualizer(
+                          barCount: colors.length,
+                          colors: colors,
+                          duration: duration,
+                          curve: Curves.easeInOut,
+                          isAnimating: isAnimating,
+                        ),
                       ),
                     ),
-                  ))
+                    WidgetsUtil.verticalSpace8,
+                    SizedBox(
+                      height: 20,
+                      child: Row(
+                        children: [
+                          Text(bufferedSeconds.inSeconds.toString()),
+                          Spacer(),
+                          Text(_audioDuration.inSeconds.toString()),
+                        ],
+                      ),
+                    )
+                  ],
+                )
               : Container(),
 
           //build options
@@ -809,6 +989,8 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
   Widget _buildGuessTheWordQuestionAndOptions(GuessTheWordQuestion question) {
     return SingleChildScrollView(
       padding: EdgeInsets.only(
+          left: 16,
+          right: 16,
           top: 35.0,
           bottom: MediaQuery.of(context).size.height *
                   UiUtils.bottomMenuPercentage +
@@ -844,6 +1026,8 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
             setState(() {
               _currentIndex = index;
             });
+            changeAudio(_currentIndex);
+
             if (_hasAudioQuestion()) {
               musicPlayerContainerKeys[_currentIndex].currentState?.playAudio();
             }

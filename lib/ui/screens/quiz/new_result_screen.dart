@@ -12,12 +12,15 @@ import 'package:flutterquiz/app/routes.dart';
 import 'package:flutterquiz/features/ads/interstitialAdCubit.dart';
 import 'package:flutterquiz/features/badges/cubits/badgesCubit.dart';
 import 'package:flutterquiz/features/battleRoom/models/battleRoom.dart';
+import 'package:flutterquiz/features/bookmark/bookmarkRepository.dart';
 import 'package:flutterquiz/features/bookmark/cubits/guessTheWordBookmarkCubit.dart';
+import 'package:flutterquiz/features/bookmark/cubits/updateBookmarkCubit.dart';
 import 'package:flutterquiz/features/exam/models/exam.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/updateScoreAndCoinsCubit.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/userDetailsCubit.dart';
 import 'package:flutterquiz/features/profileManagement/profileManagementRepository.dart';
 import 'package:flutterquiz/features/quiz/cubits/comprehensionCubit.dart';
+import 'package:flutterquiz/features/quiz/cubits/guessTheWordQuizCubit.dart';
 import 'package:flutterquiz/features/quiz/cubits/quizCategoryCubit.dart';
 import 'package:flutterquiz/features/quiz/cubits/setCategoryPlayedCubit.dart';
 import 'package:flutterquiz/features/quiz/cubits/setContestLeaderboardCubit.dart';
@@ -113,7 +116,9 @@ class NewResultScreen extends StatefulWidget {
 
   static Route<dynamic> route(RouteSettings routeSettings) {
     Map arguments = routeSettings.arguments as Map;
-    log(arguments['guessTheWordQuestions']!.toString());
+
+    // log("${arguments.toString()}");
+
     //keys of map are numberOfPlayer,quizType,questions (required)
     //if quizType is not battle and liveBattle need to pass following arguments
     //myPoints
@@ -429,7 +434,7 @@ class _NewResultScreenState extends State<NewResultScreen> {
     //update score and coins for user
     context.read<UpdateScoreAndCoinsCubit>().updateCoinsAndScore(
         context.read<UserDetailsCubit>().getUserId(),
-        widget.myPoints!,
+        widget.myPoints,
         true,
         _earnedCoins,
         _getCoinUpdateTypeBasedOnQuizZone());
@@ -885,21 +890,13 @@ class _NewResultScreenState extends State<NewResultScreen> {
                                   .getTranslatedValues("betterNextLbl")!),
                   context.read<UserDetailsCubit>().getUserId() == _winnerId
                       ? Text(
-                          AppLocalization.of(context)!
-                                  .getTranslatedValues("youWin")! +
-                              " ${widget.entryFee} " +
-                              AppLocalization.of(context)!
-                                  .getTranslatedValues("coinsLbl")!,
+                          "${AppLocalization.of(context)!.getTranslatedValues("youWin")!} ${widget.entryFee} ${AppLocalization.of(context)!.getTranslatedValues("coinsLbl")!}",
                           style: TextStyle(
                               fontSize: 17.0,
                               color: Theme.of(context).backgroundColor),
                         )
                       : Text(
-                          AppLocalization.of(context)!
-                                  .getTranslatedValues("youLossLbl")! +
-                              " ${widget.entryFee} " +
-                              AppLocalization.of(context)!
-                                  .getTranslatedValues("coinsLbl")!,
+                          "${AppLocalization.of(context)!.getTranslatedValues("youLossLbl")!} ${widget.entryFee} ${AppLocalization.of(context)!.getTranslatedValues("coinsLbl")!}",
                           style: TextStyle(
                               fontSize: 17.0,
                               color: Theme.of(context).backgroundColor),
@@ -947,7 +944,7 @@ class _NewResultScreenState extends State<NewResultScreen> {
                                     ),
                                     width: constraints.maxWidth * (0.3),
                                     child: Text(
-                                      "${widget.battleRoom!.user1!.name}",
+                                      widget.battleRoom!.user1!.name,
                                       style: TextStyle(
                                           color:
                                               Theme.of(context).primaryColor),
@@ -1003,7 +1000,7 @@ class _NewResultScreenState extends State<NewResultScreen> {
                                     ),
                                     width: constraints.maxWidth * (0.3),
                                     child: Text(
-                                      "${widget.battleRoom!.user2!.name}",
+                                      widget.battleRoom!.user2!.name,
                                       style: TextStyle(
                                           color:
                                               Theme.of(context).primaryColor),
@@ -1064,7 +1061,7 @@ class _NewResultScreenState extends State<NewResultScreen> {
                                   ),
                                   width: constraints.maxWidth * (0.3),
                                   child: Text(
-                                    "${winnerDetails.name}",
+                                    winnerDetails.name,
                                     style: TextStyle(
                                       color: Theme.of(context).primaryColor,
                                     ),
@@ -1122,7 +1119,7 @@ class _NewResultScreenState extends State<NewResultScreen> {
                                     ),
                                     width: constraints.maxWidth * (0.3),
                                     child: Text(
-                                      "${looserDetails.name}",
+                                      looserDetails.name,
                                       textAlign: TextAlign.center,
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
@@ -1980,7 +1977,10 @@ class _NewResultScreenState extends State<NewResultScreen> {
                                     bottom:
                                         BorderSide(color: Constants.black1))),
                             minX: 1,
-                            maxX: widget.questions!.length.toDouble(),
+                            maxX: widget.quizType == QuizTypes.guessTheWord
+                                ? widget.guessTheWordQuestions!.length
+                                    .toDouble()
+                                : widget.questions!.length.toDouble(),
                             maxY: 100,
                             minY: 0,
                             titlesData: FlTitlesData(
@@ -2017,24 +2017,34 @@ class _NewResultScreenState extends State<NewResultScreen> {
                                 color: Constants.primaryColor,
                                 dotData: FlDotData(show: false),
                                 spots: List.generate(
-                                  widget.questions!.length,
+                                  widget.quizType == QuizTypes.guessTheWord
+                                      ? widget.guessTheWordQuestions!.length
+                                      : widget.questions!.length,
                                   (index) {
-                                    if (AnswerEncryption.decryptCorrectAnswer(
-                                            rawKey: context
-                                                .read<UserDetailsCubit>()
-                                                .getUserFirebaseId(),
-                                            correctAnswer: widget
-                                                .questions![index]
-                                                .correctAnswer!) ==
-                                        widget.questions![index]
-                                            .submittedAnswerId) {
+                                    bool temp = widget.quizType ==
+                                            QuizTypes.guessTheWord
+                                        ? widget.guessTheWordQuestions![index]
+                                                .answer ==
+                                            widget.guessTheWordQuestions![index]
+                                                .submittedAnswer
+                                                .join()
+                                                .toString()
+                                        : AnswerEncryption.decryptCorrectAnswer(
+                                                rawKey: context
+                                                    .read<UserDetailsCubit>()
+                                                    .getUserFirebaseId(),
+                                                correctAnswer: widget
+                                                    .questions![index]
+                                                    .correctAnswer!) ==
+                                            widget.questions![index]
+                                                .submittedAnswerId;
+                                    if (temp) {
                                       correctAnswers++;
                                     }
                                     accuracy =
                                         (correctAnswers / (index + 1)) * 100;
                                     log(accuracy.toString());
-                                    log("correct answers " +
-                                        correctAnswers.toString());
+                                    log("correct answers $correctAnswers");
                                     return FlSpot(
                                       index.toDouble() + 1,
                                       accuracy.toInt().toDouble(),
@@ -2112,8 +2122,9 @@ class _NewResultScreenState extends State<NewResultScreen> {
                           ),
                           WidgetsUtil.verticalSpace8,
                           TitleText(
-                            text:
-                                "${widget.questions!.length - correctAnswers}",
+                            text: widget.quizType == QuizTypes.guessTheWord
+                                ? "${widget.guessTheWordQuestions!.length - correctAnswers}"
+                                : "${widget.questions!.length - correctAnswers}",
                             weight: FontWeight.w500,
                             size: Constants.bodyXLarge,
                             textColor: Constants.black1,

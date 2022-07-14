@@ -184,6 +184,16 @@ class _NewQuizScreenState extends State<NewQuizScreen>
     topContainerAnimationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 100));
     //
+    timerAnimationController.forward(from: 0.0);
+
+//  if (!showOptionAnimationController.isAnimating) {
+//                   showOptionAnimationController.reverse();
+//                   audioQuestionContainerKeys[currentQuestionIndex]
+//                       .currentState!
+//                       .changeShowOption();
+
+//                 }
+
     _getQuestions();
   }
 
@@ -397,48 +407,72 @@ class _NewQuizScreenState extends State<NewQuizScreen>
     return true;
   }
 
-  Widget _buildShowOptionButton() {
-    if (widget.quizType == QuizTypes.audioQuestions) {
-      return Align(
-        alignment: Alignment.bottomCenter,
-        child: SlideTransition(
-          position: showOptionAnimation.drive<Offset>(Tween<Offset>(
-            begin: const Offset(0.0, 1.5),
-            end: Offset.zero,
-          )),
-          child: Padding(
-            padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).size.height * (0.025),
-              left: MediaQuery.of(context).size.width * (0.2),
-              right: MediaQuery.of(context).size.width * (0.2),
-            ),
-            child: CustomRoundedButton(
-              widthPercentage: MediaQuery.of(context).size.width * (0.5),
-              backgroundColor: Constants.primaryColor,
-              buttonTitle: AppLocalization.of(context)!
-                  .getTranslatedValues(showOptionsKey)!,
-              radius: 5,
-              onTap: () {
-                if (!showOptionAnimationController.isAnimating) {
-                  showOptionAnimationController.reverse();
-                  audioQuestionContainerKeys[currentQuestionIndex]
-                      .currentState!
-                      .changeShowOption();
-                  timerAnimationController.forward(from: 0.0);
-                }
-              },
-              titleColor: Theme.of(context).backgroundColor,
-              showBorder: false,
-              height: 40.0,
-              elevation: 5.0,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      );
-    }
-    return const SizedBox();
-  }
+  // Widget _buildShowOptionButton() {
+  //   if (widget.quizType == QuizTypes.audioQuestions) {
+  //     return Align(
+  //       alignment: Alignment.bottomCenter,
+  //       child: SlideTransition(
+  //         position: showOptionAnimation.drive<Offset>(Tween<Offset>(
+  //           begin: const Offset(0.0, 1.5),
+  //           end: Offset.zero,
+  //         )),
+  //         child: Padding(
+  //           padding: EdgeInsets.only(
+  //             bottom: MediaQuery.of(context).size.height * (0.025),
+  //             left: MediaQuery.of(context).size.width * (0.2),
+  //             right: MediaQuery.of(context).size.width * (0.2),
+  //           ),
+  //           child: CustomRoundedButton(
+  //             widthPercentage: MediaQuery.of(context).size.width * (0.5),
+  //             backgroundColor: Constants.primaryColor,
+  //             buttonTitle: AppLocalization.of(context)!
+  //                 .getTranslatedValues(showOptionsKey)!,
+  //             radius: 5,
+  //             onTap: () {
+  //               if (!showOptionAnimationController.isAnimating) {
+  //                 showOptionAnimationController.reverse();
+  //                 audioQuestionContainerKeys[currentQuestionIndex]
+  //                     .currentState!
+  //                     .changeShowOption();
+  //                 timerAnimationController.forward(from: 0.0);
+  //               }
+  //             },
+  //             titleColor: Theme.of(context).backgroundColor,
+  //             showBorder: false,
+  //             height: 40.0,
+  //             elevation: 5.0,
+  //             fontWeight: FontWeight.bold,
+  //           ),
+  //         ),
+  //       ),
+  //     );
+  //   }
+  //   return const SizedBox();
+  // }
+
+  // Widget _showOption() {
+  //   return CustomRoundedButton(
+  //     widthPercentage: MediaQuery.of(context).size.width * (0.5),
+  //     backgroundColor: Constants.primaryColor,
+  //     buttonTitle:
+  //         AppLocalization.of(context)!.getTranslatedValues(showOptionsKey)!,
+  //     radius: 5,
+  //     onTap: () {
+  //       if (!showOptionAnimationController.isAnimating) {
+  //         showOptionAnimationController.reverse();
+  //         audioQuestionContainerKeys[currentQuestionIndex]
+  //             .currentState!
+  //             .changeShowOption();
+  //         timerAnimationController.forward(from: 0.0);
+  //       }
+  //     },
+  //     titleColor: Theme.of(context).backgroundColor,
+  //     showBorder: false,
+  //     height: 40.0,
+  //     elevation: 5.0,
+  //     fontWeight: FontWeight.bold,
+  //   );
+  // }
 
   Widget _buildBookmarkButton(QuestionsCubit questionsCubit) {
     //if quiz type is quiuzzone
@@ -1138,7 +1172,7 @@ class _NewQuizScreenState extends State<NewQuizScreen>
                 bloc: quesCubit,
                 builder: (context, state) {
                   if (state is QuestionsFetchSuccess) {
-                    return _buildShowOptionButton();
+                    // return _showOption();
                   }
                   return const SizedBox();
                 },

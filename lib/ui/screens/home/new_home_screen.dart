@@ -101,6 +101,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
 
   bool? dragUP;
   int currentMenu = 1;
+  bool routefromHomeScreen = false;
 
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
@@ -222,7 +223,11 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                     flex: 2,
                     child: GestureDetector(
                       onTap: (() {
-                        Navigator.of(context).pushNamed(Routes.profile);
+                        log("message");
+                        Navigator.of(context)
+                            .pushNamed(Routes.profile, arguments: {
+                          "routefromHomeScreen": true,
+                        });
                       }),
                       child: CircleAvatar(
                         backgroundColor: Constants.pink,
