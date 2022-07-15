@@ -21,8 +21,9 @@ class AudioQuestionContainer extends StatefulWidget {
   final Function submitAnswer;
   final Function hasSubmittedAnswerForCurrentQuestion;
   final bool showAnswerCorrectness;
+  QuizTypes? quizType;
+  AnimationController timerAnimationController;
 
-  final AnimationController timerAnimationController;
   AudioQuestionContainer({
     Key? key,
     required this.constraints,
@@ -38,7 +39,8 @@ class AudioQuestionContainer extends StatefulWidget {
   AudioQuestionContainerState createState() => AudioQuestionContainerState();
 }
 
-class AudioQuestionContainerState extends State<AudioQuestionContainer> {
+class AudioQuestionContainerState extends State<AudioQuestionContainer>
+    with TickerProviderStateMixin {
   double textSize = 14;
   late bool _showOption = false;
   late AudioPlayer _audioPlayer;
@@ -56,6 +58,7 @@ class AudioQuestionContainerState extends State<AudioQuestionContainer> {
   @override
   void initState() {
     initializeAudio();
+
     super.initState();
   }
 
@@ -66,6 +69,15 @@ class AudioQuestionContainerState extends State<AudioQuestionContainer> {
       var result = await _audioPlayer
           .setUrl(widget.questions[widget.currentQuestionIndex].audio!);
       _audioDuration = result ?? Duration.zero;
+
+      widget.timerAnimationController = AnimationController(
+        vsync: this,
+        duration: Duration(
+          seconds: _audioDuration.inSeconds + 15,
+        ),
+      );
+      // _audioDuration + Duration(seconds: 15);
+      widget.timerAnimationController.forward(from: 0.0);
       _processingStateStreamSubscription =
           _audioPlayer.processingStateStream.listen(_processingStateListener);
       _streamSubscription = _audioPlayer.positionStream.listen((audioDuration) {
@@ -98,7 +110,7 @@ class AudioQuestionContainerState extends State<AudioQuestionContainer> {
       //   _showOption = true;
       //   widget.timerAnimationController.forward(from: 0.0);
       // }
-      widget.timerAnimationController.forward(from: 0.0);
+      // widget.timerAnimationController.forward(from: 0.0);
 
       _hasCompleted = true;
     }
@@ -221,8 +233,10 @@ class AudioQuestionContainerState extends State<AudioQuestionContainer> {
           height: 17.5,
         ),
         HorizontalTimerContainer(
-            quizTypes: QuizTypes.audioQuestions,
-            timerAnimationController: widget.timerAnimationController),
+          quizTypes: QuizTypes.audioQuestions,
+          timerAnimationController: widget.timerAnimationController,
+          duration: _audioDuration.inSeconds,
+        ),
         SizedBox(
           height: 12.5,
         ),
@@ -431,7 +445,6 @@ class _CurrentDurationSliderContainerState
     streamSubscription =
         widget.audioPlayer.positionStream.listen(currentDurationListener);
 
-    
     super.initState();
   }
 

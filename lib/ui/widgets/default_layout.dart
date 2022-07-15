@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterquiz/utils/assets.dart';
+import 'package:flutterquiz/utils/size_config.dart';
 
 import '../../utils/constants.dart';
 import 'title_text.dart';
@@ -12,6 +13,7 @@ class DefaultLayout extends StatelessWidget {
   final Widget? action;
   final bool? expandBodyBehindAppBar;
   final bool? showBackButton;
+  final double? size;
 
   const DefaultLayout({
     Key? key,
@@ -20,6 +22,7 @@ class DefaultLayout extends StatelessWidget {
     this.backgroundColor,
     this.titleColor,
     this.action,
+    this.size,
     this.showBackButton,
     this.expandBodyBehindAppBar,
   }) : super(key: key);
@@ -37,7 +40,7 @@ class DefaultLayout extends StatelessWidget {
             children: [
               TitleText(
                 text: title,
-                size: Constants.heading3,
+                size: size ?? Constants.heading3,
                 weight: FontWeight.w500,
                 textColor: titleColor ?? Constants.black2,
               ),

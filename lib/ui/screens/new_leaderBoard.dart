@@ -6,13 +6,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart' as svg;
 import 'package:flutterquiz/app/appLocalization.dart';
 import 'package:flutterquiz/features/leaderBoard/cubit/leaderBoardAllTimeCubit.dart';
 import 'package:flutterquiz/features/leaderBoard/cubit/leaderBoardDailyCubit.dart';
 import 'package:flutterquiz/features/leaderBoard/cubit/leaderBoardMonthlyCubit.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/userDetailsCubit.dart';
-import 'package:flutterquiz/ui/widgets/circularProgressContainner.dart';
 import 'package:flutterquiz/ui/widgets/errorContainer.dart';
 import 'package:flutterquiz/ui/widgets/notched_card.dart';
 import 'package:flutterquiz/ui/widgets/title_text.dart';
@@ -21,7 +19,6 @@ import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/custom_appbar.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/size_config.dart';
-import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
 import 'package:flutterquiz/utils/widgets_util.dart';
 import 'package:hive/hive.dart';
@@ -99,6 +96,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
   scrollListenerA() {
     if (controllerA.position.maxScrollExtent == controllerA.offset) {
       if (context.read<LeaderBoardAllTimeCubit>().hasMoreData()) {
+        log("Has more items - All Time");
         context.read<LeaderBoardAllTimeCubit>().fetchMoreLeaderBoardData(
             "20", context.read<UserDetailsCubit>().getUserId());
       }
@@ -120,42 +118,44 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(60),
-          child: CustomAppBar(
-            title: "Leaderboard",
-            showBackButton: false,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(60),
+        child: CustomAppBar(
+          title: "Leaderboard",
+          showBackButton: false,
+        ),
+      ),
+      backgroundColor: Constants.primaryColor,
+      body: Container(
+        // height: SizeConfig.screenHeight,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(Assets.backgroundCircle),
           ),
         ),
-        backgroundColor: Constants.primaryColor,
-        body: Container(
-          height: SizeConfig.screenHeight,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(Assets.backgroundCircle),
-            ),
-          ),
-          child: topDesign(),
-        ));
+        child: topDesign(),
+      ),
+    );
   }
 
   Widget topDesign() {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          WidgetsUtil.verticalSpace24,
-          Container(
-              width: SizeConfig.screenWidth,
-              height: 50,
-              margin: EdgeInsets.symmetric(horizontal: 24),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Constants.black1.withOpacity(0.3),
-              ),
-              child: _tabBar()),
-          _tabItem(),
-        ],
-      ),
+    return Column(
+      children: [
+        // WidgetsUtil.verticalSpace24,
+        Container(
+          height: SizeConfig.screenHeight * 0.07,
+          width: SizeConfig.screenWidth,
+          margin: EdgeInsets.symmetric(horizontal: 24),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: Constants.black1.withOpacity(0.3),
+          ),
+          child: _tabBar(),
+        ),
+        Expanded(
+          child: _tabItem(),
+        ),
+      ],
     );
   }
 
@@ -271,8 +271,8 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
           if (state is LeaderBoardMonthlyProgress ||
               state is LeaderBoardAllTimeInitial) {
             return Center(
-              child: CircularProgressContainer(
-                useWhiteLoader: false,
+              child: CircularProgressIndicator(
+                color: Constants.white,
               ),
             );
           }
@@ -302,164 +302,151 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
               podiumList.add(monthlyList[i]);
             }
           }
-          return Column(
-            children: [
-              SizedBox(
-                height: SizeConfig.screenHeight,
-                child: Stack(
-                  children: [
-                    ...List.generate(podiumList.length, (index) {
-                      return Positioned(
-                        top: _topPosition(index),
-                        left: _leftPosition(index),
-                        right: _rightPosition(index),
-                        child: index < 3
-                            ? Column(children: [
-                                Badge(
+          return SizedBox(
+            height: SizeConfig.screenHeight,
+            child: Stack(
+              children: [
+                ...List.generate(podiumList.length, (index) {
+                  return Positioned(
+                    top: _topPosition(index),
+                    left: _leftPosition(index),
+                    right: _rightPosition(index),
+                    child: index < 3
+                        ? Column(children: [
+                            Badge(
+                              elevation: 0,
+                              showBadge: true,
+                              badgeContent: Image.asset(Assets.portugal),
+                              badgeColor: Colors.transparent,
+                              position: BadgePosition.bottomEnd(),
+                              child: Badge(
                                   elevation: 0,
                                   showBadge: true,
-                                  badgeContent: Image.asset(Assets.portugal),
+                                  badgeContent: index == 0
+                                      ? SvgPicture.asset(
+                                          Assets.crown,
+                                          height: 30,
+                                        )
+                                      : SizedBox(),
+                                  position:
+                                      BadgePosition.topEnd(end: 5, top: -20),
                                   badgeColor: Colors.transparent,
-                                  position: BadgePosition.bottomEnd(),
-                                  child: Badge(
-                                      elevation: 0,
-                                      showBadge: true,
-                                      badgeContent: index == 0
-                                          ? SvgPicture.asset(
-                                              Assets.crown,
-                                              height: 30,
-                                            )
-                                          : SizedBox(),
-                                      position: BadgePosition.topEnd(
-                                          end: 5, top: -20),
-                                      badgeColor: Colors.transparent,
-                                      child: CircleAvatar(
-                                        radius: 25,
-                                        backgroundColor: Colors.transparent,
-                                        backgroundImage:
-                                            CachedNetworkImageProvider(
-                                          index == 0
-                                              ? podiumList[0]['profile']
-                                              : index == 1
-                                                  ? podiumList[1]['profile']
-                                                  : index == 2
-                                                      ? podiumList[2]['profile']
-                                                      : "",
-                                        ),
-                                      )),
-                                ),
-                                WidgetsUtil.verticalSpace20,
-                                SizedBox(
-                                  width: 100,
-                                  height: 20,
-                                  child: TitleText(
-                                    text: index == 0
-                                        ? podiumList[0]['name']!.isNotEmpty
-                                            ? podiumList[0]['name']!
+                                  child: CircleAvatar(
+                                    radius: 25,
+                                    backgroundColor: Colors.transparent,
+                                    backgroundImage: CachedNetworkImageProvider(
+                                      index == 0
+                                          ? podiumList[0]['profile']
+                                          : index == 1
+                                              ? podiumList[1]['profile']
+                                              : index == 2
+                                                  ? podiumList[2]['profile']
+                                                  : "",
+                                    ),
+                                  )),
+                            ),
+                            WidgetsUtil.verticalSpace20,
+                            SizedBox(
+                              width: 100,
+                              height: 20,
+                              child: TitleText(
+                                text: index == 0
+                                    ? podiumList[0]['name']!.isNotEmpty
+                                        ? podiumList[0]['name']!
+                                        : ""
+                                    : index == 1
+                                        ? podiumList[1]['name']!.isNotEmpty
+                                            ? podiumList[1]['name']!
                                             : ""
-                                        : index == 1
-                                            ? podiumList[1]['name']!.isNotEmpty
-                                                ? podiumList[1]['name']!
-                                                : ""
-                                            : index == 2
+                                        : index == 2
+                                            ? podiumList[2]['name']!.isNotEmpty
                                                 ? podiumList[2]['name']!
-                                                        .isNotEmpty
-                                                    ? podiumList[2]['name']!
-                                                    : ""
-                                                : "",
-                                    textColor: Constants.white,
-                                    size: Constants.bodySmall,
-                                    align: TextAlign.center,
-                                  ),
-                                ),
-                                WidgetsUtil.verticalSpace4,
-                                index < 3
-                                    ? _QPContainer(
-                                        Center(
-                                          child: TitleText(
-                                            text: index == 0
+                                                : ""
+                                            : "",
+                                textColor: Constants.white,
+                                size: Constants.bodySmall,
+                                align: TextAlign.center,
+                              ),
+                            ),
+                            WidgetsUtil.verticalSpace4,
+                            index < 3
+                                ? _QPContainer(
+                                    Center(
+                                      child: TitleText(
+                                        text: index == 0
+                                            ? podiumList[0]['score']!.isNotEmpty
                                                 ? podiumList[0]['score']!
+                                                : ""
+                                            : index == 1
+                                                ? podiumList[1]['score']!
                                                         .isNotEmpty
-                                                    ? podiumList[0]['score']!
-                                                    : ""
-                                                : index == 1
                                                     ? podiumList[1]['score']!
+                                                    : ""
+                                                : index == 2
+                                                    ? podiumList[2]['score']!
                                                             .isNotEmpty
-                                                        ? podiumList[1]
+                                                        ? podiumList[2]
                                                             ['score']!
                                                         : ""
-                                                    : index == 2
-                                                        ? podiumList[2]
-                                                                    ['score']!
-                                                                .isNotEmpty
-                                                            ? podiumList[2]
-                                                                ['score']!
-                                                            : ""
-                                                        : "",
-                                            size: Constants.bodyXSmall,
-                                            textColor: Constants.white,
-                                          ),
-                                        ),
-                                      )
-                                    : SizedBox(),
-                              ])
-                            : SizedBox(),
-                      );
-                    }),
-                    Stack(
-                      children: [
-                        Align(
-                          heightFactor: 2.3,
-                          alignment: Alignment.center,
-                          child: SizedBox(
-                            width: SizeConfig.screenWidth,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Expanded(
-                                  flex: 2,
-                                  child: SizedBox(),
-                                ),
-                                Expanded(
-                                  flex: 5,
-                                  child: Image.asset(
-                                    Assets.rank2,
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 5,
-                                  child: Image.asset(
-                                    Assets.rank1,
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 5,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(top: 80),
-                                    child: Image.asset(
-                                      Assets.rank3,
+                                                    : "",
+                                        size: Constants.bodyXSmall,
+                                        textColor: Constants.white,
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 2,
-                                  child: SizedBox(),
-                                ),
-                              ],
+                                  )
+                                : SizedBox(),
+                          ])
+                        : SizedBox(),
+                  );
+                }),
+                Stack(
+                  children: [
+                    Align(
+                      heightFactor: 2.3,
+                      alignment: Alignment.center,
+                      child: SizedBox(
+                        width: SizeConfig.screenWidth,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              flex: 2,
+                              child: SizedBox(),
                             ),
-                          ),
+                            Expanded(
+                              flex: 5,
+                              child: Image.asset(
+                                Assets.rank2,
+                              ),
+                            ),
+                            Expanded(
+                              flex: 5,
+                              child: Image.asset(
+                                Assets.rank1,
+                              ),
+                            ),
+                            Expanded(
+                              flex: 5,
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 80),
+                                child: Image.asset(
+                                  Assets.rank3,
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 2,
+                              child: SizedBox(),
+                            ),
+                          ],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 50),
-                          child:
-                              leaderBoardList(podiumList, controllerM, hasMore),
-                        ),
-                      ],
+                      ),
                     ),
+                    leaderBoardList(podiumList, controllerM, hasMore),
                   ],
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         });
   }
@@ -510,164 +497,151 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
               podiumList.add(dailyList[i]);
             }
           }
-          return Column(
-            children: [
-              SizedBox(
-                height: SizeConfig.screenHeight,
-                child: Stack(
-                  children: [
-                    ...List.generate(podiumList.length, (index) {
-                      return Positioned(
-                        top: _topPosition(index),
-                        left: _leftPosition(index),
-                        right: _rightPosition(index),
-                        child: index < 3
-                            ? Column(children: [
-                                Badge(
+          return SizedBox(
+            height: SizeConfig.screenHeight,
+            child: Stack(
+              children: [
+                ...List.generate(podiumList.length, (index) {
+                  return Positioned(
+                    top: _topPosition(index),
+                    left: _leftPosition(index),
+                    right: _rightPosition(index),
+                    child: index < 3
+                        ? Column(children: [
+                            Badge(
+                              elevation: 0,
+                              showBadge: true,
+                              badgeContent: Image.asset(Assets.portugal),
+                              badgeColor: Colors.transparent,
+                              position: BadgePosition.bottomEnd(),
+                              child: Badge(
                                   elevation: 0,
                                   showBadge: true,
-                                  badgeContent: Image.asset(Assets.portugal),
+                                  badgeContent: index == 0
+                                      ? SvgPicture.asset(
+                                          Assets.crown,
+                                          height: 30,
+                                        )
+                                      : SizedBox(),
+                                  position:
+                                      BadgePosition.topEnd(end: 5, top: -20),
                                   badgeColor: Colors.transparent,
-                                  position: BadgePosition.bottomEnd(),
-                                  child: Badge(
-                                      elevation: 0,
-                                      showBadge: true,
-                                      badgeContent: index == 0
-                                          ? SvgPicture.asset(
-                                              Assets.crown,
-                                              height: 30,
-                                            )
-                                          : SizedBox(),
-                                      position: BadgePosition.topEnd(
-                                          end: 5, top: -20),
-                                      badgeColor: Colors.transparent,
-                                      child: CircleAvatar(
-                                        radius: 25,
-                                        backgroundColor: Colors.transparent,
-                                        backgroundImage:
-                                            CachedNetworkImageProvider(
-                                          index == 0
-                                              ? podiumList[0]['profile']
-                                              : index == 1
-                                                  ? podiumList[1]['profile']
-                                                  : index == 2
-                                                      ? podiumList[2]['profile']
-                                                      : "",
-                                        ),
-                                      )),
-                                ),
-                                WidgetsUtil.verticalSpace20,
-                                SizedBox(
-                                  width: 100,
-                                  height: 20,
-                                  child: TitleText(
-                                    text: index == 0
-                                        ? podiumList[0]['name']!.isNotEmpty
-                                            ? podiumList[0]['name']!
+                                  child: CircleAvatar(
+                                    radius: 25,
+                                    backgroundColor: Colors.transparent,
+                                    backgroundImage: CachedNetworkImageProvider(
+                                      index == 0
+                                          ? podiumList[0]['profile']
+                                          : index == 1
+                                              ? podiumList[1]['profile']
+                                              : index == 2
+                                                  ? podiumList[2]['profile']
+                                                  : "",
+                                    ),
+                                  )),
+                            ),
+                            WidgetsUtil.verticalSpace20,
+                            SizedBox(
+                              width: 100,
+                              height: 20,
+                              child: TitleText(
+                                text: index == 0
+                                    ? podiumList[0]['name']!.isNotEmpty
+                                        ? podiumList[0]['name']!
+                                        : ""
+                                    : index == 1
+                                        ? podiumList[1]['name']!.isNotEmpty
+                                            ? podiumList[1]['name']!
                                             : ""
-                                        : index == 1
-                                            ? podiumList[1]['name']!.isNotEmpty
-                                                ? podiumList[1]['name']!
-                                                : ""
-                                            : index == 2
+                                        : index == 2
+                                            ? podiumList[2]['name']!.isNotEmpty
                                                 ? podiumList[2]['name']!
-                                                        .isNotEmpty
-                                                    ? podiumList[2]['name']!
-                                                    : ""
-                                                : "",
-                                    textColor: Constants.white,
-                                    size: Constants.bodySmall,
-                                    align: TextAlign.center,
-                                  ),
-                                ),
-                                WidgetsUtil.verticalSpace4,
-                                index < 3
-                                    ? _QPContainer(
-                                        Center(
-                                          child: TitleText(
-                                            text: index == 0
+                                                : ""
+                                            : "",
+                                textColor: Constants.white,
+                                size: Constants.bodySmall,
+                                align: TextAlign.center,
+                              ),
+                            ),
+                            WidgetsUtil.verticalSpace4,
+                            index < 3
+                                ? _QPContainer(
+                                    Center(
+                                      child: TitleText(
+                                        text: index == 0
+                                            ? podiumList[0]['score']!.isNotEmpty
                                                 ? podiumList[0]['score']!
+                                                : ""
+                                            : index == 1
+                                                ? podiumList[1]['score']!
                                                         .isNotEmpty
-                                                    ? podiumList[0]['score']!
-                                                    : ""
-                                                : index == 1
                                                     ? podiumList[1]['score']!
+                                                    : ""
+                                                : index == 2
+                                                    ? podiumList[2]['score']!
                                                             .isNotEmpty
-                                                        ? podiumList[1]
+                                                        ? podiumList[2]
                                                             ['score']!
                                                         : ""
-                                                    : index == 2
-                                                        ? podiumList[2]
-                                                                    ['score']!
-                                                                .isNotEmpty
-                                                            ? podiumList[2]
-                                                                ['score']!
-                                                            : ""
-                                                        : "",
-                                            size: Constants.bodyXSmall,
-                                            textColor: Constants.white,
-                                          ),
-                                        ),
-                                      )
-                                    : SizedBox(),
-                              ])
-                            : SizedBox(),
-                      );
-                    }),
-                    Stack(
-                      children: [
-                        Align(
-                          heightFactor: 2.3,
-                          alignment: Alignment.center,
-                          child: SizedBox(
-                            width: SizeConfig.screenWidth,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Expanded(
-                                  flex: 2,
-                                  child: SizedBox(),
-                                ),
-                                Expanded(
-                                  flex: 5,
-                                  child: Image.asset(
-                                    Assets.rank2,
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 5,
-                                  child: Image.asset(
-                                    Assets.rank1,
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 5,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(top: 80),
-                                    child: Image.asset(
-                                      Assets.rank3,
+                                                    : "",
+                                        size: Constants.bodyXSmall,
+                                        textColor: Constants.white,
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 2,
-                                  child: SizedBox(),
-                                ),
-                              ],
+                                  )
+                                : SizedBox(),
+                          ])
+                        : SizedBox(),
+                  );
+                }),
+                Stack(
+                  children: [
+                    Align(
+                      heightFactor: 2.3,
+                      alignment: Alignment.center,
+                      child: SizedBox(
+                        width: SizeConfig.screenWidth,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              flex: 2,
+                              child: SizedBox(),
                             ),
-                          ),
+                            Expanded(
+                              flex: 5,
+                              child: Image.asset(
+                                Assets.rank2,
+                              ),
+                            ),
+                            Expanded(
+                              flex: 5,
+                              child: Image.asset(
+                                Assets.rank1,
+                              ),
+                            ),
+                            Expanded(
+                              flex: 5,
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 80),
+                                child: Image.asset(
+                                  Assets.rank3,
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 2,
+                              child: SizedBox(),
+                            ),
+                          ],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 50),
-                          child:
-                              leaderBoardList(dailyList, controllerD, hasMore),
-                        ),
-                      ],
+                      ),
                     ),
+                    leaderBoardList(dailyList, controllerD, hasMore),
                   ],
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         });
   }
@@ -722,199 +696,191 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
               podiumList.add(allTimeList[i]);
             }
           }
-          return Column(
-            children: [
-              SizedBox(
-                height: SizeConfig.screenHeight,
-                child: Stack(
-                  children: [
-                    ...List.generate(podiumList.length, (index) {
-                      return Positioned(
-                        top: _topPosition(index),
-                        left: _leftPosition(index),
-                        right: _rightPosition(index),
-                        child: index < 3
-                            ? Column(
-                                children: [
-                                  Badge(
+          log(" podium ${podiumList.length}   all time : ${allTimeList.length}");
+
+          return SizedBox(
+            height: SizeConfig.screenHeight,
+            child: Stack(
+              children: [
+                ...List.generate(podiumList.length, (index) {
+                  return Positioned(
+                    top: _topPosition(index),
+                    left: _leftPosition(index),
+                    right: _rightPosition(index),
+                    child: index < 3
+                        ? Column(
+                            children: [
+                              Badge(
+                                elevation: 0,
+                                showBadge: true,
+                                badgeContent: Image.asset(Assets.portugal),
+                                badgeColor: Colors.transparent,
+                                position: BadgePosition.bottomEnd(),
+                                child: Badge(
                                     elevation: 0,
                                     showBadge: true,
-                                    badgeContent: Image.asset(Assets.portugal),
+                                    badgeContent: index == 0
+                                        ? SvgPicture.asset(
+                                            Assets.crown,
+                                            height: 30,
+                                          )
+                                        : SizedBox(),
+                                    position:
+                                        BadgePosition.topEnd(end: 5, top: -20),
                                     badgeColor: Colors.transparent,
-                                    position: BadgePosition.bottomEnd(),
-                                    child: Badge(
-                                        elevation: 0,
-                                        showBadge: true,
-                                        badgeContent: index == 0
-                                            ? SvgPicture.asset(
-                                                Assets.crown,
-                                                height: 30,
-                                              )
-                                            : SizedBox(),
-                                        position: BadgePosition.topEnd(
-                                            end: 5, top: -20),
-                                        badgeColor: Colors.transparent,
-                                        child: CircleAvatar(
-                                          radius: 25,
-                                          backgroundColor: Colors.transparent,
-                                          backgroundImage:
-                                              CachedNetworkImageProvider(
-                                            index == 0
-                                                ? podiumList[0]['profile']
-                                                : index == 1
-                                                    ? podiumList[1]['profile']
-                                                    : index == 2
-                                                        ? podiumList[2]
-                                                            ['profile']
-                                                        : "",
-                                          ),
-                                        )),
-                                  ),
-                                  WidgetsUtil.verticalSpace20,
-                                  SizedBox(
-                                    width: 100,
-                                    height: 20,
-                                    child: TitleText(
-                                      text: index == 0
-                                          ? podiumList[0]['name']!.isNotEmpty
-                                              ? podiumList[0]['name']!
-                                              : ""
-                                          : index == 1
+                                    child: CircleAvatar(
+                                      radius: 25,
+                                      backgroundColor: Colors.transparent,
+                                      backgroundImage:
+                                          CachedNetworkImageProvider(
+                                        index == 0
+                                            ? podiumList[0]['profile']
+                                            : index == 1
+                                                ? podiumList[1]['profile']
+                                                : index == 2
+                                                    ? podiumList[2]['profile']
+                                                    : "",
+                                      ),
+                                    )),
+                              ),
+                              WidgetsUtil.verticalSpace20,
+                              SizedBox(
+                                width: 100,
+                                height: 20,
+                                child: TitleText(
+                                  text: index == 0
+                                      ? podiumList[0]['name']!.isNotEmpty
+                                          ? podiumList[0]['name']!
+                                          : ""
+                                      : index == 1
+                                          ? podiumList[1]['name']!.isNotEmpty
                                               ? podiumList[1]['name']!
+                                              : ""
+                                          : index == 2
+                                              ? podiumList[2]['name']!
                                                       .isNotEmpty
-                                                  ? podiumList[1]['name']!
-                                                  : ""
-                                              : index == 2
                                                   ? podiumList[2]['name']!
-                                                          .isNotEmpty
-                                                      ? podiumList[2]['name']!
-                                                      : ""
-                                                  : "",
-                                      textColor: Constants.white,
-                                      size: Constants.bodySmall,
-                                      align: TextAlign.center,
-                                    ),
-                                  ),
-                                  WidgetsUtil.verticalSpace4,
-                                  index < 3
-                                      ? _QPContainer(
-                                          Center(
-                                            child: TitleText(
-                                              text: index == 0
+                                                  : ""
+                                              : "",
+                                  textColor: Constants.white,
+                                  size: Constants.bodySmall,
+                                  align: TextAlign.center,
+                                ),
+                              ),
+                              WidgetsUtil.verticalSpace4,
+                              index < 3
+                                  ? _QPContainer(
+                                      Center(
+                                        child: TitleText(
+                                          text: index == 0
+                                              ? podiumList[0]['score']!
+                                                      .isNotEmpty
                                                   ? podiumList[0]['score']!
+                                                  : ""
+                                              : index == 1
+                                                  ? podiumList[1]['score']!
                                                           .isNotEmpty
-                                                      ? podiumList[0]['score']!
-                                                      : ""
-                                                  : index == 1
                                                       ? podiumList[1]['score']!
+                                                      : ""
+                                                  : index == 2
+                                                      ? podiumList[2]['score']!
                                                               .isNotEmpty
-                                                          ? podiumList[1]
+                                                          ? podiumList[2]
                                                               ['score']!
                                                           : ""
-                                                      : index == 2
-                                                          ? podiumList[2]
-                                                                      ['score']!
-                                                                  .isNotEmpty
-                                                              ? podiumList[2]
-                                                                  ['score']!
-                                                              : ""
-                                                          : "",
-                                              size: Constants.bodyXSmall,
-                                              textColor: Constants.white,
-                                            ),
-                                          ),
-                                        )
-                                      : SizedBox(),
-                                ],
-                              )
-                            : SizedBox(),
-                      );
-                    }),
-                    Stack(
-                      children: [
-                        Align(
-                          heightFactor: 2.3,
-                          alignment: Alignment.center,
-                          child: SizedBox(
-                            width: SizeConfig.screenWidth,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Expanded(
-                                  flex: 2,
-                                  child: SizedBox(),
-                                ),
-                                Expanded(
-                                  flex: 5,
-                                  child: Image.asset(
-                                    Assets.rank2,
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 5,
-                                  child: Image.asset(
-                                    Assets.rank1,
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 5,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(top: 80),
-                                    child: Image.asset(
-                                      Assets.rank3,
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 2,
-                                  child: SizedBox(),
-                                ),
-                              ],
+                                                      : "",
+                                          size: Constants.bodyXSmall,
+                                          textColor: Constants.white,
+                                        ),
+                                      ),
+                                    )
+                                  : SizedBox(),
+                            ],
+                          )
+                        : SizedBox(),
+                  );
+                }),
+                Stack(
+                  children: [
+                    Align(
+                      heightFactor: 2.3,
+                      alignment: Alignment.center,
+                      child: SizedBox(
+                        width: SizeConfig.screenWidth,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              flex: 2,
+                              child: SizedBox(),
                             ),
-                          ),
+                            Expanded(
+                              flex: 5,
+                              child: Image.asset(
+                                Assets.rank2,
+                              ),
+                            ),
+                            Expanded(
+                              flex: 5,
+                              child: Image.asset(
+                                Assets.rank1,
+                              ),
+                            ),
+                            Expanded(
+                              flex: 5,
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 80),
+                                child: Image.asset(
+                                  Assets.rank3,
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 2,
+                              child: SizedBox(),
+                            ),
+                          ],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 50),
-                          child:
-                              leaderBoardList(podiumList, controllerA, hasMore),
-                        ),
-                      ],
+                      ),
                     ),
+                    leaderBoardList(podiumList, controllerA, hasMore),
                   ],
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         });
   }
 
   Widget leaderBoardList(
-      List leaderBoardList, ScrollController controller, hasMore) {
+      List leaderBoardList, ScrollController controller_, hasMore) {
     List draggable = [];
     for (int i = 0; i < leaderBoardList.length; i++) {
-      if (i > 3) {
+      if (i > 2) {
         draggable.add(leaderBoardList[i]);
       }
     }
-    log('Draggable: ${draggable.length}');
+    // log('Draggable: ${draggable.length}   leaderboard : ${leaderBoardList.length}   ');
     return DraggableScrollableSheet(
         snap: true,
-        initialChildSize: 0.55,
-        minChildSize: 0.55,
+        initialChildSize: 0.45,
+        minChildSize: 0.45,
         maxChildSize: 1.0,
         builder: ((context, controller) {
+          // log("Offset: ${controller_.offset}");
           return NotchedCard(
             child: Container(
-              height: double.infinity,
+              padding: EdgeInsets.all(8),
               decoration: BoxDecoration(
                   color: Constants.grey5,
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20))),
               child: ListView(
-                shrinkWrap: true,
+                // physics: NeverScrollableScrollPhysics(),
                 controller: controller,
-                // child: Column(
+                shrinkWrap: true,
+                // // child: Column(
                 children: [
                   if (draggable.isEmpty)
                     Padding(
@@ -929,64 +895,66 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                       ),
                     )
                   else
-                    ...List.generate(
-                      draggable.length,
-                      (index) {
-                        if (index == draggable.length) {
-                          return SizedBox(
-                            height: 50,
-                          );
-                        } else {
-                          return SizedBox(
-                            height: 100,
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20)),
-                              elevation: 0,
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(right: 16, left: 16),
-                                child: Row(children: [
-                                  Expanded(
-                                    flex: 1,
+                    ListView.builder(
+                      controller: controller_,
+                      shrinkWrap: true,
+                      itemCount: draggable.length,
+                      itemBuilder: (context, index) {
+                        if (hasMore && index == (draggable.length - 1)) {
+                          Center(
+                              child: CircularProgressIndicator(
+                            color: Constants.primaryColor,
+                          ));
+                        }
+                        return SizedBox(
+                          height: 100,
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20)),
+                            elevation: 0,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(right: 16, left: 16),
+                              child: Row(children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: CircleAvatar(
+                                    backgroundColor: Constants.black1,
+                                    radius: 60,
                                     child: CircleAvatar(
-                                      backgroundColor: Constants.black1,
-                                      radius: 60,
-                                      child: CircleAvatar(
-                                        radius: 40,
-                                        foregroundColor: Constants.grey2,
-                                        backgroundColor: Constants.white,
-                                        child: TitleText(
-                                          text: (index + 4).toString(),
-                                        ),
+                                      radius: 40,
+                                      foregroundColor: Constants.grey2,
+                                      backgroundColor: Constants.white,
+                                      child: TitleText(
+                                        text: (index + 4).toString(),
                                       ),
                                     ),
                                   ),
-                                  Expanded(
-                                    flex: 9,
-                                    child: ListTile(
-                                      leading: CircleAvatar(
-                                        backgroundColor: Colors.transparent,
-                                        backgroundImage: NetworkImage(
-                                            draggable[index]['profile'] ?? ""),
-                                      ),
-                                      title: TitleText(
-                                        text: draggable[index]['name'] ?? "",
-                                      ),
-                                      subtitle: TitleText(
-                                        text:
-                                            '${draggable[index]['score'] ?? "0"}' +
-                                                ' points',
-                                      ),
+                                ),
+                                Expanded(
+                                  flex: 9,
+                                  child: ListTile(
+                                    leading: CircleAvatar(
+                                      backgroundColor: Colors.transparent,
+                                      backgroundImage: NetworkImage(
+                                          draggable[index]['profile'] ?? ""),
                                     ),
-                                  )
-                                ]),
-                              ),
+                                    title: TitleText(
+                                      text: draggable[index]['name'] ?? "",
+                                    ),
+                                    subtitle: TitleText(
+                                      text:
+                                          '${draggable[index]['score'] ?? "0"}' +
+                                              ' points',
+                                    ),
+                                  ),
+                                )
+                              ]),
                             ),
-                          );
-                        }
+                          ),
+                        );
                       },
-                    ),
+                    )
                 ],
               ),
             ),

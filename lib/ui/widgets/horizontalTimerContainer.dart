@@ -8,12 +8,14 @@ import 'package:flutterquiz/utils/uiUtils.dart';
 class HorizontalTimerContainer extends StatelessWidget {
   final QuizTypes quizTypes;
   final AnimationController timerAnimationController;
+  int? duration;
 
-  const HorizontalTimerContainer(
-      {Key? key,
-      required this.timerAnimationController,
-      required this.quizTypes})
-      : super(key: key);
+  HorizontalTimerContainer({
+    Key? key,
+    required this.timerAnimationController,
+    required this.quizTypes,
+    this.duration,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +79,8 @@ class HorizontalTimerContainer extends StatelessWidget {
       totalSeconds = latexQuestionDurationInSeconds;
     } else if (quizTypes == QuizTypes.guessTheWord) {
       totalSeconds = guessTheWordQuestionDurationInSeconds;
+    } else if (quizTypes == QuizTypes.audioQuestions) {
+      totalSeconds = duration!;
     } else {
       totalSeconds = questionDurationInSeconds;
     }

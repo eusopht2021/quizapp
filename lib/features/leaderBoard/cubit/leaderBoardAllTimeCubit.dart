@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -100,6 +101,7 @@ class LeaderBoardAllTimeCubit extends Cubit<LeaderBoardAllTimeState> {
       final usersDetails = value['data'] as List;
       final updatedUserDetails = List.from(oldState.leaderBoardDetails);
       updatedUserDetails.addAll(usersDetails);
+      log("Length: ${updatedUserDetails.length}");
       emit(LeaderBoardAllTimeSuccess(updatedUserDetails, oldState.totalData,
           oldState.totalData > updatedUserDetails.length));
     }).catchError((e) {

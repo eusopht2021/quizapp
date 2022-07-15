@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -112,6 +113,7 @@ class _NewQuizScreenState extends State<NewQuizScreen>
     with TickerProviderStateMixin {
   late AnimationController questionAnimationController;
   late AnimationController questionContentAnimationController;
+
   late AnimationController timerAnimationController = AnimationController(
       vsync: this,
       duration: Duration(
@@ -184,7 +186,9 @@ class _NewQuizScreenState extends State<NewQuizScreen>
     topContainerAnimationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 100));
     //
-    timerAnimationController.forward(from: 0.0);
+    if (widget.quizType != QuizTypes.audioQuestions) {
+      timerAnimationController.forward(from: 0.0);
+    }
 
 //  if (!showOptionAnimationController.isAnimating) {
 //                   showOptionAnimationController.reverse();
@@ -312,6 +316,8 @@ class _NewQuizScreenState extends State<NewQuizScreen>
   //change to next Question
 
   void changeQuestion() {
+    log("message");
+
     questionAnimationController.forward(from: 0.0).then((value) {
       //need to dispose the animation controllers
       questionAnimationController.dispose();
@@ -372,11 +378,11 @@ class _NewQuizScreenState extends State<NewQuizScreen>
             context.read<QuestionsCubit>().questions()[currentQuestionIndex]);
         changeQuestion();
         //if quizType is not audio or latex(math or chemistry) then start timer again
-        if (widget.quizType == QuizTypes.audioQuestions ||
-            widget.quizType == QuizTypes.mathMania) {
+        if (widget.quizType == QuizTypes.mathMania) {
           timerAnimationController.value = 0.0;
-          showOptionAnimationController.forward();
-        } else {
+          timerAnimationController.forward(from: 0.0);
+          // showOptionAnimationController.forward();
+        } else if (widget.quizType != QuizTypes.audioQuestions) {
           timerAnimationController.forward(from: 0.0);
         }
       } else {

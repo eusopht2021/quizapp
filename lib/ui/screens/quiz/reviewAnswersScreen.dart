@@ -1109,6 +1109,7 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
         showBackButton: false,
         backgroundColor: Constants.primaryColor,
         title: "Answers Explanation",
+        size: Constants.bodyXLarge,
         action: IconButton(
           onPressed: () {
             Navigator.pop(context);
