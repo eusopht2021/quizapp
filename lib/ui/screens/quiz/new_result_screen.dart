@@ -829,6 +829,7 @@ class _NewResultScreenState extends State<NewResultScreen> {
         ),
         WidgetsUtil.verticalSpace24,
         newReviewAnswersButton(),
+        _buildPlayAgainButton()
       ],
     );
   }
@@ -1220,19 +1221,11 @@ class _NewResultScreenState extends State<NewResultScreen> {
   }
 
   Widget _buildButton(
-      String buttonTitle, Function onTap, BuildContext context) {
-    return CustomRoundedButton(
-      widthPercentage: 0.85,
-      backgroundColor: Theme.of(context).primaryColor,
-      buttonTitle: buttonTitle,
-      radius: 7.5,
-      elevation: 5.0,
-      showBorder: false,
-      fontWeight: FontWeight.bold,
-      height: 50.0,
-      titleColor: Theme.of(context).backgroundColor,
-      onTap: onTap,
-      textSize: 17.0,
+      {String? buttonTitle, Function()? onTap, BuildContext? context}) {
+    return CustomButton(
+      backgroundColor: Constants.white.withOpacity(0.5),
+      text: buttonTitle,
+      onPressed: onTap!,
     );
   }
 
@@ -1246,39 +1239,43 @@ class _NewResultScreenState extends State<NewResultScreen> {
       }
 
       return _buildButton(
-          AppLocalization.of(context)!.getTranslatedValues("playAgainBtn")!,
-          () {
-        Navigator.of(context).pushReplacementNamed(Routes.quiz, arguments: {
-          "numberOfPlayer": 1,
-          "isPlayed": widget.isPlayed,
-          "quizType": QuizTypes.audioQuestions,
-          "subcategoryId": widget.questions!.first.subcategoryId == "0"
-              ? ""
-              : widget.questions!.first.subcategoryId,
-          "categoryId": widget.questions!.first.subcategoryId == "0"
-              ? widget.questions!.first.categoryId
-              : "",
-        });
-      }, context);
+          buttonTitle:
+              AppLocalization.of(context)!.getTranslatedValues("playAgainBtn")!,
+          onTap: () {
+            Navigator.of(context).pushReplacementNamed(Routes.quiz, arguments: {
+              "numberOfPlayer": 1,
+              "isPlayed": widget.isPlayed,
+              "quizType": QuizTypes.audioQuestions,
+              "subcategoryId": widget.questions!.first.subcategoryId == "0"
+                  ? ""
+                  : widget.questions!.first.subcategoryId,
+              "categoryId": widget.questions!.first.subcategoryId == "0"
+                  ? widget.questions!.first.categoryId
+                  : "",
+            });
+          },
+          context: context);
     } else if (widget.quizType == QuizTypes.guessTheWord) {
       if (_isWinner) {
         return Container();
       }
 
       return _buildButton(
-          AppLocalization.of(context)!.getTranslatedValues("playAgainBtn")!,
-          () {
-        Navigator.of(context)
-            .pushReplacementNamed(Routes.guessTheWord, arguments: {
-          "isPlayed": widget.isPlayed,
-          "type": widget.guessTheWordQuestions!.first.subcategory == "0"
-              ? "category"
-              : "subcategory",
-          "typeId": widget.guessTheWordQuestions!.first.subcategory == "0"
-              ? widget.guessTheWordQuestions!.first.category
-              : widget.guessTheWordQuestions!.first.subcategory,
-        });
-      }, context);
+          buttonTitle:
+              AppLocalization.of(context)!.getTranslatedValues("playAgainBtn")!,
+          onTap: () {
+            Navigator.of(context)
+                .pushReplacementNamed(Routes.guessTheWord, arguments: {
+              "isPlayed": widget.isPlayed,
+              "type": widget.guessTheWordQuestions!.first.subcategory == "0"
+                  ? "category"
+                  : "subcategory",
+              "typeId": widget.guessTheWordQuestions!.first.subcategory == "0"
+                  ? widget.guessTheWordQuestions!.first.category
+                  : widget.guessTheWordQuestions!.first.subcategory,
+            });
+          },
+          context: context);
     } else if (widget.quizType == QuizTypes.funAndLearn) {
       return Container();
     } else if (widget.quizType == QuizTypes.quizZone) {
@@ -1291,51 +1288,56 @@ class _NewResultScreenState extends State<NewResultScreen> {
           return Container();
         }
         return _buildButton(
-            AppLocalization.of(context)!.getTranslatedValues("nextLevelBtn")!,
-            () {
-          //if given level is same as unlocked level then we need to update level
-          //else do not update level
-          int? unlockedLevel =
-              int.parse(widget.questions!.first.level!) == widget.unlockedLevel
+            buttonTitle: AppLocalization.of(context)!
+                .getTranslatedValues("nextLevelBtn")!,
+            onTap: () {
+              //if given level is same as unlocked level then we need to update level
+              //else do not update level
+              int? unlockedLevel = int.parse(widget.questions!.first.level!) ==
+                      widget.unlockedLevel
                   ? (widget.unlockedLevel! + 1)
                   : widget.unlockedLevel;
-          //play quiz for next level
-          Navigator.of(context).pushReplacementNamed(Routes.quiz, arguments: {
-            "numberOfPlayer": widget.numberOfPlayer,
-            "quizType": widget.quizType,
-            //if subcategory id is empty for question means we need to fetch quesitons by it's category
-            "categoryId": widget.questions!.first.subcategoryId == "0"
-                ? widget.questions!.first.categoryId
-                : "",
-            "subcategoryId": widget.questions!.first.subcategoryId == "0"
-                ? ""
-                : widget.questions!.first.subcategoryId,
-            "level": (currentLevel + 1).toString(), //increase level
-            "subcategoryMaxLevel": widget.subcategoryMaxLevel,
-            "unlockedLevel": unlockedLevel,
-          });
-        }, context);
+              //play quiz for next level
+              Navigator.of(context)
+                  .pushReplacementNamed(Routes.quiz, arguments: {
+                "numberOfPlayer": widget.numberOfPlayer,
+                "quizType": widget.quizType,
+                //if subcategory id is empty for question means we need to fetch quesitons by it's category
+                "categoryId": widget.questions!.first.subcategoryId == "0"
+                    ? widget.questions!.first.categoryId
+                    : "",
+                "subcategoryId": widget.questions!.first.subcategoryId == "0"
+                    ? ""
+                    : widget.questions!.first.subcategoryId,
+                "level": (currentLevel + 1).toString(), //increase level
+                "subcategoryMaxLevel": widget.subcategoryMaxLevel,
+                "unlockedLevel": unlockedLevel,
+              });
+            },
+            context: context);
       }
       //if user failed to complete this level
       return _buildButton(
-          AppLocalization.of(context)!.getTranslatedValues("playAgainBtn")!,
-          () {
-        //to play this level again (for quizZone quizType)
-        Navigator.of(context).pushReplacementNamed(Routes.quiz, arguments: {
-          "numberOfPlayer": widget.numberOfPlayer,
-          "quizType": widget.quizType,
-          //if subcategory id is empty for question means we need to fetch quesitons by it's category
-          "categoryId": widget.questions!.first.subcategoryId == "0"
-              ? widget.questions!.first.categoryId
-              : "",
-          "subcategoryId": widget.questions!.first.subcategoryId == "0"
-              ? ""
-              : widget.questions!.first.subcategoryId,
-          "level": widget.questions!.first.level,
-          "unlockedLevel": widget.unlockedLevel,
-          "subcategoryMaxLevel": widget.subcategoryMaxLevel,
-        });
-      }, context);
+          buttonTitle:
+              AppLocalization.of(context)!.getTranslatedValues("playAgainBtn")!,
+          onTap: () {
+            //to play this level again (for quizZone quizType)
+            Navigator.of(context).pushReplacementNamed(Routes.quiz, arguments: {
+              "numberOfPlayer": widget.numberOfPlayer,
+              "quizType": widget.quizType,
+              //if subcategory id is empty for question means we need to fetch quesitons by it's category
+              "categoryId": widget.questions!.first.subcategoryId == "0"
+                  ? widget.questions!.first.categoryId
+                  : "",
+              "subcategoryId": widget.questions!.first.subcategoryId == "0"
+                  ? ""
+                  : widget.questions!.first.subcategoryId,
+              "level": widget.questions!.first.level,
+              "unlockedLevel": widget.unlockedLevel,
+              "subcategoryMaxLevel": widget.subcategoryMaxLevel,
+            });
+          },
+          context: context);
     }
 
     return Container();
@@ -1343,32 +1345,35 @@ class _NewResultScreenState extends State<NewResultScreen> {
 
   Widget _buildShareYourScoreButton() {
     return _buildButton(
-        AppLocalization.of(context)!.getTranslatedValues("shareScoreBtn")!,
-        () async {
-      try {
-        //capturing image
-        final image = await screenshotController.capture();
-        //root directory path
-        final directory = (await getApplicationDocumentsDirectory()).path;
+        buttonTitle:
+            AppLocalization.of(context)!.getTranslatedValues("shareScoreBtn")!,
+        onTap: () async {
+          try {
+            //capturing image
+            final image = await screenshotController.capture();
+            //root directory path
+            final directory = (await getApplicationDocumentsDirectory()).path;
 
-        String fileName = DateTime.now().microsecondsSinceEpoch.toString();
-        //create file with given path
-        File file = await File("$directory/$fileName.png").create();
-        //write as bytes
-        await file.writeAsBytes(image!.buffer.asUint8List());
+            String fileName = DateTime.now().microsecondsSinceEpoch.toString();
+            //create file with given path
+            File file = await File("$directory/$fileName.png").create();
+            //write as bytes
+            await file.writeAsBytes(image!.buffer.asUint8List());
 
-        await Share.shareFiles(
-          [file.path],
-          text: AppLocalization.of(context)!.getTranslatedValues("myScoreLbl")!,
-        );
-      } catch (e) {
-        UiUtils.setSnackbar(
-            AppLocalization.of(context)!.getTranslatedValues(
-                convertErrorCodeToLanguageKey(defaultErrorMessageCode))!,
-            context,
-            false);
-      }
-    }, context);
+            await Share.shareFiles(
+              [file.path],
+              text: AppLocalization.of(context)!
+                  .getTranslatedValues("myScoreLbl")!,
+            );
+          } catch (e) {
+            UiUtils.setSnackbar(
+                AppLocalization.of(context)!.getTranslatedValues(
+                    convertErrorCodeToLanguageKey(defaultErrorMessageCode))!,
+                context,
+                false);
+          }
+        },
+        context: context);
   }
 
   Widget newReviewAnswersButton() {
@@ -1490,87 +1495,94 @@ class _NewResultScreenState extends State<NewResultScreen> {
         return Column(
           children: [
             _buildButton(
-                AppLocalization.of(context)!
-                    .getTranslatedValues("reviewAnsBtn")!, () {
-              //
-              final updateCoinsCubit = context.read<UpdateScoreAndCoinsCubit>();
-              showDialog(
-                  context: context,
-                  builder: (_) => AlertDialog(
-                        actions: [
-                          TextButton(
-                              onPressed: () {
-                                //check if user has enough coins
-                                if (int.parse(context
-                                        .read<UserDetailsCubit>()
-                                        .getCoins()!) <
-                                    reviewAnswersDeductCoins) {
-                                  UiUtils.errorMessageDialog(
-                                      context,
-                                      AppLocalization.of(context)!
-                                          .getTranslatedValues(
-                                              notEnoughCoinsKey));
-                                  return;
-                                }
+                buttonTitle: AppLocalization.of(context)!
+                    .getTranslatedValues("reviewAnsBtn")!,
+                onTap: () {
+                  //
+                  final updateCoinsCubit =
+                      context.read<UpdateScoreAndCoinsCubit>();
+                  showDialog(
+                      context: context,
+                      builder: (_) => AlertDialog(
+                            actions: [
+                              TextButton(
+                                  onPressed: () {
+                                    //check if user has enough coins
+                                    if (int.parse(context
+                                            .read<UserDetailsCubit>()
+                                            .getCoins()!) <
+                                        reviewAnswersDeductCoins) {
+                                      UiUtils.errorMessageDialog(
+                                          context,
+                                          AppLocalization.of(context)!
+                                              .getTranslatedValues(
+                                                  notEnoughCoinsKey));
+                                      return;
+                                    }
 
-                                //update coins
+                                    //update coins
 
-                                updateCoinsCubit.updateCoins(
+                                    updateCoinsCubit.updateCoins(
+                                        context
+                                            .read<UserDetailsCubit>()
+                                            .getUserId(),
+                                        reviewAnswersDeductCoins,
+                                        false,
+                                        reviewAnswerLbl);
+
                                     context
                                         .read<UserDetailsCubit>()
-                                        .getUserId(),
-                                    reviewAnswersDeductCoins,
-                                    false,
-                                    reviewAnswerLbl);
+                                        .updateCoins(
+                                          addCoin: false,
+                                          coins: reviewAnswersDeductCoins,
+                                        );
+                                    //close the dialog
 
-                                context.read<UserDetailsCubit>().updateCoins(
-                                      addCoin: false,
-                                      coins: reviewAnswersDeductCoins,
-                                    );
-                                //close the dialog
+                                    Navigator.of(context).pop();
+                                    //navigate to review answer
 
-                                Navigator.of(context).pop();
-                                //navigate to review answer
-
-                                Navigator.of(context).pushNamed(
-                                    Routes.reviewAnswers,
-                                    arguments: {
-                                      "quizType": widget.quizType,
-                                      "questions": widget.quizType ==
-                                              QuizTypes.guessTheWord
-                                          ? List<Question>.from([])
-                                          : widget.questions,
-                                      "guessTheWordQuestions": widget
-                                                  .quizType ==
-                                              QuizTypes.guessTheWord
-                                          ? widget.guessTheWordQuestions
-                                          : List<GuessTheWordQuestion>.from([]),
-                                    });
-                              },
-                              child: Text(
-                                AppLocalization.of(context)!
-                                    .getTranslatedValues(continueLbl)!,
-                                style: TextStyle(
-                                    color: Theme.of(context).primaryColor),
-                              )),
-                          TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text(
-                                AppLocalization.of(context)!
-                                    .getTranslatedValues(cancelButtonKey)!,
-                                style: TextStyle(
-                                    color: Theme.of(context).primaryColor),
-                              )),
-                        ],
-                        content: Text(
-                          "$reviewAnswersDeductCoins ${AppLocalization.of(context)!.getTranslatedValues(coinsWillBeDeductedKey)!}",
-                          style: TextStyle(
-                              color: Theme.of(context).colorScheme.secondary),
-                        ),
-                      ));
-            }, context),
+                                    Navigator.of(context).pushNamed(
+                                        Routes.reviewAnswers,
+                                        arguments: {
+                                          "quizType": widget.quizType,
+                                          "questions": widget.quizType ==
+                                                  QuizTypes.guessTheWord
+                                              ? List<Question>.from([])
+                                              : widget.questions,
+                                          "guessTheWordQuestions": widget
+                                                      .quizType ==
+                                                  QuizTypes.guessTheWord
+                                              ? widget.guessTheWordQuestions
+                                              : List<GuessTheWordQuestion>.from(
+                                                  []),
+                                        });
+                                  },
+                                  child: Text(
+                                    AppLocalization.of(context)!
+                                        .getTranslatedValues(continueLbl)!,
+                                    style: TextStyle(
+                                        color: Theme.of(context).primaryColor),
+                                  )),
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text(
+                                    AppLocalization.of(context)!
+                                        .getTranslatedValues(cancelButtonKey)!,
+                                    style: TextStyle(
+                                        color: Theme.of(context).primaryColor),
+                                  )),
+                            ],
+                            content: Text(
+                              "$reviewAnswersDeductCoins ${AppLocalization.of(context)!.getTranslatedValues(coinsWillBeDeductedKey)!}",
+                              style: TextStyle(
+                                  color:
+                                      Theme.of(context).colorScheme.secondary),
+                            ),
+                          ));
+                },
+                context: context),
             const SizedBox(
               height: 15.0,
             )
@@ -1582,19 +1594,22 @@ class _NewResultScreenState extends State<NewResultScreen> {
     return Column(
       children: [
         _buildButton(
-            AppLocalization.of(context)!.getTranslatedValues("reviewAnsBtn")!,
-            () {
-          //
-          Navigator.of(context).pushNamed(Routes.reviewAnswers, arguments: {
-            "quizType": widget.quizType,
-            "questions": widget.quizType == QuizTypes.guessTheWord
-                ? List<Question>.from([])
-                : widget.questions,
-            "guessTheWordQuestions": widget.quizType == QuizTypes.guessTheWord
-                ? widget.guessTheWordQuestions
-                : List<GuessTheWordQuestion>.from([]),
-          });
-        }, context),
+            buttonTitle: AppLocalization.of(context)!
+                .getTranslatedValues("reviewAnsBtn")!,
+            onTap: () {
+              //
+              Navigator.of(context).pushNamed(Routes.reviewAnswers, arguments: {
+                "quizType": widget.quizType,
+                "questions": widget.quizType == QuizTypes.guessTheWord
+                    ? List<Question>.from([])
+                    : widget.questions,
+                "guessTheWordQuestions":
+                    widget.quizType == QuizTypes.guessTheWord
+                        ? widget.guessTheWordQuestions
+                        : List<GuessTheWordQuestion>.from([]),
+              });
+            },
+            context: context),
         const SizedBox(
           height: 15.0,
         )
@@ -1804,9 +1819,12 @@ class _NewResultScreenState extends State<NewResultScreen> {
             height: betweenButoonSpace,
           ),
           _buildButton(
-              AppLocalization.of(context)!.getTranslatedValues("homeBtn")!, () {
-            Navigator.of(context).popUntil((route) => route.isFirst);
-          }, context),
+              buttonTitle:
+                  AppLocalization.of(context)!.getTranslatedValues("homeBtn")!,
+              onTap: () {
+                Navigator.of(context).popUntil((route) => route.isFirst);
+              },
+              context: context),
         ],
       );
     }
@@ -1820,9 +1838,12 @@ class _NewResultScreenState extends State<NewResultScreen> {
             height: betweenButoonSpace,
           ),
           _buildButton(
-              AppLocalization.of(context)!.getTranslatedValues("homeBtn")!, () {
-            Navigator.of(context).popUntil((route) => route.isFirst);
-          }, context),
+              buttonTitle:
+                  AppLocalization.of(context)!.getTranslatedValues("homeBtn")!,
+              onTap: () {
+                Navigator.of(context).popUntil((route) => route.isFirst);
+              },
+              context: context),
         ],
       );
     }
@@ -1841,9 +1862,12 @@ class _NewResultScreenState extends State<NewResultScreen> {
           height: betweenButoonSpace,
         ),
         _buildButton(
-            AppLocalization.of(context)!.getTranslatedValues("homeBtn")!, () {
-          Navigator.of(context).popUntil((route) => route.isFirst);
-        }, context),
+            buttonTitle:
+                AppLocalization.of(context)!.getTranslatedValues("homeBtn")!,
+            onTap: () {
+              Navigator.of(context).popUntil((route) => route.isFirst);
+            },
+            context: context),
       ],
     );
   }

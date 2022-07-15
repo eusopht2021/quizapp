@@ -808,20 +808,22 @@ class _ProfileState extends State<Profile> {
 
   String _correctAnswers(String correctanswers) {
     final numberFormat = NumberFormat.compactCurrency(
-      decimalDigits: 2,
+      decimalDigits: 0,
       symbol: '',
     );
-    String correctanswer = numberFormat.format(num.parse(correctanswers));
+    String correctanswer =
+        numberFormat.format(num.parse(correctanswers).toInt());
 
     return correctanswer;
   }
 
   String _totalAnswers(String totalAnswers) {
     final numberFormat = NumberFormat.compactCurrency(
-      decimalDigits: 2,
+      decimalDigits: 0,
       symbol: '',
     );
-    String answeredQuestion = numberFormat.format(num.parse(totalAnswers));
+    String answeredQuestion =
+        numberFormat.format(num.parse(totalAnswers).toInt());
 
     return answeredQuestion;
   }

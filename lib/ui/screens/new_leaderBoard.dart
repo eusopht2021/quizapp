@@ -21,7 +21,7 @@ import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/size_config.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
 import 'package:flutterquiz/utils/widgets_util.dart';
-import 'package:hive/hive.dart';
+import 'package:screenshot/screenshot.dart';
 
 class NewLeaderBoardScreen extends StatefulWidget {
   const NewLeaderBoardScreen({Key? key}) : super(key: key);
@@ -399,52 +399,56 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                         : SizedBox(),
                   );
                 }),
-                Stack(
-                  children: [
-                    Align(
-                      heightFactor: 2.3,
-                      alignment: Alignment.center,
-                      child: SizedBox(
-                        width: SizeConfig.screenWidth,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              child: SizedBox(),
+                Positioned(
+                  top: SizeConfig.screenHeight * 0.2,
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: SizedBox(
+                      width: SizeConfig.screenWidth,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: SizedBox(),
+                          ),
+                          Expanded(
+                            flex: 5,
+                            child: Image.asset(
+                              Assets.rank2,
+                              fit: BoxFit.cover,
+                              height: SizeConfig.screenHeight * 0.29,
                             ),
-                            Expanded(
-                              flex: 5,
+                          ),
+                          Expanded(
+                            flex: 5,
+                            child: Image.asset(
+                              Assets.rank1,
+                              fit: BoxFit.cover,
+                              height: SizeConfig.screenHeight * 0.35,
+                            ),
+                          ),
+                          Expanded(
+                            flex: 5,
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 80),
                               child: Image.asset(
-                                Assets.rank2,
+                                Assets.rank3,
+                                fit: BoxFit.cover,
+                                height: SizeConfig.screenHeight * 0.3,
                               ),
                             ),
-                            Expanded(
-                              flex: 5,
-                              child: Image.asset(
-                                Assets.rank1,
-                              ),
-                            ),
-                            Expanded(
-                              flex: 5,
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 80),
-                                child: Image.asset(
-                                  Assets.rank3,
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 2,
-                              child: SizedBox(),
-                            ),
-                          ],
-                        ),
+                          ),
+                          Expanded(
+                            flex: 2,
+                            child: SizedBox(),
+                          ),
+                        ],
                       ),
                     ),
-                    leaderBoardList(podiumList, controllerM, hasMore),
-                  ],
+                  ),
                 ),
+                leaderBoardList(podiumList, controllerM, hasMore),
               ],
             ),
           );
@@ -594,52 +598,56 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                         : SizedBox(),
                   );
                 }),
-                Stack(
-                  children: [
-                    Align(
-                      heightFactor: 2.3,
-                      alignment: Alignment.center,
-                      child: SizedBox(
-                        width: SizeConfig.screenWidth,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              child: SizedBox(),
+                Positioned(
+                  top: SizeConfig.screenHeight * 0.2,
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: SizedBox(
+                      width: SizeConfig.screenWidth,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: SizedBox(),
+                          ),
+                          Expanded(
+                            flex: 5,
+                            child: Image.asset(
+                              Assets.rank2,
+                              fit: BoxFit.cover,
+                              height: SizeConfig.screenHeight * 0.29,
                             ),
-                            Expanded(
-                              flex: 5,
+                          ),
+                          Expanded(
+                            flex: 5,
+                            child: Image.asset(
+                              Assets.rank1,
+                              fit: BoxFit.cover,
+                              height: SizeConfig.screenHeight * 0.35,
+                            ),
+                          ),
+                          Expanded(
+                            flex: 5,
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 80),
                               child: Image.asset(
-                                Assets.rank2,
+                                Assets.rank3,
+                                fit: BoxFit.cover,
+                                height: SizeConfig.screenHeight * 0.3,
                               ),
                             ),
-                            Expanded(
-                              flex: 5,
-                              child: Image.asset(
-                                Assets.rank1,
-                              ),
-                            ),
-                            Expanded(
-                              flex: 5,
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 80),
-                                child: Image.asset(
-                                  Assets.rank3,
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 2,
-                              child: SizedBox(),
-                            ),
-                          ],
-                        ),
+                          ),
+                          Expanded(
+                            flex: 2,
+                            child: SizedBox(),
+                          ),
+                        ],
                       ),
                     ),
-                    leaderBoardList(dailyList, controllerD, hasMore),
-                  ],
+                  ),
                 ),
+                leaderBoardList(dailyList, controllerD, hasMore),
               ],
             ),
           );
@@ -800,52 +808,56 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                         : SizedBox(),
                   );
                 }),
-                Stack(
-                  children: [
-                    Align(
-                      heightFactor: 2.3,
-                      alignment: Alignment.center,
-                      child: SizedBox(
-                        width: SizeConfig.screenWidth,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              child: SizedBox(),
+                Positioned(
+                  top: SizeConfig.screenHeight * 0.2,
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: SizedBox(
+                      width: SizeConfig.screenWidth,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: SizedBox(),
+                          ),
+                          Expanded(
+                            flex: 5,
+                            child: Image.asset(
+                              Assets.rank2,
+                              fit: BoxFit.cover,
+                              height: SizeConfig.screenHeight * 0.29,
                             ),
-                            Expanded(
-                              flex: 5,
+                          ),
+                          Expanded(
+                            flex: 5,
+                            child: Image.asset(
+                              Assets.rank1,
+                              fit: BoxFit.cover,
+                              height: SizeConfig.screenHeight * 0.35,
+                            ),
+                          ),
+                          Expanded(
+                            flex: 5,
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 80),
                               child: Image.asset(
-                                Assets.rank2,
+                                Assets.rank3,
+                                fit: BoxFit.cover,
+                                height: SizeConfig.screenHeight * 0.3,
                               ),
                             ),
-                            Expanded(
-                              flex: 5,
-                              child: Image.asset(
-                                Assets.rank1,
-                              ),
-                            ),
-                            Expanded(
-                              flex: 5,
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 80),
-                                child: Image.asset(
-                                  Assets.rank3,
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 2,
-                              child: SizedBox(),
-                            ),
-                          ],
-                        ),
+                          ),
+                          Expanded(
+                            flex: 2,
+                            child: SizedBox(),
+                          ),
+                        ],
                       ),
                     ),
-                    leaderBoardList(podiumList, controllerA, hasMore),
-                  ],
+                  ),
                 ),
+                leaderBoardList(podiumList, controllerA, hasMore),
               ],
             ),
           );
