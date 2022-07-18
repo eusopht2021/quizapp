@@ -1,19 +1,27 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterquiz/app/appLocalization.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/updateUserDetailsCubit.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/userDetailsCubit.dart';
 import 'package:flutterquiz/ui/widgets/customRoundedButton.dart';
+import 'package:flutterquiz/ui/widgets/title_text.dart';
+import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
+import 'package:flutterquiz/utils/size_config.dart';
 import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
 import 'package:flutterquiz/utils/validators.dart';
+import 'package:flutterquiz/utils/widgets_util.dart';
 
 class EditProfileFieldBottomSheetContainer extends StatefulWidget {
   final String
       fieldTitle; //value of fieldTitle will be from :  Email,Mobile Number,Name
   final String fieldValue; //
   final bool numericKeyboardEnable;
+  bool? password;
+  // UserDetailsCubit? userDetailCubit;
   final UpdateUserDetailCubit updateUserDetailCubit;
   //To determine if to close bottom sheet without updating name or not
   final bool canCloseBottomSheet;
@@ -23,6 +31,8 @@ class EditProfileFieldBottomSheetContainer extends StatefulWidget {
       required this.fieldValue,
       required this.canCloseBottomSheet,
       required this.numericKeyboardEnable,
+      this.password,
+      // this.userDetailCubit,
       required this.updateUserDetailCubit})
       : super(key: key);
 
@@ -35,6 +45,10 @@ class _EditProfileFieldBottomSheetContainerState
     extends State<EditProfileFieldBottomSheetContainer> {
   late TextEditingController textEditingController =
       TextEditingController(text: widget.fieldValue);
+
+  late TextEditingController oldPassword = TextEditingController();
+  late TextEditingController newPassword = TextEditingController();
+  late TextEditingController cnfrmPassword = TextEditingController();
 
   late String errorMessage = "";
 
@@ -91,14 +105,12 @@ class _EditProfileFieldBottomSheetContainerState
         },
         child: Container(
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20.0),
-                topRight: Radius.circular(20.0),
-              ),
-              gradient: UiUtils.buildLinerGradient([
-                Theme.of(context).scaffoldBackgroundColor,
-                Theme.of(context).canvasColor
-              ], Alignment.topCenter, Alignment.bottomCenter)),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20.0),
+              topRight: Radius.circular(20.0),
+            ),
+            color: Constants.secondaryColor,
+          ),
           child: Padding(
             padding: MediaQuery.of(context).viewInsets,
             child: Column(
@@ -124,47 +136,127 @@ class _EditProfileFieldBottomSheetContainerState
                           icon: Icon(
                             Icons.close,
                             size: 28.0,
-                            color: Theme.of(context).primaryColor,
+                            color: Colors.white,
                           )),
                     ),
                   ],
                 ),
                 Container(
                   alignment: Alignment.center,
-                  child: Text(
-                    AppLocalization.of(context)!
-                        .getTranslatedValues(widget.fieldTitle)!,
-                    style: TextStyle(
-                        fontSize: 20.0,
-                        color: Theme.of(context).primaryColor,
-                        fontWeight: FontWeight.bold),
-                  ),
+                  child: TitleText(
+                      text: AppLocalization.of(context)!
+                          .getTranslatedValues(widget.fieldTitle)!,
+                      size: 20.0,
+                      textColor: Colors.white,
+                      weight: FontWeight.bold),
                 ),
+
                 SizedBox(
                   height: 15.0,
                 ),
                 //
-                Container(
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width * (0.125),
-                  ),
-                  padding: EdgeInsetsDirectional.only(start: 20.0),
-                  height: 60.0,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    color: Theme.of(context).backgroundColor,
-                  ),
-                  child: TextField(
-                    controller: textEditingController,
-                    keyboardType: widget.numericKeyboardEnable
-                        ? TextInputType.number
-                        : TextInputType.text,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                    ),
-                  ),
-                ),
+                widget.password!
+                    ? Column(
+                        children: [
+                          Container(
+                            alignment: Alignment.center,
+                            margin: EdgeInsets.symmetric(
+                              horizontal:
+                                  MediaQuery.of(context).size.width * (0.125),
+                            ),
+                            padding: EdgeInsetsDirectional.only(start: 20.0),
+                            height: 60.0,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              // color: Theme.of(context).backgroundColor,
+                              color: Constants.white,
+                            ),
+                            child: TextField(
+                              controller: oldPassword,
+                              keyboardType: widget.numericKeyboardEnable
+                                  ? TextInputType.number
+                                  : TextInputType.text,
+                              decoration: InputDecoration(
+                                hintText: "old password",
+                                border: InputBorder.none,
+                              ),
+                            ),
+                          ),
+                          WidgetsUtil.verticalSpace16,
+                          Container(
+                            alignment: Alignment.center,
+                            margin: EdgeInsets.symmetric(
+                              horizontal:
+                                  MediaQuery.of(context).size.width * (0.125),
+                            ),
+                            padding: EdgeInsetsDirectional.only(start: 20.0),
+                            height: 60.0,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              // color: Theme.of(context).backgroundColor,
+                              color: Constants.white,
+                            ),
+                            child: TextField(
+                              controller: newPassword,
+                              keyboardType: widget.numericKeyboardEnable
+                                  ? TextInputType.number
+                                  : TextInputType.text,
+                              decoration: InputDecoration(
+                                hintText: "new password",
+                                border: InputBorder.none,
+                              ),
+                            ),
+                          ),
+                          WidgetsUtil.verticalSpace16,
+                          Container(
+                            alignment: Alignment.center,
+                            margin: EdgeInsets.symmetric(
+                              horizontal:
+                                  MediaQuery.of(context).size.width * (0.125),
+                            ),
+                            padding: EdgeInsetsDirectional.only(start: 20.0),
+                            height: 60.0,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              // color: Theme.of(context).backgroundColor,
+                              color: Constants.white,
+                            ),
+                            child: TextField(
+                              controller: cnfrmPassword,
+                              keyboardType: widget.numericKeyboardEnable
+                                  ? TextInputType.number
+                                  : TextInputType.text,
+                              decoration: InputDecoration(
+                                hintText: "confirm password",
+                                border: InputBorder.none,
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    : Container(
+                        alignment: Alignment.center,
+                        margin: EdgeInsets.symmetric(
+                          horizontal:
+                              MediaQuery.of(context).size.width * (0.125),
+                        ),
+                        padding: EdgeInsetsDirectional.only(start: 20.0),
+                        height: 60.0,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          // color: Theme.of(context).backgroundColor,
+                          color: Constants.white,
+                        ),
+                        child: TextField(
+                          controller: textEditingController,
+                          keyboardType: widget.numericKeyboardEnable
+                              ? TextInputType.number
+                              : TextInputType.text,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                          ),
+                        ),
+                      ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * (0.02),
                 ),
@@ -177,11 +269,9 @@ class _EditProfileFieldBottomSheetContainerState
                         )
                       : Container(
                           height: 20.0,
-                          child: Text(
-                            errorMessage,
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.secondary,
-                            ),
+                          child: TitleText(
+                            text: errorMessage,
+                            textColor: Constants.secondaryColor,
                           ),
                         ),
                 ),
@@ -199,7 +289,7 @@ class _EditProfileFieldBottomSheetContainerState
                       ),
                       child: CustomRoundedButton(
                         widthPercentage: MediaQuery.of(context).size.width,
-                        backgroundColor: Theme.of(context).primaryColor,
+                        backgroundColor: Constants.primaryColor,
                         buttonTitle: _buildButtonTitle(state),
                         radius: 10.0,
                         showBorder: false,
@@ -237,6 +327,16 @@ class _EditProfileFieldBottomSheetContainerState
                                     });
                                     return;
                                   }
+                                } else if (widget.fieldTitle == pwdLbl) {
+                                  log("Password change sheet");
+                                  context
+                                      .read<UserDetailsCubit>()
+                                      .changePassword(
+                                          context: context,
+                                          oldPassword: oldPassword.text,
+                                          newPassword: newPassword.text,
+                                          confrimPassword: cnfrmPassword.text);
+                                  return;
                                 }
 
                                 widget.updateUserDetailCubit.updateProfile(
@@ -255,7 +355,7 @@ class _EditProfileFieldBottomSheetContainerState
                                 );
                               },
                         fontWeight: FontWeight.bold,
-                        titleColor: Theme.of(context).backgroundColor,
+                        titleColor: Constants.white,
                         height: 40.0,
                       ),
                     );

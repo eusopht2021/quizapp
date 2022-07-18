@@ -21,6 +21,7 @@ import 'package:flutterquiz/ui/screens/exam/examsScreen.dart';
 import 'package:flutterquiz/ui/screens/introSliderScreen.dart';
 import 'package:flutterquiz/ui/screens/leaderBoardScreen.dart';
 import 'package:flutterquiz/ui/screens/new_leaderBoard.dart';
+import 'package:flutterquiz/ui/screens/new_settings/new_settings_screen.dart';
 import 'package:flutterquiz/ui/screens/notificationScreen.dart';
 import 'package:flutterquiz/ui/screens/profile/profile.dart';
 import 'package:flutterquiz/ui/screens/profile/selectProfilePictureScreen.dart';
@@ -219,8 +220,10 @@ class Routes {
       case battleRoomFindOpponent:
         return BattleRoomFindOpponentScreen.route(routeSettings);
 
+      // case appSettings:
+      //   return AppSettingsScreen.route(routeSettings);
       case appSettings:
-        return AppSettingsScreen.route(routeSettings);
+        return NewSettingsScreen.route(routeSettings);
 
       case levels:
         return LevelsScreen.route(routeSettings);

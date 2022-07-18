@@ -249,10 +249,6 @@ class ProfileScreen extends StatelessWidget {
                                   },
                                   child: Container(
                                     alignment: Alignment.center,
-                                    child: Icon(
-                                      Icons.edit,
-                                      color: Theme.of(context).primaryColor,
-                                    ),
                                     decoration: BoxDecoration(
                                         color: Theme.of(context)
                                             .backgroundColor
@@ -264,6 +260,10 @@ class ProfileScreen extends StatelessWidget {
                                         (0.14),
                                     width: MediaQuery.of(context).size.width *
                                         (0.14),
+                                    child: Icon(
+                                      Icons.edit,
+                                      color: Theme.of(context).primaryColor,
+                                    ),
                                   ),
                                 ),
                               ),

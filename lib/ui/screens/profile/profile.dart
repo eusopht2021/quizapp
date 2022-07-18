@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutterquiz/ui/screens/new_settings/new_settings_screen.dart';
 import 'package:intl/intl.dart';
 
 import 'package:fl_chart/fl_chart.dart';
@@ -113,67 +114,17 @@ class _ProfileState extends State<Profile> {
       showBackButton: widget.routefromHomeScreen,
       title: '',
       action: IconButton(
-        icon: Icon(
-          Icons.settings,
-          color: Constants.white,
-        ),
-        onPressed: () {
-          showDialog(
-              context: context,
-              builder: (_) => AlertDialog(
-                    content: Text(
-                      AppLocalization.of(context)!
-                          .getTranslatedValues("logoutDialogLbl")!,
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.secondary,
-                      ),
-                    ),
-                    actions: [
-                      TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                            Navigator.of(context).pop();
+          icon: Icon(
+            Icons.settings,
+            color: Constants.white,
+          ),
+          onPressed: () {
+            // Navigator.push(context,
+            //     MaterialPageRoute(builder: ((context) => NewSettingsScreen())));
 
-                            context
-                                .read<BadgesCubit>()
-                                .updateState(BadgesInitial());
-                            context
-                                .read<BookmarkCubit>()
-                                .updateState(BookmarkInitial());
-                            context
-                                .read<GuessTheWordBookmarkCubit>()
-                                .updateState(GuessTheWordBookmarkInitial());
-
-                            context
-                                .read<AudioQuestionBookmarkCubit>()
-                                .updateState(AudioQuestionBookmarkInitial());
-
-                            context.read<AuthCubit>().signOut();
-                            Navigator.of(context)
-                                .pushReplacementNamed(Routes.loginScreen);
-                          },
-                          child: Text(
-                            AppLocalization.of(context)!
-                                .getTranslatedValues("yesBtn")!,
-                            style: TextStyle(
-                                color: Theme.of(context).primaryColor),
-                          )),
-                      TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Text(
-                            AppLocalization.of(context)!
-                                .getTranslatedValues("noBtn")!,
-                            style: TextStyle(
-                                color: Theme.of(context).primaryColor),
-                          )),
-                    ],
-                  ));
-
-          log('Settings');
-        },
-      ),
+            Navigator.pushNamed(context, Routes.appSettings,
+                arguments: "newsettingssceeen");
+          }),
       titleColor: Constants.white,
       backgroundColor: Constants.primaryColor,
       child: BlocConsumer<UploadProfileCubit, UploadProfileState>(
@@ -288,42 +239,42 @@ class _ProfileState extends State<Profile> {
                         size: Constants.bodyXLarge,
                         weight: FontWeight.w500,
                       ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 8),
-                          decoration: BoxDecoration(
-                            color: Constants.white,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          height: 34,
-                          alignment: Alignment.center,
-                          child: DropdownButton<String>(
-                            icon: const Icon(
-                              CupertinoIcons.chevron_down,
-                            ),
-                            value: selectedStat,
-                            items: statsFilter.map((item) {
-                              return DropdownMenuItem<String>(
-                                value: item,
-                                child: TitleText(
-                                  text: item,
-                                  size: Constants.bodyXSmall,
-                                  weight: FontWeight.w500,
-                                  textColor: Constants.black1,
-                                ),
-                              );
-                            }).toList(),
-                            underline: const SizedBox(),
-                            onChanged: (String? value) {
-                              log('OnChanged: $value');
-                              setState(() {
-                                selectedStat = value!;
-                              });
-                            },
-                          ),
-                        ),
-                      ),
+                      // Align(
+                      //   alignment: Alignment.centerRight,
+                      //   child: Container(
+                      //     padding: EdgeInsets.symmetric(horizontal: 8),
+                      //     decoration: BoxDecoration(
+                      //       color: Constants.white,
+                      //       borderRadius: BorderRadius.circular(12),
+                      //     ),
+                      //     height: 34,
+                      //     alignment: Alignment.center,
+                      //     child: DropdownButton<String>(
+                      //       icon: const Icon(
+                      //         CupertinoIcons.chevron_down,
+                      //       ),
+                      //       value: selectedStat,
+                      //       items: statsFilter.map((item) {
+                      //         return DropdownMenuItem<String>(
+                      //           value: item,
+                      //           child: TitleText(
+                      //             text: item,
+                      //             size: Constants.bodyXSmall,
+                      //             weight: FontWeight.w500,
+                      //             textColor: Constants.black1,
+                      //           ),
+                      //         );
+                      //       }).toList(),
+                      //       underline: const SizedBox(),
+                      //       onChanged: (String? value) {
+                      //         log('OnChanged: $value');
+                      //         setState(() {
+                      //           selectedStat = value!;
+                      //         });
+                      //       },
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                   WidgetsUtil.verticalSpace32,
@@ -441,7 +392,8 @@ class _ProfileState extends State<Profile> {
                       ]),
                 ],
               )),
-        )
+        ),
+        WidgetsUtil.verticalSpace32,
       ],
     );
   }
@@ -497,45 +449,45 @@ class _ProfileState extends State<Profile> {
           child: Column(
             children: [
               WidgetsUtil.verticalSpace16,
-              Align(
-                alignment: Alignment.centerRight,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Constants.white,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  margin: const EdgeInsets.only(
-                    right: 16,
-                  ),
-                  height: 34,
-                  width: 100,
-                  alignment: Alignment.center,
-                  child: DropdownButton<String>(
-                    icon: const Icon(
-                      CupertinoIcons.chevron_down,
-                    ),
-                    value: selectedStat,
-                    items: statsFilter.map((item) {
-                      return DropdownMenuItem<String>(
-                        value: item,
-                        child: TitleText(
-                          text: item,
-                          size: Constants.bodyXSmall,
-                          weight: FontWeight.w500,
-                          textColor: Constants.black1,
-                        ),
-                      );
-                    }).toList(),
-                    underline: const SizedBox(),
-                    onChanged: (String? value) {
-                      log('OnChanged: $value');
-                      setState(() {
-                        selectedStat = value!;
-                      });
-                    },
-                  ),
-                ),
-              ),
+              // Align(
+              //   alignment: Alignment.centerRight,
+              //   child: Container(
+              //     decoration: BoxDecoration(
+              //       color: Constants.white,
+              //       borderRadius: BorderRadius.circular(12),
+              //     ),
+              //     margin: const EdgeInsets.only(
+              //       right: 16,
+              //     ),
+              //     height: 34,
+              //     width: 100,
+              //     alignment: Alignment.center,
+              //     child: DropdownButton<String>(
+              //       icon: const Icon(
+              //         CupertinoIcons.chevron_down,
+              //       ),
+              //       value: selectedStat,
+              //       items: statsFilter.map((item) {
+              //         return DropdownMenuItem<String>(
+              //           value: item,
+              //           child: TitleText(
+              //             text: item,
+              //             size: Constants.bodyXSmall,
+              //             weight: FontWeight.w500,
+              //             textColor: Constants.black1,
+              //           ),
+              //         );
+              //       }).toList(),
+              //       underline: const SizedBox(),
+              //       onChanged: (String? value) {
+              //         log('OnChanged: $value');
+              //         setState(() {
+              //           selectedStat = value!;
+              //         });
+              //       },
+              //     ),
+              //   ),
+              // ),
               WidgetsUtil.verticalSpace24,
               Padding(
                 padding: const EdgeInsets.only(
@@ -596,56 +548,50 @@ class _ProfileState extends State<Profile> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        child: Row(
-                          children: [
-                            CircleAvatar(
-                              radius: 5,
-                              backgroundColor: Constants.accent1,
-                            ),
-                            WidgetsUtil.horizontalSpace8,
-                            TitleText(
-                              text: 'Math',
-                              weight: FontWeight.w500,
-                              textColor: Constants.white,
-                              align: TextAlign.left,
-                            ),
-                          ],
-                        ),
+                      Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 5,
+                            backgroundColor: Constants.accent1,
+                          ),
+                          WidgetsUtil.horizontalSpace8,
+                          TitleText(
+                            text: 'Math',
+                            weight: FontWeight.w500,
+                            textColor: Constants.white,
+                            align: TextAlign.left,
+                          ),
+                        ],
                       ),
-                      Container(
-                        child: Row(
-                          children: [
-                            CircleAvatar(
-                              radius: 5,
-                              backgroundColor: Constants.accent2,
-                            ),
-                            WidgetsUtil.horizontalSpace8,
-                            TitleText(
-                              text: 'Sports',
-                              weight: FontWeight.w500,
-                              textColor: Constants.white,
-                              align: TextAlign.left,
-                            ),
-                          ],
-                        ),
+                      Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 5,
+                            backgroundColor: Constants.accent2,
+                          ),
+                          WidgetsUtil.horizontalSpace8,
+                          TitleText(
+                            text: 'Sports',
+                            weight: FontWeight.w500,
+                            textColor: Constants.white,
+                            align: TextAlign.left,
+                          ),
+                        ],
                       ),
-                      Container(
-                        child: Row(
-                          children: [
-                            CircleAvatar(
-                              radius: 5,
-                              backgroundColor: Constants.secondaryColor,
-                            ),
-                            WidgetsUtil.horizontalSpace8,
-                            TitleText(
-                              text: 'Music',
-                              weight: FontWeight.w500,
-                              textColor: Constants.white,
-                              align: TextAlign.left,
-                            ),
-                          ],
-                        ),
+                      Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 5,
+                            backgroundColor: Constants.secondaryColor,
+                          ),
+                          WidgetsUtil.horizontalSpace8,
+                          TitleText(
+                            text: 'Music',
+                            weight: FontWeight.w500,
+                            textColor: Constants.white,
+                            align: TextAlign.left,
+                          ),
+                        ],
                       ),
                       const SizedBox(
                         width: 20,

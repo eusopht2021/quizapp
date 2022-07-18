@@ -637,6 +637,19 @@ class _HomeScreenState extends State<HomeScreen>
           position: profileSlideAnimation,
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 10.0),
+            margin: EdgeInsets.only(
+                top: MediaQuery.of(context).size.height * (0.085) +
+                    statusBarPadding),
+            decoration: BoxDecoration(
+              color: Theme.of(context).backgroundColor,
+              //gradient: UiUtils.buildLinerGradient([Theme.of(context).primaryColor, Theme.of(context).colorScheme.secondary], Alignment.topCenter, Alignment.bottomCenter),
+              boxShadow: [
+                UiUtils.buildBoxShadow(offset: Offset(5, 5), blurRadius: 10.0),
+              ],
+              borderRadius: BorderRadius.circular(30.0),
+            ),
+            width: MediaQuery.of(context).size.width * (0.84),
+            height: MediaQuery.of(context).size.height * (0.16),
             child: BlocBuilder<UserDetailsCubit, UserDetailsState>(
               bloc: context.read<UserDetailsCubit>(),
               builder: (context, state) {
@@ -717,19 +730,6 @@ class _HomeScreenState extends State<HomeScreen>
                 return Container();
               },
             ),
-            margin: EdgeInsets.only(
-                top: MediaQuery.of(context).size.height * (0.085) +
-                    statusBarPadding),
-            decoration: BoxDecoration(
-              color: Theme.of(context).backgroundColor,
-              //gradient: UiUtils.buildLinerGradient([Theme.of(context).primaryColor, Theme.of(context).colorScheme.secondary], Alignment.topCenter, Alignment.bottomCenter),
-              boxShadow: [
-                UiUtils.buildBoxShadow(offset: Offset(5, 5), blurRadius: 10.0),
-              ],
-              borderRadius: BorderRadius.circular(30.0),
-            ),
-            width: MediaQuery.of(context).size.width * (0.84),
-            height: MediaQuery.of(context).size.height * (0.16),
           ),
         ),
       ),

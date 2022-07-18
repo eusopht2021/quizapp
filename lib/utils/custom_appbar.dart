@@ -8,12 +8,16 @@ class CustomAppBar extends StatelessWidget {
   final Function()? onBackTapped;
   final String? backIcon;
   final bool? showBackButton;
+  final Color? textColor;
+  final Color? iconColor;
   const CustomAppBar({
     Key? key,
     required this.title,
     this.onBackTapped,
     this.backIcon,
     this.showBackButton,
+    this.textColor,
+    this.iconColor,
   }) : super(key: key);
 
   @override
@@ -23,7 +27,7 @@ class CustomAppBar extends StatelessWidget {
         text: title,
         weight: FontWeight.w500,
         size: Constants.heading3,
-        textColor: Constants.white,
+        textColor: textColor ?? Constants.white,
       ),
       backgroundColor: Colors.transparent,
       elevation: 0.0,
@@ -37,7 +41,7 @@ class CustomAppBar extends StatelessWidget {
                 ),
                 child: Image.asset(
                   backIcon ?? Assets.backIcon,
-                  color: Constants.white,
+                  color: iconColor ?? Constants.white,
                 ),
               ),
             )

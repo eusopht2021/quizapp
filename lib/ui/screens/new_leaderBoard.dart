@@ -21,7 +21,6 @@ import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/size_config.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
 import 'package:flutterquiz/utils/widgets_util.dart';
-import 'package:screenshot/screenshot.dart';
 
 class NewLeaderBoardScreen extends StatefulWidget {
   const NewLeaderBoardScreen({Key? key}) : super(key: key);
@@ -49,43 +48,41 @@ class NewLeaderBoardScreen extends StatefulWidget {
 }
 
 class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
-  ScrollController controllerM = ScrollController();
-  ScrollController controllerA = ScrollController();
-  ScrollController controllerD = ScrollController();
   @override
   void initState() {
-    controllerM.addListener(scrollListenerM);
-    controllerA.addListener(scrollListenerA);
-    controllerD.addListener(scrollListenerD);
-    Future.delayed(Duration.zero, () {
-      context
-          .read<LeaderBoardDailyCubit>()
-          .fetchLeaderBoard("20", context.read<UserDetailsCubit>().getUserId());
-    });
-    Future.delayed(Duration.zero, () {
-      context
-          .read<LeaderBoardMonthlyCubit>()
-          .fetchLeaderBoard("20", context.read<UserDetailsCubit>().getUserId());
-    });
-    Future.delayed(Duration.zero, () {
-      context
-          .read<LeaderBoardAllTimeCubit>()
-          .fetchLeaderBoard("20", context.read<UserDetailsCubit>().getUserId());
-    });
-
+    log('Leaderboard');
+    Future.delayed(
+      Duration.zero,
+      () {
+        context.read<LeaderBoardDailyCubit>().fetchLeaderBoard(
+              "20",
+              context.read<UserDetailsCubit>().getUserId(),
+            );
+      },
+    );
+    Future.delayed(
+      Duration.zero,
+      () {
+        context.read<LeaderBoardMonthlyCubit>().fetchLeaderBoard(
+              "20",
+              context.read<UserDetailsCubit>().getUserId(),
+            );
+      },
+    );
+    Future.delayed(
+      Duration.zero,
+      () {
+        context.read<LeaderBoardAllTimeCubit>().fetchLeaderBoard(
+              "20",
+              context.read<UserDetailsCubit>().getUserId(),
+            );
+      },
+    );
     super.initState();
   }
 
-  @override
-  void dispose() {
-    controllerM.removeListener(scrollListenerM);
-    controllerA.removeListener(scrollListenerA);
-    controllerD.removeListener(scrollListenerD);
-    super.dispose();
-  }
-
-  scrollListenerM() {
-    if (controllerM.position.maxScrollExtent == controllerM.offset) {
+  scrollListenerM(ScrollController controller) {
+    if (controller.position.maxScrollExtent == controller.offset) {
       if (context.read<LeaderBoardMonthlyCubit>().hasMoreData()) {
         context.read<LeaderBoardMonthlyCubit>().fetchMoreLeaderBoardData(
             "20", context.read<UserDetailsCubit>().getUserId());
@@ -93,8 +90,8 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
     }
   }
 
-  scrollListenerA() {
-    if (controllerA.position.maxScrollExtent == controllerA.offset) {
+  scrollListenerA(ScrollController controller) {
+    if (controller.position.maxScrollExtent == controller.offset) {
       if (context.read<LeaderBoardAllTimeCubit>().hasMoreData()) {
         log("Has more items - All Time");
         context.read<LeaderBoardAllTimeCubit>().fetchMoreLeaderBoardData(
@@ -103,8 +100,8 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
     }
   }
 
-  scrollListenerD() {
-    if (controllerD.position.maxScrollExtent == controllerD.offset) {
+  scrollListenerD(ScrollController controller) {
+    if (controller.position.maxScrollExtent == controller.offset) {
       if (context.read<LeaderBoardDailyCubit>().hasMoreData()) {
         context.read<LeaderBoardDailyCubit>().fetchMoreLeaderBoardData(
             "20", context.read<UserDetailsCubit>().getUserId());
@@ -255,462 +252,58 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
 
   Widget _monthlyTab() {
     return BlocConsumer<LeaderBoardMonthlyCubit, LeaderBoardMonthlyState>(
-        bloc: context.read<LeaderBoardMonthlyCubit>(),
-        listener: (context, state) {
-          if (state is LeaderBoardMonthlyFailure) {
-            if (state.errorMessage == unauthorizedAccessCode) {
-              //
-              UiUtils.showAlreadyLoggedInDialog(
-                context: context,
-              );
-              return;
-            }
-          }
-        },
-        builder: (context, state) {
-          if (state is LeaderBoardMonthlyProgress ||
-              state is LeaderBoardAllTimeInitial) {
-            return Center(
-              child: CircularProgressIndicator(
-                color: Constants.white,
-              ),
+      bloc: context.read<LeaderBoardMonthlyCubit>(),
+      listener: (context, state) {
+        if (state is LeaderBoardMonthlyFailure) {
+          if (state.errorMessage == unauthorizedAccessCode) {
+            //
+            UiUtils.showAlreadyLoggedInDialog(
+              context: context,
             );
+            return;
           }
-          if (state is LeaderBoardMonthlyFailure) {
-            return ErrorContainer(
-              showBackButton: false,
-              errorMessage: AppLocalization.of(context)!.getTranslatedValues(
-                  convertErrorCodeToLanguageKey(state.errorMessage))!,
-              onTapRetry: () {
-                context
-                    .read<LeaderBoardMonthlyCubit>()
-                    .fetchMoreLeaderBoardData(
-                        "20", context.read<UserDetailsCubit>().getUserId());
-              },
-              showErrorImage: true,
-              errorMessageColor: Theme.of(context).primaryColor,
-            );
-          }
-          final monthlyList =
-              (state as LeaderBoardMonthlySuccess).leaderBoardDetails;
-          final hasMore = state.hasMore;
-          final podiumList = [];
-          for (int i = 0; i < monthlyList.length; i++) {
-            if (i == 0) {
-              continue;
-            } else {
-              podiumList.add(monthlyList[i]);
-            }
-          }
-          return SizedBox(
-            height: SizeConfig.screenHeight,
-            child: Stack(
-              children: [
-                ...List.generate(podiumList.length, (index) {
-                  return Positioned(
-                    top: _topPosition(index),
-                    left: _leftPosition(index),
-                    right: _rightPosition(index),
-                    child: index < 3
-                        ? Column(children: [
-                            Badge(
-                              elevation: 0,
-                              showBadge: true,
-                              badgeContent: Image.asset(Assets.portugal),
-                              badgeColor: Colors.transparent,
-                              position: BadgePosition.bottomEnd(),
-                              child: Badge(
-                                  elevation: 0,
-                                  showBadge: true,
-                                  badgeContent: index == 0
-                                      ? SvgPicture.asset(
-                                          Assets.crown,
-                                          height: 30,
-                                        )
-                                      : SizedBox(),
-                                  position:
-                                      BadgePosition.topEnd(end: 5, top: -20),
-                                  badgeColor: Colors.transparent,
-                                  child: CircleAvatar(
-                                    radius: 25,
-                                    backgroundColor: Colors.transparent,
-                                    backgroundImage: CachedNetworkImageProvider(
-                                      index == 0
-                                          ? podiumList[0]['profile']
-                                          : index == 1
-                                              ? podiumList[1]['profile']
-                                              : index == 2
-                                                  ? podiumList[2]['profile']
-                                                  : "",
-                                    ),
-                                  )),
-                            ),
-                            WidgetsUtil.verticalSpace20,
-                            SizedBox(
-                              width: 100,
-                              height: 20,
-                              child: TitleText(
-                                text: index == 0
-                                    ? podiumList[0]['name']!.isNotEmpty
-                                        ? podiumList[0]['name']!
-                                        : ""
-                                    : index == 1
-                                        ? podiumList[1]['name']!.isNotEmpty
-                                            ? podiumList[1]['name']!
-                                            : ""
-                                        : index == 2
-                                            ? podiumList[2]['name']!.isNotEmpty
-                                                ? podiumList[2]['name']!
-                                                : ""
-                                            : "",
-                                textColor: Constants.white,
-                                size: Constants.bodySmall,
-                                align: TextAlign.center,
-                              ),
-                            ),
-                            WidgetsUtil.verticalSpace4,
-                            index < 3
-                                ? _QPContainer(
-                                    Center(
-                                      child: TitleText(
-                                        text: index == 0
-                                            ? podiumList[0]['score']!.isNotEmpty
-                                                ? podiumList[0]['score']!
-                                                : ""
-                                            : index == 1
-                                                ? podiumList[1]['score']!
-                                                        .isNotEmpty
-                                                    ? podiumList[1]['score']!
-                                                    : ""
-                                                : index == 2
-                                                    ? podiumList[2]['score']!
-                                                            .isNotEmpty
-                                                        ? podiumList[2]
-                                                            ['score']!
-                                                        : ""
-                                                    : "",
-                                        size: Constants.bodyXSmall,
-                                        textColor: Constants.white,
-                                      ),
-                                    ),
-                                  )
-                                : SizedBox(),
-                          ])
-                        : SizedBox(),
-                  );
-                }),
-                Positioned(
-                  top: SizeConfig.screenHeight * 0.2,
-                  child: Align(
-                    alignment: Alignment.topCenter,
-                    child: SizedBox(
-                      width: SizeConfig.screenWidth,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            flex: 2,
-                            child: SizedBox(),
-                          ),
-                          Expanded(
-                            flex: 5,
-                            child: Image.asset(
-                              Assets.rank2,
-                              fit: BoxFit.cover,
-                              height: SizeConfig.screenHeight * 0.29,
-                            ),
-                          ),
-                          Expanded(
-                            flex: 5,
-                            child: Image.asset(
-                              Assets.rank1,
-                              fit: BoxFit.cover,
-                              height: SizeConfig.screenHeight * 0.35,
-                            ),
-                          ),
-                          Expanded(
-                            flex: 5,
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 80),
-                              child: Image.asset(
-                                Assets.rank3,
-                                fit: BoxFit.cover,
-                                height: SizeConfig.screenHeight * 0.3,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 2,
-                            child: SizedBox(),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                leaderBoardList(podiumList, controllerM, hasMore),
-              ],
-            ),
-          );
-        });
-  }
-
-  Widget _dailyTab() {
-    return BlocConsumer<LeaderBoardDailyCubit, LeaderBoardDailyState>(
-        bloc: context.read<LeaderBoardDailyCubit>(),
-        listener: (context, state) {
-          if (state is LeaderBoardDailyFailure) {
-            if (state.errorMessage == unauthorizedAccessCode) {
-              //
-              UiUtils.showAlreadyLoggedInDialog(
-                context: context,
-              );
-              return;
-            }
-          }
-        },
-        builder: (context, state) {
-          if (state is LeaderBoardDailyProgress ||
-              state is LeaderBoardDailyInitial) {
-            return Center(
-                child: CircularProgressIndicator(
+        }
+      },
+      builder: (context, state) {
+        if (state is LeaderBoardMonthlyProgress ||
+            state is LeaderBoardAllTimeInitial) {
+          return Center(
+            child: CircularProgressIndicator(
               color: Constants.white,
-            ));
-          }
-          if (state is LeaderBoardDailyFailure) {
-            return ErrorContainer(
-              showBackButton: false,
-              errorMessage: AppLocalization.of(context)!.getTranslatedValues(
-                  convertErrorCodeToLanguageKey(state.errorMessage))!,
-              onTapRetry: () {
-                context.read<LeaderBoardDailyCubit>().fetchMoreLeaderBoardData(
-                    "20", context.read<UserDetailsCubit>().getUserId());
-              },
-              showErrorImage: true,
-              errorMessageColor: Theme.of(context).primaryColor,
-            );
-          }
-          final dailyList =
-              (state as LeaderBoardDailySuccess).leaderBoardDetails;
-          final hasMore = state.hasMore;
-          final podiumList = [];
-          for (int i = 0; i < dailyList.length; i++) {
-            if (i == 0) {
-              continue;
-            } else {
-              podiumList.add(dailyList[i]);
-            }
-          }
-          return SizedBox(
-            height: SizeConfig.screenHeight,
-            child: Stack(
-              children: [
-                ...List.generate(podiumList.length, (index) {
-                  return Positioned(
-                    top: _topPosition(index),
-                    left: _leftPosition(index),
-                    right: _rightPosition(index),
-                    child: index < 3
-                        ? Column(children: [
-                            Badge(
-                              elevation: 0,
-                              showBadge: true,
-                              badgeContent: Image.asset(Assets.portugal),
-                              badgeColor: Colors.transparent,
-                              position: BadgePosition.bottomEnd(),
-                              child: Badge(
-                                  elevation: 0,
-                                  showBadge: true,
-                                  badgeContent: index == 0
-                                      ? SvgPicture.asset(
-                                          Assets.crown,
-                                          height: 30,
-                                        )
-                                      : SizedBox(),
-                                  position:
-                                      BadgePosition.topEnd(end: 5, top: -20),
-                                  badgeColor: Colors.transparent,
-                                  child: CircleAvatar(
-                                    radius: 25,
-                                    backgroundColor: Colors.transparent,
-                                    backgroundImage: CachedNetworkImageProvider(
-                                      index == 0
-                                          ? podiumList[0]['profile']
-                                          : index == 1
-                                              ? podiumList[1]['profile']
-                                              : index == 2
-                                                  ? podiumList[2]['profile']
-                                                  : "",
-                                    ),
-                                  )),
-                            ),
-                            WidgetsUtil.verticalSpace20,
-                            SizedBox(
-                              width: 100,
-                              height: 20,
-                              child: TitleText(
-                                text: index == 0
-                                    ? podiumList[0]['name']!.isNotEmpty
-                                        ? podiumList[0]['name']!
-                                        : ""
-                                    : index == 1
-                                        ? podiumList[1]['name']!.isNotEmpty
-                                            ? podiumList[1]['name']!
-                                            : ""
-                                        : index == 2
-                                            ? podiumList[2]['name']!.isNotEmpty
-                                                ? podiumList[2]['name']!
-                                                : ""
-                                            : "",
-                                textColor: Constants.white,
-                                size: Constants.bodySmall,
-                                align: TextAlign.center,
-                              ),
-                            ),
-                            WidgetsUtil.verticalSpace4,
-                            index < 3
-                                ? _QPContainer(
-                                    Center(
-                                      child: TitleText(
-                                        text: index == 0
-                                            ? podiumList[0]['score']!.isNotEmpty
-                                                ? podiumList[0]['score']!
-                                                : ""
-                                            : index == 1
-                                                ? podiumList[1]['score']!
-                                                        .isNotEmpty
-                                                    ? podiumList[1]['score']!
-                                                    : ""
-                                                : index == 2
-                                                    ? podiumList[2]['score']!
-                                                            .isNotEmpty
-                                                        ? podiumList[2]
-                                                            ['score']!
-                                                        : ""
-                                                    : "",
-                                        size: Constants.bodyXSmall,
-                                        textColor: Constants.white,
-                                      ),
-                                    ),
-                                  )
-                                : SizedBox(),
-                          ])
-                        : SizedBox(),
-                  );
-                }),
-                Positioned(
-                  top: SizeConfig.screenHeight * 0.2,
-                  child: Align(
-                    alignment: Alignment.topCenter,
-                    child: SizedBox(
-                      width: SizeConfig.screenWidth,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            flex: 2,
-                            child: SizedBox(),
-                          ),
-                          Expanded(
-                            flex: 5,
-                            child: Image.asset(
-                              Assets.rank2,
-                              fit: BoxFit.cover,
-                              height: SizeConfig.screenHeight * 0.29,
-                            ),
-                          ),
-                          Expanded(
-                            flex: 5,
-                            child: Image.asset(
-                              Assets.rank1,
-                              fit: BoxFit.cover,
-                              height: SizeConfig.screenHeight * 0.35,
-                            ),
-                          ),
-                          Expanded(
-                            flex: 5,
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 80),
-                              child: Image.asset(
-                                Assets.rank3,
-                                fit: BoxFit.cover,
-                                height: SizeConfig.screenHeight * 0.3,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 2,
-                            child: SizedBox(),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                leaderBoardList(dailyList, controllerD, hasMore),
-              ],
             ),
           );
-        });
-  }
-
-  Widget _allTimeShow() {
-    return BlocConsumer<LeaderBoardAllTimeCubit, LeaderBoardAllTimeState>(
-        bloc: context.read<LeaderBoardAllTimeCubit>(),
-        listener: (context, state) {
-          if (state is LeaderBoardAllTimeFailure) {
-            if (state.errorMessage == unauthorizedAccessCode) {
-              //
-              UiUtils.showAlreadyLoggedInDialog(
-                context: context,
-              );
-              return;
-            }
+        }
+        if (state is LeaderBoardMonthlyFailure) {
+          return ErrorContainer(
+            showBackButton: false,
+            errorMessage: AppLocalization.of(context)!.getTranslatedValues(
+                convertErrorCodeToLanguageKey(state.errorMessage))!,
+            onTapRetry: () {
+              context.read<LeaderBoardMonthlyCubit>().fetchMoreLeaderBoardData(
+                  "20", context.read<UserDetailsCubit>().getUserId());
+            },
+            showErrorImage: true,
+            errorMessageColor: Theme.of(context).primaryColor,
+          );
+        }
+        final monthlyList =
+            (state as LeaderBoardMonthlySuccess).leaderBoardDetails;
+        final hasMore = state.hasMore;
+        final podiumList = [];
+        for (int i = 0; i < monthlyList.length; i++) {
+          if (i == 0) {
+            continue;
+          } else {
+            podiumList.add(monthlyList[i]);
           }
-        },
-        builder: (context, state) {
-          if (state is LeaderBoardAllTimeProgress ||
-              state is LeaderBoardAllTimeInitial) {
-            return Center(
-              child: CircularProgressIndicator(
-                color: Constants.white,
-              ),
-            );
-          }
-          if (state is LeaderBoardAllTimeFailure) {
-            return ErrorContainer(
-              showBackButton: false,
-              errorMessage: AppLocalization.of(context)!.getTranslatedValues(
-                  convertErrorCodeToLanguageKey(state.errorMessage))!,
-              onTapRetry: () {
-                context
-                    .read<LeaderBoardAllTimeCubit>()
-                    .fetchMoreLeaderBoardData(
-                        "20", context.read<UserDetailsCubit>().getUserId());
-              },
-              showErrorImage: true,
-              errorMessageColor: Theme.of(context).primaryColor,
-            );
-          }
-          final allTimeList =
-              (state as LeaderBoardAllTimeSuccess).leaderBoardDetails;
-          final hasMore = state.hasMore;
-
-          final podiumList = [];
-          for (int i = 0; i < allTimeList.length; i++) {
-            if (i == 0) {
-              continue;
-            } else {
-              podiumList.add(allTimeList[i]);
-            }
-          }
-          log(" podium ${podiumList.length}   all time : ${allTimeList.length}");
-
-          return SizedBox(
-            height: SizeConfig.screenHeight,
-            child: Stack(
-              children: [
-                ...List.generate(podiumList.length, (index) {
+        }
+        return SizedBox(
+          height: SizeConfig.screenHeight,
+          child: Stack(
+            children: [
+              ...List.generate(
+                podiumList.length,
+                (index) {
                   return Positioned(
                     top: _topPosition(index),
                     left: _leftPosition(index),
@@ -773,11 +366,12 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                                   textColor: Constants.white,
                                   size: Constants.bodySmall,
                                   align: TextAlign.center,
+                                  maxlines: 1,
                                 ),
                               ),
                               WidgetsUtil.verticalSpace4,
                               index < 3
-                                  ? _QPContainer(
+                                  ? _qpContainer(
                                       Center(
                                         child: TitleText(
                                           text: index == 0
@@ -807,65 +401,481 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                           )
                         : SizedBox(),
                   );
-                }),
-                Positioned(
-                  top: SizeConfig.screenHeight * 0.2,
-                  child: Align(
-                    alignment: Alignment.topCenter,
-                    child: SizedBox(
-                      width: SizeConfig.screenWidth,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            flex: 2,
-                            child: SizedBox(),
+                },
+              ),
+              Positioned(
+                top: SizeConfig.screenHeight * 0.2,
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: SizedBox(
+                    width: SizeConfig.screenWidth,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: SizedBox(),
+                        ),
+                        Expanded(
+                          flex: 5,
+                          child: Image.asset(
+                            Assets.rank2,
+                            fit: BoxFit.fill,
+                            height: SizeConfig.screenHeight * 0.29,
                           ),
-                          Expanded(
-                            flex: 5,
+                        ),
+                        Expanded(
+                          flex: 5,
+                          child: Image.asset(
+                            Assets.rank1,
+                            fit: BoxFit.fill,
+                            height: SizeConfig.screenHeight * 0.35,
+                          ),
+                        ),
+                        Expanded(
+                          flex: 5,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 80),
                             child: Image.asset(
-                              Assets.rank2,
-                              fit: BoxFit.cover,
-                              height: SizeConfig.screenHeight * 0.29,
+                              Assets.rank3,
+                              fit: BoxFit.fill,
+                              height: SizeConfig.screenHeight * 0.3,
                             ),
                           ),
-                          Expanded(
-                            flex: 5,
-                            child: Image.asset(
-                              Assets.rank1,
-                              fit: BoxFit.cover,
-                              height: SizeConfig.screenHeight * 0.35,
-                            ),
-                          ),
-                          Expanded(
-                            flex: 5,
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 80),
-                              child: Image.asset(
-                                Assets.rank3,
-                                fit: BoxFit.cover,
-                                height: SizeConfig.screenHeight * 0.3,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 2,
-                            child: SizedBox(),
-                          ),
-                        ],
-                      ),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: SizedBox(),
+                        ),
+                      ],
                     ),
                   ),
                 ),
-                leaderBoardList(podiumList, controllerA, hasMore),
-              ],
-            ),
-          );
-        });
+              ),
+              leaderBoardList(
+                podiumList,
+                hasMore,
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
-  Widget leaderBoardList(
-      List leaderBoardList, ScrollController controller_, hasMore) {
+  Widget _dailyTab() {
+    return BlocConsumer<LeaderBoardDailyCubit, LeaderBoardDailyState>(
+      bloc: context.read<LeaderBoardDailyCubit>(),
+      listener: (context, state) {
+        if (state is LeaderBoardDailyFailure) {
+          if (state.errorMessage == unauthorizedAccessCode) {
+            //
+            UiUtils.showAlreadyLoggedInDialog(
+              context: context,
+            );
+            return;
+          }
+        }
+      },
+      builder: (context, state) {
+        if (state is LeaderBoardDailyProgress ||
+            state is LeaderBoardDailyInitial) {
+          return Center(
+              child: CircularProgressIndicator(
+            color: Constants.white,
+          ));
+        }
+        if (state is LeaderBoardDailyFailure) {
+          return ErrorContainer(
+            showBackButton: false,
+            errorMessage: AppLocalization.of(context)!.getTranslatedValues(
+                convertErrorCodeToLanguageKey(state.errorMessage))!,
+            onTapRetry: () {
+              context.read<LeaderBoardDailyCubit>().fetchMoreLeaderBoardData(
+                  "20", context.read<UserDetailsCubit>().getUserId());
+            },
+            showErrorImage: true,
+            errorMessageColor: Theme.of(context).primaryColor,
+          );
+        }
+        final dailyList = (state as LeaderBoardDailySuccess).leaderBoardDetails;
+        final hasMore = state.hasMore;
+        final podiumList = [];
+        for (int i = 0; i < dailyList.length; i++) {
+          if (i == 0) {
+            continue;
+          } else {
+            podiumList.add(dailyList[i]);
+          }
+        }
+        return SizedBox(
+          height: SizeConfig.screenHeight,
+          child: Stack(
+            children: [
+              ...List.generate(podiumList.length, (index) {
+                return Positioned(
+                  top: _topPosition(index),
+                  left: _leftPosition(index),
+                  right: _rightPosition(index),
+                  child: index < 3
+                      ? Column(children: [
+                          Badge(
+                            elevation: 0,
+                            showBadge: true,
+                            badgeContent: Image.asset(Assets.portugal),
+                            badgeColor: Colors.transparent,
+                            position: BadgePosition.bottomEnd(),
+                            child: Badge(
+                                elevation: 0,
+                                showBadge: true,
+                                badgeContent: index == 0
+                                    ? SvgPicture.asset(
+                                        Assets.crown,
+                                        height: 30,
+                                      )
+                                    : SizedBox(),
+                                position:
+                                    BadgePosition.topEnd(end: 5, top: -20),
+                                badgeColor: Colors.transparent,
+                                child: CircleAvatar(
+                                  radius: 25,
+                                  backgroundColor: Colors.transparent,
+                                  backgroundImage: CachedNetworkImageProvider(
+                                    index == 0
+                                        ? podiumList[0]['profile']
+                                        : index == 1
+                                            ? podiumList[1]['profile']
+                                            : index == 2
+                                                ? podiumList[2]['profile']
+                                                : "",
+                                  ),
+                                )),
+                          ),
+                          WidgetsUtil.verticalSpace20,
+                          SizedBox(
+                            width: 100,
+                            height: 20,
+                            child: TitleText(
+                              text: index == 0
+                                  ? podiumList[0]['name']!.isNotEmpty
+                                      ? podiumList[0]['name']!
+                                      : ""
+                                  : index == 1
+                                      ? podiumList[1]['name']!.isNotEmpty
+                                          ? podiumList[1]['name']!
+                                          : ""
+                                      : index == 2
+                                          ? podiumList[2]['name']!.isNotEmpty
+                                              ? podiumList[2]['name']!
+                                              : ""
+                                          : "",
+                              textColor: Constants.white,
+                              size: Constants.bodySmall,
+                              align: TextAlign.center,
+                              maxlines: 1,
+                            ),
+                          ),
+                          WidgetsUtil.verticalSpace4,
+                          index < 3
+                              ? _qpContainer(
+                                  Center(
+                                    child: TitleText(
+                                      text: index == 0
+                                          ? podiumList[0]['score']!.isNotEmpty
+                                              ? podiumList[0]['score']!
+                                              : ""
+                                          : index == 1
+                                              ? podiumList[1]['score']!
+                                                      .isNotEmpty
+                                                  ? podiumList[1]['score']!
+                                                  : ""
+                                              : index == 2
+                                                  ? podiumList[2]['score']!
+                                                          .isNotEmpty
+                                                      ? podiumList[2]['score']!
+                                                      : ""
+                                                  : "",
+                                      size: Constants.bodyXSmall,
+                                      textColor: Constants.white,
+                                    ),
+                                  ),
+                                )
+                              : SizedBox(),
+                        ])
+                      : SizedBox(),
+                );
+              }),
+              Positioned(
+                top: SizeConfig.screenHeight * 0.2,
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: SizedBox(
+                    width: SizeConfig.screenWidth,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: SizedBox(),
+                        ),
+                        Expanded(
+                          flex: 5,
+                          child: Image.asset(
+                            Assets.rank2,
+                            fit: BoxFit.fill,
+                            height: SizeConfig.screenHeight * 0.29,
+                          ),
+                        ),
+                        Expanded(
+                          flex: 5,
+                          child: Image.asset(
+                            Assets.rank1,
+                            fit: BoxFit.fill,
+                            height: SizeConfig.screenHeight * 0.35,
+                          ),
+                        ),
+                        Expanded(
+                          flex: 5,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 80),
+                            child: Image.asset(
+                              Assets.rank3,
+                              fit: BoxFit.fill,
+                              height: SizeConfig.screenHeight * 0.3,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: SizedBox(),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              leaderBoardList(
+                dailyList,
+                hasMore,
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _allTimeShow() {
+    return BlocConsumer<LeaderBoardAllTimeCubit, LeaderBoardAllTimeState>(
+      bloc: context.read<LeaderBoardAllTimeCubit>(),
+      listener: (context, state) {
+        if (state is LeaderBoardAllTimeFailure) {
+          if (state.errorMessage == unauthorizedAccessCode) {
+            //
+            UiUtils.showAlreadyLoggedInDialog(
+              context: context,
+            );
+            return;
+          }
+        }
+      },
+      builder: (context, state) {
+        if (state is LeaderBoardAllTimeProgress ||
+            state is LeaderBoardAllTimeInitial) {
+          return Center(
+            child: CircularProgressIndicator(
+              color: Constants.white,
+            ),
+          );
+        }
+        if (state is LeaderBoardAllTimeFailure) {
+          return ErrorContainer(
+            showBackButton: false,
+            errorMessage: AppLocalization.of(context)!.getTranslatedValues(
+                convertErrorCodeToLanguageKey(state.errorMessage))!,
+            onTapRetry: () {
+              context.read<LeaderBoardAllTimeCubit>().fetchMoreLeaderBoardData(
+                  "20", context.read<UserDetailsCubit>().getUserId());
+            },
+            showErrorImage: true,
+            errorMessageColor: Theme.of(context).primaryColor,
+          );
+        }
+        final allTimeList =
+            (state as LeaderBoardAllTimeSuccess).leaderBoardDetails;
+        final hasMore = state.hasMore;
+
+        final podiumList = [];
+        for (int i = 0; i < allTimeList.length; i++) {
+          if (i == 0) {
+            continue;
+          } else {
+            podiumList.add(allTimeList[i]);
+          }
+        }
+        log(" podium ${podiumList.length}   all time : ${allTimeList.length}");
+
+        return SizedBox(
+          height: SizeConfig.screenHeight,
+          child: Stack(
+            children: [
+              ...List.generate(podiumList.length, (index) {
+                return Positioned(
+                  top: _topPosition(index),
+                  left: _leftPosition(index),
+                  right: _rightPosition(index),
+                  child: index < 3
+                      ? Column(
+                          children: [
+                            Badge(
+                              elevation: 0,
+                              showBadge: true,
+                              badgeContent: Image.asset(Assets.portugal),
+                              badgeColor: Colors.transparent,
+                              position: BadgePosition.bottomEnd(),
+                              child: Badge(
+                                  elevation: 0,
+                                  showBadge: true,
+                                  badgeContent: index == 0
+                                      ? SvgPicture.asset(
+                                          Assets.crown,
+                                          height: 30,
+                                        )
+                                      : SizedBox(),
+                                  position:
+                                      BadgePosition.topEnd(end: 5, top: -20),
+                                  badgeColor: Colors.transparent,
+                                  child: CircleAvatar(
+                                    radius: 25,
+                                    backgroundColor: Colors.transparent,
+                                    backgroundImage: CachedNetworkImageProvider(
+                                      index == 0
+                                          ? podiumList[0]['profile']
+                                          : index == 1
+                                              ? podiumList[1]['profile']
+                                              : index == 2
+                                                  ? podiumList[2]['profile']
+                                                  : "",
+                                    ),
+                                  )),
+                            ),
+                            WidgetsUtil.verticalSpace20,
+                            SizedBox(
+                              width: 100,
+                              height: 20,
+                              child: TitleText(
+                                text: index == 0
+                                    ? podiumList[0]['name']!.isNotEmpty
+                                        ? podiumList[0]['name']!
+                                        : ""
+                                    : index == 1
+                                        ? podiumList[1]['name']!.isNotEmpty
+                                            ? podiumList[1]['name']!
+                                            : ""
+                                        : index == 2
+                                            ? podiumList[2]['name']!.isNotEmpty
+                                                ? podiumList[2]['name']!
+                                                : ""
+                                            : "",
+                                textColor: Constants.white,
+                                size: Constants.bodySmall,
+                                align: TextAlign.center,
+                                maxlines: 1,
+                              ),
+                            ),
+                            WidgetsUtil.verticalSpace4,
+                            index < 3
+                                ? _qpContainer(
+                                    Center(
+                                      child: TitleText(
+                                        text: index == 0
+                                            ? podiumList[0]['score']!.isNotEmpty
+                                                ? podiumList[0]['score']!
+                                                : ""
+                                            : index == 1
+                                                ? podiumList[1]['score']!
+                                                        .isNotEmpty
+                                                    ? podiumList[1]['score']!
+                                                    : ""
+                                                : index == 2
+                                                    ? podiumList[2]['score']!
+                                                            .isNotEmpty
+                                                        ? podiumList[2]
+                                                            ['score']!
+                                                        : ""
+                                                    : "",
+                                        size: Constants.bodyXSmall,
+                                        textColor: Constants.white,
+                                      ),
+                                    ),
+                                  )
+                                : SizedBox(),
+                          ],
+                        )
+                      : SizedBox(),
+                );
+              }),
+              Positioned(
+                top: SizeConfig.screenHeight * 0.2,
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: SizedBox(
+                    width: SizeConfig.screenWidth,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: SizedBox(),
+                        ),
+                        Expanded(
+                          flex: 5,
+                          child: Image.asset(
+                            Assets.rank2,
+                            fit: BoxFit.fill,
+                            height: SizeConfig.screenHeight * 0.29,
+                          ),
+                        ),
+                        Expanded(
+                          flex: 5,
+                          child: Image.asset(
+                            Assets.rank1,
+                            fit: BoxFit.fill,
+                            height: SizeConfig.screenHeight * 0.35,
+                          ),
+                        ),
+                        Expanded(
+                          flex: 5,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 80),
+                            child: Image.asset(
+                              Assets.rank3,
+                              fit: BoxFit.fill,
+                              height: SizeConfig.screenHeight * 0.3,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: SizedBox(),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              leaderBoardList(
+                podiumList,
+                hasMore,
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget leaderBoardList(List leaderBoardList, bool hasMore) {
     List draggable = [];
     for (int i = 0; i < leaderBoardList.length; i++) {
       if (i > 2) {
@@ -874,60 +884,70 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
     }
     // log('Draggable: ${draggable.length}   leaderboard : ${leaderBoardList.length}   ');
     return DraggableScrollableSheet(
-        snap: true,
-        initialChildSize: 0.45,
-        minChildSize: 0.45,
-        maxChildSize: 1.0,
-        builder: ((context, controller) {
-          // log("Offset: ${controller_.offset}");
-          return NotchedCard(
-            child: Container(
-              padding: EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                  color: Constants.grey5,
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20))),
-              child: ListView(
-                // physics: NeverScrollableScrollPhysics(),
-                controller: controller,
-                shrinkWrap: true,
-                // // child: Column(
-                children: [
-                  if (draggable.isEmpty)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20),
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: Icon(
-                          Icons.group_add_outlined,
-                          size: 150,
-                          color: Constants.grey1.withOpacity(0.2),
-                        ),
+      snap: true,
+      initialChildSize: 0.45,
+      minChildSize: 0.45,
+      maxChildSize: 1.0,
+      builder: (context, controller) {
+        controller.addListener(() {
+          scrollListener(controller);
+        });
+        return NotchedCard(
+          child: Container(
+            height: SizeConfig.screenHeight,
+            padding: EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Constants.grey5,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
+              ),
+            ),
+            child: ListView(
+              controller: controller,
+              shrinkWrap: true,
+              children: [
+                if (draggable.isEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: Icon(
+                        Icons.group_add_outlined,
+                        size: 150,
+                        color: Constants.grey1.withOpacity(0.2),
                       ),
-                    )
-                  else
-                    ListView.builder(
-                      controller: controller_,
-                      shrinkWrap: true,
-                      itemCount: draggable.length,
-                      itemBuilder: (context, index) {
-                        if (hasMore && index == (draggable.length - 1)) {
-                          Center(
-                              child: CircularProgressIndicator(
-                            color: Constants.primaryColor,
-                          ));
-                        }
-                        return SizedBox(
-                          height: 100,
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20)),
-                            elevation: 0,
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.only(right: 16, left: 16),
-                              child: Row(children: [
+                    ),
+                  )
+                else
+                  ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: draggable.length,
+                    itemBuilder: (context, index) {
+                      if (hasMore && index == (draggable.length - 1)) {
+                        CircularProgressIndicator(
+                          color: Constants.primaryColor,
+                        );
+                      }
+                      //  else if (!draggable[index].containsKey("name")) {
+                      //   return SizedBox();
+                      // }
+
+                      return SizedBox(
+                        height: 100,
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          elevation: 0,
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              right: 16,
+                              left: 16,
+                            ),
+                            child: Row(
+                              children: [
                                 Expanded(
                                   flex: 1,
                                   child: CircleAvatar(
@@ -952,30 +972,41 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                                           draggable[index]['profile'] ?? ""),
                                     ),
                                     title: TitleText(
-                                      text: draggable[index]['name'] ?? "",
+                                      text:
+                                          draggable[index]['name'] ?? "Player",
                                     ),
                                     subtitle: TitleText(
                                       text:
-                                          '${draggable[index]['score'] ?? "0"}' +
-                                              ' points',
+                                          '${draggable[index]['score'] ?? "0"}  points',
                                     ),
                                   ),
                                 )
-                              ]),
+                              ],
                             ),
                           ),
-                        );
-                      },
-                    )
-                ],
-              ),
+                        ),
+                      );
+                    },
+                  ),
+              ],
             ),
-            // ),
-          );
-        }));
+          ),
+        );
+      },
+    );
   }
 
-  Widget _QPContainer(child) {
+  void scrollListener(ScrollController controller) {
+    if (selectTab == 0) {
+      scrollListenerD(controller);
+    } else if (selectTab == 1) {
+      scrollListenerM(controller);
+    } else {
+      scrollListenerA(controller);
+    }
+  }
+
+  Widget _qpContainer(child) {
     return Container(
       height: 34,
       width: 74,

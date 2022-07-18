@@ -69,14 +69,12 @@ class _NavigationState extends State<Navigation> {
           leftCornerRadius: 20.0,
           rightCornerRadius: 20.0,
           notchSmoothness: NotchSmoothness.softEdge,
-          tabBuilder: (index, value) => Expanded(
-            child: Container(
-              padding: const EdgeInsets.all(15),
-              child: SvgPicture.asset(
-                Assets.navigationBarIcons[index],
-                color:
-                    selectedIndex == index ? Constants.black1 : Constants.grey3,
-              ),
+          tabBuilder: (index, value) => Container(
+            padding: const EdgeInsets.all(15),
+            child: SvgPicture.asset(
+              Assets.navigationBarIcons[index],
+              color:
+                  selectedIndex == index ? Constants.black1 : Constants.grey3,
             ),
           ),
           activeIndex: selectedIndex,

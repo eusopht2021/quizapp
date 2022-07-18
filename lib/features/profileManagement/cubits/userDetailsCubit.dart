@@ -1,5 +1,9 @@
+import 'dart:developer';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutterquiz/app/routes.dart';
 import 'package:flutterquiz/features/profileManagement/models/userProfile.dart';
 import 'package:flutterquiz/features/profileManagement/profileManagementRepository.dart';
 
@@ -106,6 +110,26 @@ class UserDetailsCubit extends Cubit<UserDetailsState> {
       );
 
       emit((UserDetailsFetchSuccess(userDetails)));
+    }
+  }
+
+  void changePassword(
+      {context,
+      String? newPassword,
+      String? oldPassword,
+      String? confrimPassword}) {
+    final currentUser = FirebaseAuth.instance.currentUser;
+
+    if (confrimPassword == newPassword) {
+      try {
+        currentUser!.updatePassword(newPassword!);
+        FirebaseAuth.instance.signOut();
+        Navigator.of(context).pushReplacementNamed(Routes.loginScreen);
+      } catch (e) {
+        log("sign out error USERDETAILSCUBITPAGE" + e.toString());
+      }
+    } else {
+      log("confirm password does not match");
     }
   }
 
