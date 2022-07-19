@@ -31,8 +31,10 @@ class _SplashState extends State<Splash> {
         context
             .read<UserDetailsCubit>()
             .fetchUserDetails(context.read<AuthCubit>().getUserFirebaseId());
-        Navigator.of(context)
-            .pushReplacementNamed(Routes.home, arguments: false);
+        // Navigator.of(context)
+        //     .pushReplacementNamed(Routes.home, arguments: false);
+        Navigator.of(context).pushNamedAndRemoveUntil(
+            Routes.home, (Route<dynamic> route) => false);
         // navigateToNextScreen();
       }
     });

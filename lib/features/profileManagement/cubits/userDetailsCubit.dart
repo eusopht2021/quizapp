@@ -4,8 +4,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterquiz/app/routes.dart';
+import 'package:flutterquiz/features/auth/authLocalDataSource.dart';
+import 'package:flutterquiz/features/auth/cubits/authCubit.dart';
 import 'package:flutterquiz/features/profileManagement/models/userProfile.dart';
 import 'package:flutterquiz/features/profileManagement/profileManagementRepository.dart';
+import 'package:flutterquiz/utils/constants.dart';
+import 'package:hive/hive.dart';
 
 @immutable
 abstract class UserDetailsState {}
@@ -113,21 +117,29 @@ class UserDetailsCubit extends Cubit<UserDetailsState> {
     }
   }
 
-  void changePassword(
+  Future<void> changePassword(
       {context,
-      String? newPassword,
-      String? oldPassword,
-      String? confrimPassword}) {
+      required String newPassword,
+      required String oldPassword,
+      required String confrimPassword}) async {
     final currentUser = FirebaseAuth.instance.currentUser;
 
     if (confrimPassword == newPassword) {
-      try {
-        currentUser!.updatePassword(newPassword!);
-        FirebaseAuth.instance.signOut();
-        Navigator.of(context).pushReplacementNamed(Routes.loginScreen);
-      } catch (e) {
-        log("sign out error USERDETAILSCUBITPAGE" + e.toString());
-      }
+      if (currentUser != null) {
+        currentUser.updatePassword(newPassword);
+        FirebaseAuth.instance.signOut().then((value) async {
+          await Hive.box(authBox).clear();
+          await Hive.box(settingsBox).clear();
+          await Hive.box(userdetailsBox).clear();
+          await Hive.box(examBox).clear();
+        }).catchError((onError) {
+          log('Error signing out $onError');
+        });
+
+        Navigator.of(context).pushNamedAndRemoveUntil(
+            Routes.loginScreen, (Route<dynamic> route) => false);
+      } else
+        log("current user is null");
     } else {
       log("confirm password does not match");
     }

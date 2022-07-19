@@ -4,6 +4,7 @@ import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.da
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutterquiz/app/routes.dart';
 import 'package:flutterquiz/ui/navigation/navbarcubit.dart';
 import 'package:flutterquiz/ui/navigation/navbaritems.dart';
 import 'package:flutterquiz/ui/navigation/navigation_bar_state.dart';
@@ -23,6 +24,13 @@ class Navigation extends StatefulWidget {
 }
 
 class _NavigationState extends State<Navigation> {
+  @override
+  void initState() {
+    selectedIndex = 0;
+    // TODO: implement initState
+    super.initState();
+  }
+
   int selectedIndex = 0;
 
   List<BottomNavigationBarItem> bodyWidgets = [
@@ -97,52 +105,7 @@ class _NavigationState extends State<Navigation> {
             }
           },
         );
-
-        //   BottomNavigationBar(
-        //     currentIndex: state.index,
-        //     showUnselectedLabels: false,
-        //     items: bodyWidgets,
-        //     onTap: (index) {
-        //       if (index == 0) {
-        //         BlocProvider.of<NavigationCubit>(context)
-        //             .getNavBarItem(NavbarItems.newhome);
-        //       } else if (index == 1) {
-        //         BlocProvider.of<NavigationCubit>(context)
-        //             .getNavBarItem(NavbarItems.discover);
-        //       } else if (index == 2) {
-        //         BlocProvider.of<NavigationCubit>(context)
-        //             .getNavBarItem(NavbarItems.leaderboard);
-        //       }
-        //     },
-        //   );
       }),
-
-      // bottomNavigationBar: AnimatedBottomNavigationBar.builder(
-      //   itemCount: 4,
-      //   backgroundColor: Constants.white,
-      //   height: kBottomNavigationBarHeight,
-      //   gapLocation: GapLocation.center,
-      //   leftCornerRadius: 20.0,
-      //   rightCornerRadius: 20.0,
-      //   notchSmoothness: NotchSmoothness.softEdge,
-      //   tabBuilder: (index, value) => Expanded(
-      //     child: Container(
-      //       padding: const EdgeInsets.all(15),
-      //       child: SvgPicture.asset(
-      //         Assets.navigationBarIcons[index],
-      //         color:
-      //             selectedIndex == index ? Constants.black1 : Constants.grey3,
-      //       ),
-      //     ),
-      //   ),
-      //   activeIndex: selectedIndex,
-      //   onTap: (index) {
-      //     setState(() {
-      //       selectedIndex = index;
-      //     });
-      //     log('Item at #$index');
-      //   },
-      // ),
       body: BlocBuilder<NavigationCubit, NavigationbarState>(
           builder: (context, state) {
         if (state.navbarItems == NavbarItems.newhome) {
@@ -159,3 +122,45 @@ class _NavigationState extends State<Navigation> {
     );
   }
 }
+// bottomNavigationBar: AnimatedBottomNavigationBar.builder(
+//   itemCount: 4,
+//   backgroundColor: Constants.white,
+//   height: kBottomNavigationBarHeight,
+//   gapLocation: GapLocation.center,
+//   leftCornerRadius: 20.0,
+//   rightCornerRadius: 20.0,
+//   notchSmoothness: NotchSmoothness.softEdge,
+//   tabBuilder: (index, value) => Expanded(
+//     child: Container(
+//       padding: const EdgeInsets.all(15),
+//       child: SvgPicture.asset(
+//         Assets.navigationBarIcons[index],
+//         color:
+//             selectedIndex == index ? Constants.black1 : Constants.grey3,
+//       ),
+//     ),
+//   ),
+//   activeIndex: selectedIndex,
+//   onTap: (index) {
+//     setState(() {
+//       selectedIndex = index;
+//     });
+//     log('Item at #$index');
+//   },
+// ),       //   BottomNavigationBar(
+//     currentIndex: state.index,
+//     showUnselectedLabels: false,
+//     items: bodyWidgets,
+//     onTap: (index) {
+//       if (index == 0) {
+//         BlocProvider.of<NavigationCubit>(context)
+//             .getNavBarItem(NavbarItems.newhome);
+//       } else if (index == 1) {
+//         BlocProvider.of<NavigationCubit>(context)
+//             .getNavBarItem(NavbarItems.discover);
+//       } else if (index == 2) {
+//         BlocProvider.of<NavigationCubit>(context)
+//             .getNavBarItem(NavbarItems.leaderboard);
+//       }
+//     },
+//   );

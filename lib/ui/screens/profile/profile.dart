@@ -119,9 +119,6 @@ class _ProfileState extends State<Profile> {
             color: Constants.white,
           ),
           onPressed: () {
-            // Navigator.push(context,
-            //     MaterialPageRoute(builder: ((context) => NewSettingsScreen())));
-
             Navigator.pushNamed(context, Routes.appSettings,
                 arguments: "newsettingssceeen");
           }),

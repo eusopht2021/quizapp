@@ -16,12 +16,12 @@ import 'package:flutterquiz/utils/validators.dart';
 import 'package:flutterquiz/utils/widgets_util.dart';
 
 class EditProfileFieldBottomSheetContainer extends StatefulWidget {
-  final String
+  final String?
       fieldTitle; //value of fieldTitle will be from :  Email,Mobile Number,Name
   final String fieldValue; //
   final bool numericKeyboardEnable;
   bool? password;
-  // UserDetailsCubit? userDetailCubit;
+  UserDetailsCubit? userDetailCubit;
   final UpdateUserDetailCubit updateUserDetailCubit;
   //To determine if to close bottom sheet without updating name or not
   final bool canCloseBottomSheet;
@@ -32,7 +32,7 @@ class EditProfileFieldBottomSheetContainer extends StatefulWidget {
       required this.canCloseBottomSheet,
       required this.numericKeyboardEnable,
       this.password,
-      // this.userDetailCubit,
+      this.userDetailCubit,
       required this.updateUserDetailCubit})
       : super(key: key);
 
@@ -296,6 +296,7 @@ class _EditProfileFieldBottomSheetContainerState
                         onTap: state is UpdateUserDetailInProgress
                             ? () {}
                             : () {
+                              
                                 if (errorMessage.isNotEmpty) {
                                   setState(() {
                                     errorMessage = "";
@@ -329,13 +330,17 @@ class _EditProfileFieldBottomSheetContainerState
                                   }
                                 } else if (widget.fieldTitle == pwdLbl) {
                                   log("Password change sheet");
-                                  context
-                                      .read<UserDetailsCubit>()
-                                      .changePassword(
-                                          context: context,
-                                          oldPassword: oldPassword.text,
-                                          newPassword: newPassword.text,
-                                          confrimPassword: cnfrmPassword.text);
+                                  setState(() {
+                                    context
+                                        .read<UserDetailsCubit>()
+                                        .changePassword(
+                                            context: context,
+                                            oldPassword: oldPassword.text,
+                                            newPassword: newPassword.text,
+                                            confrimPassword:
+                                                cnfrmPassword.text);
+                                  });
+
                                   return;
                                 }
 

@@ -65,7 +65,7 @@ class SignInCubit extends Cubit<SignInState> {
           authProvider: authProvider,
           isNewUser: result['isNewUser']));
     }).catchError((e) {
-      log('Error in signInCubit.dart: $e');
+      log('Error in signInCubit.dart: $e  checck');
       emit(SignInFailure(e.toString(), authProvider));
     });
   }

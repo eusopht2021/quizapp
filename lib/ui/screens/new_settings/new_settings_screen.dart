@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
@@ -18,6 +19,7 @@ import 'package:flutterquiz/features/profileManagement/cubits/userDetailsCubit.d
 import 'package:flutterquiz/features/profileManagement/profileManagementRepository.dart';
 import 'package:flutterquiz/features/systemConfig/cubits/appSettingsCubit.dart';
 import 'package:flutterquiz/features/systemConfig/systemConfigRepository.dart';
+import 'package:flutterquiz/ui/screens/appSettingsScreen.dart';
 import 'package:flutterquiz/ui/screens/profile/widgets/editProfileFieldBottomSheetContainer.dart';
 import 'package:flutterquiz/ui/widgets/title_text.dart';
 import 'package:flutterquiz/utils/assets.dart';
@@ -29,6 +31,7 @@ import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
 import 'package:flutterquiz/utils/widgets_util.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class NewSettingsScreen extends StatefulWidget {
   final String title;
@@ -79,40 +82,15 @@ class NewSettingsScreen extends StatefulWidget {
 }
 
 class _NewSettingsScreenState extends State<NewSettingsScreen> {
-  // String getType() {
-  //   if (widget.title == aboutUs) {
-  //     return "about_us";
-  //   }
-  //   if (widget.title == privacyPolicy) {
-  //     return "privacy_policy";
-  //   }
-  //   if (widget.title == termsAndConditions) {
-  //     return "terms_conditions";
-  //   }
-  //   if (widget.title == contactUs) {
-  //     return "contact_us";
-  //   }
-  //   if (widget.title == howToPlayLbl) {
-  //     return "instructions";
-  //   }
-
-  //   print(widget.title);
-  //   return "";
-  // }
-
   @override
   void initState() {
-    // getAppSetting();
     // TODO: implement initState
     super.initState();
   }
 
-  // void getAppSetting() {
-  //   Future.delayed(Duration.zero, () {
-  //     context.read<AppSettingsCubit>().getAppSetting(getType());
-  //   });
-  // }
-
+  TextEditingController? oldPassword;
+  TextEditingController? newPassword;
+  TextEditingController? confirmPassword;
   bool _isOn = false;
 
   @override
@@ -136,7 +114,7 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
               if (state is UserDetailsFetchSuccess) {
                 return Scaffold(
                   appBar: PreferredSize(
-                    preferredSize: Size.fromHeight(60),
+                    preferredSize: Size.fromHeight(kToolbarHeight),
                     child: CustomAppBar(
                       title: "Settings",
                       showBackButton: true,
@@ -205,14 +183,19 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                           WidgetsUtil.verticalSpace16,
                           GestureDetector(
                             onTap: () {
-                              // editpasswordFieldBottomSheet(
-                              //   fieldTitle: pwdLbl,
-                              //   isPassword: true,
-                              //   isNumericKeyboardEnable: false,
-                              //   context: context,
-                              //   updateUserDetailCubit:
-                              //       context.read<UpdateUserDetailCubit>(),
-                              // );
+                              editpasswordFieldBottomSheet(
+                                  fieldTitle: pwdLbl,
+                                  fieldValue: "",
+                                  isPassword: true,
+                                  isNumericKeyboardEnable: false,
+                                  context: context,
+                                  updateUserDetailCubit:
+                                      context.read<UpdateUserDetailCubit>(),
+                                  oldPassword: oldPassword,
+                                  newPassword: newPassword,
+                                  confirmPassword: confirmPassword,
+                                  userDetailsCubit:
+                                      context.read<UserDetailsCubit>());
                             },
                             child: _settingsOptionsContainer(
                               listTileicon: Image.asset(
@@ -328,8 +311,11 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                                                     .read<AuthCubit>()
                                                     .signOut();
                                                 Navigator.of(context)
-                                                    .pushReplacementNamed(
-                                                        Routes.loginScreen);
+                                                    .pushNamedAndRemoveUntil(
+                                                        Routes.loginScreen,
+                                                        (Route<dynamic>
+                                                                route) =>
+                                                            false);
                                               },
                                               child: Text(
                                                 AppLocalization.of(context)!
@@ -415,6 +401,23 @@ Widget _settingsOptionsContainer(
   );
 }
 
+webView(context, state) {
+  return Padding(
+      padding: EdgeInsets.only(
+        top: (MediaQuery.of(context).size.height *
+                (UiUtils.appBarHeightPercentage)) +
+            15.0,
+      ),
+      child: WebView(
+        javascriptMode: JavascriptMode.unrestricted,
+        initialUrl: Uri.dataFromString(
+                (state as AppSettingsFetchSuccess).settingsData,
+                mimeType: 'text/html',
+                encoding: Encoding.getByName('utf-8'))
+            .toString(),
+      ));
+}
+
 void editProfileFieldBottomSheet(
     String fieldTitle,
     String fieldValue,
@@ -448,37 +451,37 @@ void editProfileFieldBottomSheet(
   });
 }
 
-// void editpasswordFieldBottomSheet({
-//   String? fieldTitle,
-//   String? fieldValue,
-//   bool? isNumericKeyboardEnable,
-//   BuildContext? context,
-//   bool? isPassword,
-//   // TextEditingController? oldPassword,
-//   // TextEditingController? newPassword,
-//   // TextEditingController? confirmPassword,
-//   UpdateUserDetailCubit? updateUserDetailCubit,
-//   // UserDetailsCubit? userDetailsCubit,
-// }) {
-//   showModalBottomSheet(
-//       isDismissible: false,
-//       enableDrag: false,
-//       isScrollControlled: true,
-//       elevation: 5.0,
-//       shape: RoundedRectangleBorder(
-//           borderRadius: BorderRadius.only(
-//         topLeft: Radius.circular(20.0),
-//         topRight: Radius.circular(20.0),
-//       )),
-//       context: context!,
-//       builder: (context) {
-//         return EditProfileFieldBottomSheetContainer(
-//             canCloseBottomSheet: true,
-//             fieldTitle: fieldTitle!,
-//             password: isPassword,
-//             fieldValue: fieldValue!,
-//             numericKeyboardEnable: isNumericKeyboardEnable!,
-//             // userDetailCubit: userDetailsCubit!,
-//             updateUserDetailCubit: updateUserDetailCubit!);
-//       });
-// }
+void editpasswordFieldBottomSheet({
+  String? fieldTitle,
+  String? fieldValue,
+  bool? isNumericKeyboardEnable,
+  BuildContext? context,
+  bool? isPassword,
+  TextEditingController? oldPassword,
+  TextEditingController? newPassword,
+  TextEditingController? confirmPassword,
+  UpdateUserDetailCubit? updateUserDetailCubit,
+  UserDetailsCubit? userDetailsCubit,
+}) {
+  showModalBottomSheet(
+      isDismissible: false,
+      enableDrag: false,
+      isScrollControlled: true,
+      elevation: 5.0,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(20.0),
+        topRight: Radius.circular(20.0),
+      )),
+      context: context!,
+      builder: (context) {
+        return EditProfileFieldBottomSheetContainer(
+            canCloseBottomSheet: true,
+            fieldTitle: fieldTitle!,
+            password: isPassword,
+            fieldValue: fieldValue!,
+            numericKeyboardEnable: isNumericKeyboardEnable!,
+            userDetailCubit: userDetailsCubit!,
+            updateUserDetailCubit: updateUserDetailCubit!);
+      });
+}

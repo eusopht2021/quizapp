@@ -286,8 +286,8 @@ class _LoginState extends State<Login> {
             } else {
               //get user detials of signed in user
               context.read<UserDetailsCubit>().fetchUserDetails(state.user.uid);
-              Navigator.of(context)
-                  .pushReplacementNamed(Routes.home, arguments: true);
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                  Routes.home, (Route<dynamic> route) => false);
             }
           } else if (state is SignInFailure &&
               state.authProvider == AuthProvider.email) {

@@ -452,10 +452,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                   ),
                 ),
               ),
-              leaderBoardList(
-                podiumList,
-                hasMore,
-              ),
+              leaderBoardList(podiumList, hasMore, state: state),
             ],
           ),
         );
@@ -654,10 +651,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                   ),
                 ),
               ),
-              leaderBoardList(
-                dailyList,
-                hasMore,
-              ),
+              leaderBoardList(dailyList, hasMore, state: state),
             ],
           ),
         );
@@ -864,10 +858,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                   ),
                 ),
               ),
-              leaderBoardList(
-                podiumList,
-                hasMore,
-              ),
+              leaderBoardList(podiumList, hasMore, state: state),
             ],
           ),
         );
@@ -875,7 +866,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
     );
   }
 
-  Widget leaderBoardList(List leaderBoardList, bool hasMore) {
+  Widget leaderBoardList(List leaderBoardList, bool hasMore, {state}) {
     List draggable = [];
     for (int i = 0; i < leaderBoardList.length; i++) {
       if (i > 2) {
@@ -926,8 +917,10 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                     itemCount: draggable.length,
                     itemBuilder: (context, index) {
                       if (hasMore && index == (draggable.length - 1)) {
-                        CircularProgressIndicator(
-                          color: Constants.primaryColor,
+                        Center(
+                          child: CircularProgressIndicator(
+                            color: Constants.primaryColor,
+                          ),
                         );
                       }
                       //  else if (!draggable[index].containsKey("name")) {
