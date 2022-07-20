@@ -6,6 +6,8 @@ import 'package:flutterquiz/app/appLocalization.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/updateUserDetailsCubit.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/userDetailsCubit.dart';
 import 'package:flutterquiz/ui/widgets/customRoundedButton.dart';
+import 'package:flutterquiz/ui/widgets/custom_button.dart';
+import 'package:flutterquiz/ui/widgets/social_button.dart';
 import 'package:flutterquiz/ui/widgets/title_text.dart';
 import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
@@ -287,16 +289,17 @@ class _EditProfileFieldBottomSheetContainerState
                       padding: EdgeInsets.symmetric(
                         horizontal: MediaQuery.of(context).size.width * (0.3),
                       ),
-                      child: CustomRoundedButton(
-                        widthPercentage: MediaQuery.of(context).size.width,
-                        backgroundColor: Constants.primaryColor,
-                        buttonTitle: _buildButtonTitle(state),
-                        radius: 10.0,
+                      child: SocialButton(
+                        // widthPercentage: MediaQuery.of(context).size.width,
                         showBorder: false,
+                        horizontalMargin: 0,
+                        background: Constants.primaryColor,
+                        text: _buildButtonTitle(state),
+                        // radius: 10.0,
+                        // showBorder: false,
                         onTap: state is UpdateUserDetailInProgress
                             ? () {}
                             : () {
-                              
                                 if (errorMessage.isNotEmpty) {
                                   setState(() {
                                     errorMessage = "";
@@ -359,8 +362,7 @@ class _EditProfileFieldBottomSheetContainerState
                                       : userProfile.name ?? "",
                                 );
                               },
-                        fontWeight: FontWeight.bold,
-                        titleColor: Constants.white,
+                        textColor: Constants.white,
                         height: 40.0,
                       ),
                     );

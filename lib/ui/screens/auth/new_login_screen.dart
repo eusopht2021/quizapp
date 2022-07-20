@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterquiz/features/auth/authRepository.dart';
+import 'package:flutterquiz/ui/screens/auth/onBoardingScreen.dart';
 import 'package:flutterquiz/ui/widgets/social_button.dart';
 
 import '../../../app/appLocalization.dart';
@@ -65,9 +66,8 @@ class _LoginState extends State<Login> {
                     label: AppLocalization.of(context)!
                         .getTranslatedValues('emailFldLbl')!,
                     textInputType: TextInputType.emailAddress,
-                    hint: AppLocalization.of(context)!
-                            .getTranslatedValues('emailLbl')! +
-                        "*",
+                    hint:
+                        "${AppLocalization.of(context)!.getTranslatedValues('emailLbl')!}*",
                     validator: (val) => Validators.validateEmail(
                       val!,
                       AppLocalization.of(context)!
@@ -87,9 +87,8 @@ class _LoginState extends State<Login> {
                         : null,
                     label: AppLocalization.of(context)!
                         .getTranslatedValues('pwdLbl')!,
-                    hint: AppLocalization.of(context)!
-                            .getTranslatedValues('pwdLbl')! +
-                        "*",
+                    hint:
+                        "${AppLocalization.of(context)!.getTranslatedValues('pwdLbl')!}*",
                     prefixIcon: Assets.password,
                     suffixIcon: _obscureText ? Assets.eye : Assets.closeEye,
                     onSuffixTap: () {
@@ -146,8 +145,8 @@ class _LoginState extends State<Login> {
             context.read<UserDetailsCubit>().fetchUserDetails(state.user.uid);
             //updateFcm id
             log(state.user.uid);
-            Navigator.of(context)
-                .pushReplacementNamed(Routes.home, arguments: false);
+            Navigator.of(context).pushNamedAndRemoveUntil(
+                Routes.loginScreen, (Route<dynamic> route) => false);
           }
         } else if (state is SignInFailure &&
             state.authProvider != AuthProvider.email) {
@@ -246,7 +245,8 @@ class _LoginState extends State<Login> {
             context.read<UserDetailsCubit>().fetchUserDetails(state.user.uid);
             //updateFcm id
             log(state.user.uid);
-            Navigator.of(context)
+          
+              Navigator.of(context)
                 .pushReplacementNamed(Routes.home, arguments: false);
           }
         } else if (state is SignInFailure &&

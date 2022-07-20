@@ -39,6 +39,12 @@ class Assets {
   static String rank3 = 'assets/icons/Rank3.png';
   static String cardCircles = 'assets/images/card_circles.png';
   static String cardCircles1 = 'assets/images/card_circles1.png';
+
+  static String smallDot = 'assets/images/smalldot.png';
+  static String leftCircle = 'assets/images/leftCircle.png';
+  static String rightCircle = 'assets/images/rightCircle.png';
+  static String bigDot = 'assets/images/bigdot.png';
+
   static String backgroundCircle = 'assets/images/backgroundCircle.png';
 
   // ICONS

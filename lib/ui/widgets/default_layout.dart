@@ -14,8 +14,9 @@ class DefaultLayout extends StatelessWidget {
   final bool? expandBodyBehindAppBar;
   final bool? showBackButton;
   final double? size;
+  Function()? onTap;
 
-  const DefaultLayout({
+  DefaultLayout({
     Key? key,
     required this.title,
     required this.child,
@@ -24,6 +25,7 @@ class DefaultLayout extends StatelessWidget {
     this.action,
     this.size,
     this.showBackButton,
+    this.onTap,
     this.expandBodyBehindAppBar,
   }) : super(key: key);
 
@@ -55,7 +57,7 @@ class DefaultLayout extends StatelessWidget {
         ],
         leading: (showBackButton ?? true)
             ? InkWell(
-                onTap: () => Navigator.pop(context),
+                onTap: onTap ?? () => Navigator.pop(context),
                 child: Container(
                   padding: const EdgeInsets.all(
                     15,

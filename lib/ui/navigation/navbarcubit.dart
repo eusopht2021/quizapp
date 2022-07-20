@@ -20,10 +20,10 @@ class NavigationCubit extends Cubit<NavigationbarState> {
         emit(NavigationbarState(NavbarItems.leaderboard, 2));
         break;
       case NavbarItems.profile:
-     
         emit(NavigationbarState(NavbarItems.profile, 3));
-
         break;
+      default:
+        emit(NavigationbarState(NavbarItems.newhome, 0));
     }
   }
 }

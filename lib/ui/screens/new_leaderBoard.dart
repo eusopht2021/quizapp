@@ -111,7 +111,8 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
 
   int selectTab = 0;
   List<String> tabItems = ['Daily', 'Monthly', 'All Time'];
-  bool? isCollapse;
+  bool isExpand = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -651,7 +652,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                   ),
                 ),
               ),
-              leaderBoardList(dailyList, hasMore, state: state),
+              leaderBoardList(podiumList, hasMore, state: state),
             ],
           ),
         );
@@ -867,125 +868,159 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
   }
 
   Widget leaderBoardList(List leaderBoardList, bool hasMore, {state}) {
-    List draggable = [];
+    List startsFromThree = [];
+    List startsFromZero = [];
+    List users = [];
+
     for (int i = 0; i < leaderBoardList.length; i++) {
+      startsFromZero.add(leaderBoardList[i]);
+
       if (i > 2) {
-        draggable.add(leaderBoardList[i]);
+        startsFromThree.add(leaderBoardList[i]);
       }
     }
-    // log('Draggable: ${draggable.length}   leaderboard : ${leaderBoardList.length}   ');
-    return DraggableScrollableSheet(
-      snap: true,
-      initialChildSize: 0.45,
-      minChildSize: 0.45,
-      maxChildSize: 1.0,
-      builder: (context, controller) {
-        controller.addListener(() {
-          scrollListener(controller);
-        });
-        return NotchedCard(
-          child: Container(
-            height: SizeConfig.screenHeight,
-            padding: EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: Constants.grey5,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
-              ),
-            ),
-            child: ListView(
-              controller: controller,
-              shrinkWrap: true,
-              children: [
-                if (draggable.isEmpty)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: Icon(
-                        Icons.group_add_outlined,
-                        size: 150,
-                        color: Constants.grey1.withOpacity(0.2),
-                      ),
-                    ),
-                  )
-                else
-                  ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: draggable.length,
-                    itemBuilder: (context, index) {
-                      if (hasMore && index == (draggable.length - 1)) {
-                        Center(
-                          child: CircularProgressIndicator(
-                            color: Constants.primaryColor,
-                          ),
-                        );
-                      }
-                      //  else if (!draggable[index].containsKey("name")) {
-                      //   return SizedBox();
-                      // }
 
-                      return SizedBox(
-                        height: 100,
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          elevation: 0,
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                              right: 16,
-                              left: 16,
+    if (isExpand) {
+      users = startsFromZero;
+    } else {
+      users = startsFromThree;
+    }
+    log(startsFromThree.length.toString());
+
+    // log(draggable[""].toString());
+    // log('Draggable: ${draggable.length}   leaderboard : ${leaderBoardList.length}   ');
+    return NotificationListener(
+      onNotification: (DraggableScrollableNotification dSnotification) {
+        if (dSnotification.extent >= 1.0) {
+          setState(() {
+            isExpand = true;
+            log('IsExpand false running');
+          });
+        } else if (dSnotification.extent <= 0.45) {
+          setState(
+            () {
+              isExpand = false;
+              log('IsExpand true running');
+            },
+          );
+        }
+        return false;
+      },
+      child: DraggableScrollableSheet(
+        snap: true,
+        initialChildSize: 0.45,
+        minChildSize: 0.45,
+        maxChildSize: 1.0,
+        builder: (context, controller) {
+          controller.addListener(() {
+            scrollListener(controller);
+          });
+          return NotchedCard(
+            circleColor: Constants.grey5,
+            child: Container(
+              height: SizeConfig.screenHeight,
+              padding: EdgeInsets.only(top: 10, right: 16, left: 16),
+              decoration: BoxDecoration(
+                color: Constants.grey5,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                ),
+              ),
+              child: ListView(
+                controller: controller,
+                shrinkWrap: true,
+                children: [
+                  if (users.isEmpty)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: Icon(
+                          Icons.group_add_outlined,
+                          size: 150,
+                          color: Constants.grey1.withOpacity(0.2),
+                        ),
+                      ),
+                    )
+                  else
+                    ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: users.length,
+                      itemBuilder: (context, index) {
+                        if (hasMore && index == (users.length - 1)) {
+                          Center(
+                            child: CircularProgressIndicator(
+                              color: Constants.primaryColor,
                             ),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: CircleAvatar(
-                                    backgroundColor: Constants.black1,
-                                    radius: 60,
+                          );
+                        }
+                        //  else if (!draggable[index].containsKey("name")) {
+                        //   return SizedBox();
+                        // }
+
+                        return SizedBox(
+                          height: 100,
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            elevation: 0,
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                right: 16,
+                                left: 16,
+                              ),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    flex: 1,
                                     child: CircleAvatar(
-                                      radius: 40,
-                                      foregroundColor: Constants.grey2,
-                                      backgroundColor: Constants.white,
-                                      child: TitleText(
-                                        text: (index + 4).toString(),
+                                      backgroundColor: Constants.black1,
+                                      radius: 60,
+                                      child: CircleAvatar(
+                                        radius: 40,
+                                        foregroundColor: Constants.grey2,
+                                        backgroundColor: Constants.white,
+                                        child: TitleText(
+                                          text: isExpand
+                                              ? ((index + 1).toString())
+                                              : (index + 4).toString(),
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                Expanded(
-                                  flex: 9,
-                                  child: ListTile(
-                                    leading: CircleAvatar(
-                                      backgroundColor: Colors.transparent,
-                                      backgroundImage: NetworkImage(
-                                          draggable[index]['profile'] ?? ""),
+                                  Expanded(
+                                    flex: 9,
+                                    child: ListTile(
+                                      leading: CircleAvatar(
+                                        backgroundColor: Colors.transparent,
+                                        backgroundImage: NetworkImage(
+                                            users[index]['profile'] ?? ""),
+                                      ),
+                                      title: TitleText(
+                                        text: users[index]['name'] ?? "Player",
+                                      ),
+                                      subtitle: TitleText(
+                                        text:
+                                            '${users[index]['score'] ?? "0"}  points',
+                                      ),
                                     ),
-                                    title: TitleText(
-                                      text:
-                                          draggable[index]['name'] ?? "Player",
-                                    ),
-                                    subtitle: TitleText(
-                                      text:
-                                          '${draggable[index]['score'] ?? "0"}  points',
-                                    ),
-                                  ),
-                                )
-                              ],
+                                  )
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    },
-                  ),
-              ],
+                        );
+                      },
+                    ),
+                ],
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 

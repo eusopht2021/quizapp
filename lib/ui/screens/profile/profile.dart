@@ -111,44 +111,85 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
+      expandBodyBehindAppBar: true,
       showBackButton: widget.routefromHomeScreen,
       title: '',
-      action: IconButton(
-          icon: Icon(
-            Icons.settings,
-            color: Constants.white,
-          ),
-          onPressed: () {
-            Navigator.pushNamed(context, Routes.appSettings,
-                arguments: "newsettingssceeen");
-          }),
+      action: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: IconButton(
+            icon: Icon(
+              Icons.settings,
+              color: Constants.white,
+            ),
+            onPressed: () {
+              Navigator.pushNamed(context, Routes.appSettings,
+                  arguments: "newsettingssceeen");
+            }),
+      ),
       titleColor: Constants.white,
       backgroundColor: Constants.primaryColor,
-      child: BlocConsumer<UploadProfileCubit, UploadProfileState>(
-        listener: (context, state) {
-          if (state is UploadProfileFailure) {
-            UiUtils.setSnackbar(
-                AppLocalization.of(context)!.getTranslatedValues(
-                    convertErrorCodeToLanguageKey(state.errorMessage))!,
-                context,
-                false);
-          } else if (state is UploadProfileSuccess) {
-            context
-                .read<UserDetailsCubit>()
-                .updateUserProfileUrl(state.imageUrl);
-          }
-        },
-        builder: (context, state) {
-          return BlocBuilder<UserDetailsCubit, UserDetailsState>(
-            bloc: context.read<UserDetailsCubit>(),
-            builder: (BuildContext context, UserDetailsState state) {
-              if (state is UserDetailsFetchSuccess) {
-                return _body(state);
-              }
-              return const SizedBox();
-            },
-          );
-        },
+      child: Stack(
+        children: [
+          Positioned(
+            top: 0,
+            right: 0,
+            child: Image.asset(
+              Assets.rightCircle,
+            ),
+          ),
+          Positioned(
+            top: 83,
+            right: 100,
+            child: Image.asset(
+              Assets.smallDot,
+            ),
+          ),
+          Positioned(
+            top: 80,
+            left: 0,
+            child: Image.asset(
+              Assets.leftCircle,
+            ),
+          ),
+          Positioned(
+            top: 90,
+            left: 80,
+            child: Image.asset(
+              Assets.smallDot,
+            ),
+          ),
+          Positioned(
+            top: 80,
+            right: 2,
+            left: 2,
+            child: BlocConsumer<UploadProfileCubit, UploadProfileState>(
+              listener: (context, state) {
+                if (state is UploadProfileFailure) {
+                  UiUtils.setSnackbar(
+                      AppLocalization.of(context)!.getTranslatedValues(
+                          convertErrorCodeToLanguageKey(state.errorMessage))!,
+                      context,
+                      false);
+                } else if (state is UploadProfileSuccess) {
+                  context
+                      .read<UserDetailsCubit>()
+                      .updateUserProfileUrl(state.imageUrl);
+                }
+              },
+              builder: (context, state) {
+                return BlocBuilder<UserDetailsCubit, UserDetailsState>(
+                  bloc: context.read<UserDetailsCubit>(),
+                  builder: (BuildContext context, UserDetailsState state) {
+                    if (state is UserDetailsFetchSuccess) {
+                      return _body(state);
+                    }
+                    return const SizedBox();
+                  },
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -1044,7 +1085,7 @@ class _ProfileState extends State<Profile> {
         width: 30,
         height: 28,
       ),
-      position: BadgePosition.bottomEnd(),
+      position: BadgePosition.bottomEnd(end: 1),
       elevation: 0,
       badgeColor: Colors.transparent,
       child: CachedNetworkImage(

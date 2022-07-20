@@ -99,9 +99,8 @@ class _OnBoardingState extends State<OnBoarding> {
               ),
             ),
             Expanded(
-              flex: 4,
+              flex: 3,
               child: CustomCard(
-                height: SizeConfig.screenHeight * 0.28,
                 child: Column(
                   children: [
                     Container(
@@ -118,7 +117,8 @@ class _OnBoardingState extends State<OnBoarding> {
                         align: TextAlign.center,
                       ),
                     ),
-                    const Spacer(),
+                    // const Spacer(),
+                    // SizedBox(height: SizeConfig.screenHeight * 0.01),
                     CustomButton(
                       text: AppLocalization.of(context)!
                           .getTranslatedValues('signUpLbl')!,
@@ -128,6 +128,8 @@ class _OnBoardingState extends State<OnBoarding> {
                       },
                     ),
                     const Spacer(),
+                    // SizedBox(height: SizeConfig.screenHeight * 0.01),
+
                     Container(
                       margin: const EdgeInsets.only(
                         top: 16,

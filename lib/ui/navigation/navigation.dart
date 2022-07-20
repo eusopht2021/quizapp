@@ -52,115 +52,83 @@ class _NavigationState extends State<Navigation> {
     //   color: Colors.pink,
     // ),
   ];
-
   @override
   Widget build(BuildContext context) {
+    bool _isKeyboardOpen = MediaQuery.of(context).viewInsets.bottom != 0;
+
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Constants.primaryColor,
-        onPressed: () {
-          //  Navigator.of(context).pushNamed(Routes.create);
-        },
-        child: const Icon(
-          Icons.add,
+      floatingActionButton: Visibility(
+        visible: !_isKeyboardOpen,
+        child: FloatingActionButton(
+          backgroundColor: Constants.primaryColor,
+          onPressed: () {
+            //  Navigator.of(context).pushNamed(Routes.create);
+          },
+          child: const Icon(
+            Icons.add,
+          ),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       extendBody: true,
       bottomNavigationBar: BlocBuilder<NavigationCubit, NavigationbarState>(
-          builder: (context, state) {
-        return AnimatedBottomNavigationBar.builder(
-          itemCount: 4,
-          backgroundColor: Constants.white,
-          height: kBottomNavigationBarHeight,
-          gapLocation: GapLocation.center,
-          leftCornerRadius: 20.0,
-          rightCornerRadius: 20.0,
-          notchSmoothness: NotchSmoothness.softEdge,
-          tabBuilder: (index, value) => Container(
-            padding: const EdgeInsets.all(15),
-            child: SvgPicture.asset(
-              Assets.navigationBarIcons[index],
-              color:
-                  selectedIndex == index ? Constants.black1 : Constants.grey3,
+        builder: (context, state) {
+          return AnimatedBottomNavigationBar.builder(
+            itemCount: bodyWidgets.length,
+            backgroundColor: Constants.white,
+            height: kBottomNavigationBarHeight,
+            gapLocation: GapLocation.center,
+            leftCornerRadius: 20.0,
+            rightCornerRadius: 20.0,
+            notchSmoothness: NotchSmoothness.softEdge,
+            tabBuilder: (index, value) => Container(
+              padding: const EdgeInsets.all(15),
+              child: SvgPicture.asset(
+                Assets.navigationBarIcons[index],
+                color:
+                    selectedIndex == index ? Constants.black1 : Constants.grey3,
+              ),
             ),
-          ),
-          activeIndex: selectedIndex,
-          onTap: (index) {
-            setState(() {
-              selectedIndex = index;
-            });
-            if (index == 0) {
-              BlocProvider.of<NavigationCubit>(context)
-                  .getNavBarItem(NavbarItems.newhome);
-            } else if (index == 1) {
-              BlocProvider.of<NavigationCubit>(context)
-                  .getNavBarItem(NavbarItems.discover);
-            } else if (index == 2) {
-              BlocProvider.of<NavigationCubit>(context)
-                  .getNavBarItem(NavbarItems.leaderboard);
-            } else if (index == 3) {
-              BlocProvider.of<NavigationCubit>(context)
-                  .getNavBarItem(NavbarItems.profile);
-            }
-          },
-        );
-      }),
+            activeIndex: selectedIndex,
+            onTap: (index) {
+              setState(() {
+                selectedIndex = index;
+              });
+              if (index == 0) {
+                BlocProvider.of<NavigationCubit>(context)
+                    .getNavBarItem(NavbarItems.newhome);
+              } else if (index == 1) {
+                BlocProvider.of<NavigationCubit>(context)
+                    .getNavBarItem(NavbarItems.discover);
+              } else if (index == 2) {
+                BlocProvider.of<NavigationCubit>(context)
+                    .getNavBarItem(NavbarItems.leaderboard);
+              } else if (index == 3) {
+                BlocProvider.of<NavigationCubit>(context)
+                    .getNavBarItem(NavbarItems.profile);
+              }
+            },
+          );
+        },
+      ),
       body: BlocBuilder<NavigationCubit, NavigationbarState>(
-          builder: (context, state) {
-        if (state.navbarItems == NavbarItems.newhome) {
-          return NewHomeScreen();
-        } else if (state.navbarItems == NavbarItems.discover) {
-          return Discover();
-        } else if (state.navbarItems == NavbarItems.leaderboard) {
-          return NewLeaderBoardScreen();
-        } else if (state.navbarItems == NavbarItems.profile) {
-          return Profile(routefromHomeScreen: false);
-        }
-        return Container();
-      }),
+        builder: (context, state) {
+          log("$selectedIndex");
+          log(" navbar items: ${state.navbarItems}");
+
+          if (state.navbarItems == NavbarItems.newhome) {
+            return NewHomeScreen();
+          } else if (state.navbarItems == NavbarItems.discover) {
+            return Discover();
+          } else if (state.navbarItems == NavbarItems.leaderboard) {
+            return NewLeaderBoardScreen();
+          } else if (state.navbarItems == NavbarItems.profile) {
+            return Profile(routefromHomeScreen: false);
+          }
+
+          return Container();
+        },
+      ),
     );
   }
 }
-// bottomNavigationBar: AnimatedBottomNavigationBar.builder(
-//   itemCount: 4,
-//   backgroundColor: Constants.white,
-//   height: kBottomNavigationBarHeight,
-//   gapLocation: GapLocation.center,
-//   leftCornerRadius: 20.0,
-//   rightCornerRadius: 20.0,
-//   notchSmoothness: NotchSmoothness.softEdge,
-//   tabBuilder: (index, value) => Expanded(
-//     child: Container(
-//       padding: const EdgeInsets.all(15),
-//       child: SvgPicture.asset(
-//         Assets.navigationBarIcons[index],
-//         color:
-//             selectedIndex == index ? Constants.black1 : Constants.grey3,
-//       ),
-//     ),
-//   ),
-//   activeIndex: selectedIndex,
-//   onTap: (index) {
-//     setState(() {
-//       selectedIndex = index;
-//     });
-//     log('Item at #$index');
-//   },
-// ),       //   BottomNavigationBar(
-//     currentIndex: state.index,
-//     showUnselectedLabels: false,
-//     items: bodyWidgets,
-//     onTap: (index) {
-//       if (index == 0) {
-//         BlocProvider.of<NavigationCubit>(context)
-//             .getNavBarItem(NavbarItems.newhome);
-//       } else if (index == 1) {
-//         BlocProvider.of<NavigationCubit>(context)
-//             .getNavBarItem(NavbarItems.discover);
-//       } else if (index == 2) {
-//         BlocProvider.of<NavigationCubit>(context)
-//             .getNavBarItem(NavbarItems.leaderboard);
-//       }
-//     },
-//   );

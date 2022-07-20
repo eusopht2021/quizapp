@@ -19,7 +19,11 @@ import 'package:flutterquiz/features/profileManagement/cubits/userDetailsCubit.d
 import 'package:flutterquiz/features/profileManagement/profileManagementRepository.dart';
 import 'package:flutterquiz/features/systemConfig/cubits/appSettingsCubit.dart';
 import 'package:flutterquiz/features/systemConfig/systemConfigRepository.dart';
+import 'package:flutterquiz/ui/navigation/navbaritems.dart';
+import 'package:flutterquiz/ui/navigation/navigation.dart';
+import 'package:flutterquiz/ui/navigation/navigation_bar_state.dart';
 import 'package:flutterquiz/ui/screens/appSettingsScreen.dart';
+import 'package:flutterquiz/ui/screens/auth/onBoardingScreen.dart';
 import 'package:flutterquiz/ui/screens/profile/widgets/editProfileFieldBottomSheetContainer.dart';
 import 'package:flutterquiz/ui/widgets/title_text.dart';
 import 'package:flutterquiz/utils/assets.dart';
@@ -310,12 +314,10 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                                                 context
                                                     .read<AuthCubit>()
                                                     .signOut();
+
                                                 Navigator.of(context)
-                                                    .pushNamedAndRemoveUntil(
-                                                        Routes.loginScreen,
-                                                        (Route<dynamic>
-                                                                route) =>
-                                                            false);
+                                                    .pushReplacementNamed(Routes
+                                                        .onBoardingScreen);
                                               },
                                               child: Text(
                                                 AppLocalization.of(context)!
