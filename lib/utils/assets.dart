@@ -39,6 +39,7 @@ class Assets {
   static String rank3 = 'assets/icons/Rank3.png';
   static String cardCircles = 'assets/images/card_circles.png';
   static String cardCircles1 = 'assets/images/card_circles1.png';
+  static String sunIcon = "assets/icons/sunIcon.svg";
 
   static String smallDot = 'assets/images/smalldot.png';
   static String leftCircle = 'assets/images/leftCircle.png';
@@ -51,6 +52,7 @@ class Assets {
   static String crown = "assets/icons/medal.svg";
   static String leaderBoardOutlined = "assets/icons/leaderboardoutlined.png";
   static String fireworks = "assets/icons/fireworks.png";
+  static String findFriendsIcon = "assets/icons/findFriendsIcon.svg";
 
   // CATEGORIES
   static String art = 'assets/images/quiz_categories/art.svg';
@@ -101,6 +103,11 @@ class Assets {
   static String leaderboardFilled = 'assets/svgs/leaderboard_filled.svg';
   static String personFilled = 'assets/svgs/profile_filled.svg';
 
+  // Navigation Outlined
+  static String homeOutlined = 'assets/svgs/home.svg';
+  static String navleaderboardOutlined = 'assets/svgs/leaderboard.svg';
+  static String personOutlined = 'assets/svgs/profile.svg';
+
   //Flags
   static String turkey = 'assets/flags/turkey.png';
   static String france = 'assets/flags/flagFrance.png';
@@ -133,6 +140,13 @@ class Assets {
     search,
     leaderboardFilled,
     personFilled,
+  ];
+
+  static List<String> outlinedNavigationBarIcons = [
+    homeOutlined,
+    search,
+    navleaderboardOutlined,
+    personOutlined,
   ];
 
   static List<String> quizTypes = [

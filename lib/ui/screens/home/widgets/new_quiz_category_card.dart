@@ -62,7 +62,7 @@ class QuizCategoryCard extends StatelessWidget {
           textColor: Constants.black1,
         ),
         subtitle: TitleText(
-          text: '$category',
+          text: category,
           size: Constants.bodyXSmall,
           weight: FontWeight.w400,
         ),

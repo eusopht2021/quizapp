@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterquiz/utils/size_config.dart';
 
 import '../../../app/appLocalization.dart';
 import '../../../app/routes.dart';
@@ -21,44 +22,48 @@ class SignUpOptions extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           WidgetsUtil.verticalSpace24,
+          WidgetsUtil.verticalSpace24,
           WidgetsUtil.verticalSpace16,
-          Expanded(
-            flex: 2,
-            child: Column(
-              children: [
-                SizedBox(
-                  width: 56,
-                  height: 56,
+          Column(
+            children: [
+              SizedBox(
+                width: 56,
+                height: 56,
+                child: FittedBox(
+                  fit: BoxFit.fitHeight,
                   child: Image.asset(
                     'assets/icons/light_icon.png',
                   ),
                 ),
-                WidgetsUtil.verticalSpace10,
-                TitleText(
-                  text: 'Queezy',
-                  textColor: Constants.white,
-                  size: Constants.heading3 - 2,
-                  fontFamily: 'Nunito',
-                  weight: FontWeight.w800,
-                ),
-              ],
-            ),
+              ),
+              WidgetsUtil.verticalSpace10,
+              TitleText(
+                text: 'Queezy',
+                textColor: Constants.white,
+                size: Constants.heading3 - 2,
+                fontFamily: 'Nunito',
+                weight: FontWeight.w800,
+              ),
+            ],
           ),
           Expanded(
-            flex: 3,
+            flex: 4,
             child: Container(
               margin: const EdgeInsets.only(
                 left: 24,
                 right: 24,
               ),
               alignment: Alignment.center,
-              child: Image.asset(
-                Assets.personsMeeting,
+              child: FittedBox(
+                fit: BoxFit.contain,
+                child: Image.asset(
+                  Assets.personsMeeting,
+                ),
               ),
             ),
           ),
           Expanded(
-            flex: 5,
+            flex: 6,
             child: CustomCard(
               child: Column(
                 children: [

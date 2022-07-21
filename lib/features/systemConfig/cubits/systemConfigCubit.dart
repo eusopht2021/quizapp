@@ -1,4 +1,5 @@
 //State
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,7 +10,7 @@ import 'package:flutterquiz/utils/constants.dart';
 
 abstract class SystemConfigState {}
 
-class SystemConfigIntial extends SystemConfigState {}
+class SystemConfigInitial extends SystemConfigState {}
 
 class SystemConfigFetchInProgress extends SystemConfigState {}
 
@@ -37,11 +38,13 @@ class SystemConfigFetchFailure extends SystemConfigState {
 
 class SystemConfigCubit extends Cubit<SystemConfigState> {
   final SystemConfigRepository _systemConfigRepository;
-  SystemConfigCubit(this._systemConfigRepository) : super(SystemConfigIntial());
+  SystemConfigCubit(this._systemConfigRepository)
+      : super(SystemConfigInitial());
 
   void getSystemConfig() async {
     emit(SystemConfigFetchInProgress());
     try {
+      log("getting avatars");
       List<SupportedLanguage> supporatedLanguages = [];
       final systemConfig = await _systemConfigRepository.getSystemConfig();
       final introSliderImages = await _systemConfigRepository
@@ -65,6 +68,7 @@ class SystemConfigCubit extends Cubit<SystemConfigState> {
       ));
     } catch (e) {
       print(e.toString());
+      log("SystemConfig $e");
       emit(SystemConfigFetchFailure(e.toString()));
     }
   }
@@ -345,6 +349,7 @@ class SystemConfigCubit extends Cubit<SystemConfigState> {
               .systemConfigModel
               .selfChallengeMode ==
           "1";
+      //"0"
     }
     return false;
   }

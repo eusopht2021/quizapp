@@ -161,6 +161,14 @@ class _ExamsScreenState extends State<ExamsScreen> {
   Widget _buildAppBar() {
     return Container(
       padding: EdgeInsets.only(bottom: 15),
+      height:
+          MediaQuery.of(context).size.height * (UiUtils.appBarHeightPercentage),
+      decoration: BoxDecoration(
+          boxShadow: [UiUtils.buildAppbarShadow()],
+          color: Theme.of(context).backgroundColor,
+          borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(20.0),
+              bottomRight: Radius.circular(20.0))),
       child: Stack(
         children: [
           Align(
@@ -189,14 +197,6 @@ class _ExamsScreenState extends State<ExamsScreen> {
           ),
         ],
       ),
-      height:
-          MediaQuery.of(context).size.height * (UiUtils.appBarHeightPercentage),
-      decoration: BoxDecoration(
-          boxShadow: [UiUtils.buildAppbarShadow()],
-          color: Theme.of(context).backgroundColor,
-          borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(20.0),
-              bottomRight: Radius.circular(20.0))),
     );
   }
 

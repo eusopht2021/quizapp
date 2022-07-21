@@ -95,7 +95,7 @@ class UiUtils {
     //
 
     int coins = await ProfileManagementLocalDataSource.getUpdateReversedCoins();
-    print("Need to upddate coins by $coins");
+    // print("Need to upddate coins by $coins");
     if (coins != 0) {
       context.read<UserDetailsCubit>().updateCoins(addCoin: true, coins: coins);
     }
@@ -333,7 +333,7 @@ class UiUtils {
       {required BuildContext context, required String userId}) {
     //fetch bookmark quiz zone
     if (context.read<BookmarkCubit>().state is! BookmarkFetchSuccess) {
-      print("Fetch bookmark details");
+      // print("Fetch bookmark details");
       context.read<BookmarkCubit>().getBookmark(userId);
       //delete any unused gruop battle room which is created by this user
       BattleRoomRepository().deleteUnusedBattleRoom(userId);
@@ -342,19 +342,19 @@ class UiUtils {
     //fetch guess the word bookmark
     if (context.read<GuessTheWordBookmarkCubit>().state
         is! GuessTheWordBookmarkFetchSuccess) {
-      print("Fetch guess the word bookmark details");
+      // print("Fetch guess the word bookmark details");
       context.read<GuessTheWordBookmarkCubit>().getBookmark(userId);
     }
 
     //fetch audio question bookmark
     if (context.read<AudioQuestionBookmarkCubit>().state
         is! AudioQuestionBookmarkFetchSuccess) {
-      print("Fetch audio question bookmark details");
+      // print("Fetch audio question bookmark details");
       context.read<AudioQuestionBookmarkCubit>().getBookmark(userId);
     }
 
     if (context.read<BadgesCubit>().state is! BadgesFetchSuccess) {
-      print("Fetch badges details");
+      // print("Fetch badges details");
       //get badges for given user
       context.read<BadgesCubit>().getBadges(userId: userId);
 
@@ -368,7 +368,7 @@ class UiUtils {
     double secondsTakenToAnswer =
         (questionDurationInSeconds * animationControllerValue);
 
-    print("Took ${secondsTakenToAnswer}s to give the answer");
+    // print("Took ${secondsTakenToAnswer}s to give the answer");
 
     //improve points system here if needed
     if (secondsTakenToAnswer <= 2) {

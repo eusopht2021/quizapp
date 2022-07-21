@@ -1,6 +1,7 @@
 import 'package:facebook_audience_network/ad/ad_banner.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterquiz/features/systemConfig/cubits/systemConfigCubit.dart';
+import 'package:flutterquiz/utils/constants.dart';
 
 import 'package:flutterquiz/utils/uiUtils.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -85,10 +86,7 @@ class _BannerAdContainer extends State<BannerAdContainer> {
         return _googleBannerAd != null
             ? Container(
                 decoration: BoxDecoration(
-                  gradient: UiUtils.buildLinerGradient([
-                    Theme.of(context).scaffoldBackgroundColor,
-                    Theme.of(context).canvasColor
-                  ], Alignment.topCenter, Alignment.bottomCenter),
+                  color: Constants.white,
                 ),
                 width: MediaQuery.of(context).size.width,
                 height: _googleBannerAd!.size.height.toDouble(),

@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -82,17 +83,17 @@ class _SelectProfilePictureScreen extends State<SelectProfilePictureScreen> {
                   bloc: context.read<UploadProfileCubit>()));
         },
         child: Container(
-          child: Center(
-            child: Icon(
-              Icons.add_a_photo,
-              color: Theme.of(context).backgroundColor,
-            ),
-          ),
           width: MediaQuery.of(context).size.width * (0.3),
           height: MediaQuery.of(context).size.width * (0.3),
           decoration: BoxDecoration(
             color: Theme.of(context).primaryColor,
             shape: BoxShape.circle,
+          ),
+          child: Center(
+            child: Icon(
+              Icons.add_a_photo,
+              color: Theme.of(context).backgroundColor,
+            ),
           ),
         ),
       );
@@ -210,9 +211,15 @@ class _SelectProfilePictureScreen extends State<SelectProfilePictureScreen> {
   }
 
   Widget _buildDefaultAvtarImages() {
-    final defaultProfileImages =
-        (context.read<SystemConfigCubit>().state as SystemConfigFetchSuccess)
-            .defaultProfileImages;
+    List avatars = [];
+    if (context.read<SystemConfigCubit>().state is SystemConfigFetchSuccess) {
+      final defaultProfileImages =
+          (context.read<SystemConfigCubit>().state as SystemConfigFetchSuccess)
+              .defaultProfileImages;
+      avatars = defaultProfileImages;
+    } else {
+      log('SystemConfig is not Success');
+    }
 
     return SizedBox(
         height: MediaQuery.of(context).size.height * (0.13),
@@ -220,11 +227,11 @@ class _SelectProfilePictureScreen extends State<SelectProfilePictureScreen> {
             shrinkWrap: true,
             physics: BouncingScrollPhysics(),
             scrollDirection: Axis.horizontal,
-            itemCount: defaultProfileImages.length,
+            itemCount: avatars.length,
             itemBuilder: (context, index) {
               return _buildDefaultAvtarImage(
                 index,
-                defaultProfileImages[index],
+                avatars[index],
               );
             }));
   }
@@ -568,10 +575,8 @@ class _SelectProfilePictureScreen extends State<SelectProfilePictureScreen> {
 
                 UserProfile userProfile =
                     (state as UserDetailsFetchSuccess).userProfile;
-                if (textEditingController == null) {
-                  textEditingController =
-                      TextEditingController(text: userProfile.name);
-                }
+                textEditingController ??=
+                    TextEditingController(text: userProfile.name);
                 return SingleChildScrollView(
                   padding: EdgeInsets.only(
                     top: MediaQuery.of(context).padding.top,

@@ -52,6 +52,7 @@ class AuthRemoteDataSource {
         friendCodeKey: friendCode ?? ""
       };
       log('Add User API $addUserUrl ${body.toString()}');
+      // print(addUserUrl + " url printed");
       final response = await http.post(Uri.parse(addUserUrl), body: body);
       final responseJson = jsonDecode(response.body);
 

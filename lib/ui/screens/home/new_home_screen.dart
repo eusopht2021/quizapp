@@ -202,13 +202,19 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(
-                          child: TitleText(
-                            text: 'Good Morning',
-                            textColor: Constants.accent1,
-                            size: Constants.bodyXSmall,
-                            weight: FontWeight.w500,
-                          ),
+                        Row(
+                          children: [
+                            SvgPicture.asset(Assets.sunIcon),
+                            WidgetsUtil.horizontalSpace8,
+                            Expanded(
+                              child: TitleText(
+                                text: 'Good Morning',
+                                textColor: Constants.accent1,
+                                size: Constants.bodyXSmall,
+                                weight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
                         ),
                         TitleText(
                           text: state.userProfile.name!,
@@ -397,7 +403,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                                 textColor: Constants.primaryColor,
                                 iconColor: Constants.primaryColor,
                                 background: Constants.white,
-                                icon: Assets.search,
+                                icon: Assets.findFriendsIcon,
                                 itemSpace: 12,
                                 onTap: () => log('Find Friends'),
                                 height: 44,
@@ -628,7 +634,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
     FirebaseMessaging.onBackgroundMessage(UiUtils.onBackgroundMessage);
     //handle foreground notification
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print("Notification arrives : $message");
+      // print("Notification arrives : $message");
       var data = message.data;
 
       var title = data['title'].toString();
@@ -721,9 +727,10 @@ class _NewHomeScreenState extends State<NewHomeScreen>
   Future<String> _downloadAndSaveFile(String url, String fileName) async {
     final Directory directory = await getApplicationDocumentsDirectory();
     final String filePath = '${directory.path}/$fileName';
-    print(" The Url is $url");
+    // print(" The Url is $url");
+
     final http.Response response = await http.get(Uri.parse(url));
-    print("The Response is $response");
+    // print("The Response is $response");
     final File file = File(filePath);
     await file.writeAsBytes(response.bodyBytes);
     return filePath;
@@ -750,13 +757,15 @@ class _NewHomeScreenState extends State<NewHomeScreen>
 
   void showUpdateNameBottomSheet() {
     final updateUserDetailCubit = context.read<UpdateUserDetailCubit>();
+
+    final userDetailsCubit = context.read<UserDetailsCubit>();
     showModalBottomSheet(
         isDismissible: false,
         enableDrag: false,
         isScrollControlled: true,
         elevation: 5.0,
         shape: const RoundedRectangleBorder(
-            borderRadius: const BorderRadius.only(
+            borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20.0),
           topRight: Radius.circular(20.0),
         )),
@@ -765,8 +774,10 @@ class _NewHomeScreenState extends State<NewHomeScreen>
           return EditProfileFieldBottomSheetContainer(
               canCloseBottomSheet: false,
               fieldTitle: nameLbl,
+              password: false,
               fieldValue: context.read<UserDetailsCubit>().getUserName(),
               numericKeyboardEnable: false,
+              userDetailCubit: userDetailsCubit,
               updateUserDetailCubit: updateUserDetailCubit);
         });
   }
@@ -805,6 +816,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
     //container number will be [1,2,3,4] if self chellenge is enable
     //container number will be [1,2,3,4,5,6] if self chellenge is not enable
 
+    log("current index $containerNumber");
     if (currentMenu == 1) {
       if (containerNumber == 1) {
         _onQuizTypeContainerTap(0);
@@ -814,12 +826,13 @@ class _NewHomeScreenState extends State<NewHomeScreen>
         _onQuizTypeContainerTap(2);
       } else {
         if (context.read<SystemConfigCubit>().isSelfChallengeEnable()) {
+          log("self challange is enable");
           if (_quizTypes.length >= 4) {
             _onQuizTypeContainerTap(3);
           }
           return;
         }
-
+        log("self challange is not enable");
         if (containerNumber == 4) {
           if (_quizTypes.length >= 4) {
             _onQuizTypeContainerTap(3);
@@ -904,11 +917,10 @@ class _NewHomeScreenState extends State<NewHomeScreen>
         });
       } else {
         UiUtils.setSnackbar(
-          AppLocalization.of(context)!
-              .getTranslatedValues(currentlyNotAvailableKey)!,
-          context,
-          false,
-        );
+            AppLocalization.of(context)!
+                .getTranslatedValues(currentlyNotAvailableKey)!,
+            context,
+            false);
       }
     } else if (_quizTypes[quizTypeIndex].quizTypeEnum == QuizTypes.quizZone) {
       Navigator.of(context).pushNamed(Routes.category,

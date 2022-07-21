@@ -1,14 +1,17 @@
+import 'package:facebook_audience_network/facebook_audience_network.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterquiz/app/routes.dart';
 import 'package:flutterquiz/features/auth/authLocalDataSource.dart';
 import 'package:flutterquiz/features/auth/cubits/authCubit.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/userDetailsCubit.dart';
+import 'package:flutterquiz/features/systemConfig/cubits/systemConfigCubit.dart';
 import 'package:flutterquiz/ui/widgets/default_background.dart';
 import 'package:flutterquiz/ui/widgets/title_text.dart';
 import 'package:flutterquiz/utils/assets.dart';
 import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/size_config.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class Splash extends StatefulWidget {
   Splash({Key? key}) : super(key: key);
@@ -38,7 +41,18 @@ class _SplashState extends State<Splash> {
         // navigateToNextScreen();
       }
     });
+
+    loadSystemConfig();
+    // context.read<SystemConfigCubit>().getSystemConfig();
     super.initState();
+  }
+
+  void loadSystemConfig() async {
+    await MobileAds.instance.initialize();
+    await FacebookAudienceNetwork.init();
+    print("Ads loaded successfully");
+
+    context.read<SystemConfigCubit>().getSystemConfig();
   }
 
   @override

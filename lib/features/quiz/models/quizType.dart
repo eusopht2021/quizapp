@@ -62,7 +62,8 @@ class QuizType {
       {required String title,
       required String image,
       required bool active,
-      required description}) {
+      required description}) 
+      {
     this.title = title;
     this.image = "assets/images/$image";
     this.active = active;

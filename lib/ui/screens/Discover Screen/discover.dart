@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -73,8 +74,16 @@ class _DiscoverState extends State<Discover> {
         children: [
           CustomAppBar(
             title: 'Discover',
-            // onBackTapped: () => log('OnBackTapped'),
-            showBackButton: false,
+            onBackTapped: () {
+              setState(() {
+                FocusScopeNode currentFocus = FocusScope.of(context);
+                if (!currentFocus.hasPrimaryFocus) {
+                  currentFocus.unfocus();
+                }
+                sheetOpen = false;
+              });
+            },
+            showBackButton: sheetOpen ? true : false,
           ),
           WidgetsUtil.verticalSpace16,
           CustomTextField(
@@ -111,10 +120,12 @@ class _DiscoverState extends State<Discover> {
                         backgroundColor: Colors.transparent,
                         leading: SizedBox(),
                       ),
+
                       // _sheet(),
                       SliverList(
                         delegate: SliverChildListDelegate(
                           [
+                            WidgetsUtil.verticalSpace24,
                             _sheet(),
                           ],
                         ),
@@ -227,71 +238,77 @@ class _DiscoverState extends State<Discover> {
       );
 
   Widget _ranker({rankerCard, rankerName, points}) {
-    return Container(
-      margin: const EdgeInsets.only(
-        left: 24,
-        right: 24,
-      ),
-      decoration: BoxDecoration(
-        color: Constants.primaryColor,
-        borderRadius: StyleProperties.cardsRadius,
-        image: DecorationImage(
-          // image: Svg.Svg(Assets.rankerCardBg),
-          image: svg_provider.Svg(
-            Assets.rankerCardBg,
-          ),
-          fit: BoxFit.cover,
+    return Badge(
+      badgeContent: SvgPicture.asset(Assets.crown),
+      badgeColor: Colors.transparent,
+      position: BadgePosition.topEnd(top: -20, end: 40),
+      elevation: 0,
+      child: Container(
+        margin: const EdgeInsets.only(
+          left: 24,
+          right: 24,
         ),
-      ),
-      padding: StyleProperties.insets15,
-      child: Row(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: Constants.white,
+        decoration: BoxDecoration(
+          color: Constants.primaryColor,
+          borderRadius: StyleProperties.cardsRadius,
+          image: DecorationImage(
+            // image: Svg.Svg(Assets.rankerCardBg),
+            image: svg_provider.Svg(
+              Assets.rankerCardBg,
+            ),
+            fit: BoxFit.cover,
+          ),
+        ),
+        padding: StyleProperties.insets15,
+        child: Row(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: Constants.white,
+                ),
+              ),
+              padding: StyleProperties.insets10,
+              margin: StyleProperties.rightInset15,
+              child: TitleText(
+                text: "1",
+                size: Constants.bodyXSmall,
+                textColor: Constants.white,
+                weight: FontWeight.w500,
               ),
             ),
-            padding: StyleProperties.insets10,
-            margin: StyleProperties.rightInset15,
-            child: TitleText(
-              text: "1",
-              size: Constants.bodyXSmall,
-              textColor: Constants.white,
-              weight: FontWeight.w500,
+            SvgPicture.asset(
+              Assets.man1,
+              height: 70,
             ),
-          ),
-          SvgPicture.asset(
-            Assets.man1,
-            height: 70,
-          ),
-          WidgetsUtil.horizontalSpace16,
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TitleText(
-                  text: "$rankerName",
-                  textColor: Constants.white,
-                  weight: FontWeight.w500,
-                  size: Constants.bodyLarge,
-                  // lineHeight: 2.0,
-                  align: TextAlign.center,
-                ),
-                Padding(
-                  padding: StyleProperties.topInset10,
-                  child: TitleText(
-                    text: "$points points",
+            WidgetsUtil.horizontalSpace16,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TitleText(
+                    text: "$rankerName",
                     textColor: Constants.white,
-                    // weight: FontWeight.w500,
-                    size: Constants.bodyNormal,
+                    weight: FontWeight.w500,
+                    size: Constants.bodyLarge,
+                    // lineHeight: 2.0,
+                    align: TextAlign.center,
                   ),
-                ),
-              ],
-            ),
-          )
-        ],
+                  Padding(
+                    padding: StyleProperties.topInset10,
+                    child: TitleText(
+                      text: "$points points",
+                      textColor: Constants.white,
+                      // weight: FontWeight.w500,
+                      size: Constants.bodyNormal,
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

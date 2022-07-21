@@ -134,7 +134,8 @@ class _CategoryScreen extends State<CategoryScreen> {
                   if (widget.quizType == QuizTypes.quizZone) {
                     //noOf means how many subcategory it has
                     //if subcategory is 0 then check for level
-
+                    log(categoryList.toString() + "lists");
+                    
                     if (categoryList[index].noOf == "0") {
                       //means this category does not have level
                       if (categoryList[index].maxLevel == "0") {
@@ -167,11 +168,8 @@ class _CategoryScreen extends State<CategoryScreen> {
                     }
                   } else if (widget.quizType == QuizTypes.audioQuestions) {
                     //noOf means how many subcategory it has
-                    log("  audio questions ${categoryList[index]}");
 
                     if (categoryList[index].noOf == "0") {
-                      log("  audio questions ${categoryList[index]}");
-
                       //
                       Navigator.of(context).pushNamed(Routes.quiz, arguments: {
                         "numberOfPlayer": 1,
@@ -257,8 +255,7 @@ class _CategoryScreen extends State<CategoryScreen> {
                           size: 40, color: Constants.white),
                       title: Text(
                         categoryList[index].categoryName!,
-                        style:
-                            TextStyle(color: Constants.white),
+                        style: TextStyle(color: Constants.white),
                       ),
                     )),
               );

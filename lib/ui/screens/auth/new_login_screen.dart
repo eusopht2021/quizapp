@@ -52,8 +52,8 @@ class _LoginState extends State<Login> {
               key: _formKey,
               child: Column(
                 children: [
-                  _showGoogleButton(),
-                  _showFacebookButton(),
+                  SizedBox(height: 85, child: _showGoogleButton()),
+                  SizedBox(height: 75, child: _showFacebookButton()),
                   CustomDivider(
                     text:
                         AppLocalization.of(context)!.getTranslatedValues('or')!,
@@ -161,12 +161,8 @@ class _LoginState extends State<Login> {
       builder: (context, state) {
         if (state is SignInProgress &&
             state.authProvider == AuthProvider.gmail) {
-          return Center(
-            child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation(
-                Constants.primaryColor,
-              ),
-            ),
+          return CircularProgressIndicator(
+            color: Constants.primaryColor,
           );
         }
         return SocialButton(
@@ -245,8 +241,8 @@ class _LoginState extends State<Login> {
             context.read<UserDetailsCubit>().fetchUserDetails(state.user.uid);
             //updateFcm id
             log(state.user.uid);
-          
-              Navigator.of(context)
+
+            Navigator.of(context)
                 .pushReplacementNamed(Routes.home, arguments: false);
           }
         } else if (state is SignInFailure &&

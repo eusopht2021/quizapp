@@ -1931,31 +1931,36 @@ class _NewResultScreenState extends State<NewResultScreen> {
         ],
         child: Scaffold(
           appBar: PreferredSize(
-            preferredSize: Size.fromHeight(100),
+            preferredSize: Size.fromHeight(kToolbarHeight),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(),
-                Padding(
-                  padding: const EdgeInsets.only(top: 50),
-                  child: TitleText(
-                    text: _isWinner ? "Congratulations" : "Defeat",
-                    textColor: Constants.black1,
-                    size: 24,
-                    weight: FontWeight.w500,
+                Expanded(
+                  flex: 8,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 50, left: 150),
+                    child: TitleText(
+                      text: _isWinner ? "Congratulations" : "Defeat",
+                      textColor: Constants.black1,
+                      size: 24,
+                      weight: FontWeight.w500,
+                    ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 50),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, Routes.home, (route) => true);
-                    },
-                    child: Icon(
-                      Icons.close,
-                      size: 30,
+                Expanded(
+                  flex: 2,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 50, right: 16),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, Routes.home, (route) => true);
+                      },
+                      child: Icon(
+                        Icons.close,
+                        size: 30,
+                      ),
                     ),
                   ),
                 ),

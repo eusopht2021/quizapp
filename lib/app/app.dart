@@ -11,6 +11,7 @@ import 'package:flutterquiz/features/ads/interstitialAdCubit.dart';
 import 'package:flutterquiz/features/ads/rewardedAdCubit.dart';
 import 'package:flutterquiz/features/auth/authRepository.dart';
 import 'package:flutterquiz/features/auth/cubits/authCubit.dart';
+import 'package:flutterquiz/features/auth/cubits/referAndEarnCubit.dart';
 import 'package:flutterquiz/features/badges/badgesRepository.dart';
 import 'package:flutterquiz/features/badges/cubits/badgesCubit.dart';
 import 'package:flutterquiz/features/battleRoom/battleRoomRepository.dart';

@@ -1,3 +1,5 @@
+// ignore_for_file: use_full_hex_values_for_flutter_colors
+
 import 'dart:developer';
 
 import 'package:flutter/gestures.dart';
@@ -35,10 +37,9 @@ class Terms extends StatelessWidget {
               text: AppLocalization.of(context)!
                   .getTranslatedValues('termsAndServicesLbl'),
               style: GoogleFonts.rubik(
-                fontSize: Constants.bodySmall,
-                fontWeight: FontWeight.w500,
-                color: Constants.primaryColor,
-              ),
+                  fontSize: Constants.bodySmall,
+                  fontWeight: FontWeight.w500,
+                  color: Constants.black1),
             ),
             TextSpan(
               text: AppLocalization.of(context)!
@@ -59,7 +60,7 @@ class Terms extends StatelessWidget {
               style: GoogleFonts.rubik(
                 fontSize: Constants.bodySmall,
                 fontWeight: FontWeight.w500,
-                color: Constants.primaryColor,
+                color: Constants.black1,
               ),
             ),
           ],

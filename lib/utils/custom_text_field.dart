@@ -21,6 +21,7 @@ class CustomTextField extends StatelessWidget {
   final MainAxisAlignment? mainAxisAlignment;
   final double? horizontalMargin;
   bool isDark = false;
+  Color? typedTextColor;
   Color? textcolor;
 
   CustomTextField({
@@ -37,6 +38,7 @@ class CustomTextField extends StatelessWidget {
     this.node,
     this.textSize,
     this.titleWeight,
+    this.typedTextColor,
     this.borderColor,
     this.maxLines,
     this.mainAxisAlignment,
@@ -75,10 +77,10 @@ class CustomTextField extends StatelessWidget {
           ),
           padding: const EdgeInsets.all(0.0),
           child: TextFormField(
-            
             maxLines: maxLines ?? 1,
             focusNode: node,
             onTap: onTap,
+            style: TextStyle(color: typedTextColor ?? Constants.white),
             decoration: InputDecoration(
               filled: true,
               fillColor: fillColor ?? Constants.white,

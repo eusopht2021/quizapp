@@ -52,12 +52,12 @@ class _RandomOrPlayFrdDialogState extends State<RandomOrPlayFrdDialog> {
     super.initState();
   }
 
-  TextStyle _buildTextStyle() {
-    return TextStyle(
-      color: Theme.of(context).backgroundColor,
-      fontSize: 16.0,
-    );
-  }
+  // TextStyle _buildTextStyle() {
+  //   return TextStyle(
+  //     color: Theme.of(context).backgroundColor,
+  //     fontSize: 16.0,
+  //   );
+  // }
 
   Widget topLabelDesign(BoxConstraints constraints) {
     return Container(
@@ -85,11 +85,13 @@ class _RandomOrPlayFrdDialogState extends State<RandomOrPlayFrdDialog> {
     return DropdownButton<String>(
         key: Key(keyValue),
         borderRadius: BorderRadius.circular(20),
-        dropdownColor: Theme.of(context)
-            .canvasColor, //same as background of dropdown color
-        style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 16.0),
+        dropdownColor: Theme.of(context).canvasColor,
+        // dropdownColor: Constants.primaryColor,
+        // //same as background of dropdown color
+        style: TextStyle(color: Constants.white, fontSize: 16.0),
         isExpanded: true,
         iconEnabledColor: Theme.of(context).primaryColor,
+        // iconEnabledColor: Constants.primaryColor,
         onChanged: (value) {
           setState(() {
             selectedCategory = value!;
@@ -103,6 +105,7 @@ class _RandomOrPlayFrdDialogState extends State<RandomOrPlayFrdDialog> {
         //values is map of name and id. only passing name to dropdown
         items: values.map((e) => e['name']).toList().map((name) {
           return DropdownMenuItem(
+            value: name,
             child: name! == selectCategoryKey
                 ? TitleText(
                     text:
@@ -117,7 +120,6 @@ class _RandomOrPlayFrdDialogState extends State<RandomOrPlayFrdDialog> {
                     textColor: Constants.white,
                     weight: FontWeight.w500,
                   ),
-            value: name,
           );
         }).toList(),
         value: selectedCategory);
@@ -134,6 +136,7 @@ class _RandomOrPlayFrdDialogState extends State<RandomOrPlayFrdDialog> {
                 EdgeInsets.symmetric(horizontal: constraints.maxWidth * (0.05)),
             decoration: BoxDecoration(
                 color: Theme.of(context).canvasColor,
+                // color: Constants.primaryColor,
                 borderRadius: BorderRadius.circular(25.0)),
             height: constraints.maxHeight * (0.115),
             child: BlocConsumer<QuizCategoryCubit, QuizCategoryState>(
@@ -375,6 +378,7 @@ class _RandomOrPlayFrdDialogState extends State<RandomOrPlayFrdDialog> {
   Widget build(BuildContext context) {
     return CustomDialog(
       topPadding: MediaQuery.of(context).size.height * (0.15),
+      height: MediaQuery.of(context).size.height * (0.6),
       child: BlocListener<UpdateScoreAndCoinsCubit, UpdateScoreAndCoinsState>(
         listener: (context, state) {
           if (state is UpdateScoreAndCoinsFailure) {
@@ -392,6 +396,8 @@ class _RandomOrPlayFrdDialogState extends State<RandomOrPlayFrdDialog> {
                 child: Column(
                   children: [
                     CustomPaint(
+                      painter: CurvePainter(
+                          color: Theme.of(context).backgroundColor),
                       child: Container(
                         width: constraints.maxWidth,
                         height: constraints.maxHeight * (0.74),
@@ -419,8 +425,6 @@ class _RandomOrPlayFrdDialogState extends State<RandomOrPlayFrdDialog> {
                           );
                         }),
                       ),
-                      painter: CurvePainter(
-                          color: Theme.of(context).backgroundColor),
                     ),
                     Spacer(),
                     playWithFrdBtn(constraints),
@@ -434,7 +438,6 @@ class _RandomOrPlayFrdDialogState extends State<RandomOrPlayFrdDialog> {
           ),
         ),
       ),
-      height: MediaQuery.of(context).size.height * (0.6),
     );
   }
 }

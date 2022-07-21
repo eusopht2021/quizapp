@@ -16,7 +16,7 @@ class InfoCard extends StatelessWidget {
   final bool recentQuizCard;
   final bool featuredCard;
   final bool rankerCard;
-  final num? quizzesLength;
+  final int? quizzesLength;
   final num? points;
   final String? rankerName;
   const InfoCard({
@@ -60,14 +60,16 @@ class InfoCard extends StatelessWidget {
           // TOP TIPS TEXT BOX
           Positioned(
             left: 40,
-            top: 20,
+            top: 22,
             child: Container(
               decoration: StyleProperties.pinkBox,
               padding: StyleProperties.insets10,
-              child: TitleText(
-                text: "Top picks".toUpperCase(),
-                textColor: Constants.white,
-                weight: FontWeight.w500,
+              child: Center(
+                child: TitleText(
+                  text: "Top picks".toUpperCase(),
+                  textColor: Constants.white,
+                  weight: FontWeight.w500,
+                ),
               ),
             ),
           ),

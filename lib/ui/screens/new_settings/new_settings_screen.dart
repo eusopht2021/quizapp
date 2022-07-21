@@ -117,6 +117,7 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
             builder: (context, state) {
               if (state is UserDetailsFetchSuccess) {
                 return Scaffold(
+                  backgroundColor: Constants.white,
                   appBar: PreferredSize(
                     preferredSize: Size.fromHeight(kToolbarHeight),
                     child: CustomAppBar(

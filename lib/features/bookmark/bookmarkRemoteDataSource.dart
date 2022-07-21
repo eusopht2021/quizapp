@@ -23,7 +23,7 @@ class BookmarkRemoteDataSource {
       final response = await http.post(Uri.parse(getBookmarkUrl),
           body: body, headers: await ApiUtils.getHeaders());
       final responseJson = jsonDecode(response.body);
-      print("Response of bookmark : $responseJson");
+      // print("Response of bookmark : $responseJson");
       if (responseJson['error']) {
         throw BookmarkException(errorMessageCode: responseJson['message']);
       }

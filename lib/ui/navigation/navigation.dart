@@ -26,7 +26,6 @@ class Navigation extends StatefulWidget {
 class _NavigationState extends State<Navigation> {
   @override
   void initState() {
-    selectedIndex = 0;
     // TODO: implement initState
     super.initState();
   }
@@ -54,11 +53,11 @@ class _NavigationState extends State<Navigation> {
   ];
   @override
   Widget build(BuildContext context) {
-    bool _isKeyboardOpen = MediaQuery.of(context).viewInsets.bottom != 0;
+    bool isKeyboardOpen = MediaQuery.of(context).viewInsets.bottom != 0;
 
     return Scaffold(
       floatingActionButton: Visibility(
-        visible: !_isKeyboardOpen,
+        visible: !isKeyboardOpen,
         child: FloatingActionButton(
           backgroundColor: Constants.primaryColor,
           onPressed: () {
@@ -84,7 +83,9 @@ class _NavigationState extends State<Navigation> {
             tabBuilder: (index, value) => Container(
               padding: const EdgeInsets.all(15),
               child: SvgPicture.asset(
-                Assets.navigationBarIcons[index],
+                selectedIndex == index
+                    ? Assets.navigationBarIcons[index]
+                    : Assets.outlinedNavigationBarIcons[index],
                 color:
                     selectedIndex == index ? Constants.black1 : Constants.grey3,
               ),
