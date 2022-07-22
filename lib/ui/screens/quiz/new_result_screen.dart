@@ -1930,37 +1930,37 @@ class _NewResultScreenState extends State<NewResultScreen> {
           ),
         ],
         child: Scaffold(
-          appBar: PreferredSize(
-            preferredSize: Size.fromHeight(kToolbarHeight),
-            child: Row(
-              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            toolbarHeight: kToolbarHeight,
+            automaticallyImplyLeading: false,
+            elevation: 0,
+            centerTitle: true,
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Expanded(
-                  flex: 8,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 50, left: 150),
-                    child: TitleText(
-                      text: _isWinner ? "Congratulations" : "Defeat",
-                      textColor: Constants.black1,
-                      size: 24,
-                      weight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-                Expanded(
+                Spacer(
                   flex: 2,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 50, right: 16),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, Routes.home, (route) => true);
-                      },
-                      child: Icon(
-                        Icons.close,
-                        size: 30,
-                      ),
+                ),
+                TitleText(
+                  text: _isWinner ? "Congratulations" : "Defeat",
+                  textColor: Constants.black1,
+                  size: 24,
+                  weight: FontWeight.w500,
+                ),
+                Spacer(),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, Routes.home, (route) => true);
+                    },
+                    child: Icon(
+                      Icons.close,
+                      color: Constants.black1,
+                      size: 30,
                     ),
                   ),
                 ),
@@ -1969,6 +1969,7 @@ class _NewResultScreenState extends State<NewResultScreen> {
           ),
           backgroundColor: Constants.white,
           body: SingleChildScrollView(
+            padding: EdgeInsets.zero,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

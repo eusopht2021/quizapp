@@ -9,6 +9,7 @@ import 'package:flutterquiz/ui/navigation/navbarcubit.dart';
 import 'package:flutterquiz/ui/navigation/navbaritems.dart';
 import 'package:flutterquiz/ui/navigation/navigation_bar_state.dart';
 import 'package:flutterquiz/ui/screens/Discover%20Screen/discover.dart';
+import 'package:flutterquiz/ui/screens/createQuizScreens/createQuizScreen.dart';
 import 'package:flutterquiz/ui/screens/home/homeScreen.dart';
 import 'package:flutterquiz/ui/screens/home/new_home_screen.dart';
 import 'package:flutterquiz/ui/screens/new_leaderBoard.dart';
@@ -61,7 +62,8 @@ class _NavigationState extends State<Navigation> {
         child: FloatingActionButton(
           backgroundColor: Constants.primaryColor,
           onPressed: () {
-            //  Navigator.of(context).pushNamed(Routes.create);
+            Navigator.push(
+                context, MaterialPageRoute(builder: (_) => CreateQuizScreen()));
           },
           child: const Icon(
             Icons.add,

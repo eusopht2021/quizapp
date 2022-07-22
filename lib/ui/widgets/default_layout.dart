@@ -15,6 +15,7 @@ class DefaultLayout extends StatelessWidget {
   final bool? showBackButton;
   final double? size;
   Function()? onTap;
+  final bool? resizeToAvoidBottomInset;
 
   DefaultLayout({
     Key? key,
@@ -24,6 +25,7 @@ class DefaultLayout extends StatelessWidget {
     this.titleColor,
     this.action,
     this.size,
+    this.resizeToAvoidBottomInset,
     this.showBackButton,
     this.onTap,
     this.expandBodyBehindAppBar,
@@ -32,6 +34,7 @@ class DefaultLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: resizeToAvoidBottomInset ?? true,
       backgroundColor: backgroundColor ?? Constants.backgroundColor,
       extendBodyBehindAppBar: expandBodyBehindAppBar ?? false,
       appBar: AppBar(

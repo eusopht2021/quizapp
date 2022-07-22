@@ -11,7 +11,6 @@ import 'package:flutterquiz/features/ads/interstitialAdCubit.dart';
 import 'package:flutterquiz/features/ads/rewardedAdCubit.dart';
 import 'package:flutterquiz/features/auth/authRepository.dart';
 import 'package:flutterquiz/features/auth/cubits/authCubit.dart';
-import 'package:flutterquiz/features/auth/cubits/referAndEarnCubit.dart';
 import 'package:flutterquiz/features/badges/badgesRepository.dart';
 import 'package:flutterquiz/features/badges/cubits/badgesCubit.dart';
 import 'package:flutterquiz/features/battleRoom/battleRoomRepository.dart';
@@ -27,8 +26,6 @@ import 'package:flutterquiz/features/leaderBoard/cubit/leaderBoardAllTimeCubit.d
 import 'package:flutterquiz/features/leaderBoard/cubit/leaderBoardDailyCubit.dart';
 import 'package:flutterquiz/features/leaderBoard/cubit/leaderBoardMonthlyCubit.dart';
 import 'package:flutterquiz/features/localization/appLocalizationCubit.dart';
-import 'package:flutterquiz/features/profileManagement/cubits/deleteAccountCubit.dart';
-import 'package:flutterquiz/features/profileManagement/cubits/updateUserDetailsCubit.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/uploadProfileCubit.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/userDetailsCubit.dart';
 import 'package:flutterquiz/features/profileManagement/profileManagementRepository.dart';
@@ -41,7 +38,6 @@ import 'package:flutterquiz/features/settings/settingsLocalDataSource.dart';
 import 'package:flutterquiz/features/settings/settingsRepository.dart';
 import 'package:flutterquiz/features/statistic/cubits/statisticsCubit.dart';
 import 'package:flutterquiz/features/statistic/statisticRepository.dart';
-import 'package:flutterquiz/features/systemConfig/cubits/appSettingsCubit.dart';
 import 'package:flutterquiz/features/systemConfig/cubits/systemConfigCubit.dart';
 import 'package:flutterquiz/features/systemConfig/systemConfigRepository.dart';
 import 'package:flutterquiz/features/tournament/cubits/tournamentBattleCubit.dart';
@@ -187,23 +183,6 @@ class MyApp extends StatelessWidget {
 
         BlocProvider<LeaderBoardAllTimeCubit>(
             create: (_) => LeaderBoardAllTimeCubit(NewLeaderBoardScreen())),
-
-// new profile providers
-
-        BlocProvider<AppSettingsCubit>(
-          create: (_) => AppSettingsCubit(
-            SystemConfigRepository(),
-          ),
-        ),
-        BlocProvider<DeleteAccountCubit>(
-            create: (_) => DeleteAccountCubit(ProfileManagementRepository())),
-
-        BlocProvider<UpdateUserDetailCubit>(
-          create: (context) => UpdateUserDetailCubit(
-            ProfileManagementRepository(),
-          ),
-        ),
-
         //
         BlocProvider<UploadProfileCubit>(
             create: (_) => UploadProfileCubit(ProfileManagementRepository())),

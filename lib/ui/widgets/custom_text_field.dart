@@ -80,7 +80,7 @@ class CustomTextField extends StatelessWidget {
             child: TitleText(
               text: label!,
               weight: titleWeight ?? FontWeight.w400,
-              textColor: Constants.black2,
+              textColor: iconTextColor ?? Constants.black2,
               size: textSize ?? Constants.bodySmall,
             ),
           ),
@@ -92,6 +92,7 @@ class CustomTextField extends StatelessWidget {
           ),
           padding: const EdgeInsets.all(0.0),
           child: TextFormField(
+            style: TextStyle(color: iconTextColor),
             controller: controller,
             validator: validator,
             maxLines: maxLines ?? 1,

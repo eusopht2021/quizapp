@@ -925,7 +925,7 @@ class _ProfileState extends State<Profile> {
 
   SizedBox _badgesTabItem() {
     return SizedBox(
-      height: 300,
+      height: 200,
       child: GridView.count(
         physics: const NeverScrollableScrollPhysics(),
         crossAxisCount: 3,

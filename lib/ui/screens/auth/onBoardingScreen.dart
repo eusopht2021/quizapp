@@ -128,7 +128,7 @@ class _OnBoardingState extends State<OnBoarding> {
                       },
                     ),
                     const Spacer(),
-                    // SizedBox(height: SizeConfig.screenHeight * 0.01),
+                    // SizedBox(height: double.infinity),
 
                     Container(
                       margin: const EdgeInsets.only(
@@ -156,8 +156,8 @@ class _OnBoardingState extends State<OnBoarding> {
                                   .pushNamed(Routes.loginScreen);
                             },
                             child: TitleText(
-                              text: AppLocalization.of(context)!
-                                  .getTranslatedValues('loginLbl')!,
+                              text:
+                                  " ${AppLocalization.of(context)!.getTranslatedValues('loginLbl')!}",
                               size: Constants.bodyNormal,
                               textColor: Constants.primaryColor,
                               weight: FontWeight.w500,

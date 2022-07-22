@@ -51,9 +51,12 @@ android {
         abortOnError false
     }
 
+// change to this path if working from home :"G:\keystore\tauqeer-keystore.jks"
+// change to this path if working in office : E:\\keyStores\\tauqeer-keystore.jks
+
     signingConfigs {
         release {
-            storeFile file('E:\\keyStores\\tauqeer-keystore.jks')
+            storeFile file('G:\\keystore\\tauqeer-keystore.jks')
             storePassword 'upload'
             keyAlias 'upload'
             keyPassword 'upload'

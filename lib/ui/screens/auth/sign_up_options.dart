@@ -29,11 +29,8 @@ class SignUpOptions extends StatelessWidget {
               SizedBox(
                 width: 56,
                 height: 56,
-                child: FittedBox(
-                  fit: BoxFit.fitHeight,
-                  child: Image.asset(
-                    'assets/icons/light_icon.png',
-                  ),
+                child: Image.asset(
+                  'assets/icons/light_icon.png',
                 ),
               ),
               WidgetsUtil.verticalSpace10,
@@ -54,17 +51,15 @@ class SignUpOptions extends StatelessWidget {
                 right: 24,
               ),
               alignment: Alignment.center,
-              child: FittedBox(
-                fit: BoxFit.contain,
-                child: Image.asset(
-                  Assets.personsMeeting,
-                ),
+              child: Image.asset(
+                Assets.personsMeeting,
               ),
             ),
           ),
           Expanded(
             flex: 6,
             child: CustomCard(
+              // height: double.infinity,
               child: Column(
                 children: [
                   WidgetsUtil.verticalSpace16,
