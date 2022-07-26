@@ -15,6 +15,8 @@ class DefaultLayout extends StatelessWidget {
   final bool? showBackButton;
   final double? size;
   Function()? onTap;
+  final Widget? bottomSheet;
+  final bool? extendBody;
   final bool? resizeToAvoidBottomInset;
 
   DefaultLayout({
@@ -28,15 +30,20 @@ class DefaultLayout extends StatelessWidget {
     this.resizeToAvoidBottomInset,
     this.showBackButton,
     this.onTap,
+    this.bottomSheet,
     this.expandBodyBehindAppBar,
+    this.extendBody,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomSheet: bottomSheet ?? SizedBox(),
+      // bottomNavigationBar: bottomNavigationbar ?? SizedBox(),
       resizeToAvoidBottomInset: resizeToAvoidBottomInset ?? true,
       backgroundColor: backgroundColor ?? Constants.backgroundColor,
       extendBodyBehindAppBar: expandBodyBehindAppBar ?? false,
+      extendBody: extendBody ?? false,
       appBar: AppBar(
         title: SingleChildScrollView(
           scrollDirection: Axis.horizontal,

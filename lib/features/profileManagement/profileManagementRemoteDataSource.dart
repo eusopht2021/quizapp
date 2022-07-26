@@ -27,7 +27,7 @@ class ProfileManagementRemoteDataSource {
       // print(await ApiUtils.getHeaders());
       final response = await http.post(Uri.parse(getUserDetailsByIdUrl),
           body: body, headers: await ApiUtils.getHeaders());
-      // print("THis is  ${response.body}");
+      print("THis is  ${response.body}");
       final responseJson = jsonDecode(response.body);
 
       if (responseJson['error']) {

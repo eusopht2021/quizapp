@@ -52,9 +52,15 @@ class AuthRemoteDataSource {
         friendCodeKey: friendCode ?? ""
       };
       log('Add User API $addUserUrl ${body.toString()}');
-      // print(addUserUrl + " url printed");
+
+      log("body Params" + body.toString());
+
       final response = await http.post(Uri.parse(addUserUrl), body: body);
+      print("that is the response" + response.body.toString());
+
       final responseJson = jsonDecode(response.body);
+
+      log(responseJson.toString() + " response");
 
       if (responseJson['error']) {
         throw AuthException(errorMessageCode: responseJson['message']);
