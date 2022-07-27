@@ -1,0 +1,5 @@
+android/.idea/
+build/
+.dart_tool/
+.flutter-plugins/
+.idea/
