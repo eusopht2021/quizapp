@@ -172,13 +172,15 @@ class PollScreen extends StatelessWidget {
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: [
-                                        newOptionContainer(
-                                            color: Constants.primaryColor
-                                                .withOpacity(0.2),
-                                            child: const TitleText(
-                                              text: "Manchester United",
-                                              weight: FontWeight.w500,
-                                            )),
+                                        Expanded(
+                                          child: newOptionContainer(
+                                              color: Constants.primaryColor
+                                                  .withOpacity(0.2),
+                                              child: const TitleText(
+                                                text: "Manchester United",
+                                                weight: FontWeight.w500,
+                                              )),
+                                        ),
                                         const Padding(
                                           padding: EdgeInsets.all(16.0),
                                           child: TitleText(text: "92%"),
@@ -200,7 +202,7 @@ class PollScreen extends StatelessWidget {
                 ]))));
   }
 
-  newOptionContainer({child, color}) {
+  Widget newOptionContainer({child, color, double? width}) {
     return Container(
       decoration: BoxDecoration(
         color: color ?? Constants.white,
@@ -209,6 +211,7 @@ class PollScreen extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(20),
       ),
+      width: width ?? SizeConfig.screenWidth,
       height: SizeConfig.screenHeight * 0.09,
       child: Center(child: child),
     );

@@ -125,9 +125,6 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
       onWillPop: () async {
         BlocProvider.of<NavigationCubit>(context)
             .getNavBarItem(NavbarItems.newhome);
-        Navigator.pushNamed(context, Routes.home, arguments: {
-          "index": 0,
-        });
 
         return false;
       },

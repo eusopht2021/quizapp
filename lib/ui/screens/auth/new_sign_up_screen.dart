@@ -149,9 +149,7 @@ Widget _showGoogleButton() {
       if (state is SignInProgress && state.authProvider == AuthProvider.gmail) {
         return Center(
           child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation(
-              Constants.primaryColor,
-            ),
+            color: Constants.primaryColor,
           ),
         );
       }
