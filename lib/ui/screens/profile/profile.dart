@@ -215,7 +215,8 @@ class _ProfileState extends State<Profile> {
             width: SizeConfig.screenWidth,
             height: SizeConfig.screenHeight,
             child: SingleChildScrollView(
-              padding: EdgeInsets.only(bottom: kBottomNavigationBarHeight),
+              padding:
+                  const EdgeInsets.only(bottom: kBottomNavigationBarHeight),
               child: Column(
                 children: [
                   WidgetsUtil.verticalSpace24,
@@ -270,7 +271,7 @@ class _ProfileState extends State<Profile> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               width: double.infinity,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
@@ -287,42 +288,6 @@ class _ProfileState extends State<Profile> {
                         size: Constants.bodyXLarge,
                         weight: FontWeight.w500,
                       ),
-                      // Align(
-                      //   alignment: Alignment.centerRight,
-                      //   child: Container(
-                      //     padding: EdgeInsets.symmetric(horizontal: 8),
-                      //     decoration: BoxDecoration(
-                      //       color: Constants.white,
-                      //       borderRadius: BorderRadius.circular(12),
-                      //     ),
-                      //     height: 34,
-                      //     alignment: Alignment.center,
-                      //     child: DropdownButton<String>(
-                      //       icon: const Icon(
-                      //         CupertinoIcons.chevron_down,
-                      //       ),
-                      //       value: selectedStat,
-                      //       items: statsFilter.map((item) {
-                      //         return DropdownMenuItem<String>(
-                      //           value: item,
-                      //           child: TitleText(
-                      //             text: item,
-                      //             size: Constants.bodyXSmall,
-                      //             weight: FontWeight.w500,
-                      //             textColor: Constants.black1,
-                      //           ),
-                      //         );
-                      //       }).toList(),
-                      //       underline: const SizedBox(),
-                      //       onChanged: (String? value) {
-                      //         log('OnChanged: $value');
-                      //         setState(() {
-                      //           selectedStat = value!;
-                      //         });
-                      //       },
-                      //     ),
-                      //   ),
-                      // ),
                     ],
                   ),
                   WidgetsUtil.verticalSpace32,
@@ -365,7 +330,7 @@ class _ProfileState extends State<Profile> {
                         Container(
                           width: 100,
                           height: 50,
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                               vertical: 12, horizontal: 12),
                           decoration: BoxDecoration(
                             color: Constants.lightGreen,
@@ -424,7 +389,7 @@ class _ProfileState extends State<Profile> {
                         Container(
                           width: 100,
                           height: 50,
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                               vertical: 12, horizontal: 12),
                           decoration: BoxDecoration(
                             color: Constants.lightGreen,
@@ -467,7 +432,7 @@ class _ProfileState extends State<Profile> {
           ),
         );
       }
-      return SizedBox();
+      return const SizedBox();
     });
   }
 
@@ -497,45 +462,6 @@ class _ProfileState extends State<Profile> {
           child: Column(
             children: [
               WidgetsUtil.verticalSpace16,
-              // Align(
-              //   alignment: Alignment.centerRight,
-              //   child: Container(
-              //     decoration: BoxDecoration(
-              //       color: Constants.white,
-              //       borderRadius: BorderRadius.circular(12),
-              //     ),
-              //     margin: const EdgeInsets.only(
-              //       right: 16,
-              //     ),
-              //     height: 34,
-              //     width: 100,
-              //     alignment: Alignment.center,
-              //     child: DropdownButton<String>(
-              //       icon: const Icon(
-              //         CupertinoIcons.chevron_down,
-              //       ),
-              //       value: selectedStat,
-              //       items: statsFilter.map((item) {
-              //         return DropdownMenuItem<String>(
-              //           value: item,
-              //           child: TitleText(
-              //             text: item,
-              //             size: Constants.bodyXSmall,
-              //             weight: FontWeight.w500,
-              //             textColor: Constants.black1,
-              //           ),
-              //         );
-              //       }).toList(),
-              //       underline: const SizedBox(),
-              //       onChanged: (String? value) {
-              //         log('OnChanged: $value');
-              //         setState(() {
-              //           selectedStat = value!;
-              //         });
-              //       },
-              //     ),
-              //   ),
-              // ),
               WidgetsUtil.verticalSpace24,
               Padding(
                 padding: const EdgeInsets.only(
@@ -653,7 +579,7 @@ class _ProfileState extends State<Profile> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           width: 50,
                         ),
                         Expanded(
@@ -752,7 +678,7 @@ class _ProfileState extends State<Profile> {
           ),
         );
       }
-      return SizedBox();
+      return const SizedBox();
     });
   }
 
@@ -796,7 +722,7 @@ class _ProfileState extends State<Profile> {
           ),
         );
       }
-      return SizedBox();
+      return const SizedBox();
     });
   }
 

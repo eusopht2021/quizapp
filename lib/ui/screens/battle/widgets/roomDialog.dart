@@ -138,18 +138,6 @@ class _RoomDialogState extends State<RoomDialog> {
           milliseconds: 250,
         ),
         alignment: Alignment.center,
-        child: Text(
-          title,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 18.0,
-            fontWeight:
-                index == currentSelectedTab ? FontWeight.bold : FontWeight.w500,
-            color: index == currentSelectedTab
-                ? Constants.white
-                : Constants.primaryColor,
-          ),
-        ),
         height: boxConstraints.maxHeight * (0.15),
         width: boxConstraints.maxWidth * (0.5),
         decoration: BoxDecoration(
@@ -163,6 +151,18 @@ class _RoomDialogState extends State<RoomDialog> {
                 : BorderRadius.only(
                     topRight: Radius.circular(UiUtils.dailogRadius),
                   )),
+        child: Text(
+          title,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 18.0,
+            fontWeight:
+                index == currentSelectedTab ? FontWeight.bold : FontWeight.w500,
+            color: index == currentSelectedTab
+                ? Constants.white
+                : Constants.primaryColor,
+          ),
+        ),
       ),
     );
   }
@@ -176,11 +176,14 @@ class _RoomDialogState extends State<RoomDialog> {
     return DropdownButton<String>(
         key: Key(keyValue),
         borderRadius: BorderRadius.circular(20),
-        dropdownColor: Theme.of(context)
-            .canvasColor, //same as background of dropdown color
-        style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 16.0),
+        dropdownColor:
+            Constants.primaryColor, //same as background of dropdown color
+        style: TextStyle(
+          color: Constants.white,
+          fontSize: 16.0,
+        ),
         isExpanded: true,
-        iconEnabledColor: Theme.of(context).primaryColor,
+        iconEnabledColor: Constants.white,
         onChanged: (value) {
           // ScaffoldMessenger.of(context).removeCurrentSnackBar();
 
@@ -192,10 +195,10 @@ class _RoomDialogState extends State<RoomDialog> {
         //values is map of name and id. only passing name to dropdown
         items: values.map((e) => e['name']).toList().map((name) {
           return DropdownMenuItem(
+            value: name,
             child: name! == selectCategoryKey
                 ? Text(AppLocalization.of(context)!.getTranslatedValues(name)!)
                 : Text(name),
-            value: name,
           );
         }).toList(),
         value: selectedCategory);
@@ -217,6 +220,19 @@ class _RoomDialogState extends State<RoomDialog> {
         height: boxConstraints.maxHeight * (0.2),
         alignment: Alignment.center,
         padding: useManualValue ? EdgeInsets.symmetric(horizontal: 10.0) : null,
+        decoration: BoxDecoration(
+            boxShadow: entryFeeValue == entryFee
+                ? [
+                    BoxShadow(
+                        color: Theme.of(context).primaryColor.withOpacity(0.5),
+                        blurRadius: 5,
+                        offset: Offset(2.5, 2.5))
+                  ]
+                : null,
+            color: entryFeeValue == entryFee
+                ? Constants.primaryColor
+                : Constants.primaryColor.withOpacity(0.6),
+            borderRadius: BorderRadius.circular(10.0)),
         child: useManualValue
             ? Column(
                 mainAxisSize: MainAxisSize.min,
@@ -277,19 +293,6 @@ class _RoomDialogState extends State<RoomDialog> {
                   SvgPicture.asset(UiUtils.getImagePath("coins.svg")),
                 ],
               ),
-        decoration: BoxDecoration(
-            boxShadow: entryFeeValue == entryFee
-                ? [
-                    BoxShadow(
-                        color: Theme.of(context).primaryColor.withOpacity(0.5),
-                        blurRadius: 5,
-                        offset: Offset(2.5, 2.5))
-                  ]
-                : null,
-            color: entryFeeValue == entryFee
-                ? Constants.primaryColor
-                : Constants.primaryColor.withOpacity(0.6),
-            borderRadius: BorderRadius.circular(10.0)),
       ),
     );
   }
@@ -479,7 +482,7 @@ class _RoomDialogState extends State<RoomDialog> {
                 margin: EdgeInsets.symmetric(
                     horizontal: constraints.maxWidth * (0.05)),
                 decoration: BoxDecoration(
-                    color: Theme.of(context).canvasColor,
+                    color: Constants.primaryColor,
                     borderRadius: BorderRadius.circular(25.0)),
                 height: constraints.maxHeight * (0.115),
                 child: BlocConsumer<QuizCategoryCubit, QuizCategoryState>(
@@ -855,6 +858,7 @@ class _RoomDialogState extends State<RoomDialog> {
       topPadding: Platform.isIOS
           ? MediaQuery.of(context).size.height * (0.065)
           : MediaQuery.of(context).size.height * (0.1),
+      height: MediaQuery.of(context).size.height * (0.5),
       child: BlocListener<UpdateScoreAndCoinsCubit, UpdateScoreAndCoinsState>(
         listener: (context, state) {
           if (state is UpdateScoreAndCoinsFailure) {
@@ -903,7 +907,6 @@ class _RoomDialogState extends State<RoomDialog> {
           ),
         ),
       ),
-      height: MediaQuery.of(context).size.height * (0.5),
     );
   }
 }

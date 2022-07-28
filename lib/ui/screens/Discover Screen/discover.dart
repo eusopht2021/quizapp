@@ -69,10 +69,8 @@ class _DiscoverState extends State<Discover> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: (() async {
-
-        
         BlocProvider.of<NavigationCubit>(context)
-            .getNavBarItem(NavbarItems.newhome );
+            .getNavBarItem(NavbarItems.newhome);
         // Navigator.pushNamed(context, Routes.home, arguments: {
         //   "index": 0,
         // });

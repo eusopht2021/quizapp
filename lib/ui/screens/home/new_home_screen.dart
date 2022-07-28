@@ -21,15 +21,12 @@ import 'package:flutterquiz/features/profileManagement/models/userProfile.dart';
 import 'package:flutterquiz/features/profileManagement/profileManagementLocalDataSource.dart';
 import 'package:flutterquiz/features/profileManagement/profileManagementRepository.dart';
 import 'package:flutterquiz/features/quiz/cubits/quizCategoryCubit.dart';
-import 'package:flutterquiz/features/quiz/models/comprehension.dart';
 import 'package:flutterquiz/features/systemConfig/cubits/systemConfigCubit.dart';
 import 'package:flutterquiz/ui/screens/battle/widgets/randomOrPlayFrdDialog.dart';
 import 'package:flutterquiz/ui/screens/battle/widgets/roomDialog.dart';
 import 'package:flutterquiz/ui/screens/home/widgets/appUnderMaintenanceDialog.dart';
 import 'package:flutterquiz/ui/screens/home/widgets/new_quiz_category_card.dart';
-import 'package:flutterquiz/ui/screens/leaderBoardScreen.dart';
 import 'package:flutterquiz/ui/screens/profile/widgets/editProfileFieldBottomSheetContainer.dart';
-import 'package:flutterquiz/ui/screens/quiz/new_result_screen.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/quizTypes.dart';
 import 'package:flutterquiz/utils/size_config.dart';
@@ -122,6 +119,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
   @override
   void dispose() {
     ProfileManagementLocalDataSource.updateReversedCoins(0);
+    scrollController.dispose();
     profileAnimationController.dispose();
     selfChallengeAnimationController.dispose();
     firstAnimationController.dispose();
@@ -129,6 +127,8 @@ class _NewHomeScreenState extends State<NewHomeScreen>
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
+
+  ScrollController scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -147,7 +147,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
           if (state is UserDetailsFetchFailure) {
             return Center(
               child: Container(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   width: SizeConfig.screenWidth,
                   color: Constants.secondaryColor,
                   child: Column(
@@ -166,9 +166,9 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                         ),
                       ),
                       WidgetsUtil.verticalSpace20,
-                      Expanded(
+                      const Expanded(
                         flex: 2,
-                        child: const TitleText(
+                        child: TitleText(
                           align: TextAlign.center,
                           text: 'Error !! something is wrong!',
                           size: 30,
@@ -183,7 +183,9 @@ class _NewHomeScreenState extends State<NewHomeScreen>
           UserProfile userProfile =
               (state as UserDetailsFetchSuccess).userProfile;
           if (userProfile.status == "0") {
-            return Center(child: const Text('Error something is wrong!'));
+            return const Center(
+              child: Text('Error something is wrong!'),
+            );
           }
           return Column(children: [
             Container(
@@ -249,6 +251,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
 
             Expanded(
                 child: ListView(
+              controller: scrollController,
               padding: EdgeInsets.zero,
               children: [
                 GestureDetector(
@@ -443,6 +446,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                           const Spacer(),
                           InkWell(
                             onTap: () {
+                              _scrollController();
                               log('See All');
                             },
                             child: TitleText(
@@ -495,6 +499,14 @@ class _NewHomeScreenState extends State<NewHomeScreen>
     );
   }
 
+  _scrollController() {
+    scrollController.animateTo(
+      SizeConfig.screenHeight * 0.43,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.fastOutSlowIn,
+    );
+  }
+
   void initAnimations() {
     //
     profileAnimationController = AnimationController(
@@ -522,7 +534,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
         vsync: this, duration: const Duration(milliseconds: 400));
     secondAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(
-            parent: secondAnimationController, curve: Curves.easeInOut));
+            parent: secondAnimationController, curve: Curves.easeIn));
   }
 
   void createAds() {
@@ -574,7 +586,6 @@ class _NewHomeScreenState extends State<NewHomeScreen>
       final systemCubit = context.read<SystemConfigCubit>();
       quizTypeTopMargin = systemCubit.isSelfChallengeEnable() ? 0.425 : 0.29;
       if (systemCubit.getIsContestAvailable() == "0") {
-        log('Contest is not available!');
         _quizTypes.removeWhere(
             (element) => element.quizTypeEnum == QuizTypes.contest);
       }
@@ -582,6 +593,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
         _quizTypes.removeWhere(
             (element) => element.quizTypeEnum == QuizTypes.dailyQuiz);
       }
+      //remove (== "0") in default condition
       if (!systemCubit.getIsAudioQuestionAvailable() == "0") {
         _quizTypes.removeWhere(
             (element) => element.quizTypeEnum == QuizTypes.audioQuestions);
@@ -590,6 +602,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
         _quizTypes.removeWhere(
             (element) => element.quizTypeEnum == QuizTypes.funAndLearn);
       }
+      //remove (== "0") in default condition
       if (!systemCubit.getIsGuessTheWordAvailable() == "0") {
         _quizTypes.removeWhere(
             (element) => element.quizTypeEnum == QuizTypes.guessTheWord);
@@ -826,13 +839,14 @@ class _NewHomeScreenState extends State<NewHomeScreen>
         _onQuizTypeContainerTap(2);
       } else {
         if (context.read<SystemConfigCubit>().isSelfChallengeEnable()) {
-          log("self challange is enable");
+          log("self challange is enabled");
           if (_quizTypes.length >= 4) {
             _onQuizTypeContainerTap(3);
           }
           return;
         }
-        log("self challange is not enable");
+        log("self challange is not enabled");
+
         if (containerNumber == 4) {
           if (_quizTypes.length >= 4) {
             _onQuizTypeContainerTap(3);

@@ -12,9 +12,7 @@ import 'package:flutterquiz/app/routes.dart';
 import 'package:flutterquiz/features/ads/interstitialAdCubit.dart';
 import 'package:flutterquiz/features/badges/cubits/badgesCubit.dart';
 import 'package:flutterquiz/features/battleRoom/models/battleRoom.dart';
-import 'package:flutterquiz/features/bookmark/bookmarkRepository.dart';
-import 'package:flutterquiz/features/bookmark/cubits/guessTheWordBookmarkCubit.dart';
-import 'package:flutterquiz/features/bookmark/cubits/updateBookmarkCubit.dart';
+
 import 'package:flutterquiz/features/exam/models/exam.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/updateScoreAndCoinsCubit.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/userDetailsCubit.dart';
@@ -35,13 +33,11 @@ import 'package:flutterquiz/features/quiz/quizRepository.dart';
 import 'package:flutterquiz/features/statistic/cubits/updateStatisticCubit.dart';
 import 'package:flutterquiz/features/statistic/statisticRepository.dart';
 import 'package:flutterquiz/features/systemConfig/cubits/systemConfigCubit.dart';
-import 'package:flutterquiz/ui/widgets/customRoundedButton.dart';
 import 'package:flutterquiz/ui/widgets/custom_button.dart';
 import 'package:flutterquiz/ui/widgets/title_text.dart';
 import 'package:flutterquiz/utils/answerEncryption.dart';
 import 'package:flutterquiz/utils/assets.dart';
 import 'package:flutterquiz/utils/constants.dart';
-import 'package:flutterquiz/utils/custom_appbar.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/size_config.dart';
 import 'package:flutterquiz/utils/stringLabels.dart';
@@ -1445,8 +1441,7 @@ class _NewResultScreenState extends State<NewResultScreen> {
                               child: Text(
                                 AppLocalization.of(context)!
                                     .getTranslatedValues(continueLbl)!,
-                                style: TextStyle(
-                                    color: Theme.of(context).primaryColor),
+                                style: TextStyle(color: Constants.primaryColor),
                               )),
                           TextButton(
                               onPressed: () {
@@ -1455,8 +1450,7 @@ class _NewResultScreenState extends State<NewResultScreen> {
                               child: Text(
                                 AppLocalization.of(context)!
                                     .getTranslatedValues(cancelButtonKey)!,
-                                style: TextStyle(
-                                    color: Theme.of(context).primaryColor),
+                                style: TextStyle(color: Constants.primaryColor),
                               )),
                         ],
                         content: Text(
@@ -1940,7 +1934,7 @@ class _NewResultScreenState extends State<NewResultScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Spacer(
+                const Spacer(
                   flex: 2,
                 ),
                 TitleText(
@@ -1949,7 +1943,7 @@ class _NewResultScreenState extends State<NewResultScreen> {
                   size: 24,
                   weight: FontWeight.w500,
                 ),
-                Spacer(),
+                const Spacer(),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
@@ -2138,7 +2132,7 @@ class _NewResultScreenState extends State<NewResultScreen> {
                           ),
                           WidgetsUtil.verticalSpace8,
                           TitleText(
-                            text: accuracy.toInt().toString() + "%",
+                            text: "${accuracy.toInt()}%",
                             weight: FontWeight.w500,
                             size: Constants.bodyXLarge,
                             textColor: Constants.black1,
@@ -2161,7 +2155,7 @@ class _NewResultScreenState extends State<NewResultScreen> {
                           ),
                         ],
                       ),
-                      SizedBox(),
+                      const SizedBox(),
                     ],
                   ),
                 ),
@@ -2184,8 +2178,8 @@ class _NewResultScreenState extends State<NewResultScreen> {
     Duration duration =
         Duration(seconds: widget.timeTakenToCompleteQuiz!.toInt());
     String time = '';
-    time = time + '${duration.inMinutes}';
-    time = time + ':${duration.inSeconds % 60}';
+    time = '$time${duration.inMinutes}';
+    time = '$time:${duration.inSeconds % 60}';
     return time;
   }
 }

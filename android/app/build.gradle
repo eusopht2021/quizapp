@@ -56,7 +56,7 @@ android {
 
     signingConfigs {
         release {
-            storeFile file('G:\\keystore\\tauqeer-keystore.jks')
+            storeFile file('E:\\keyStores\\tauqeer-keystore.jks')
             storePassword 'upload'
             keyAlias 'upload'
             keyPassword 'upload'

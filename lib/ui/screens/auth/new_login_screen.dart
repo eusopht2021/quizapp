@@ -259,7 +259,7 @@ class _LoginState extends State<Login> {
   }
 
   Widget showSignIn(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: BlocConsumer<SignInCubit, SignInState>(
         bloc: context.read<SignInCubit>(),

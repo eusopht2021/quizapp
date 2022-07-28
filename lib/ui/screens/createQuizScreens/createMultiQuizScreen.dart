@@ -123,9 +123,10 @@ class _CreateMultiQuizScreenState extends State<CreateMultiQuizScreen> {
       child: SingleChildScrollView(
         child: CustomCard(
           // height: SizeConfig.screenHeight,
-          padding: EdgeInsets.only(top: 24, bottom: 8, right: 8, left: 8),
+          padding: const EdgeInsets.only(top: 24, bottom: 8, right: 8, left: 8),
           child: Padding(
-            padding: EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 16),
+            padding:
+                const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -167,14 +168,14 @@ class _CreateMultiQuizScreenState extends State<CreateMultiQuizScreen> {
   _tabItems(currentValue) {
     switch (currentValue) {
       case "Multiple Answer":
-        return MultipleAnswer();
+        return const MultipleAnswer();
 
       case "True or False":
-        return TrueFalse();
+        return const TrueFalse();
       case "Type Answer":
-        return TypeAnswer();
+        return const TypeAnswer();
       case "Voice Note":
-        return VoiceNote();
+        return const VoiceNote();
       case "Checkbox":
         return CheckboxAnswer(
             checkValue: checkBoxValue,
@@ -182,9 +183,9 @@ class _CreateMultiQuizScreenState extends State<CreateMultiQuizScreen> {
               checkBoxValue = value!;
             });
       case "Poll":
-        return Poll();
+        return const Poll();
       case "Puzzle":
-        return Puzzle();
+        return const Puzzle();
     }
   }
 
@@ -252,7 +253,7 @@ class _CreateMultiQuizScreenState extends State<CreateMultiQuizScreen> {
         Row(
           children: [
             Container(
-              padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
               height: 40,
               width: 100,
               decoration: BoxDecoration(
@@ -282,10 +283,10 @@ class _CreateMultiQuizScreenState extends State<CreateMultiQuizScreen> {
                 ],
               ),
             ),
-            Spacer(),
+            const Spacer(),
             Container(
               height: 40,
-              padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
               decoration: BoxDecoration(
                 border: Border.all(color: Constants.grey5),
                 borderRadius: BorderRadius.circular(12),

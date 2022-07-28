@@ -33,15 +33,15 @@ class _ChooseCategoryScreenState extends State<ChooseCategoryScreen> {
       title: "Choose Category",
       titleColor: Constants.white,
       expandBodyBehindAppBar: false,
-      action: Padding(
+      action: const Padding(
           padding: EdgeInsets.only(right: 16), child: Icon(Icons.more_horiz)),
       child: SingleChildScrollView(
         child: CustomCard(
           height: SizeConfig.screenHeight,
-          padding: EdgeInsets.only(top: 24, bottom: 8, right: 8, left: 8),
+          padding: const EdgeInsets.only(top: 24, bottom: 8, right: 8, left: 8),
           child: Container(
             // height: double.infinity,
-            padding: EdgeInsets.only(top: 16, bottom: 16),
+            padding: const EdgeInsets.only(top: 16, bottom: 16),
             child: Column(
               children: [
                 GridView.count(
@@ -82,7 +82,7 @@ class _ChooseCategoryScreenState extends State<ChooseCategoryScreen> {
                     },
                   ),
                 ),
-                Spacer(),
+                const Spacer(),
                 CustomButton(
                   onPressed: () {},
                   text: "Add Question",

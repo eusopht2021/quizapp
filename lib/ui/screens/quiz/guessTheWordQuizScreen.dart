@@ -72,7 +72,7 @@ class _GuessTheWordQuizScreenState extends State<GuessTheWordQuizScreen>
     with TickerProviderStateMixin {
   late AnimationController timerAnimationController = AnimationController(
       vsync: this,
-      duration: Duration(seconds: guessTheWordQuestionDurationInSeconds))
+      duration: const Duration(seconds: guessTheWordQuestionDurationInSeconds))
     ..addStatusListener(currentUserTimerAnimationStatusListener);
 
   //to animate the question container
@@ -130,10 +130,10 @@ class _GuessTheWordQuizScreenState extends State<GuessTheWordQuizScreen>
   }
 
   void initializeAnimation() {
-    questionAnimationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 500));
-    questionContentAnimationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 250));
+    questionAnimationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 500));
+    questionContentAnimationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 250));
 
     questionSlideAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(
@@ -141,11 +141,11 @@ class _GuessTheWordQuizScreenState extends State<GuessTheWordQuizScreen>
     questionScaleUpAnimation = Tween<double>(begin: 0.0, end: 0.1).animate(
         CurvedAnimation(
             parent: questionAnimationController,
-            curve: Interval(0.0, 0.5, curve: Curves.easeInQuad)));
+            curve: const Interval(0.0, 0.5, curve: Curves.easeInQuad)));
     questionScaleDownAnimation = Tween<double>(begin: 0.0, end: 0.05).animate(
         CurvedAnimation(
             parent: questionAnimationController,
-            curve: Interval(0.5, 1.0, curve: Curves.easeOutQuad)));
+            curve: const Interval(0.5, 1.0, curve: Curves.easeOutQuad)));
     questionContentAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(
             parent: questionContentAnimationController,
@@ -469,15 +469,15 @@ class _GuessTheWordQuizScreenState extends State<GuessTheWordQuizScreen>
                   );
                 }
                 if (state is GuessTheWordBookmarkFetchFailure) {
-                  return SizedBox();
+                  return const SizedBox();
                 }
 
-                return SizedBox();
+                return const SizedBox();
               },
             ),
           );
         }
-        return SizedBox();
+        return const SizedBox();
       },
     );
   }
@@ -589,7 +589,7 @@ class _GuessTheWordQuizScreenState extends State<GuessTheWordQuizScreen>
                       },
                       iconColor: Theme.of(context).backgroundColor,
                     ),
-                    Spacer(),
+                    const Spacer(),
                     SettingButton(
                       onPressed: () {
                         toggleSettingDialog();

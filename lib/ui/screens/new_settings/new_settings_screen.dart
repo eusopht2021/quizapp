@@ -121,7 +121,7 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                 return Scaffold(
                   backgroundColor: Constants.white,
                   appBar: PreferredSize(
-                    preferredSize: Size.fromHeight(kToolbarHeight),
+                    preferredSize: const Size.fromHeight(kToolbarHeight),
                     child: CustomAppBar(
                       title: "Settings",
                       showBackButton: true,
@@ -265,7 +265,7 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (_) => VoiceNoteScreen()));
+                                      builder: (_) => const VoiceNoteScreen()));
                             },
                             child: _settingsOptionsContainer(
                               listTileicon: Icon(

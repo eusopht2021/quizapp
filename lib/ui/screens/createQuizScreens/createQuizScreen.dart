@@ -85,9 +85,10 @@ class CreateQuizScreen extends StatelessWidget {
       child: SingleChildScrollView(
         child: CustomCard(
           height: SizeConfig.screenHeight,
-          padding: EdgeInsets.only(top: 24, bottom: 8, right: 8, left: 8),
+          padding: const EdgeInsets.only(top: 24, bottom: 8, right: 8, left: 8),
           child: Container(
-            padding: EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 16),
+            padding:
+                const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -146,7 +147,7 @@ class CreateQuizScreen extends StatelessWidget {
                     );
                   },
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 24),
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
                     height: 56,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
@@ -162,8 +163,8 @@ class CreateQuizScreen extends StatelessWidget {
                           size: Constants.bodyNormal,
                           textColor: Constants.grey2,
                         ),
-                        Spacer(),
-                        Icon(
+                        const Spacer(),
+                        const Icon(
                           Icons.arrow_forward_ios_rounded,
                         ),
                       ],
@@ -185,7 +186,7 @@ class CreateQuizScreen extends StatelessWidget {
                   borderColor: Constants.grey5,
                   iconTextColor: Constants.grey2,
                 ),
-                Spacer(),
+                const Spacer(),
                 CustomButton(
                   onPressed: () {
                     Navigator.push(
