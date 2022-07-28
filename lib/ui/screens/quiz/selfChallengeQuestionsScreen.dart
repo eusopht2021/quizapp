@@ -108,26 +108,26 @@ class _SelfChallengeQuestionsScreenState
       ..addStatusListener(currentUserTimerAnimationStatusListener);
 
     animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 100));
+        AnimationController(vsync: this, duration: const Duration(milliseconds: 100));
     topContainerAnimationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 100));
+        AnimationController(vsync: this, duration: const Duration(milliseconds: 100));
     _getQuestions();
     super.initState();
   }
 
   void initializeAnimation() {
     questionContentAnimationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 250))
+        AnimationController(vsync: this, duration: const Duration(milliseconds: 250))
           ..forward();
     questionAnimationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 525));
+        AnimationController(vsync: this, duration: const Duration(milliseconds: 525));
     questionSlideAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(
             parent: questionAnimationController, curve: Curves.easeInOut));
     questionScaleUpAnimation = Tween<double>(begin: 0.0, end: 0.1).animate(
         CurvedAnimation(
             parent: questionAnimationController,
-            curve: Interval(0.0, 0.5, curve: Curves.easeInQuad)));
+            curve: const Interval(0.0, 0.5, curve: Curves.easeInQuad)));
     questionContentAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(
             parent: questionContentAnimationController,
@@ -135,7 +135,7 @@ class _SelfChallengeQuestionsScreenState
     questionScaleDownAnimation = Tween<double>(begin: 0.0, end: 0.05).animate(
         CurvedAnimation(
             parent: questionAnimationController,
-            curve: Interval(0.5, 1.0, curve: Curves.easeOutQuad)));
+            curve: const Interval(0.5, 1.0, curve: Curves.easeOutQuad)));
   }
 
   @override
@@ -188,7 +188,7 @@ class _SelfChallengeQuestionsScreenState
         submittedAnswer,
         context.read<UserDetailsCubit>().getUserFirebaseId());
     //change question
-    await Future.delayed(Duration(milliseconds: 500));
+    await Future.delayed(const Duration(milliseconds: 500));
   }
 
   //listener for current user timer
@@ -227,7 +227,7 @@ class _SelfChallengeQuestionsScreenState
       },
       child: Container(
         alignment: Alignment.center,
-        margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
+        margin: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
         color: attempted
             ? Theme.of(context).primaryColor
             : Theme.of(context).colorScheme.secondary,
@@ -243,7 +243,7 @@ class _SelfChallengeQuestionsScreenState
 
   void onTapBackButton() {
     isExitDialogOpen = true;
-    showDialog(context: context, builder: (context) => ExitGameDailog())
+    showDialog(context: context, builder: (context) => const ExitGameDailog())
         .then((value) => isExitDialogOpen = false);
   }
 
@@ -255,17 +255,17 @@ class _SelfChallengeQuestionsScreenState
       isScrollControlled: true,
       context: context,
       builder: (context) => Container(
-          padding: EdgeInsets.symmetric(horizontal: 5.0),
+          padding: const EdgeInsets.symmetric(horizontal: 5.0),
           decoration: BoxDecoration(
               color: Theme.of(context).backgroundColor,
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(20), topRight: Radius.circular(20))),
           constraints: BoxConstraints(
               maxHeight: MediaQuery.of(context).size.height * (0.6)),
           child: SingleChildScrollView(
             child: Column(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 10.0,
                 ),
                 Container(
@@ -274,7 +274,7 @@ class _SelfChallengeQuestionsScreenState
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    icon: Icon(Icons.close),
+                    icon: const Icon(Icons.close),
                     color: Theme.of(context).colorScheme.secondary,
                   ),
                 ),
@@ -284,7 +284,7 @@ class _SelfChallengeQuestionsScreenState
                           index, questions[index].attempted))
                       .toList(),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20.0,
                 ),
                 Container(
@@ -305,11 +305,11 @@ class _SelfChallengeQuestionsScreenState
                     height: 30.0,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20.0,
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -324,7 +324,7 @@ class _SelfChallengeQuestionsScreenState
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 10.0,
                       ),
                       Text(
@@ -334,7 +334,7 @@ class _SelfChallengeQuestionsScreenState
                             fontSize: 12.5,
                             color: Theme.of(context).colorScheme.secondary),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       CircleAvatar(
                         radius: 15,
                         backgroundColor:
@@ -347,7 +347,7 @@ class _SelfChallengeQuestionsScreenState
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 10.0,
                       ),
                       Text(
@@ -360,7 +360,7 @@ class _SelfChallengeQuestionsScreenState
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15.0,
                 ),
               ],
@@ -389,7 +389,7 @@ class _SelfChallengeQuestionsScreenState
               },
               iconColor: Theme.of(context).backgroundColor,
             ),
-            Spacer(),
+            const Spacer(),
             SettingButton(onPressed: () {
               toggleSettingDialog();
               showDialog(
@@ -410,7 +410,7 @@ class _SelfChallengeQuestionsScreenState
       builder: (context, state) {
         if (state is QuestionsFetchSuccess) {
           return Padding(
-            padding: EdgeInsets.only(bottom: 10.0),
+            padding: const EdgeInsets.only(bottom: 10.0),
             child: Row(
               children: [
                 Opacity(
@@ -429,7 +429,7 @@ class _SelfChallengeQuestionsScreenState
                         color: Theme.of(context).colorScheme.secondary,
                       )),
                 ),
-                Spacer(),
+                const Spacer(),
                 GestureDetector(
                   onTap: () {
                     isBottomSheetOpen = true;
@@ -445,7 +445,7 @@ class _SelfChallengeQuestionsScreenState
                     ),
                   ),
                 ),
-                Spacer(),
+                const Spacer(),
                 Opacity(
                   opacity: currentQuestionIndex != (state.questions.length - 1)
                       ? 1.0
@@ -469,7 +469,7 @@ class _SelfChallengeQuestionsScreenState
             ),
           );
         }
-        return SizedBox();
+        return const SizedBox();
       },
     );
   }
@@ -496,7 +496,7 @@ class _SelfChallengeQuestionsScreenState
       child: Scaffold(
         body: Stack(
           children: [
-            PageBackgroundGradientContainer(),
+            const PageBackgroundGradientContainer(),
             Align(
               alignment: Alignment.topCenter,
               child: QuizPlayAreaBackgroundContainer(
@@ -576,7 +576,7 @@ class _SelfChallengeQuestionsScreenState
                     child: _buildBottomMenu(context),
                   );
                 }
-                return SizedBox();
+                return const SizedBox();
               },
             ),
             _buildTopMenu(),

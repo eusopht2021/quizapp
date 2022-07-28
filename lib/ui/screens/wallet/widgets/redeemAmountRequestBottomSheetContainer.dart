@@ -67,8 +67,8 @@ class _RedeemAmountRequestBottomSheetContainerState
         });
       },
       child: Container(
-        padding: EdgeInsets.all(10.0),
-        margin: EdgeInsets.symmetric(horizontal: 5.0),
+        padding: const EdgeInsets.all(10.0),
+        margin: const EdgeInsets.symmetric(horizontal: 5.0),
         child: SvgPicture.asset(
           payoutMethods[paymentMethodIndex].image,
           color: Theme.of(context).backgroundColor,
@@ -84,7 +84,7 @@ class _RedeemAmountRequestBottomSheetContainerState
 
   Widget _buildInputDetailsContainer(int inputDetailsIndex) {
     return Container(
-      padding: EdgeInsets.only(left: 20.0, right: 20.0),
+      padding: const EdgeInsets.only(left: 20.0, right: 20.0),
       margin: EdgeInsets.symmetric(
           vertical: 5.0, horizontal: MediaQuery.of(context).size.width * (0.1)),
       decoration: BoxDecoration(
@@ -115,7 +115,7 @@ class _RedeemAmountRequestBottomSheetContainerState
       transform: Matrix4.identity()
         ..setEntry(
             0, 3, MediaQuery.of(context).size.width * _enterPayoutMethodDx),
-      duration: Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 500),
       child: BlocConsumer<PaymentRequestCubit, PaymentRequestState>(
         listener: (context, state) {
           if (state is PaymentRequestFailure) {
@@ -219,7 +219,7 @@ class _RedeemAmountRequestBottomSheetContainerState
 
               AnimatedOpacity(
                   opacity: _errorMessage.isEmpty ? 0 : 1.0,
-                  duration: Duration(milliseconds: 250),
+                  duration: const Duration(milliseconds: 250),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Text(
@@ -316,11 +316,11 @@ class _RedeemAmountRequestBottomSheetContainerState
       transform: Matrix4.identity()
         ..setEntry(
             0, 3, MediaQuery.of(context).size.width * _selectPaymentMethodDx),
-      duration: Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 500),
       child: Column(
         children: [
           Transform.translate(
-            offset: Offset(0.0, -20.0),
+            offset: const Offset(0.0, -20.0),
             child: Column(
               children: [
                 Container(
@@ -352,7 +352,7 @@ class _RedeemAmountRequestBottomSheetContainerState
             ),
           ),
           Transform.translate(
-            offset: Offset(0.0, -10.0),
+            offset: const Offset(0.0, -10.0),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: Divider(
@@ -373,7 +373,7 @@ class _RedeemAmountRequestBottomSheetContainerState
             height: MediaQuery.of(context).size.height * (0.55) * (0.05),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15.0),
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: Wrap(
               alignment: WrapAlignment.center,
               children: _buildPayoutSelectMethosContainer(),
@@ -412,7 +412,7 @@ class _RedeemAmountRequestBottomSheetContainerState
       constraints:
           BoxConstraints(maxHeight: MediaQuery.of(context).size.height * (0.8)),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(20.0),
             topRight: Radius.circular(20.0),
           ),
@@ -430,7 +430,7 @@ class _RedeemAmountRequestBottomSheetContainerState
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Container(
-                    margin: EdgeInsets.all(10.0),
+                    margin: const EdgeInsets.all(10.0),
                     alignment: Alignment.centerRight,
                     child: IconButton(
                         onPressed: () {

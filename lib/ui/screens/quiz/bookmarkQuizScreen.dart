@@ -67,7 +67,7 @@ class _BookmarkQuizScreenState extends State<BookmarkQuizScreen>
   late AnimationController questionAnimationController;
   late AnimationController questionContentAnimationController;
   late AnimationController timerAnimationController = AnimationController(
-      vsync: this, duration: Duration(seconds: questionDurationInSeconds))
+      vsync: this, duration: const Duration(seconds: questionDurationInSeconds))
     ..addStatusListener(currentUserTimerAnimationStatusListener);
   late Animation<double> questionSlideAnimation;
   late Animation<double> questionScaleUpAnimation;
@@ -91,7 +91,7 @@ class _BookmarkQuizScreenState extends State<BookmarkQuizScreen>
       [];
 
   late AnimationController showOptionAnimationController =
-      AnimationController(vsync: this, duration: Duration(milliseconds: 500));
+      AnimationController(vsync: this, duration: const Duration(milliseconds: 500));
 
   void _getQuestions() {
     Future.delayed(Duration.zero, () {
@@ -146,17 +146,17 @@ class _BookmarkQuizScreenState extends State<BookmarkQuizScreen>
 
   void initializeAnimation() {
     questionContentAnimationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 250))
+        AnimationController(vsync: this, duration: const Duration(milliseconds: 250))
           ..forward();
     questionAnimationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 525));
+        AnimationController(vsync: this, duration: const Duration(milliseconds: 525));
     questionSlideAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(
             parent: questionAnimationController, curve: Curves.easeInOut));
     questionScaleUpAnimation = Tween<double>(begin: 0.0, end: 0.1).animate(
         CurvedAnimation(
             parent: questionAnimationController,
-            curve: Interval(0.0, 0.5, curve: Curves.easeInQuad)));
+            curve: const Interval(0.0, 0.5, curve: Curves.easeInQuad)));
     questionContentAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(
             parent: questionContentAnimationController,
@@ -164,7 +164,7 @@ class _BookmarkQuizScreenState extends State<BookmarkQuizScreen>
     questionScaleDownAnimation = Tween<double>(begin: 0.0, end: 0.05).animate(
         CurvedAnimation(
             parent: questionAnimationController,
-            curve: Interval(0.5, 1.0, curve: Curves.easeOutQuad)));
+            curve: const Interval(0.5, 1.0, curve: Curves.easeOutQuad)));
   }
 
   void toggleSettingDialog() {
@@ -208,7 +208,7 @@ class _BookmarkQuizScreenState extends State<BookmarkQuizScreen>
           submittedAnswer,
           context.read<UserDetailsCubit>().getUserFirebaseId());
       //change question
-      await Future.delayed(Duration(seconds: inBetweenQuestionTimeInSeconds));
+      await Future.delayed(const Duration(seconds: inBetweenQuestionTimeInSeconds));
       if (currentQuestionIndex !=
           (context.read<QuestionsCubit>().questions().length - 1)) {
         changeQuestion();
@@ -237,7 +237,7 @@ class _BookmarkQuizScreenState extends State<BookmarkQuizScreen>
           guessTheWordQuizCubit.getQuestions()[currentQuestionIndex].id,
           submittedAnswer);
       //wait for some seconds
-      await Future.delayed(Duration(seconds: inBetweenQuestionTimeInSeconds));
+      await Future.delayed(const Duration(seconds: inBetweenQuestionTimeInSeconds));
       //if currentQuestion is last then complete quiz to result screen
       if (currentQuestionIndex ==
           (guessTheWordQuizCubit.getQuestions().length - 1)) {
@@ -273,7 +273,7 @@ class _BookmarkQuizScreenState extends State<BookmarkQuizScreen>
 
   void onTapBackButton() {
     isExitDialogOpen = true;
-    showDialog(context: context, builder: (context) => ExitGameDailog())
+    showDialog(context: context, builder: (context) => const ExitGameDailog())
         .then((value) => isExitDialogOpen = false);
   }
 
@@ -300,7 +300,7 @@ class _BookmarkQuizScreenState extends State<BookmarkQuizScreen>
               },
               iconColor: Theme.of(context).backgroundColor,
             ),
-            Spacer(),
+            const Spacer(),
             SettingButton(onPressed: () {
               toggleSettingDialog();
               showDialog(
@@ -462,7 +462,7 @@ class _BookmarkQuizScreenState extends State<BookmarkQuizScreen>
       return Align(
         alignment: Alignment.bottomCenter,
         child: SlideTransition(
-          position: Tween<Offset>(begin: Offset.zero, end: Offset(0.0, 1.5))
+          position: Tween<Offset>(begin: Offset.zero, end: const Offset(0.0, 1.5))
               .animate(CurvedAnimation(
                   parent: showOptionAnimationController,
                   curve: Curves.easeInOut)),
@@ -497,7 +497,7 @@ class _BookmarkQuizScreenState extends State<BookmarkQuizScreen>
         ),
       );
     }
-    return SizedBox();
+    return const SizedBox();
   }
 
   @override
@@ -513,13 +513,13 @@ class _BookmarkQuizScreenState extends State<BookmarkQuizScreen>
         child: Scaffold(
           body: Stack(
             children: [
-              PageBackgroundGradientContainer(),
+              const PageBackgroundGradientContainer(),
               Align(
                 alignment: Alignment.topCenter,
                 child: QuizPlayAreaBackgroundContainer(),
               ),
               AnimatedSwitcher(
-                duration: Duration(milliseconds: 500),
+                duration: const Duration(milliseconds: 500),
                 child: completedQuiz
                     ? Align(
                         alignment: Alignment.center,
@@ -537,7 +537,7 @@ class _BookmarkQuizScreenState extends State<BookmarkQuizScreen>
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10.0,
                             ),
                             Padding(

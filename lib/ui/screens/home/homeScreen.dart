@@ -115,29 +115,29 @@ class _HomeScreenState extends State<HomeScreen>
 
   void initAnimations() {
     //
-    profileAnimationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 85));
-    selfChallengeAnimationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 85));
+    profileAnimationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 85));
+    selfChallengeAnimationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 85));
 
     profileSlideAnimation =
-        Tween<Offset>(begin: Offset.zero, end: Offset(0.0, -0.0415)).animate(
-            CurvedAnimation(
+        Tween<Offset>(begin: Offset.zero, end: const Offset(0.0, -0.0415))
+            .animate(CurvedAnimation(
                 parent: profileAnimationController, curve: Curves.easeIn));
 
     selfChallengeSlideAnimation =
-        Tween<Offset>(begin: Offset.zero, end: Offset(0.0, -0.0415)).animate(
-            CurvedAnimation(
+        Tween<Offset>(begin: Offset.zero, end: const Offset(0.0, -0.0415))
+            .animate(CurvedAnimation(
                 parent: selfChallengeAnimationController,
                 curve: Curves.easeIn));
 
-    firstAnimationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 400));
+    firstAnimationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 400));
     firstAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(
             parent: firstAnimationController, curve: Curves.easeInOut));
-    secondAnimationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 400));
+    secondAnimationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 400));
     secondAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(
             parent: secondAnimationController, curve: Curves.easeInOut));
@@ -153,7 +153,8 @@ class _HomeScreenState extends State<HomeScreen>
     Future.delayed(Duration.zero, () {
       if (context.read<SystemConfigCubit>().appUnderMaintenance()) {
         showDialog(
-            context: context, builder: (_) => AppUnderMaintenanceDialog());
+            context: context,
+            builder: (_) => const AppUnderMaintenanceDialog());
       }
     });
   }
@@ -354,7 +355,7 @@ class _HomeScreenState extends State<HomeScreen>
   // notification on foreground
   Future<void> generateSimpleNotification(
       String title, String body, String payloads) async {
-    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+    var androidPlatformChannelSpecifics = const AndroidNotificationDetails(
         'com.wrteam.flutterquiz', //channel id
         'flutterquiz', //channel name
         channelDescription: 'flutterquiz',
@@ -377,8 +378,8 @@ class _HomeScreenState extends State<HomeScreen>
         enableDrag: false,
         isScrollControlled: true,
         elevation: 5.0,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
+        shape: const RoundedRectangleBorder(
+            borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(20.0),
           topRight: Radius.circular(20.0),
         )),
@@ -636,7 +637,7 @@ class _HomeScreenState extends State<HomeScreen>
         child: SlideTransition(
           position: profileSlideAnimation,
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 10.0),
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
             margin: EdgeInsets.only(
                 top: MediaQuery.of(context).size.height * (0.085) +
                     statusBarPadding),
@@ -644,7 +645,8 @@ class _HomeScreenState extends State<HomeScreen>
               color: Theme.of(context).backgroundColor,
               //gradient: UiUtils.buildLinerGradient([Theme.of(context).primaryColor, Theme.of(context).colorScheme.secondary], Alignment.topCenter, Alignment.bottomCenter),
               boxShadow: [
-                UiUtils.buildBoxShadow(offset: Offset(5, 5), blurRadius: 10.0),
+                UiUtils.buildBoxShadow(
+                    offset: const Offset(5, 5), blurRadius: 10.0),
               ],
               borderRadius: BorderRadius.circular(30.0),
             ),
@@ -758,7 +760,7 @@ class _HomeScreenState extends State<HomeScreen>
 
               boxShadow: [
                 UiUtils.buildBoxShadow(
-                    offset: Offset(5.0, 5.0), blurRadius: 10.0)
+                    offset: const Offset(5.0, 5.0), blurRadius: 10.0)
               ],
               borderRadius: BorderRadius.circular(20.0),
             ),
@@ -772,7 +774,7 @@ class _HomeScreenState extends State<HomeScreen>
                   Align(
                     alignment: AlignmentDirectional.centerStart,
                     child: Container(
-                      margin: EdgeInsetsDirectional.only(start: 20.0),
+                      margin: const EdgeInsetsDirectional.only(start: 20.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
@@ -787,7 +789,7 @@ class _HomeScreenState extends State<HomeScreen>
                               color: Theme.of(context).primaryColor,
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 1.0,
                           ),
                           Text(
@@ -985,7 +987,7 @@ class _HomeScreenState extends State<HomeScreen>
                 color: Theme.of(context).backgroundColor,
                 boxShadow: [
                   UiUtils.buildBoxShadow(
-                      offset: Offset(5, 5), blurRadius: 10.0),
+                      offset: const Offset(5, 5), blurRadius: 10.0),
                 ],
                 borderRadius: BorderRadius.circular(15.0),
               ),
@@ -998,7 +1000,7 @@ class _HomeScreenState extends State<HomeScreen>
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 12.5,
             ),
             Container(
@@ -1008,7 +1010,7 @@ class _HomeScreenState extends State<HomeScreen>
                 color: Theme.of(context).backgroundColor,
                 boxShadow: [
                   UiUtils.buildBoxShadow(
-                      offset: Offset(5, 5), blurRadius: 10.0),
+                      offset: const Offset(5, 5), blurRadius: 10.0),
                 ],
                 borderRadius: BorderRadius.circular(15.0),
               ),
@@ -1017,14 +1019,14 @@ class _HomeScreenState extends State<HomeScreen>
                   showModalBottomSheet(
                       isScrollControlled: true,
                       elevation: 5.0,
-                      shape: RoundedRectangleBorder(
+                      shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20.0),
+                        topLeft: const Radius.circular(20.0),
                         topRight: Radius.circular(20.0),
                       )),
                       context: context,
                       builder: (context) {
-                        return MenuBottomSheetContainer();
+                        return const MenuBottomSheetContainer();
                       });
                 },
                 icon: Icon(
@@ -1244,7 +1246,7 @@ class _HomeScreenState extends State<HomeScreen>
   Widget _buildHomeScreen(List<Widget> children) {
     return Stack(
       children: [
-        PageBackgroundGradientContainer(),
+        const PageBackgroundGradientContainer(),
         ...children,
       ],
     );
@@ -1323,10 +1325,10 @@ class _HomeScreenState extends State<HomeScreen>
             _buildProfileContainer(statusBarPadding),
             context.read<SystemConfigCubit>().isSelfChallengeEnable()
                 ? _buildSelfChallenge(statusBarPadding)
-                : SizedBox(),
+                : const SizedBox(),
             ..._buildQuizTypes(statusBarPadding),
             _buildTopMenuContainer(statusBarPadding),
-            showUpdateContainer ? UpdateAppContainer() : Container(),
+            showUpdateContainer ? const UpdateAppContainer() : Container(),
           ]);
         },
       ),

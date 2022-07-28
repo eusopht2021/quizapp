@@ -167,23 +167,23 @@
 //     );
 //   }
 //
-//   @override
-//   void initState() {
-//     super.initState();
-//     //init reward ad
-//     Future.delayed(Duration.zero, () {
-//       context.read<RewardedAdCubit>().createRewardedAd(context,
-//           onFbRewardAdCompleted: _addCoinsAfterRewardAd);
-//     });
-//     //init animations
-//     initializeAnimation();
-//     animationController = AnimationController(
-//         vsync: this, duration: const Duration(milliseconds: 100));
-//     topContainerAnimationController = AnimationController(
-//         vsync: this, duration: const Duration(milliseconds: 100));
-//     //
-//     _getQuestions();
-//   }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   //init reward ad
+  //   Future.delayed(Duration.zero, () {
+  //     context.read<RewardedAdCubit>().createRewardedAd(context,
+  //         onFbRewardAdCompleted: _addCoinsAfterRewardAd);
+  //   });
+  //   //init animations
+  //   initializeAnimation();
+  //   animationController = AnimationController(
+  //       vsync: this, duration: const Duration(milliseconds: 100));
+  //   topContainerAnimationController = AnimationController(
+  //       vsync: this, duration: const Duration(milliseconds: 100));
+  //   //
+  //   _getQuestions();
+  // }
 //
 //   void initializeAnimation() {
 //     questionContentAnimationController = AnimationController(

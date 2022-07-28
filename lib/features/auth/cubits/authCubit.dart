@@ -6,7 +6,7 @@ import 'package:flutterquiz/features/auth/authModel.dart';
 import 'package:flutterquiz/features/auth/authRepository.dart';
 
 //authentication provider
-enum AuthProvider { gmail, fb, email, mobile, apple , password}
+enum AuthProvider { gmail, fb, email, mobile, apple, password }
 
 //State
 @immutable

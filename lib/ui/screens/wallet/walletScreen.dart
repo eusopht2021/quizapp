@@ -123,9 +123,9 @@ class _WalletScreenState extends State<WalletScreen> {
         isScrollControlled: true,
         elevation: 5.0,
         context: context,
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20.0),
+            topLeft: const Radius.circular(20.0),
             topRight: Radius.circular(20.0),
           ),
         ),
@@ -177,13 +177,22 @@ class _WalletScreenState extends State<WalletScreen> {
 
   Widget _buildAppBar() {
     return Container(
-      padding: EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.only(bottom: 10),
+      height:
+          MediaQuery.of(context).size.height * (UiUtils.appBarHeightPercentage),
+      decoration: BoxDecoration(
+          boxShadow: [UiUtils.buildAppbarShadow()],
+          color: Theme.of(context).backgroundColor,
+          borderRadius: const BorderRadius.only(
+              bottomLeft: Radius.circular(20.0),
+              bottomRight: Radius.circular(20.0))),
       child: Stack(
         children: [
           Align(
             alignment: AlignmentDirectional.bottomStart,
             child: Padding(
-              padding: EdgeInsetsDirectional.only(start: 25.0, bottom: 35.0),
+              padding:
+                  const EdgeInsetsDirectional.only(start: 25.0, bottom: 35.0),
               child: CustomBackButton(
                 removeSnackBars: false,
                 iconColor: Theme.of(context).primaryColor,
@@ -193,7 +202,7 @@ class _WalletScreenState extends State<WalletScreen> {
           Align(
             alignment: AlignmentDirectional.bottomCenter,
             child: Padding(
-              padding: EdgeInsetsDirectional.only(bottom: 37.5),
+              padding: const EdgeInsetsDirectional.only(bottom: 37.5),
               child: Text(
                   AppLocalization.of(context)!.getTranslatedValues(walletKey)!,
                   textAlign: TextAlign.center,
@@ -223,14 +232,6 @@ class _WalletScreenState extends State<WalletScreen> {
           ),
         ],
       ),
-      height:
-          MediaQuery.of(context).size.height * (UiUtils.appBarHeightPercentage),
-      decoration: BoxDecoration(
-          boxShadow: [UiUtils.buildAppbarShadow()],
-          color: Theme.of(context).backgroundColor,
-          borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(20.0),
-              bottomRight: Radius.circular(20.0))),
     );
   }
 
@@ -241,14 +242,14 @@ class _WalletScreenState extends State<WalletScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            margin: EdgeInsets.only(top: 7.5),
+            margin: const EdgeInsets.only(top: 7.5),
             width: 6,
             height: 6,
             decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.secondary,
                 borderRadius: BorderRadius.circular(3)),
           ),
-          SizedBox(
+          const SizedBox(
             width: 10.0,
           ),
           Flexible(
@@ -290,13 +291,13 @@ class _WalletScreenState extends State<WalletScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(
+                const SizedBox(
                   width: 30.0,
                 ),
                 Text(payoutRequestCurrency,
                     style: TextStyle(
                         color: Theme.of(context).primaryColor, fontSize: 30.0)),
-                SizedBox(
+                const SizedBox(
                   width: 5.0,
                 ),
                 Container(
@@ -346,7 +347,7 @@ class _WalletScreenState extends State<WalletScreen> {
                 );
               }
 
-              return SizedBox();
+              return const SizedBox();
             },
           ),
 
@@ -476,7 +477,8 @@ class _WalletScreenState extends State<WalletScreen> {
         if (hasMoreTransactionsFetchError) {
           return Center(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
               child: IconButton(
                   onPressed: () {
                     context.read<TransactionsCubit>().getMoreTransactions(
@@ -491,7 +493,8 @@ class _WalletScreenState extends State<WalletScreen> {
         } else {
           return Center(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
               child: CircularProgressContainer(
                 useWhiteLoader: false,
                 heightAndWidth: 40,
@@ -525,7 +528,7 @@ class _WalletScreenState extends State<WalletScreen> {
                           color: Theme.of(context).primaryColor,
                           fontSize: 16.5),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Row(
                       children: [
                         Text(paymentRequest.paymentType,
@@ -559,7 +562,7 @@ class _WalletScreenState extends State<WalletScreen> {
                   ],
                 ),
               ),
-              Spacer(),
+              const Spacer(),
               Container(
                 width: boxConstraints.maxWidth * 0.28,
                 child: Column(
@@ -567,7 +570,7 @@ class _WalletScreenState extends State<WalletScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      padding: EdgeInsets.symmetric(vertical: 1.0),
+                      padding: const EdgeInsets.symmetric(vertical: 1.0),
                       margin: EdgeInsets.only(
                           left: boxConstraints.maxWidth * 0.3 * (0.4)),
                       color: Theme.of(context).primaryColor,
@@ -579,7 +582,7 @@ class _WalletScreenState extends State<WalletScreen> {
                             fontSize: 15),
                       ),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Text(
                       AppLocalization.of(context)!
                           .getTranslatedValues(paymentRequest.status == "0"
@@ -609,7 +612,7 @@ class _WalletScreenState extends State<WalletScreen> {
               boxShadow: [
                 BoxShadow(
                     blurRadius: 3.5,
-                    offset: Offset(2.5, 3.5),
+                    offset: const Offset(2.5, 3.5),
                     color: Theme.of(context)
                         .colorScheme
                         .secondary
@@ -620,7 +623,7 @@ class _WalletScreenState extends State<WalletScreen> {
           height: MediaQuery.of(context).size.height *
               UiUtils.getTransactionContainerHeight(
                   MediaQuery.of(context).size.height), //
-          margin: EdgeInsets.symmetric(vertical: 10.0),
+          margin: const EdgeInsets.symmetric(vertical: 10.0),
         );
       }),
     );
@@ -675,7 +678,7 @@ class _WalletScreenState extends State<WalletScreen> {
                     boxShadow: [
                       BoxShadow(
                           blurRadius: 3.5,
-                          offset: Offset(2.5, 2.5),
+                          offset: const Offset(2.5, 2.5),
                           color: Theme.of(context)
                               .colorScheme
                               .secondary
@@ -718,7 +721,7 @@ class _WalletScreenState extends State<WalletScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          PageBackgroundGradientContainer(),
+          const PageBackgroundGradientContainer(),
           Align(
             alignment: Alignment.topCenter,
             child: _currentSelectedTab == 1

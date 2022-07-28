@@ -134,7 +134,7 @@ class _RoomDialogState extends State<RoomDialog> {
       },
       child: AnimatedContainer(
         curve: Curves.easeInOut,
-        duration: Duration(
+        duration: const Duration(
           milliseconds: 250,
         ),
         alignment: Alignment.center,
@@ -191,7 +191,7 @@ class _RoomDialogState extends State<RoomDialog> {
             selectedCategory = value!;
           });
         },
-        underline: SizedBox(),
+        underline: const SizedBox(),
         //values is map of name and id. only passing name to dropdown
         items: values.map((e) => e['name']).toList().map((name) {
           return DropdownMenuItem(
@@ -215,18 +215,20 @@ class _RoomDialogState extends State<RoomDialog> {
               });
             },
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 5.0),
+        margin: const EdgeInsets.symmetric(horizontal: 5.0),
         width: boxConstraints.maxWidth * (0.145),
         height: boxConstraints.maxHeight * (0.2),
         alignment: Alignment.center,
-        padding: useManualValue ? EdgeInsets.symmetric(horizontal: 10.0) : null,
+        padding: useManualValue
+            ? const EdgeInsets.symmetric(horizontal: 10.0)
+            : null,
         decoration: BoxDecoration(
             boxShadow: entryFeeValue == entryFee
                 ? [
                     BoxShadow(
                         color: Theme.of(context).primaryColor.withOpacity(0.5),
                         blurRadius: 5,
-                        offset: Offset(2.5, 2.5))
+                        offset: const Offset(2.5, 2.5))
                   ]
                 : null,
             color: entryFeeValue == entryFee
@@ -259,14 +261,14 @@ class _RoomDialogState extends State<RoomDialog> {
                         fontWeight: FontWeight.w500,
                         color: Constants.primaryColor,
                       ),
-                      contentPadding: EdgeInsets.all(0),
+                      contentPadding: const EdgeInsets.all(0),
                       isDense: true,
                       enabledBorder: _getInputBorder(context),
                       border: _getInputBorder(context),
                       focusedBorder: _getInputBorder(context),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 2.5,
                   ),
                   SvgPicture.asset(UiUtils.getImagePath("coins.svg")),
@@ -287,7 +289,7 @@ class _RoomDialogState extends State<RoomDialog> {
                           : FontWeight.w500,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 2.5,
                   ),
                   SvgPicture.asset(UiUtils.getImagePath("coins.svg")),
@@ -299,7 +301,7 @@ class _RoomDialogState extends State<RoomDialog> {
 
   Widget _buildJoinRoomTab(BoxConstraints constraints) {
     return Column(
-      key: Key("joinTab"),
+      key: const Key("joinTab"),
       children: [
         Container(
           alignment: Alignment.center,
@@ -313,7 +315,7 @@ class _RoomDialogState extends State<RoomDialog> {
           height: constraints.maxHeight * (0.04),
         ),
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 20.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
           margin:
               EdgeInsets.symmetric(horizontal: constraints.maxWidth * (0.1)),
           decoration: BoxDecoration(
@@ -472,11 +474,11 @@ class _RoomDialogState extends State<RoomDialog> {
 
   Widget _buildCreateRoomTab(BoxConstraints constraints) {
     return Column(
-      key: Key("createTab"),
+      key: const Key("createTab"),
       children: [
         isCategoryEnabled()
             ? Container(
-                padding: EdgeInsets.symmetric(
+                padding: const EdgeInsets.symmetric(
                   horizontal: 20.0,
                 ),
                 margin: EdgeInsets.symmetric(
@@ -540,7 +542,7 @@ class _RoomDialogState extends State<RoomDialog> {
                   },
                   builder: (context, state) {
                     return AnimatedSwitcher(
-                      duration: Duration(milliseconds: 500),
+                      duration: const Duration(milliseconds: 500),
                       child: state is QuizCategorySuccess
                           ? _buildDropdown(
                               values: state.categories

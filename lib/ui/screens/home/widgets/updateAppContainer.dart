@@ -26,16 +26,16 @@ class UpdateAppContainer extends StatelessWidget {
         child: CupertinoAlertDialog(
           title: Text(
             AppLocalization.of(context)!.getTranslatedValues(warningKey)!,
-            style: TextStyle(fontSize: 18),
+            style: const TextStyle(fontSize: 18),
           ),
           content: Padding(
-            padding: EdgeInsets.only(
+            padding: const EdgeInsets.only(
               top: 5.0,
             ),
             child: Text(
               AppLocalization.of(context)!
                   .getTranslatedValues(updateApplicationKey)!,
-              style: TextStyle(fontSize: 14.5),
+              style: const TextStyle(fontSize: 14.5),
             ),
           ),
           actions: [

@@ -184,6 +184,7 @@ class AudioQuestionContainerState extends State<AudioQuestionContainer>
     _processingStateStreamSubscription.cancel();
     _audioPlayer.dispose();
     _streamSubscription.cancel();
+
     super.dispose();
   }
 
@@ -229,7 +230,7 @@ class AudioQuestionContainerState extends State<AudioQuestionContainer>
     return SingleChildScrollView(
         child: Column(
       children: [
-        SizedBox(
+        const SizedBox(
           height: 17.5,
         ),
         HorizontalTimerContainer(
@@ -237,28 +238,26 @@ class AudioQuestionContainerState extends State<AudioQuestionContainer>
           timerAnimationController: widget.timerAnimationController,
           duration: _audioDuration.inSeconds,
         ),
-        SizedBox(
+        const SizedBox(
           height: 12.5,
         ),
-        Container(
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              Align(
-                alignment: Alignment.center,
-                child: Text(
-                  "${widget.currentQuestionIndex + 1} | ${widget.questions.length}",
-                  style: TextStyle(color: Constants.black1),
-                ),
+        Stack(
+          alignment: Alignment.center,
+          children: [
+            Align(
+              alignment: Alignment.center,
+              child: Text(
+                "${widget.currentQuestionIndex + 1} | ${widget.questions.length}",
+                style: TextStyle(color: Constants.black1),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
 
         Divider(
           color: Constants.white,
         ),
-        SizedBox(
+        const SizedBox(
           height: 5.0,
         ),
         Container(
@@ -286,23 +285,22 @@ class AudioQuestionContainerState extends State<AudioQuestionContainer>
               SizedBox(
                 height: 50,
                 child: InkWell(
-                  onTap: () async {
-                    if (_isPlaying) {
-                      await _audioPlayer.stop();
-                      log("if state");
+                  onTap: () {
+                    setState(() {
+                      if (_isPlaying) {
+                        _audioPlayer.stop();
+                        log("if state");
 
-                      setState(() {
                         _isPlaying = false;
                         isAnimating = true;
-                      });
-                    } else {
-                      await _audioPlayer.play();
-                      log("else state");
-                      setState(() {
+                      } else {
+                        _audioPlayer.play();
+                        log("else state");
+
                         _isPlaying = true;
                         isAnimating = false;
-                      });
-                    }
+                      }
+                    });
                   },
                   child: MusicVisualizer(
                     barCount: colors.length,
@@ -319,7 +317,7 @@ class AudioQuestionContainerState extends State<AudioQuestionContainer>
                 child: Row(
                   children: [
                     Text(bufferedSeconds.inSeconds.toString()),
-                    Spacer(),
+                    const Spacer(),
                     Text(_audioDuration.inSeconds.toString()),
                   ],
                 ),
@@ -463,16 +461,16 @@ class _CurrentDurationSliderContainerState
   Widget build(BuildContext context) {
     return SliderTheme(
       data: Theme.of(context).sliderTheme.copyWith(
-            overlayShape: RoundSliderOverlayShape(overlayRadius: 0.0),
+            overlayShape: const RoundSliderOverlayShape(overlayRadius: 0.0),
             trackHeight: 5,
             trackShape: CustomTrackShape(),
-            thumbShape: RoundSliderThumbShape(
+            thumbShape: const RoundSliderThumbShape(
               enabledThumbRadius: 6.5,
             ),
           ),
       child: Column(
         children: [
-          Container(
+          SizedBox(
             height: 5.0,
             width: MediaQuery.of(context).size.width,
             child: Slider(

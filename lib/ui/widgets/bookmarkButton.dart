@@ -93,7 +93,7 @@ class BookmarkButton extends StatelessWidget {
                 }
               },
               child: Container(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.transparent),
                 ),
@@ -114,10 +114,10 @@ class BookmarkButton extends StatelessWidget {
             );
           }
           if (state is BookmarkFetchFailure) {
-            return SizedBox();
+            return const SizedBox();
           }
 
-          return SizedBox();
+          return const SizedBox();
         },
       ),
     );

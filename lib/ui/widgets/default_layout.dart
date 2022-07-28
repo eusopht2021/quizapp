@@ -38,7 +38,7 @@ class DefaultLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomSheet: bottomSheet ?? SizedBox(),
+      bottomSheet: bottomSheet ?? const SizedBox(),
       // bottomNavigationBar: bottomNavigationbar ?? SizedBox(),
       resizeToAvoidBottomInset: resizeToAvoidBottomInset ?? true,
       backgroundColor: backgroundColor ?? Constants.backgroundColor,
@@ -63,7 +63,7 @@ class DefaultLayout extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0.0,
         actions: [
-          action ?? SizedBox(),
+          action ?? const SizedBox(),
         ],
         leading: (showBackButton ?? true)
             ? InkWell(
@@ -78,7 +78,7 @@ class DefaultLayout extends StatelessWidget {
                   ),
                 ),
               )
-            : SizedBox(),
+            : const SizedBox(),
       ),
       body: child,
     );

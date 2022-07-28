@@ -193,7 +193,7 @@ class _SelectProfilePictureScreen extends State<SelectProfilePictureScreen> {
           //crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Container(
-                margin: EdgeInsets.all(10),
+                margin: const EdgeInsets.all(10),
                 height: MediaQuery.of(context).size.height * .15,
                 width: MediaQuery.of(context).size.width * .23,
                 decoration: BoxDecoration(
@@ -225,7 +225,7 @@ class _SelectProfilePictureScreen extends State<SelectProfilePictureScreen> {
         height: MediaQuery.of(context).size.height * (0.13),
         child: ListView.builder(
             shrinkWrap: true,
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             scrollDirection: Axis.horizontal,
             itemCount: avatars.length,
             itemBuilder: (context, index) {
@@ -291,11 +291,11 @@ class _SelectProfilePictureScreen extends State<SelectProfilePictureScreen> {
               return TextButton(
                 style: TextButton.styleFrom(
                   backgroundColor: Theme.of(context).primaryColor,
-                  padding: EdgeInsetsDirectional.only(
+                  padding: const EdgeInsetsDirectional.only(
                       end: 40, start: 40, bottom: 15, top: 15),
                   side: BorderSide(
                       color: Theme.of(context).primaryColor, width: 1),
-                  shape: RoundedRectangleBorder(
+                  shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(15.0))),
                 ),
                 onPressed: () {
@@ -362,10 +362,10 @@ class _SelectProfilePictureScreen extends State<SelectProfilePictureScreen> {
         return TextButton(
           style: TextButton.styleFrom(
             backgroundColor: Theme.of(context).primaryColor,
-            padding: EdgeInsetsDirectional.only(
+            padding: const EdgeInsetsDirectional.only(
                 end: 40, start: 40, bottom: 15, top: 15),
             side: BorderSide(color: Theme.of(context).primaryColor, width: 1),
-            shape: RoundedRectangleBorder(
+            shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(15.0))),
           ),
           onPressed: () {
@@ -432,7 +432,7 @@ class _SelectProfilePictureScreen extends State<SelectProfilePictureScreen> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(
+          const SizedBox(
             width: 2.0,
           ),
           InkWell(
@@ -448,8 +448,8 @@ class _SelectProfilePictureScreen extends State<SelectProfilePictureScreen> {
                       color: Theme.of(context).backgroundColor,
                       size: 18.0,
                     )
-                  : SizedBox(),
-              duration: Duration(milliseconds: 300),
+                  : const SizedBox(),
+              duration: const Duration(milliseconds: 300),
               width: 20,
               height: 20,
               alignment: Alignment.center,
@@ -466,7 +466,7 @@ class _SelectProfilePictureScreen extends State<SelectProfilePictureScreen> {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 10.0,
           ),
           Text(
@@ -539,7 +539,7 @@ class _SelectProfilePictureScreen extends State<SelectProfilePictureScreen> {
       child: Scaffold(
         body: Stack(
           children: <Widget>[
-            PageBackgroundGradientContainer(),
+            const PageBackgroundGradientContainer(),
             BlocConsumer<UserDetailsCubit, UserDetailsState>(
               listener: (context, state) {
                 //when user register first time then set this listener
@@ -589,7 +589,7 @@ class _SelectProfilePictureScreen extends State<SelectProfilePictureScreen> {
                       Center(
                           child: _buildCurrentProfilePictureContainer(
                               userProfile.profileUrl ?? "")),
-                      SizedBox(
+                      const SizedBox(
                         height: 15.0,
                       ),
                       Center(
@@ -603,7 +603,7 @@ class _SelectProfilePictureScreen extends State<SelectProfilePictureScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 15.0,
                       ),
                       _buildSelectAvatarText(),

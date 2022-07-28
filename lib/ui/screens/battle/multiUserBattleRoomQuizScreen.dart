@@ -65,7 +65,7 @@ class _MultiUserBattleRoomQuizScreenState
     extends State<MultiUserBattleRoomQuizScreen>
     with WidgetsBindingObserver, TickerProviderStateMixin {
   late AnimationController timerAnimationController = AnimationController(
-      vsync: this, duration: Duration(seconds: questionDurationInSeconds))
+      vsync: this, duration: const Duration(seconds: questionDurationInSeconds))
     ..addStatusListener(currentUserTimerAnimationStatusListener)
     ..forward();
 
@@ -83,8 +83,8 @@ class _MultiUserBattleRoomQuizScreenState
 
   late AnimationController messageAnimationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 300),
-      reverseDuration: Duration(milliseconds: 300));
+      duration: const Duration(milliseconds: 300),
+      reverseDuration: const Duration(milliseconds: 300));
   late Animation<double> messageAnimation = Tween<double>(begin: 0.0, end: 1.0)
       .animate(CurvedAnimation(
           parent: messageAnimationController, curve: Curves.easeOutBack));
@@ -94,8 +94,8 @@ class _MultiUserBattleRoomQuizScreenState
 
   late List<AnimationController> opponentProgressAnimationControllers = [];
 
-  late AnimationController messageBoxAnimationController =
-      AnimationController(vsync: this, duration: Duration(milliseconds: 350));
+  late AnimationController messageBoxAnimationController = AnimationController(
+      vsync: this, duration: const Duration(milliseconds: 350));
   late Animation<double> messageBoxAnimation =
       Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
           parent: messageBoxAnimationController, curve: Curves.easeInOut));
@@ -224,7 +224,7 @@ class _MultiUserBattleRoomQuizScreenState
     //
     for (var i = 0; i < (maxUsersInGroupBatle - 1); i++) {
       opponentMessageAnimationControllers.add(AnimationController(
-          vsync: this, duration: Duration(milliseconds: 300)));
+          vsync: this, duration: const Duration(milliseconds: 300)));
       opponentProgressAnimationControllers
           .add(AnimationController(vsync: this));
       opponentMessageAnimations.add(Tween<double>(begin: 0.0, end: 1.0).animate(
@@ -238,10 +238,10 @@ class _MultiUserBattleRoomQuizScreenState
 
   //
   void initializeAnimation() {
-    questionAnimationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 500));
-    questionContentAnimationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 250));
+    questionAnimationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 500));
+    questionContentAnimationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 250));
 
     questionSlideAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(
@@ -249,11 +249,11 @@ class _MultiUserBattleRoomQuizScreenState
     questionScaleUpAnimation = Tween<double>(begin: 0.0, end: 0.1).animate(
         CurvedAnimation(
             parent: questionAnimationController,
-            curve: Interval(0.0, 0.5, curve: Curves.easeInQuad)));
+            curve: const Interval(0.0, 0.5, curve: Curves.easeInQuad)));
     questionScaleDownAnimation = Tween<double>(begin: 0.0, end: 0.05).animate(
         CurvedAnimation(
             parent: questionAnimationController,
-            curve: Interval(0.5, 1.0, curve: Curves.easeOutQuad)));
+            curve: const Interval(0.5, 1.0, curve: Curves.easeOutQuad)));
     questionContentAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(
             parent: questionContentAnimationController,
@@ -294,7 +294,8 @@ class _MultiUserBattleRoomQuizScreenState
       );
 
       //change question
-      await Future.delayed(Duration(seconds: inBetweenQuestionTimeInSeconds));
+      await Future.delayed(
+          const Duration(seconds: inBetweenQuestionTimeInSeconds));
       if (currentQuestionIndex == (questions.length - 1)) {
         setState(() {
           showWaitForOthers = true;
@@ -349,7 +350,7 @@ class _MultiUserBattleRoomQuizScreenState
     }
 
     currentUserMessageDisappearTimer =
-        Timer.periodic(Duration(seconds: 1), (timer) {
+        Timer.periodic(const Duration(seconds: 1), (timer) {
       if (currentUserMessageDisappearTimeInSeconds == 0) {
         //
         timer.cancel();
@@ -367,7 +368,7 @@ class _MultiUserBattleRoomQuizScreenState
     }
 
     opponentsMessageDisappearTimer[opponentUserIndex] =
-        Timer.periodic(Duration(seconds: 1), (timer) {
+        Timer.periodic(const Duration(seconds: 1), (timer) {
       if (opponentsMessageDisappearTimeInSeconds[opponentUserIndex] == 0) {
         //
         timer.cancel();
@@ -480,7 +481,7 @@ class _MultiUserBattleRoomQuizScreenState
     if (navigateToResult) {
       //giving delay
       Future.delayed(
-          Duration(
+          const Duration(
             milliseconds: 1000,
           ), () {
         try {
@@ -716,7 +717,7 @@ class _MultiUserBattleRoomQuizScreenState
                   messageBoxAnimationController.forward();
                 }
               },
-              icon: Icon(CupertinoIcons.chat_bubble_2_fill),
+              icon: const Icon(CupertinoIcons.chat_bubble_2_fill),
               color: buttonColor,
             ),
           );
@@ -729,8 +730,8 @@ class _MultiUserBattleRoomQuizScreenState
     return Align(
       alignment: Alignment.topCenter,
       child: SlideTransition(
-        position: messageBoxAnimation
-            .drive(Tween<Offset>(begin: Offset(1.5, 0), end: Offset.zero)),
+        position: messageBoxAnimation.drive(
+            Tween<Offset>(begin: const Offset(1.5, 0), end: Offset.zero)),
         child: MessageBoxContainer(
           quizType: QuizTypes.groupPlay,
           battleRoomId: context.read<MultiUserBattleRoomCubit>().getRoomId(),
@@ -750,12 +751,12 @@ class _MultiUserBattleRoomQuizScreenState
     return PositionedDirectional(
       child: ScaleTransition(
         scale: messageAnimation,
-        child: MessageContainer(
+        child: const MessageContainer(
           quizType: QuizTypes.groupPlay,
           isCurrentUser: true,
         ),
         alignment:
-            Alignment(-0.5, -1.0), //-0.5 left side and 0.5 is right side,
+            const Alignment(-0.5, -1.0), //-0.5 left side and 0.5 is right side,
       ),
       start: MediaQuery.of(context).size.width *
           userDetaislHorizontalPaddingPercentage,
@@ -766,13 +767,13 @@ class _MultiUserBattleRoomQuizScreenState
   }
 
   Widget _buildOpponentUserMessageContainer(int opponentUserIndex) {
-    Alignment alignment = Alignment(-0.5, 1.0);
+    Alignment alignment = const Alignment(-0.5, 1.0);
     if (opponentUserIndex == 0) {
-      alignment = Alignment(0.5, 1.0);
+      alignment = const Alignment(0.5, 1.0);
     } else if (opponentUserIndex == 1) {
-      alignment = Alignment(-0.5, -1.0);
+      alignment = const Alignment(-0.5, -1.0);
     } else {
-      alignment = Alignment(0.5, -1.0);
+      alignment = const Alignment(0.5, -1.0);
     }
 
     return PositionedDirectional(
@@ -857,7 +858,7 @@ class _MultiUserBattleRoomQuizScreenState
               },
               iconColor: Theme.of(context).backgroundColor,
             ),
-            Spacer(),
+            const Spacer(),
             SettingButton(onPressed: () {
               toggleSettingDialog();
               showDialog(
@@ -944,9 +945,9 @@ class _MultiUserBattleRoomQuizScreenState
               Align(
                   alignment: Alignment.topCenter,
                   child: AnimatedSwitcher(
-                    duration: Duration(milliseconds: 500),
+                    duration: const Duration(milliseconds: 500),
                     child: showWaitForOthers
-                        ? WaitForOthersContainer(
+                        ? const WaitForOthersContainer(
                             key: Key("waitForOthers"),
                           )
                         : Container(
@@ -963,7 +964,7 @@ class _MultiUserBattleRoomQuizScreenState
                                   .getShowCorrectAnswerMode(),
                               lifeLines: {},
                               guessTheWordQuestionContainerKeys: [],
-                              key: Key("questions"),
+                              key: const Key("questions"),
                               guessTheWordQuestions: [],
                               hasSubmittedAnswerForCurrentQuestion:
                                   hasSubmittedAnswerForCurrentQuestion,

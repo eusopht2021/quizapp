@@ -26,14 +26,14 @@ class IntroSliderScreen extends StatefulWidget {
 
 class _GettingStartedScreenState extends State<IntroSliderScreen>
     with TickerProviderStateMixin {
-  late AnimationController buttonController =
-      AnimationController(vsync: this, duration: Duration(milliseconds: 400));
+  late AnimationController buttonController = AnimationController(
+      vsync: this, duration: const Duration(milliseconds: 400));
   late Animation<double> buttonSqueezeanimation =
       Tween<double>(begin: 0.0, end: 1.0).animate(
           CurvedAnimation(parent: buttonController, curve: Curves.easeInOut));
 
   late AnimationController circleAnimationController =
-      AnimationController(vsync: this, duration: Duration(seconds: 500))
+      AnimationController(vsync: this, duration: const Duration(seconds: 500))
         ..forward();
   late Animation<double> circleAnimation =
       Tween<double>().animate(CurvedAnimation(
@@ -41,16 +41,17 @@ class _GettingStartedScreenState extends State<IntroSliderScreen>
     curve: Curves.easeInCubic,
   ));
 
-  late AnimationController imageSlideAnimationController =
-      AnimationController(vsync: this, duration: Duration(milliseconds: 500))
-        ..repeat(reverse: true);
+  late AnimationController imageSlideAnimationController = AnimationController(
+      vsync: this, duration: const Duration(milliseconds: 500))
+    ..repeat(reverse: true);
   late Animation<Offset> imageSlideAnimation =
-      Tween<Offset>(begin: Offset.zero, end: Offset(0.0, -0.025)).animate(
+      Tween<Offset>(begin: Offset.zero, end: const Offset(0.0, -0.025)).animate(
           CurvedAnimation(
               parent: imageSlideAnimationController, curve: Curves.easeInOut));
 
   late AnimationController pageIndicatorAnimationController =
-      AnimationController(vsync: this, duration: Duration(milliseconds: 300));
+      AnimationController(
+          vsync: this, duration: const Duration(milliseconds: 300));
   late Tween<Alignment> pageIndicator =
       AlignmentTween(begin: Alignment.centerLeft, end: Alignment.centerLeft);
   late Animation<Alignment> pageIndicatorAnimation = pageIndicator.animate(
@@ -82,7 +83,7 @@ class _GettingStartedScreenState extends State<IntroSliderScreen>
   void initState() {
     super.initState();
     animationController = AnimationController(
-      duration: Duration(
+      duration: const Duration(
         seconds: 2,
       ),
       vsync: this,
@@ -95,7 +96,7 @@ class _GettingStartedScreenState extends State<IntroSliderScreen>
     animationController.forward();
 
     animationController1 = AnimationController(
-      duration: Duration(
+      duration: const Duration(
         seconds: 2,
       ),
       vsync: this,
@@ -242,7 +243,7 @@ class _GettingStartedScreenState extends State<IntroSliderScreen>
 
   Widget _buildIntroSlider(List<String> images) {
     return PageView.builder(
-      physics: AlwaysScrollableScrollPhysics(),
+      physics: const AlwaysScrollableScrollPhysics(),
       onPageChanged: onPageChanged,
       itemBuilder: (context, index) {
         return Column(
@@ -316,7 +317,7 @@ class _GettingStartedScreenState extends State<IntroSliderScreen>
               })),
       body: Stack(
         children: [
-          PageBackgroundGradientContainer(),
+          const PageBackgroundGradientContainer(),
           Positioned(
               top: -55,
               left: -55,
@@ -335,7 +336,7 @@ class _GettingStartedScreenState extends State<IntroSliderScreen>
                 return Transform.rotate(
                   child: child,
                   angle: math.pi / 12 * animation.value,
-                  origin: Offset(0, 180),
+                  origin: const Offset(0, 180),
                 );
               },
             ),
@@ -351,7 +352,7 @@ class _GettingStartedScreenState extends State<IntroSliderScreen>
                 return Transform.rotate(
                   child: child,
                   angle: math.pi / 12 * animation1.value,
-                  origin: Offset(-0, -180),
+                  origin: const Offset(-0, -180),
                 );
               },
             ),
@@ -367,7 +368,7 @@ class _GettingStartedScreenState extends State<IntroSliderScreen>
                 return Transform.rotate(
                   child: child,
                   angle: math.pi / 12 * animation.value,
-                  origin: Offset(0, 280),
+                  origin: const Offset(0, 280),
                 );
               },
             ),
@@ -383,7 +384,7 @@ class _GettingStartedScreenState extends State<IntroSliderScreen>
                 return Transform.rotate(
                   child: child,
                   angle: math.pi / 12 * animation1.value,
-                  origin: Offset(-0, -280),
+                  origin: const Offset(-0, -280),
                 );
               },
             ),

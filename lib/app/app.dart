@@ -46,7 +46,6 @@ import 'package:flutterquiz/features/tournament/tournamentRepository.dart';
 import 'package:flutterquiz/ui/navigation/navbarcubit.dart';
 import 'package:flutterquiz/ui/navigation/navigation.dart';
 import 'package:flutterquiz/ui/screens/new_leaderBoard.dart';
-import 'package:flutterquiz/ui/screens/profile/profile.dart';
 import 'package:flutterquiz/ui/styles/theme/appTheme.dart';
 import 'package:flutterquiz/ui/styles/theme/themeCubit.dart';
 import 'package:flutterquiz/utils/constants.dart';
@@ -176,13 +175,13 @@ class MyApp extends StatelessWidget {
 
 //new Leaderboard Cubit
         BlocProvider<LeaderBoardDailyCubit>(
-            create: (_) => LeaderBoardDailyCubit(NewLeaderBoardScreen())),
+            create: (_) => LeaderBoardDailyCubit(const NewLeaderBoardScreen())),
 
         BlocProvider<LeaderBoardMonthlyCubit>(
-            create: (_) => LeaderBoardMonthlyCubit(NewLeaderBoardScreen())),
+            create: (_) => LeaderBoardMonthlyCubit(const NewLeaderBoardScreen())),
 
         BlocProvider<LeaderBoardAllTimeCubit>(
-            create: (_) => LeaderBoardAllTimeCubit(NewLeaderBoardScreen())),
+            create: (_) => LeaderBoardAllTimeCubit( const NewLeaderBoardScreen())),
         //
         BlocProvider<UploadProfileCubit>(
             create: (_) => UploadProfileCubit(ProfileManagementRepository())),

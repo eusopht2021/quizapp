@@ -40,7 +40,7 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
       required String correctAnswer,
       required String yourAnswer}) {
     showModalBottomSheet(
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
           topLeft: Radius.circular(25.0),
           topRight: Radius.circular(25.0),
@@ -52,7 +52,7 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
           return SingleChildScrollView(
             child: Column(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 15.0,
                 ),
                 Container(
@@ -65,33 +65,27 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
                         color: Theme.of(context).primaryColor),
                   ),
                 ),
-                Divider(),
-                SizedBox(
+                const Divider(),
+                const SizedBox(
                   height: 10.0,
                 ),
-                Container(
+                SizedBox(
                   width: MediaQuery.of(context).size.width * (0.9),
                   child: Text(
-                    AppLocalization.of(context)!
-                            .getTranslatedValues("yourAnsLbl")! +
-                        ":" +
-                        " $yourAnswer",
+                    "${AppLocalization.of(context)!.getTranslatedValues("yourAnsLbl")!}: $yourAnswer",
                     style: TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 15.0,
                         color: Theme.of(context).colorScheme.secondary),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 7.5,
                 ),
-                Container(
+                SizedBox(
                   width: MediaQuery.of(context).size.width * (0.9),
                   child: Text(
-                    AppLocalization.of(context)!
-                            .getTranslatedValues("correctAndLbl")! +
-                        ":" +
-                        " $correctAnswer",
+                    "${AppLocalization.of(context)!.getTranslatedValues("correctAndLbl")!}: $correctAnswer",
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         fontWeight: FontWeight.w500,
@@ -99,7 +93,7 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
                         color: Theme.of(context).colorScheme.secondary),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 25.0,
                 ),
               ],
@@ -132,13 +126,22 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
 
   Widget _buildAppBar() {
     return Container(
-      padding: EdgeInsets.only(bottom: 5),
+      padding: const EdgeInsets.only(bottom: 5),
+      height:
+          MediaQuery.of(context).size.height * (UiUtils.appBarHeightPercentage),
+      decoration: BoxDecoration(
+          boxShadow: [UiUtils.buildAppbarShadow()],
+          color: Theme.of(context).backgroundColor,
+          borderRadius: const BorderRadius.only(
+              bottomLeft: Radius.circular(20.0),
+              bottomRight: Radius.circular(20.0))),
       child: Stack(
         children: [
           Align(
             alignment: AlignmentDirectional.bottomStart,
             child: Padding(
-              padding: EdgeInsetsDirectional.only(start: 25.0, bottom: 40.0),
+              padding:
+                  const EdgeInsetsDirectional.only(start: 25.0, bottom: 40.0),
               child: CustomBackButton(
                 removeSnackBars: false,
                 iconColor: Theme.of(context).primaryColor,
@@ -148,7 +151,7 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
           Align(
             alignment: AlignmentDirectional.bottomCenter,
             child: Padding(
-              padding: EdgeInsetsDirectional.only(bottom: 42.5),
+              padding: const EdgeInsetsDirectional.only(bottom: 42.5),
               child: Text(
                   AppLocalization.of(context)!
                       .getTranslatedValues(bookmarkLbl)!,
@@ -159,12 +162,12 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
           ),
           Align(
             alignment: AlignmentDirectional.bottomCenter,
-            child: Container(
+            child: SizedBox(
               height: MediaQuery.of(context).size.height *
                   (UiUtils.appBarHeightPercentage) *
                   (0.25),
               child: ListView(
-                padding: EdgeInsets.only(left: 30.0, right: 25.0),
+                padding: const EdgeInsets.only(left: 30.0, right: 25.0),
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
                 children: [
@@ -180,12 +183,12 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
                           AppLocalization.of(context)!
                               .getTranslatedValues(guessTheWord)!,
                           2)
-                      : SizedBox(),
+                      : const SizedBox(),
                   context.read<SystemConfigCubit>().getIsGuessTheWordAvailable()
                       ? SizedBox(
                           width: MediaQuery.of(context).size.width * 0.015,
                         )
-                      : SizedBox(),
+                      : const SizedBox(),
                   context
                           .read<SystemConfigCubit>()
                           .getIsAudioQuestionAvailable()
@@ -193,21 +196,13 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
                           AppLocalization.of(context)!
                               .getTranslatedValues(audioQuestionsKey)!,
                           3)
-                      : SizedBox(),
+                      : const SizedBox(),
                 ],
               ),
             ),
           ),
         ],
       ),
-      height:
-          MediaQuery.of(context).size.height * (UiUtils.appBarHeightPercentage),
-      decoration: BoxDecoration(
-          boxShadow: [UiUtils.buildAppbarShadow()],
-          color: Theme.of(context).backgroundColor,
-          borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(20.0),
-              bottomRight: Radius.circular(20.0))),
     );
   }
 
@@ -216,6 +211,8 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
     return Align(
       alignment: Alignment.topCenter,
       child: Container(
+        padding:
+            EdgeInsets.only(top: MediaQuery.of(context).size.height * (0.16)),
         child: BlocBuilder<BookmarkCubit, BookmarkState>(
             builder: (context, state) {
           if (state is BookmarkFetchSuccess) {
@@ -304,10 +301,8 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
                                                 "0",
                                                 "1");
                                       },
-                            subtitle: AppLocalization.of(context)!
-                                    .getTranslatedValues("yourAnsLbl")! +
-                                ":" +
-                                " ${context.read<BookmarkCubit>().getSubmittedAnswerForQuestion(question.id)}",
+                            subtitle: "${AppLocalization.of(context)!
+                                    .getTranslatedValues("yourAnsLbl")!}: ${context.read<BookmarkCubit>().getSubmittedAnswerForQuestion(question.id)}",
                             title: question.question,
                             leadingChild: Text(
                               "${index + 1}",
@@ -339,12 +334,10 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
               },
             );
           }
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }),
-        padding:
-            EdgeInsets.only(top: MediaQuery.of(context).size.height * (0.16)),
       ),
     );
   }
@@ -354,6 +347,8 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
     return Align(
       alignment: Alignment.topCenter,
       child: Container(
+        padding:
+            EdgeInsets.only(top: MediaQuery.of(context).size.height * (0.16)),
         child: BlocBuilder<AudioQuestionBookmarkCubit,
                 AudioQuestionBookMarkState>(
             bloc: bookmarkCubit,
@@ -446,10 +441,8 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
                                                 "0",
                                                 "4"); // type is 4 for audio questions
                                       },
-                                subtitle: AppLocalization.of(context)!
-                                        .getTranslatedValues("yourAnsLbl")! +
-                                    ":" +
-                                    " ${bookmarkCubit.getSubmittedAnswerForQuestion(question.id)}",
+                                subtitle: "${AppLocalization.of(context)!
+                                        .getTranslatedValues("yourAnsLbl")!}: ${bookmarkCubit.getSubmittedAnswerForQuestion(question.id)}",
                                 title: question.question,
                                 leadingChild: Text(
                                   "${index + 1}",
@@ -481,12 +474,10 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
                   },
                 );
               }
-              return Center(
-                child: CircularProgressIndicator(),
+              return const Center(
+                child: const CircularProgressIndicator(),
               );
             }),
-        padding:
-            EdgeInsets.only(top: MediaQuery.of(context).size.height * (0.16)),
       ),
     );
   }
@@ -496,6 +487,8 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
     return Align(
       alignment: Alignment.topCenter,
       child: Container(
+        padding:
+            EdgeInsets.only(top: MediaQuery.of(context).size.height * (0.16)),
         child: BlocBuilder<GuessTheWordBookmarkCubit,
                 GuessTheWordBookmarkState>(
             bloc: context.read<GuessTheWordBookmarkCubit>(),
@@ -576,10 +569,8 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
                                                 "0",
                                                 "3");
                                       },
-                                subtitle: AppLocalization.of(context)!
-                                        .getTranslatedValues("yourAnsLbl")! +
-                                    ":" +
-                                    " ${context.read<GuessTheWordBookmarkCubit>().getSubmittedAnswerForQuestion(question.id)}",
+                                subtitle: "${AppLocalization.of(context)!
+                                        .getTranslatedValues("yourAnsLbl")!}: ${context.read<GuessTheWordBookmarkCubit>().getSubmittedAnswerForQuestion(question.id)}",
                                 title: question.question,
                                 leadingChild: Text(
                                   "${index + 1}",
@@ -611,12 +602,10 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
                   },
                 );
               }
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             }),
-        padding:
-            EdgeInsets.only(top: MediaQuery.of(context).size.height * (0.16)),
       ),
     );
   }
@@ -626,7 +615,7 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
       return Align(
         alignment: Alignment.bottomCenter,
         child: Padding(
-          padding: EdgeInsets.only(bottom: 25.0),
+          padding: const EdgeInsets.only(bottom: 25.0),
           child: BlocBuilder<BookmarkCubit, BookmarkState>(
             builder: (context, state) {
               if (state is BookmarkFetchSuccess && state.questions.isNotEmpty) {
@@ -660,7 +649,7 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
       return Align(
         alignment: Alignment.bottomCenter,
         child: Padding(
-          padding: EdgeInsets.only(bottom: 25.0),
+          padding: const EdgeInsets.only(bottom: 25.0),
           child:
               BlocBuilder<GuessTheWordBookmarkCubit, GuessTheWordBookmarkState>(
             builder: (context, state) {
@@ -695,7 +684,7 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
     return Align(
       alignment: Alignment.bottomCenter,
       child: Padding(
-        padding: EdgeInsets.only(bottom: 25.0),
+        padding: const EdgeInsets.only(bottom: 25.0),
         child:
             BlocBuilder<AudioQuestionBookmarkCubit, AudioQuestionBookMarkState>(
           builder: (context, state) {
@@ -733,7 +722,7 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          PageBackgroundGradientContainer(),
+          const PageBackgroundGradientContainer(),
           Align(
             alignment: Alignment.topCenter,
             child: _currentSelectedTab == 1

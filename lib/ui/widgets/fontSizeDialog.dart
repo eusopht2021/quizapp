@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterquiz/app/appLocalization.dart';
 import 'package:flutterquiz/features/settings/settingsCubit.dart';
 import 'package:flutterquiz/ui/styles/colors.dart';
+import 'package:flutterquiz/utils/constants.dart';
 
 class FontSizeDialog extends StatefulWidget {
   final SettingsCubit bloc;
@@ -16,13 +17,13 @@ class _FontSizeDialog extends State<FontSizeDialog> {
   Widget build(BuildContext context) {
     return FittedBox(
         child: AlertDialog(
-      backgroundColor: pageBackgroundColor,
-      insetPadding: EdgeInsets.symmetric(horizontal: 70, vertical: 300),
+      backgroundColor: Constants.white,
+      insetPadding: const EdgeInsets.symmetric(horizontal: 70, vertical: 300),
       title: Center(
         child: Text(
           AppLocalization.of(context)!.getTranslatedValues("fontSizeLbl")!,
           style: TextStyle(
-            color: Theme.of(context).primaryColor,
+            color: Constants.primaryColor,
           ),
         ),
       ),
@@ -31,8 +32,8 @@ class _FontSizeDialog extends State<FontSizeDialog> {
                 child: Slider(
                   label: (textSize).toStringAsFixed(0),
                   value: textSize,
-                  activeColor: primaryColor,
-                  inactiveColor: primaryColor,
+                  activeColor: Constants.primaryColor,
+                  inactiveColor: Constants.secondaryColor,
                   min: 14,
                   max: 25,
                   divisions: 10,
@@ -48,13 +49,14 @@ class _FontSizeDialog extends State<FontSizeDialog> {
       actions: <Widget>[
         TextButton(
           style: TextButton.styleFrom(
-            backgroundColor: Theme.of(context).primaryColor,
+            backgroundColor: Constants.primaryColor,
             elevation: 20,
-            primary: primaryColor,
+            primary: Constants.primaryColor,
             shadowColor: backgroundColor.withOpacity(0.8),
-            side: BorderSide(width: 1.0, color: primaryColor),
-            minimumSize: Size(100, 20),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+            side: BorderSide(width: 1.0, color: Constants.primaryColor),
+            minimumSize: const Size(100, 20),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
           ),
           onPressed: () {
             widget.bloc.changeFontSize(textSize);
@@ -63,7 +65,7 @@ class _FontSizeDialog extends State<FontSizeDialog> {
           child: Text(
             AppLocalization.of(context)!.getTranslatedValues("okayLbl")!,
             style: TextStyle(
-              color: Theme.of(context).backgroundColor,
+              color: Constants.white,
             ),
           ),
         )

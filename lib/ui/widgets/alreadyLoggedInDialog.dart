@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutterquiz/app/appLocalization.dart';
 import 'package:flutterquiz/app/routes.dart';
 import 'package:flutterquiz/ui/widgets/title_text.dart';
+import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
 
@@ -25,13 +26,13 @@ class AlreadyLoggedInDialog extends StatelessWidget {
               UiUtils.getImagePath("already_login.svg"),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 15.0,
           ),
           TitleText(
               text: "Already logged in other device",
-              textColor: Theme.of(context).colorScheme.secondary),
-          SizedBox(
+              textColor: Constants.black1),
+          const SizedBox(
             height: 15.0,
           ),
           GestureDetector(
@@ -45,11 +46,11 @@ class AlreadyLoggedInDialog extends StatelessWidget {
               alignment: Alignment.center,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15.0),
-                  border: Border.all(color: Theme.of(context).primaryColor)),
+                  border: Border.all(color: Constants.primaryColor)),
               height: 40.0,
               child: Text(
                 AppLocalization.of(context)!.getTranslatedValues(okayLbl)!,
-                style: TextStyle(color: Theme.of(context).primaryColor),
+                style: TextStyle(color: Constants.primaryColor),
               ),
             ),
           )

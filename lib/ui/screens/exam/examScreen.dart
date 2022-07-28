@@ -104,7 +104,7 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
   }
 
   void setCanGiveExamTimer() {
-    canGiveExamAgainTimer = Timer.periodic(Duration(seconds: 1), (timer) {
+    canGiveExamAgainTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (canGiveExamAgainTimeInSeconds == 0) {
         timer.cancel();
 
@@ -154,9 +154,9 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
         isScrollControlled: true,
         elevation: 5.0,
         context: context,
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20.0),
+            topLeft: const Radius.circular(20.0),
             topRight: Radius.circular(20.0),
           ),
         ),
@@ -230,12 +230,13 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
   Widget _buildBottomMenu() {
     return Container(
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
+          borderRadius: const BorderRadius.only(
+            topLeft: const Radius.circular(20),
+            topRight: const Radius.circular(20),
           ),
           color: Theme.of(context).backgroundColor),
-      padding: EdgeInsets.only(bottom: 8.0, top: 8.0, left: 20, right: 20),
+      padding:
+          const EdgeInsets.only(bottom: 8.0, top: 8.0, left: 20, right: 20),
       child: Row(
         children: [
           Opacity(
@@ -244,7 +245,7 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
                 onPressed: () {
                   if (currentQuestionIndex != 0) {
                     pageController.previousPage(
-                        duration: Duration(milliseconds: 250),
+                        duration: const Duration(milliseconds: 250),
                         curve: Curves.easeInOut);
                   }
                 },
@@ -253,7 +254,7 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
                   color: Theme.of(context).primaryColor,
                 )),
           ),
-          Spacer(),
+          const Spacer(),
           GestureDetector(
             onTap: () {
               showExamQuestionStatusBottomSheet();
@@ -268,7 +269,7 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
               ),
             ),
           ),
-          Spacer(),
+          const Spacer(),
           Opacity(
             opacity: (context.read<ExamCubit>().getQuestions().length - 1) !=
                     currentQuestionIndex
@@ -279,7 +280,7 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
                   if (context.read<ExamCubit>().getQuestions().length - 1 !=
                       currentQuestionIndex) {
                     pageController.nextPage(
-                        duration: Duration(milliseconds: 250),
+                        duration: const Duration(milliseconds: 250),
                         curve: Curves.easeInOut);
                   }
                 },
@@ -300,7 +301,8 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
           Align(
             alignment: AlignmentDirectional.bottomStart,
             child: Padding(
-              padding: EdgeInsetsDirectional.only(start: 20.0, bottom: 30.0),
+              padding:
+                  const EdgeInsetsDirectional.only(start: 20.0, bottom: 30.0),
               child: CustomBackButton(
                 removeSnackBars: false,
                 iconColor: Theme.of(context).primaryColor,
@@ -310,7 +312,7 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
           Align(
             alignment: AlignmentDirectional.bottomCenter,
             child: Padding(
-              padding: EdgeInsetsDirectional.only(bottom: 20.0),
+              padding: const EdgeInsetsDirectional.only(bottom: 20.0),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -329,7 +331,7 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 2.5,
                   ),
                   Text(
@@ -345,7 +347,8 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
           Align(
             alignment: AlignmentDirectional.bottomEnd,
             child: Padding(
-              padding: EdgeInsetsDirectional.only(end: 20.0, bottom: 30.0),
+              padding:
+                  const EdgeInsetsDirectional.only(end: 20.0, bottom: 30.0),
               child: ExamTimerContainer(
                 navigateToResultScreen: navigateToResultScreen,
                 examDurationInMinutes:
@@ -361,9 +364,9 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
       decoration: BoxDecoration(
           boxShadow: [UiUtils.buildAppbarShadow()],
           color: Theme.of(context).backgroundColor,
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
               bottomLeft: Radius.circular(20.0),
-              bottomRight: Radius.circular(20.0))),
+              bottomRight: const Radius.circular(20.0))),
     );
   }
 
@@ -421,7 +424,7 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
                       questionNumber: index + 1,
                       question: state.questions[index],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 25,
                     ),
                     ...state.questions[index].answerOptions!
@@ -491,7 +494,7 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
       child: Scaffold(
         body: Stack(
           children: [
-            PageBackgroundGradientContainer(),
+            const PageBackgroundGradientContainer(),
             _buildAppBar(),
             _buildQuestions(),
             Align(

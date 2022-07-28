@@ -26,7 +26,7 @@ class _UserFoundMapContainerState extends State<UserFoundMapContainer> {
     return AnimatedContainer(
       transformAlignment: Alignment.center,
       transform: Matrix4.identity()..scale(scale),
-      duration: Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 300),
       child: Image.asset(
         UiUtils.getImagePath("map_finded.png"),
         fit: BoxFit.cover,

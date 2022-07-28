@@ -20,7 +20,8 @@ import 'package:flutterquiz/utils/uiUtils.dart';
 
 class TournamentScreen extends StatefulWidget {
   final TournamentDetails tournamentDetails;
-  TournamentScreen({Key? key, required this.tournamentDetails}) : super(key: key);
+  TournamentScreen({Key? key, required this.tournamentDetails})
+      : super(key: key);
 
   @override
   _TournamentScreenState createState() => _TournamentScreenState();
@@ -55,14 +56,15 @@ class _TournamentScreenState extends State<TournamentScreen> {
     });
   }
 
-  Widget _buildQuaterFinalContainer(TournamentPlayerDetails user1, TournamentPlayerDetails user2) {
+  Widget _buildQuaterFinalContainer(
+      TournamentPlayerDetails user1, TournamentPlayerDetails user2) {
     //
     return Row(
       children: [
         CircleAvatar(
           backgroundImage: CachedNetworkImageProvider(user1.profileUrl),
         ),
-        SizedBox(
+        const SizedBox(
           width: 25.0,
         ),
         CircleAvatar(
@@ -83,7 +85,12 @@ class _TournamentScreenState extends State<TournamentScreen> {
             //
             tournament.quaterFinals.length >= 1
                 ? _buildQuaterFinalContainer(
-                    tournament.players[context.read<TournamentCubit>().getUserIndex(tournament.quaterFinals.first['user1'])], tournament.players[context.read<TournamentCubit>().getUserIndex(tournament.quaterFinals.first['user2'])])
+                    tournament.players[context
+                        .read<TournamentCubit>()
+                        .getUserIndex(tournament.quaterFinals.first['user1'])],
+                    tournament.players[context
+                        .read<TournamentCubit>()
+                        .getUserIndex(tournament.quaterFinals.first['user2'])])
                 : Container(),
           ],
         ),
@@ -107,18 +114,26 @@ class _TournamentScreenState extends State<TournamentScreen> {
 
                 //if tournament started
                 if (state is TournamentStarted) {
-                  final tournamentBattleCubit = context.read<TournamentBattleCubit>();
+                  final tournamentBattleCubit =
+                      context.read<TournamentBattleCubit>();
 
-                  if (state.tournament.quaterFinalsResult.isEmpty && state.tournament.semiFinals.isEmpty) {
+                  if (state.tournament.quaterFinalsResult.isEmpty &&
+                      state.tournament.semiFinals.isEmpty) {
                     //if quater finals result is empty then create or quater finals
-                    int userIndex = tournamentCubit.getUserIndex(context.read<UserDetailsCubit>().getUserId());
-                    if (userIndex == 0 || userIndex == 2 || userIndex == 4 || userIndex == 6) {
+                    int userIndex = tournamentCubit.getUserIndex(
+                        context.read<UserDetailsCubit>().getUserId());
+                    if (userIndex == 0 ||
+                        userIndex == 2 ||
+                        userIndex == 4 ||
+                        userIndex == 6) {
                       //this will determine that quater finals created only once
-                      if (tournamentBattleCubit.state is TournamentBattleInitial) {
+                      if (tournamentBattleCubit.state
+                          is TournamentBattleInitial) {
                         //
                         //then create quater final
                         tournamentBattleCubit.createTournamentBattle(
-                          tournamentBattleType: TournamentBattleType.quaterFinal,
+                          tournamentBattleType:
+                              TournamentBattleType.quaterFinal,
                           tournamentId: state.tournament.id,
                           user1: state.tournament.players[userIndex],
                           user2: state.tournament.players[userIndex + 1],
@@ -126,15 +141,23 @@ class _TournamentScreenState extends State<TournamentScreen> {
                       }
                     } else {
                       //subscribe to tournament battle
-                      if (tournamentBattleCubit.state is TournamentBattleInitial) {
+                      if (tournamentBattleCubit.state
+                          is TournamentBattleInitial) {
                         print("Join user");
                         // && state.tournament.quaterFinals.length <= 4
 
                         //user2 uid will be the user who will join or will not created the quater final battle
-                        String tournamentBattleId = tournamentCubit.getQuaterFinalBattleId(state.tournament.players[userIndex].uid);
+                        String tournamentBattleId =
+                            tournamentCubit.getQuaterFinalBattleId(
+                                state.tournament.players[userIndex].uid);
                         //if tournament battle
                         if (tournamentBattleId.isNotEmpty) {
-                          tournamentBattleCubit.joinTournamentBattle(tournamentBattleType: TournamentBattleType.quaterFinal, tournamentBattleId: tournamentBattleId, tournamentPlayerDetails: state.tournament.players[userIndex]);
+                          tournamentBattleCubit.joinTournamentBattle(
+                              tournamentBattleType:
+                                  TournamentBattleType.quaterFinal,
+                              tournamentBattleId: tournamentBattleId,
+                              tournamentPlayerDetails:
+                                  state.tournament.players[userIndex]);
                         }
                       }
                     }
@@ -147,10 +170,14 @@ class _TournamentScreenState extends State<TournamentScreen> {
             listener: (context, state) {
               print("Tournament Battle state is ${state.toString()}");
               if (state is TournamentBattleStarted) {
-                if (state.tournamentBattle.battleType == TournamentBattleType.quaterFinal) {
+                if (state.tournamentBattle.battleType ==
+                    TournamentBattleType.quaterFinal) {
                   //if tournament is ready to play and both users have not submitted the any answer
-                  if (state.tournamentBattle.readyToPlay && state.tournamentBattle.user1.answers.isEmpty && state.tournamentBattle.user2.answers.isEmpty) {
-                    Navigator.of(context).pushNamed(Routes.battleRoomQuiz, arguments: {
+                  if (state.tournamentBattle.readyToPlay &&
+                      state.tournamentBattle.user1.answers.isEmpty &&
+                      state.tournamentBattle.user2.answers.isEmpty) {
+                    Navigator.of(context)
+                        .pushNamed(Routes.battleRoomQuiz, arguments: {
                       "isTournamentBattle": true,
                     });
                   }
@@ -168,9 +195,12 @@ class _TournamentScreenState extends State<TournamentScreen> {
                   return ExitGameDailog(
                     onTapYes: () {
                       //reset tournament battle resource
-                      context.read<TournamentBattleCubit>().resetTournamentBattleResource();
+                      context
+                          .read<TournamentBattleCubit>()
+                          .resetTournamentBattleResource();
                       //reset tournament resource
-                      context.read<TournamentCubit>().removeUserFromTournament(userId: context.read<UserDetailsCubit>().getUserId());
+                      context.read<TournamentCubit>().removeUserFromTournament(
+                          userId: context.read<UserDetailsCubit>().getUserId());
                       context.read<TournamentCubit>().resetTournamentResource();
                       Navigator.of(context).pop();
                       Navigator.of(context).pop();
@@ -183,20 +213,22 @@ class _TournamentScreenState extends State<TournamentScreen> {
           child: Scaffold(
             body: Stack(
               children: [
-                PageBackgroundGradientContainer(),
+                const PageBackgroundGradientContainer(),
                 BlocBuilder(
                     bloc: tournamentCubit,
                     builder: (context, state) {
                       if (state is TournamentStarted) {
-                        return Center(child: _buildQuaterFinalsContainer(state.tournament));
+                        return Center(
+                            child:
+                                _buildQuaterFinalsContainer(state.tournament));
                       }
                       if (state is TournamentCreated) {
-                        return Center(
-                          child: Text("Waiting for players"),
+                        return const Center(
+                          child: const Text("Waiting for players"),
                         );
                       }
                       if (state is TournamentJoined) {
-                        return Center(
+                        return const Center(
                           child: Text("Waiting for players"),
                         );
                       }
@@ -204,7 +236,10 @@ class _TournamentScreenState extends State<TournamentScreen> {
                       if (state is TournamentCreationFailure) {
                         return Center(
                           child: ErrorContainer(
-                            errorMessage: AppLocalization.of(context)!.getTranslatedValues(convertErrorCodeToLanguageKey(state.errorMessageCode))!,
+                            errorMessage: AppLocalization.of(context)!
+                                .getTranslatedValues(
+                                    convertErrorCodeToLanguageKey(
+                                        state.errorMessageCode))!,
                             onTapRetry: () {
                               searchTournament();
                             },
@@ -215,7 +250,10 @@ class _TournamentScreenState extends State<TournamentScreen> {
                       if (state is TournamentJoiningFailure) {
                         return Center(
                           child: ErrorContainer(
-                            errorMessage: AppLocalization.of(context)!.getTranslatedValues(convertErrorCodeToLanguageKey(state.errorMessageCode))!,
+                            errorMessage: AppLocalization.of(context)!
+                                .getTranslatedValues(
+                                    convertErrorCodeToLanguageKey(
+                                        state.errorMessageCode))!,
                             onTapRetry: () {
                               searchTournament();
                             },

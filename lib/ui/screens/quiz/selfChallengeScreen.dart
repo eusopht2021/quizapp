@@ -185,7 +185,7 @@ class _SelfChallengeScreenState extends State<SelfChallengeScreen> {
           }
         },
         icon: _buildDropdownIcon(),
-        underline: SizedBox(),
+        underline: const SizedBox(),
         //values is map of name and id. only passing name to dropdown
         items: values.map((e) => e['name']).toList().map((name) {
           return DropdownMenuItem(
@@ -201,7 +201,7 @@ class _SelfChallengeScreenState extends State<SelfChallengeScreen> {
   //dropdown container with border
   Widget _buildDropdownContainer(Widget child) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
       alignment: Alignment.center,
       width: MediaQuery.of(context).size.width * (0.8),
       decoration: BoxDecoration(
@@ -230,7 +230,7 @@ class _SelfChallengeScreenState extends State<SelfChallengeScreen> {
       },
       child: Container(
         alignment: Alignment.center,
-        margin: EdgeInsets.only(right: 10.0),
+        margin: const EdgeInsets.only(right: 10.0),
         height: 30.0,
         width: 45.0,
         child: Text(
@@ -305,14 +305,14 @@ class _SelfChallengeScreenState extends State<SelfChallengeScreen> {
         //backgroundColor: bgColorGradient,
         body: Stack(
           children: [
-            PageBackgroundGradientContainer(),
+            const PageBackgroundGradientContainer(),
             Align(
               alignment: Alignment.topCenter,
               child: Padding(
                 padding: EdgeInsets.only(
                     top: MediaQuery.of(context).size.height * (0.15)),
                 child: SingleChildScrollView(
-                  padding: EdgeInsets.only(top: 35.0, bottom: 25.0),
+                  padding: const EdgeInsets.only(top: 35.0, bottom: 25.0),
                   child: Column(
                     children: [
                       //to build category dropdown
@@ -346,7 +346,7 @@ class _SelfChallengeScreenState extends State<SelfChallengeScreen> {
                                             state.errorMessage))!,
                                 context,
                                 true,
-                                duration: Duration(days: 365),
+                                duration: const Duration(days: 365),
                                 onPressedAction: () {
                               //to get categories
                               context.read<QuizCategoryCubit>().getQuizCategory(
@@ -365,7 +365,7 @@ class _SelfChallengeScreenState extends State<SelfChallengeScreen> {
                         },
                         builder: (context, state) {
                           return _buildDropdownContainer(AnimatedSwitcher(
-                            duration: Duration(milliseconds: 500),
+                            duration: const Duration(milliseconds: 500),
                             child: state is QuizCategorySuccess
                                 ? _buildDropdown(
                                     forCategory: true,
@@ -424,7 +424,7 @@ class _SelfChallengeScreenState extends State<SelfChallengeScreen> {
                                             state.errorMessage))!,
                                 context,
                                 true,
-                                duration: Duration(days: 365),
+                                duration: const Duration(days: 365),
                                 onPressedAction: () {
                               //load subcategory again
                               context.read<SubCategoryCubit>().fetchSubCategory(
@@ -440,16 +440,16 @@ class _SelfChallengeScreenState extends State<SelfChallengeScreen> {
                           if (state is SubCategoryFetchFailure) {
                             //if there is no subcategory then show empty sized box
                             if (state.errorMessage == "102") {
-                              return SizedBox();
+                              return const SizedBox();
                             }
                           }
                           return Column(
                             children: [
-                              SizedBox(
+                              const SizedBox(
                                 height: 25,
                               ),
                               _buildDropdownContainer(AnimatedSwitcher(
-                                duration: Duration(milliseconds: 500),
+                                duration: const Duration(milliseconds: 500),
                                 child:
                                     _buildSubCategoryDropdownContainer(state),
                               )),
@@ -458,7 +458,7 @@ class _SelfChallengeScreenState extends State<SelfChallengeScreen> {
                         },
                       ),
 
-                      SizedBox(
+                      const SizedBox(
                         height: 25.0,
                       ),
                       Container(
@@ -466,7 +466,7 @@ class _SelfChallengeScreenState extends State<SelfChallengeScreen> {
                           borderRadius: BorderRadius.circular(10.0),
                           color: Theme.of(context).primaryColor,
                         ),
-                        padding: EdgeInsets.all(10.0),
+                        padding: const EdgeInsets.all(10.0),
                         width: MediaQuery.of(context).size.width * (0.8),
                         child: Column(
                           children: [
@@ -474,7 +474,7 @@ class _SelfChallengeScreenState extends State<SelfChallengeScreen> {
                               AppLocalization.of(context)!
                                   .getTranslatedValues("selectNoQusLbl")!,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 25.0,
                             ),
                             Container(
@@ -513,7 +513,7 @@ class _SelfChallengeScreenState extends State<SelfChallengeScreen> {
                         ),
                       ),
 
-                      SizedBox(
+                      const SizedBox(
                         height: 25.0,
                       ),
                       Container(
@@ -521,7 +521,7 @@ class _SelfChallengeScreenState extends State<SelfChallengeScreen> {
                           borderRadius: BorderRadius.circular(10.0),
                           color: Theme.of(context).primaryColor,
                         ),
-                        padding: EdgeInsets.all(10.0),
+                        padding: const EdgeInsets.all(10.0),
                         width: MediaQuery.of(context).size.width * (0.8),
                         child: Column(
                           children: [
@@ -529,7 +529,7 @@ class _SelfChallengeScreenState extends State<SelfChallengeScreen> {
                               AppLocalization.of(context)!
                                   .getTranslatedValues("selectTimeLbl")!,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 25.0,
                             ),
                             Container(
@@ -566,7 +566,7 @@ class _SelfChallengeScreenState extends State<SelfChallengeScreen> {
                           ],
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 25.0,
                       ),
                       CustomRoundedButton(

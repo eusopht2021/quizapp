@@ -10,6 +10,6 @@ class MultiUserBattleRoomWaitingScreen extends StatefulWidget {
 class _MultiUserBattleRoomWaitingScreenState extends State<MultiUserBattleRoomWaitingScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return const Scaffold();
   }
 }

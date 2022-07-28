@@ -51,19 +51,19 @@ class MusicPlayerContainerState extends State<MusicPlayerContainer> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CurrentDurationContainer(),
-              Spacer(),
+              const Spacer(),
               PlayerControlContainer(
                 currentIndex: widget.currentIndex,
                 index: widget.index,
               ),
-              Spacer(),
+              const Spacer(),
               BlocBuilder<MusicPlayerCubit, MusicPlayerState>(
                 bloc: context.read<MusicPlayerCubit>(),
                 builder: (context, state) {
@@ -75,10 +75,12 @@ class MusicPlayerContainerState extends State<MusicPlayerContainer> {
                       time = "${audioDuration.inHours}:";
                     }
                     if (audioDuration.inMinutes != 0) {
-                      time = "$time${audioDuration.inMinutes - (24 * audioDuration.inHours)}:";
+                      time =
+                          "$time${audioDuration.inMinutes - (24 * audioDuration.inHours)}:";
                     }
                     if (audioDuration.inSeconds != 0) {
-                      time = "$time${audioDuration.inSeconds - (60 * audioDuration.inMinutes)}";
+                      time =
+                          "$time${audioDuration.inSeconds - (60 * audioDuration.inMinutes)}";
                     }
                     return Text(
                       time,
@@ -109,7 +111,7 @@ class MusicPlayerContainerState extends State<MusicPlayerContainer> {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 25,
           ),
         ],
@@ -121,7 +123,9 @@ class MusicPlayerContainerState extends State<MusicPlayerContainer> {
 class PlayerControlContainer extends StatefulWidget {
   final int index;
   final int currentIndex;
-  PlayerControlContainer({Key? key, required this.currentIndex, required this.index}) : super(key: key);
+  PlayerControlContainer(
+      {Key? key, required this.currentIndex, required this.index})
+      : super(key: key);
 
   @override
   _PlayerControlContainerState createState() => _PlayerControlContainerState();
@@ -212,7 +216,10 @@ class _PlayerControlContainerState extends State<PlayerControlContainer> {
           if (_hasCompleted) {
             return _buildButton(
                 onPressed: () {
-                  context.read<MusicPlayerCubit>().audioPlayer.seek(Duration.zero);
+                  context
+                      .read<MusicPlayerCubit>()
+                      .audioPlayer
+                      .seek(Duration.zero);
                 },
                 icon: Icons.restart_alt);
           }
@@ -244,7 +251,9 @@ class _PlayerControlContainerState extends State<PlayerControlContainer> {
               setState(() {});
             }
             _processingStateStreamSubscription?.cancel();
-            _processingStateStreamSubscription = musicPlayerCubit.audioPlayer.processingStateStream.listen(processingStateListener);
+            _processingStateStreamSubscription = musicPlayerCubit
+                .audioPlayer.processingStateStream
+                .listen(processingStateListener);
           }
         });
   }
@@ -254,10 +263,12 @@ class CurrentDurationSliderContainer extends StatefulWidget {
   CurrentDurationSliderContainer({Key? key}) : super(key: key);
 
   @override
-  _CurrentDurationSliderContainerState createState() => _CurrentDurationSliderContainerState();
+  _CurrentDurationSliderContainerState createState() =>
+      _CurrentDurationSliderContainerState();
 }
 
-class _CurrentDurationSliderContainerState extends State<CurrentDurationSliderContainer> {
+class _CurrentDurationSliderContainerState
+    extends State<CurrentDurationSliderContainer> {
   double currentValue = 0.0;
   double max = 0.0;
 
@@ -283,16 +294,20 @@ class _CurrentDurationSliderContainerState extends State<CurrentDurationSliderCo
           currentValue = 0.0;
           max = state.audioDuration.inSeconds.toDouble();
           streamSubscription?.cancel();
-          streamSubscription = context.read<MusicPlayerCubit>().audioPlayer.positionStream.listen(currentDurationListener);
+          streamSubscription = context
+              .read<MusicPlayerCubit>()
+              .audioPlayer
+              .positionStream
+              .listen(currentDurationListener);
           setState(() {});
         }
       },
       child: SliderTheme(
         data: Theme.of(context).sliderTheme.copyWith(
-              overlayShape: RoundSliderOverlayShape(overlayRadius: 0.0),
+              overlayShape: const RoundSliderOverlayShape(overlayRadius: 0.0),
               trackHeight: 5,
               trackShape: CustomTrackShape(),
-              thumbShape: RoundSliderThumbShape(
+              thumbShape: const RoundSliderThumbShape(
                 enabledThumbRadius: 6.5,
               ),
             ),
@@ -307,11 +322,15 @@ class _CurrentDurationSliderContainerState extends State<CurrentDurationSliderCo
               value: currentValue,
               thumbColor: Theme.of(context).colorScheme.secondary,
               onChanged: (value) {
-                if (context.read<MusicPlayerCubit>().state is MusicPlayerLoaded) {
+                if (context.read<MusicPlayerCubit>().state
+                    is MusicPlayerLoaded) {
                   setState(() {
                     currentValue = value;
                   });
-                  context.read<MusicPlayerCubit>().audioPlayer.seek(Duration(seconds: value.toInt()));
+                  context
+                      .read<MusicPlayerCubit>()
+                      .audioPlayer
+                      .seek(Duration(seconds: value.toInt()));
                 }
               }),
         ),
@@ -324,7 +343,8 @@ class BufferedDurationContainer extends StatefulWidget {
   BufferedDurationContainer({Key? key}) : super(key: key);
 
   @override
-  _BufferedDurationContainerState createState() => _BufferedDurationContainerState();
+  _BufferedDurationContainerState createState() =>
+      _BufferedDurationContainerState();
 }
 
 class _BufferedDurationContainerState extends State<BufferedDurationContainer> {
@@ -334,7 +354,10 @@ class _BufferedDurationContainerState extends State<BufferedDurationContainer> {
 
   void bufferedDurationListener(Duration duration) {
     if (context.read<MusicPlayerCubit>().state is MusicPlayerLoaded) {
-      bufferedPercentage = (duration.inSeconds / ((context.read<MusicPlayerCubit>().state as MusicPlayerLoaded).audioDuration.inSeconds));
+      bufferedPercentage = (duration.inSeconds /
+          ((context.read<MusicPlayerCubit>().state as MusicPlayerLoaded)
+              .audioDuration
+              .inSeconds));
       setState(() {});
     }
   }
@@ -357,7 +380,11 @@ class _BufferedDurationContainerState extends State<BufferedDurationContainer> {
           }
           streamSubscription?.cancel();
 
-          streamSubscription = context.read<MusicPlayerCubit>().audioPlayer.bufferedPositionStream.listen(bufferedDurationListener);
+          streamSubscription = context
+              .read<MusicPlayerCubit>()
+              .audioPlayer
+              .bufferedPositionStream
+              .listen(bufferedDurationListener);
         }
       },
       child: Container(
@@ -376,7 +403,8 @@ class CurrentDurationContainer extends StatefulWidget {
   CurrentDurationContainer({Key? key}) : super(key: key);
 
   @override
-  _CurrentDurationContainerState createState() => _CurrentDurationContainerState();
+  _CurrentDurationContainerState createState() =>
+      _CurrentDurationContainerState();
 }
 
 class _CurrentDurationContainerState extends State<CurrentDurationContainer> {
@@ -406,7 +434,11 @@ class _CurrentDurationContainerState extends State<CurrentDurationContainer> {
             setState(() {});
           }
           currentAudioDurationStreamSubscription?.cancel();
-          currentAudioDurationStreamSubscription = context.read<MusicPlayerCubit>().audioPlayer.positionStream.listen(currentDurationListener);
+          currentAudioDurationStreamSubscription = context
+              .read<MusicPlayerCubit>()
+              .audioPlayer
+              .positionStream
+              .listen(currentDurationListener);
         }
       },
       child: Text(
@@ -428,6 +460,7 @@ class CustomTrackShape extends RoundedRectSliderTrackShape {
     bool isDiscrete = false,
     double additionalActiveTrackHeight = 0,
   }) {
-    return Offset(offset.dx, offset.dy) & Size(parentBox.size.width, sliderTheme.trackHeight!);
+    return Offset(offset.dx, offset.dy) &
+        Size(parentBox.size.width, sliderTheme.trackHeight!);
   } //
 }

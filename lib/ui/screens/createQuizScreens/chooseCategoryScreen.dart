@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutterquiz/ui/screens/createQuizScreens/createMultiQuizScreen.dart';
@@ -33,8 +35,61 @@ class _ChooseCategoryScreenState extends State<ChooseCategoryScreen> {
       title: "Choose Category",
       titleColor: Constants.white,
       expandBodyBehindAppBar: false,
-      action: const Padding(
-          padding: EdgeInsets.only(right: 16), child: Icon(Icons.more_horiz)),
+      action: PopupMenuButton<String>(
+        icon: Icon(
+          Icons.more_horiz,
+          color: Constants.white,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(
+            Constants.cardsRadius,
+          ),
+        ),
+        itemBuilder: (context) {
+          return [
+            PopupMenuItem(
+              onTap: () {
+                log('Duplicate');
+              },
+              child: Row(
+                // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Icon(
+                    Icons.copy,
+                    color: Constants.grey2,
+                  ),
+                  TitleText(
+                    text: 'Duplicate',
+                    size: Constants.bodyNormal,
+                    textColor: Constants.grey2,
+                    weight: FontWeight.w400,
+                  ),
+                ],
+              ),
+            ),
+            PopupMenuItem(
+              onTap: () {
+                log('Delete');
+              },
+              child: Row(
+                // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  const Icon(
+                    Icons.delete_outline_outlined,
+                    color: Colors.red,
+                  ),
+                  TitleText(
+                    text: 'Delete',
+                    size: Constants.bodyNormal,
+                    textColor: Colors.red,
+                    weight: FontWeight.w400,
+                  ),
+                ],
+              ),
+            ),
+          ];
+        },
+      ),
       child: SingleChildScrollView(
         child: CustomCard(
           height: SizeConfig.screenHeight,

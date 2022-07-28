@@ -54,7 +54,7 @@ class _CoinStoreScreenState extends State<CoinStoreScreen>
         right: 20.0,
       ),
       itemCount: products.length,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         crossAxisSpacing: 20.0,
         mainAxisSpacing: 10.0,
@@ -90,9 +90,9 @@ class _CoinStoreScreenState extends State<CoinStoreScreen>
                     ),
                     decoration: BoxDecoration(
                       color: Theme.of(context).primaryColor,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(15.0),
-                        topRight: Radius.circular(15.0),
+                      borderRadius: const BorderRadius.only(
+                        topLeft: const Radius.circular(15.0),
+                        topRight: const Radius.circular(15.0),
                       ),
                     ),
                   ),
@@ -106,9 +106,9 @@ class _CoinStoreScreenState extends State<CoinStoreScreen>
                           SvgPicture.asset("assets/images/coins/04_coins.svg"),
                       decoration: BoxDecoration(
                         color: Theme.of(context).colorScheme.secondary,
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(15.0),
-                          bottomRight: Radius.circular(15.0),
+                        borderRadius: const BorderRadius.only(
+                          bottomLeft: const Radius.circular(15.0),
+                          bottomRight: const Radius.circular(15.0),
                         ),
                       ),
                     )),
@@ -141,7 +141,7 @@ class _CoinStoreScreenState extends State<CoinStoreScreen>
       child: Scaffold(
         body: Stack(
           children: [
-            PageBackgroundGradientContainer(),
+            const PageBackgroundGradientContainer(),
             Align(
               alignment: Alignment.topCenter,
               child: BlocConsumer<InAppPurchaseCubit, InAppPurchaseState>(

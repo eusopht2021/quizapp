@@ -21,7 +21,7 @@ class MenuBottomSheetContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(20.0),
             topRight: Radius.circular(20.0),
           ),
@@ -49,7 +49,7 @@ class MenuBottomSheetContainer extends StatelessWidget {
                     title: walletKey,
                     leadingIcon: "wallet.svg",
                   )
-                : SizedBox(),
+                : const SizedBox(),
 
             MenuTile(
               isSvgIcon: true,
@@ -71,7 +71,7 @@ class MenuBottomSheetContainer extends StatelessWidget {
                     title: coinStoreKey,
                     leadingIcon: "coin_store.svg",
                   )
-                : SizedBox(),
+                : const SizedBox(),
             MenuTile(
               isSvgIcon: true,
               onTap: () {
@@ -104,13 +104,14 @@ class MenuBottomSheetContainer extends StatelessWidget {
                     title: languageKey,
                     leadingIcon: "language_icon.svg",
                   )
-                : SizedBox(),
+                : const SizedBox(),
 
             MenuTile(
               isSvgIcon: true,
               onTap: () {
                 Navigator.of(context).pop();
-                showDialog(context: context, builder: (_) => ThemeDialog());
+                showDialog(
+                    context: context, builder: (_) => const ThemeDialog());
               },
               title: themeKey,
               leadingIcon: "theme.svg", //theme icon

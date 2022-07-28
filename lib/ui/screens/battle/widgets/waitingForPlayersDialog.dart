@@ -41,7 +41,7 @@ class _WaitingForPlayesDialogState extends State<WaitingForPlayesDialog> {
               border:
                   Border.all(color: Theme.of(context).colorScheme.secondary)),
           height: constraints.maxHeight * (0.15),
-          padding: EdgeInsets.symmetric(
+          padding: const EdgeInsets.symmetric(
             horizontal: 2.5,
             vertical: 2.5,
           ),
@@ -61,7 +61,7 @@ class _WaitingForPlayesDialogState extends State<WaitingForPlayesDialog> {
           width: constraints.maxWidth * (0.3),
           height: constraints.maxHeight * (0.05),
           alignment: Alignment.center,
-          padding: EdgeInsets.symmetric(
+          padding: const EdgeInsets.symmetric(
             horizontal: 5.0,
           ),
           child: Text(
@@ -257,16 +257,14 @@ class _WaitingForPlayesDialogState extends State<WaitingForPlayesDialog> {
                           color: Constants.primaryColor,
                         ),
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 5.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
                           child: Stack(
                             children: [
                               Align(
                                 alignment: Alignment.center,
                                 child: TitleText(
-                                  text: AppLocalization.of(context)!
-                                          .getTranslatedValues(
-                                              'entryAmountLbl')! +
-                                      " : ${context.read<BattleRoomCubit>().getEntryFee()}",
+                                  text:
+                                      "${AppLocalization.of(context)!.getTranslatedValues('entryAmountLbl')!} : ${context.read<BattleRoomCubit>().getEntryFee()}",
                                   align: TextAlign.center,
                                   textColor: Constants.white,
                                   size: 16.0,
@@ -292,7 +290,7 @@ class _WaitingForPlayesDialogState extends State<WaitingForPlayesDialog> {
                                       }
                                     },
                                     iconSize: 20,
-                                    icon: Icon(Icons.share),
+                                    icon: const Icon(Icons.share),
                                     color: Theme.of(context).backgroundColor,
                                   ))
                             ],
@@ -305,21 +303,24 @@ class _WaitingForPlayesDialogState extends State<WaitingForPlayesDialog> {
                       Container(
                         width: constraints.maxWidth * (0.85),
                         height: constraints.maxHeight * (0.175),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                              color: Theme.of(context).colorScheme.secondary),
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 15.0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15.0),
                               child: Row(
                                 children: [
                                   Expanded(
                                     //
                                     child: Text(
-                                        AppLocalization.of(context)!
-                                                .getTranslatedValues(
-                                                    'roomCodeLbl')! +
-                                            " : ${context.read<BattleRoomCubit>().getRoomCode()}",
+                                        "${AppLocalization.of(context)!.getTranslatedValues('roomCodeLbl')!} : ${context.read<BattleRoomCubit>().getRoomCode()}",
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontWeight: FontWeight.w600,
@@ -333,7 +334,7 @@ class _WaitingForPlayesDialogState extends State<WaitingForPlayesDialog> {
                                 ],
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 5.0,
                             ),
                             Text(
@@ -348,11 +349,6 @@ class _WaitingForPlayesDialogState extends State<WaitingForPlayesDialog> {
                                       Theme.of(context).colorScheme.secondary,
                                 )),
                           ],
-                        ),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                              color: Theme.of(context).colorScheme.secondary),
-                          borderRadius: BorderRadius.circular(15.0),
                         ),
                       ),
                       SizedBox(
@@ -397,7 +393,7 @@ class _WaitingForPlayesDialogState extends State<WaitingForPlayesDialog> {
                         height: constraints.maxHeight * (0.03),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 5),
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
                         child: BlocBuilder<BattleRoomCubit, BattleRoomState>(
                           bloc: context.read<BattleRoomCubit>(),
                           builder: (context, state) {
@@ -426,7 +422,7 @@ class _WaitingForPlayesDialogState extends State<WaitingForPlayesDialog> {
                           },
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       BlocBuilder<BattleRoomCubit, BattleRoomState>(
                         bloc: context.read<BattleRoomCubit>(),
                         builder: (context, state) {
@@ -445,7 +441,7 @@ class _WaitingForPlayesDialogState extends State<WaitingForPlayesDialog> {
                                 } else {
                                   context.read<BattleRoomCubit>().startGame();
                                   await Future.delayed(
-                                      Duration(milliseconds: 500));
+                                      const Duration(milliseconds: 500));
                                   //navigate to quiz screen
                                   Navigator.of(context).pushReplacementNamed(
                                       Routes.battleRoomQuiz,
@@ -486,7 +482,7 @@ class _WaitingForPlayesDialogState extends State<WaitingForPlayesDialog> {
                                 } else {
                                   context.read<BattleRoomCubit>().startGame();
                                   await Future.delayed(
-                                      Duration(milliseconds: 500));
+                                      const Duration(milliseconds: 500));
                                   //navigate to quiz screen
                                   Navigator.of(context).pushReplacementNamed(
                                       Routes.battleRoomQuiz,
@@ -557,16 +553,13 @@ class _WaitingForPlayesDialogState extends State<WaitingForPlayesDialog> {
                           color: Constants.primaryColor,
                         ),
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 5.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
                           child: Stack(
                             children: [
                               Align(
                                 alignment: Alignment.center,
                                 child: Text(
-                                  AppLocalization.of(context)!
-                                          .getTranslatedValues(
-                                              'entryAmountLbl')! +
-                                      " : ${context.read<MultiUserBattleRoomCubit>().getEntryFee()}",
+                                  "${AppLocalization.of(context)!.getTranslatedValues('entryAmountLbl')!} : ${context.read<MultiUserBattleRoomCubit>().getEntryFee()}",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: Constants.white,
@@ -594,7 +587,7 @@ class _WaitingForPlayesDialogState extends State<WaitingForPlayesDialog> {
                                       }
                                     },
                                     iconSize: 20,
-                                    icon: Icon(Icons.share),
+                                    icon: const Icon(Icons.share),
                                     color: Theme.of(context).backgroundColor,
                                   ))
                             ],
@@ -607,21 +600,24 @@ class _WaitingForPlayesDialogState extends State<WaitingForPlayesDialog> {
                       Container(
                         width: constraints.maxWidth * (0.85),
                         height: constraints.maxHeight * (0.175),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                              color: Theme.of(context).colorScheme.secondary),
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 15.0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15.0),
                               child: Row(
                                 children: [
                                   Expanded(
                                     //
                                     child: Text(
-                                        AppLocalization.of(context)!
-                                                .getTranslatedValues(
-                                                    'roomCodeLbl')! +
-                                            " : ${context.read<MultiUserBattleRoomCubit>().getRoomCode()}",
+                                        "${AppLocalization.of(context)!.getTranslatedValues('roomCodeLbl')!} : ${context.read<MultiUserBattleRoomCubit>().getRoomCode()}",
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontWeight: FontWeight.w600,
@@ -635,7 +631,7 @@ class _WaitingForPlayesDialogState extends State<WaitingForPlayesDialog> {
                                 ],
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 5.0,
                             ),
                             Text(
@@ -650,11 +646,6 @@ class _WaitingForPlayesDialogState extends State<WaitingForPlayesDialog> {
                                       Theme.of(context).colorScheme.secondary,
                                 )),
                           ],
-                        ),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                              color: Theme.of(context).colorScheme.secondary),
-                          borderRadius: BorderRadius.circular(15.0),
                         ),
                       ),
                       SizedBox(
@@ -692,7 +683,7 @@ class _WaitingForPlayesDialogState extends State<WaitingForPlayesDialog> {
                         height: constraints.maxHeight * (0.03),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 5),
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
                         child: BlocBuilder<MultiUserBattleRoomCubit,
                             MultiUserBattleRoomState>(
                           bloc: context.read<MultiUserBattleRoomCubit>(),
@@ -741,7 +732,7 @@ class _WaitingForPlayesDialogState extends State<WaitingForPlayesDialog> {
                           },
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       BlocBuilder<MultiUserBattleRoomCubit,
                           MultiUserBattleRoomState>(
                         bloc: context.read<MultiUserBattleRoomCubit>(),

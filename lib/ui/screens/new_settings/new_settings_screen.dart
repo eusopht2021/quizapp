@@ -382,8 +382,8 @@ Widget _settingsOptionsContainer(
     {Widget? listTileicon, String? title, String? subtitle}) {
   return Container(
     decoration: BoxDecoration(
-      borderRadius: BorderRadius.all(
-        Radius.circular(16),
+      borderRadius: const BorderRadius.all(
+        const Radius.circular(16),
       ),
       color: Constants.grey5,
     ),
@@ -443,7 +443,7 @@ void editProfileFieldBottomSheet(
       enableDrag: false,
       isScrollControlled: true,
       elevation: 5.0,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
         topLeft: Radius.circular(20.0),
         topRight: Radius.circular(20.0),
@@ -479,9 +479,9 @@ void editpasswordFieldBottomSheet({
       enableDrag: false,
       isScrollControlled: true,
       elevation: 5.0,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(20.0),
+      shape: const RoundedRectangleBorder(
+          borderRadius: const BorderRadius.only(
+        topLeft: const Radius.circular(20.0),
         topRight: Radius.circular(20.0),
       )),
       context: context!,

@@ -48,7 +48,7 @@ class _ExamKeyBottomSheetContainerState
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(
+          const SizedBox(
             width: 2.0,
           ),
           InkWell(
@@ -58,14 +58,7 @@ class _ExamKeyBottomSheetContainerState
               });
             },
             child: AnimatedContainer(
-              child: rulesAccepted
-                  ? Icon(
-                      Icons.check,
-                      color: Theme.of(context).backgroundColor,
-                      size: 15.0,
-                    )
-                  : SizedBox(),
-              duration: Duration(milliseconds: 300),
+              duration: const Duration(milliseconds: 300),
               width: 20,
               height: 20,
               alignment: Alignment.center,
@@ -80,9 +73,16 @@ class _ExamKeyBottomSheetContainerState
                       : Theme.of(context).colorScheme.secondary,
                 ),
               ),
+              child: rulesAccepted
+                  ? Icon(
+                      Icons.check,
+                      color: Theme.of(context).backgroundColor,
+                      size: 15.0,
+                    )
+                  : const SizedBox(),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 10.0,
           ),
           Text(
@@ -104,14 +104,14 @@ class _ExamKeyBottomSheetContainerState
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            margin: EdgeInsets.only(top: 7.5),
+            margin: const EdgeInsets.only(top: 7.5),
             width: 6,
             height: 6,
             decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.secondary,
                 borderRadius: BorderRadius.circular(3)),
           ),
-          SizedBox(
+          const SizedBox(
             width: 10.0,
           ),
           Flexible(
@@ -155,7 +155,7 @@ class _ExamKeyBottomSheetContainerState
   Widget _buildViewAllExamRulesContainer() {
     if (showViewAllRulesButton) {
       return Transform.translate(
-        offset: Offset(0, -10.0),
+        offset: const Offset(0, -10.0),
         child: InkWell(
           onTap: () {
             setState(() {
@@ -165,7 +165,7 @@ class _ExamKeyBottomSheetContainerState
           },
           child: Container(
             alignment: Alignment.topLeft,
-            padding: EdgeInsets.only(left: 15, top: 10),
+            padding: const EdgeInsets.only(left: 15, top: 10),
             margin: EdgeInsets.symmetric(
               horizontal: MediaQuery.of(context).size.width *
                   horizontalPaddingPercentage,
@@ -211,9 +211,9 @@ class _ExamKeyBottomSheetContainerState
             maxHeight: MediaQuery.of(context).size.height * (0.95),
           ),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20.0),
-                topRight: Radius.circular(20.0),
+              borderRadius: const BorderRadius.only(
+                topLeft: const Radius.circular(20.0),
+                topRight: const Radius.circular(20.0),
               ),
               gradient: UiUtils.buildLinerGradient([
                 Theme.of(context).scaffoldBackgroundColor,
@@ -229,7 +229,7 @@ class _ExamKeyBottomSheetContainerState
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Container(
-                        margin: EdgeInsets.all(10.0),
+                        margin: const EdgeInsets.all(10.0),
                         alignment: Alignment.centerRight,
                         child: IconButton(
                             onPressed: () {
@@ -254,7 +254,7 @@ class _ExamKeyBottomSheetContainerState
                       horizontal: MediaQuery.of(context).size.width *
                           horizontalPaddingPercentage,
                     ),
-                    padding: EdgeInsetsDirectional.only(start: 20.0),
+                    padding: const EdgeInsetsDirectional.only(start: 20.0),
                     height: 60.0,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
@@ -314,9 +314,9 @@ class _ExamKeyBottomSheetContainerState
 
                   //show any error message
                   AnimatedSwitcher(
-                    duration: Duration(milliseconds: 250),
+                    duration: const Duration(milliseconds: 250),
                     child: errorMessage.isEmpty
-                        ? SizedBox(
+                        ? const SizedBox(
                             height: 20.0,
                           )
                         : Container(

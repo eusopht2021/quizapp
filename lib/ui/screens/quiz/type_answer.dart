@@ -126,11 +126,11 @@ class TypeAnswerScreen extends StatelessWidget {
             )),
         body: CustomCard(
           height: SizeConfig.screenHeight - kBottomNavigationBarHeight,
-          padding: EdgeInsets.only(top: 24, bottom: 8, left: 8, right: 8),
+          padding: const EdgeInsets.only(top: 24, bottom: 8, left: 8, right: 8),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(children: [
-              Expanded(
+              const Expanded(
                 flex: 2,
                 child: CustomPieChart(
                   value1: 30,

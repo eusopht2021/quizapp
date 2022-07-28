@@ -6,11 +6,18 @@ class CustomListTile extends StatelessWidget {
   final String? subtitle;
   final Function? trailingButtonOnTap;
   final double opacity;
-  const CustomListTile({Key? key, required this.leadingChild, required this.subtitle, required this.title, required this.trailingButtonOnTap, required this.opacity}) : super(key: key);
+  const CustomListTile(
+      {Key? key,
+      required this.leadingChild,
+      required this.subtitle,
+      required this.title,
+      required this.trailingButtonOnTap,
+      required this.opacity})
+      : super(key: key);
 
   Widget _buildVerticalLine(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10.0),
+      margin: const EdgeInsets.symmetric(vertical: 10.0),
       color: Theme.of(context).primaryColor,
       width: 5.0,
     );
@@ -19,17 +26,19 @@ class CustomListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 25.0),
+      margin: const EdgeInsets.only(bottom: 25.0),
       decoration: BoxDecoration(
           color: Theme.of(context).backgroundColor,
           boxShadow: [
             BoxShadow(
               blurRadius: 5.0,
-              color: Theme.of(context).primaryColor.withOpacity(0.5), //confirm shadow color
+              color: Theme.of(context)
+                  .primaryColor
+                  .withOpacity(0.5), //confirm shadow color
             )
           ],
           borderRadius: BorderRadius.circular(5.0)),
-      padding: EdgeInsets.symmetric(horizontal: 5.0),
+      padding: const EdgeInsets.symmetric(horizontal: 5.0),
       width: MediaQuery.of(context).size.width * (0.85),
       height: MediaQuery.of(context).size.height * (0.14),
       child: Opacity(
@@ -37,7 +46,7 @@ class CustomListTile extends StatelessWidget {
         child: Row(
           children: [
             _buildVerticalLine(context),
-            SizedBox(
+            const SizedBox(
               width: 7.5,
             ),
             CircleAvatar(
@@ -45,7 +54,7 @@ class CustomListTile extends StatelessWidget {
               backgroundColor: Theme.of(context).primaryColor,
               child: leadingChild,
             ),
-            SizedBox(
+            const SizedBox(
               width: 7.5,
             ),
             Column(
@@ -55,26 +64,30 @@ class CustomListTile extends StatelessWidget {
                   width: MediaQuery.of(context).size.width * (0.535),
                   child: Text(
                     "$title",
-                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16.0, color: Theme.of(context).colorScheme.secondary),
+                    style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16.0,
+                        color: Theme.of(context).colorScheme.secondary),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width * (0.55),
                   child: Text(
                     "$subtitle",
-                    style: TextStyle(fontWeight: FontWeight.w500, color: Colors.grey),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w500, color: Colors.grey),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ],
             ),
-            Spacer(),
+            const Spacer(),
             //when data comes from notification close button not show
             trailingButtonOnTap != null
                 ? InkWell(
@@ -85,7 +98,7 @@ class CustomListTile extends StatelessWidget {
                     ),
                   )
                 : Container(),
-            SizedBox(
+            const SizedBox(
               width: 2.5,
             ),
           ],

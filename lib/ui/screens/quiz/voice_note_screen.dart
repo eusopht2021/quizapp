@@ -126,9 +126,9 @@ class VoiceNoteScreen extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Column(children: [
-              Expanded(
+              const Expanded(
                 flex: 2,
-                child: const CustomPieChart(
+                child: CustomPieChart(
                   value1: 80,
                   value2: 20,
                   radius: 35,
@@ -157,7 +157,8 @@ class VoiceNoteScreen extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (_) => TypeAnswerScreen()));
+                                      builder: (_) =>
+                                          const TypeAnswerScreen()));
                             },
                             child: Container(
                                 padding: const EdgeInsets.all(50),

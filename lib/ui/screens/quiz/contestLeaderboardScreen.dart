@@ -59,7 +59,7 @@ class _ContestLeaderBoardScreen extends State<ContestLeaderBoardScreen> {
                   ),
                   height: MediaQuery.of(context).size.height * .025,
                   width: MediaQuery.of(context).size.width * .03),
-              SizedBox(
+              const SizedBox(
                 width: 5,
               ),
               Text(
@@ -72,7 +72,7 @@ class _ContestLeaderBoardScreen extends State<ContestLeaderBoardScreen> {
         ),
         body: Stack(
           children: [
-            PageBackgroundGradientContainer(),
+            const PageBackgroundGradientContainer(),
             leaderBoard(),
           ],
         ));
@@ -243,8 +243,8 @@ class _ContestLeaderBoardScreen extends State<ContestLeaderBoardScreen> {
                                     width: MediaQuery.of(context).size.width *
                                         .02),
                                 Container(
-                                  decoration:
-                                      BoxDecoration(shape: BoxShape.circle),
+                                  decoration: const BoxDecoration(
+                                      shape: BoxShape.circle),
                                   height:
                                       MediaQuery.of(context).size.height * .16,
                                   width:
@@ -451,10 +451,10 @@ class _ContestLeaderBoardScreen extends State<ContestLeaderBoardScreen> {
                     })),
                 Container(
                   height: MediaQuery.of(context).size.height * .51,
-                  padding: EdgeInsetsDirectional.only(start: 20, end: 20),
+                  padding: const EdgeInsetsDirectional.only(start: 20, end: 20),
                   child: ListView.builder(
                     shrinkWrap: true,
-                    physics: AlwaysScrollableScrollPhysics(),
+                    physics: const AlwaysScrollableScrollPhysics(),
                     itemCount: getContestLeaderboardList.length,
                     itemBuilder: (BuildContext context, int index) {
                       int i = index + 1;
@@ -472,7 +472,7 @@ class _ContestLeaderBoardScreen extends State<ContestLeaderBoardScreen> {
                                     child: Column(children: <Widget>[
                                       Text(
                                         "$i",
-                                        style: TextStyle(fontSize: 18),
+                                        style: const TextStyle(fontSize: 18),
                                       ),
                                       Icon(Icons.arrow_drop_up,
                                           color: Theme.of(context).primaryColor)
@@ -490,8 +490,8 @@ class _ContestLeaderBoardScreen extends State<ContestLeaderBoardScreen> {
                                     ),
                                     child: ListTile(
                                       dense: true,
-                                      contentPadding:
-                                          EdgeInsets.only(left: 0, right: 20),
+                                      contentPadding: const EdgeInsets.only(
+                                          left: 0, right: 20),
                                       title: Text(
                                         getContestLeaderboardList[index].name!,
                                         maxLines: 1,
@@ -543,9 +543,9 @@ class _ContestLeaderBoardScreen extends State<ContestLeaderBoardScreen> {
                 Container(
                   decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.secondary,
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20))),
+                      borderRadius: const BorderRadius.only(
+                          topLeft: const Radius.circular(20),
+                          topRight: const Radius.circular(20))),
                   child: ListTile(
                       title: Text(
                         "My Rank",
@@ -582,11 +582,11 @@ class _ContestLeaderBoardScreen extends State<ContestLeaderBoardScreen> {
                         width: MediaQuery.of(context).size.width * .25,
                         decoration: BoxDecoration(
                           color: Theme.of(context).primaryColor,
-                          borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(50.0),
-                              topLeft: Radius.circular(50.0),
-                              bottomRight: Radius.circular(20.0),
-                              topRight: Radius.circular(20.0)),
+                          borderRadius: const BorderRadius.only(
+                              bottomLeft: const Radius.circular(50.0),
+                              topLeft: const Radius.circular(50.0),
+                              bottomRight: const Radius.circular(20.0),
+                              topRight: const Radius.circular(20.0)),
                         ),
                         child: Center(
                             child: Text(

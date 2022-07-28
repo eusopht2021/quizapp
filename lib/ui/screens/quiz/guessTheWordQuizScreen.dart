@@ -197,7 +197,8 @@ class _GuessTheWordQuizScreenState extends State<GuessTheWordQuizScreen>
           guessTheWordQuizCubit.getQuestions()[_currentQuestionIndex].id,
           submittedAnswer);
       //wait for some seconds
-      await Future.delayed(Duration(seconds: inBetweenQuestionTimeInSeconds));
+      await Future.delayed(
+          const Duration(seconds: inBetweenQuestionTimeInSeconds));
       //if currentQuestion is last then move user to result screen
       if (_currentQuestionIndex ==
           (guessTheWordQuizCubit.getQuestions().length - 1)) {
@@ -353,7 +354,7 @@ class _GuessTheWordQuizScreenState extends State<GuessTheWordQuizScreen>
 
   void onTapBackButton() {
     isExitDialogOpen = true;
-    showDialog(context: context, builder: (_) => ExitGameDailog())
+    showDialog(context: context, builder: (_) => const ExitGameDailog())
         .then((value) => isExitDialogOpen = false);
   }
 
@@ -447,7 +448,7 @@ class _GuessTheWordQuizScreenState extends State<GuessTheWordQuizScreen>
                       }
                     },
                     child: Container(
-                      padding: EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8.0),
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.transparent),
                       ),

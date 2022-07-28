@@ -16,47 +16,47 @@ class RectangleTimerProgressContainer extends StatefulWidget {
 
 class _RectangleTimerProgressContainerState
     extends State<RectangleTimerProgressContainer> {
-  late Animation<double> _animation =
+  late final Animation<double> _animation =
       Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
     parent: widget.animationController,
-    curve: Interval(0.0, 0.2),
+    curve: const Interval(0.0, 0.2),
   ));
 
   late Animation<double> _firstCurveAnimation =
       Tween<double>(begin: 0.0, end: 90.0).animate(CurvedAnimation(
     parent: widget.animationController,
-    curve: Interval(0.2, 0.25),
+    curve: const Interval(0.2, 0.25),
   ));
 
   late Animation<double> _secondPointAnimation =
       Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
     parent: widget.animationController,
-    curve: Interval(0.25, 0.45),
+    curve: const Interval(0.25, 0.45),
   ));
   late Animation<double> _secondCurveAnimation =
       Tween<double>(begin: 0.0, end: 90.0).animate(CurvedAnimation(
     parent: widget.animationController,
-    curve: Interval(0.45, 0.5),
+    curve: const Interval(0.45, 0.5),
   ));
   late Animation<double> _thirdAnimation =
       Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
     parent: widget.animationController,
-    curve: Interval(0.5, 0.7),
+    curve: const Interval(0.5, 0.7),
   ));
   late Animation<double> _thirdCurveAnimation =
       Tween<double>(begin: 0.0, end: 90.0).animate(CurvedAnimation(
     parent: widget.animationController,
-    curve: Interval(0.7, 0.75),
+    curve: const Interval(0.7, 0.75),
   ));
   late Animation<double> _fourthPointAnimation =
       Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
     parent: widget.animationController,
-    curve: Interval(0.75, 0.95),
+    curve: const Interval(0.75, 0.95),
   ));
   late Animation<double> _fourhtCurveAnimation =
       Tween<double>(begin: 0.0, end: 90.0).animate(CurvedAnimation(
     parent: widget.animationController,
-    curve: Interval(0.95, 1.0),
+    curve: const Interval(0.95, 1.0),
   ));
 
   @override

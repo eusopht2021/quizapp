@@ -55,7 +55,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
     return Align(
       alignment: AlignmentDirectional.topStart,
       child: Padding(
-        padding: EdgeInsetsDirectional.only(top: 15.0, start: 20),
+        padding: const EdgeInsetsDirectional.only(top: 15.0, start: 20),
         child: CustomBackButton(
           iconColor: Constants.white,
         ),
@@ -109,17 +109,17 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                 top: MediaQuery.of(context).size.height * (0.085),
               ),
               child: ListView.builder(
-                padding: EdgeInsets.only(
+                padding: const EdgeInsets.only(
                   bottom: 50,
                 ),
                 shrinkWrap: true,
                 itemCount: subCategoryList.length,
-                physics: AlwaysScrollableScrollPhysics(),
+                physics: const AlwaysScrollableScrollPhysics(),
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
                       height: 90,
                       alignment: Alignment.center,
-                      margin: EdgeInsets.all(15),
+                      margin: const EdgeInsets.all(15),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20.0),
                           color: Constants.secondaryColor),

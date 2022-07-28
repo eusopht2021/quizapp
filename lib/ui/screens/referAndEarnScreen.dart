@@ -29,10 +29,10 @@ class ReferAndEarnScreen extends StatelessWidget {
         ),
         child: Stack(
           children: [
-            PageBackgroundGradientContainer(),
+            const PageBackgroundGradientContainer(),
             Platform.isIOS
                 ? Container(
-                    padding: EdgeInsets.only(left: 10),
+                    padding: const EdgeInsets.only(left: 10),
                     alignment: Alignment.topLeft,
                     child: CustomBackButton(
                       iconColor: Theme.of(context).primaryColor,
@@ -51,7 +51,7 @@ class ReferAndEarnScreen extends StatelessWidget {
                             UiUtils.getImagePath("refer_earn.svg")),
                       ),
                       Transform.translate(
-                        offset: Offset(0.0, -10.0),
+                        offset: const Offset(0.0, -10.0),
                         child: Text(
                           AppLocalization.of(context)!
                               .getTranslatedValues("referAndEarn")!,
@@ -74,9 +74,9 @@ class ReferAndEarnScreen extends StatelessWidget {
                         ),
                       ),
                       Container(
+                        height: MediaQuery.of(context).size.height * (0.2),
                         child:
                             SvgPicture.asset(UiUtils.getImagePath("steps.svg")),
-                        height: MediaQuery.of(context).size.height * (0.2),
                       ),
                       Text(
                         AppLocalization.of(context)!
@@ -97,9 +97,10 @@ class ReferAndEarnScreen extends StatelessWidget {
                               border: Border.all(
                                 color: Theme.of(context).primaryColor,
                               )),
+                          height: 60.0,
                           child: Row(
                             children: [
-                              SizedBox(
+                              const SizedBox(
                                 width: 15.0,
                               ),
                               Text(
@@ -113,7 +114,7 @@ class ReferAndEarnScreen extends StatelessWidget {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Spacer(),
+                              const Spacer(),
                               GestureDetector(
                                 onTap: () async {
                                   await Clipboard.setData(ClipboardData(
@@ -143,7 +144,6 @@ class ReferAndEarnScreen extends StatelessWidget {
                               ),
                             ],
                           ),
-                          height: 60.0,
                         ),
                       ),
                       SizedBox(

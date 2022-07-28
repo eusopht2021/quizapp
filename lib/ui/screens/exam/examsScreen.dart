@@ -105,7 +105,7 @@ class _ExamsScreenState extends State<ExamsScreen> {
         isScrollControlled: true,
         elevation: 5.0,
         context: context,
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(20.0),
             topRight: Radius.circular(20.0),
@@ -142,7 +142,7 @@ class _ExamsScreenState extends State<ExamsScreen> {
     Navigator.of(context).pop();
 
     Navigator.of(context).pushNamed(Routes.exam).then((value) {
-      Future.delayed(Duration(milliseconds: 100), () {
+      Future.delayed(const Duration(milliseconds: 100), () {
         if (mounted) {
           print("Fetch exam details again");
           //fetch exams again with fresh status
@@ -160,13 +160,13 @@ class _ExamsScreenState extends State<ExamsScreen> {
 
   Widget _buildAppBar() {
     return Container(
-      padding: EdgeInsets.only(bottom: 15),
+      padding: const EdgeInsets.only(bottom: 15),
       height:
           MediaQuery.of(context).size.height * (UiUtils.appBarHeightPercentage),
       decoration: BoxDecoration(
           boxShadow: [UiUtils.buildAppbarShadow()],
           color: Theme.of(context).backgroundColor,
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
               bottomLeft: Radius.circular(20.0),
               bottomRight: Radius.circular(20.0))),
       child: Stack(
@@ -174,7 +174,8 @@ class _ExamsScreenState extends State<ExamsScreen> {
           Align(
             alignment: AlignmentDirectional.bottomStart,
             child: Padding(
-              padding: EdgeInsetsDirectional.only(start: 25.0, bottom: 25.0),
+              padding:
+                  const EdgeInsetsDirectional.only(start: 25.0, bottom: 25.0),
               child: CustomBackButton(
                 removeSnackBars: false,
                 iconColor: Theme.of(context).primaryColor,
@@ -333,12 +334,12 @@ class _ExamsScreenState extends State<ExamsScreen> {
         showExamKeyBottomSheet(context, exam);
       },
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
         decoration: BoxDecoration(
             color: Theme.of(context).primaryColor,
             borderRadius: BorderRadius.circular(10.0)),
         height: MediaQuery.of(context).size.height * (0.1),
-        margin: EdgeInsets.symmetric(vertical: 10.0),
+        margin: const EdgeInsets.symmetric(vertical: 10.0),
         child: Column(
           children: [
             Row(
@@ -356,7 +357,7 @@ class _ExamsScreenState extends State<ExamsScreen> {
                     ),
                   ),
                 ),
-                Spacer(),
+                const Spacer(),
                 Text(
                   "${exam.totalMarks} ${AppLocalization.of(context)!.getTranslatedValues(markKey)!}",
                   style: TextStyle(
@@ -380,7 +381,7 @@ class _ExamsScreenState extends State<ExamsScreen> {
                     ),
                   ),
                 ),
-                Spacer(),
+                const Spacer(),
                 Text(
                   UiUtils.convertMinuteIntoHHMM(int.parse(exam.duration)),
                   style: TextStyle(
@@ -408,7 +409,8 @@ class _ExamsScreenState extends State<ExamsScreen> {
         if (hasMoreResultFetchError) {
           return Center(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
               child: IconButton(
                   onPressed: () {
                     context.read<CompletedExamsCubit>().getMoreResult(
@@ -425,7 +427,8 @@ class _ExamsScreenState extends State<ExamsScreen> {
         } else {
           return Center(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
               child: CircularProgressContainer(
                 useWhiteLoader: false,
                 heightAndWidth: 40,
@@ -440,12 +443,12 @@ class _ExamsScreenState extends State<ExamsScreen> {
         showExamResultBottomSheet(context, examResult);
       },
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
         decoration: BoxDecoration(
             color: Theme.of(context).primaryColor,
             borderRadius: BorderRadius.circular(10.0)),
         height: MediaQuery.of(context).size.height * (0.1),
-        margin: EdgeInsets.symmetric(vertical: 10.0),
+        margin: const EdgeInsets.symmetric(vertical: 10.0),
         child: Stack(
           children: [
             Column(
@@ -498,7 +501,7 @@ class _ExamsScreenState extends State<ExamsScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          PageBackgroundGradientContainer(),
+          const PageBackgroundGradientContainer(),
           Align(
             alignment: Alignment.topCenter,
             child: _currentSelectedTab == 1

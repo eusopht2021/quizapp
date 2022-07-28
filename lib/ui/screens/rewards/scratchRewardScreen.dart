@@ -26,7 +26,8 @@ class _ScratchRewardScreenState extends State<ScratchRewardScreen> {
   bool _goBack() {
     bool isFinished = scratcherKey.currentState?.isFinished ?? false;
     if (scratcherKey.currentState?.progress != 0.0 && !isFinished) {
-      scratcherKey.currentState?.reveal(duration: Duration(milliseconds: 250));
+      scratcherKey.currentState
+          ?.reveal(duration: const Duration(milliseconds: 250));
 
       return false;
     }
@@ -77,7 +78,7 @@ class _ScratchRewardScreenState extends State<ScratchRewardScreen> {
                       Navigator.of(context).pop();
                     }
                   },
-                  icon: Icon(Icons.close),
+                  icon: const Icon(Icons.close),
                 ),
               ),
             ),

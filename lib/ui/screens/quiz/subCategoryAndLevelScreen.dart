@@ -109,7 +109,7 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
     int unlockedLevel = (state as UnlockedLevelFetchSuccess).unlockedLevel;
 
     return ListView.builder(
-        padding: EdgeInsets.only(bottom: 50.0),
+        padding: const EdgeInsets.only(bottom: 50.0),
         itemCount: int.parse(subcategoryList[currentIndex].maxLevel!),
         itemBuilder: (context, index) {
           return GestureDetector(
@@ -147,7 +147,7 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
                 ),
                 alignment: Alignment.center,
                 height: 75.0,
-                margin: EdgeInsets.symmetric(
+                margin: const EdgeInsets.symmetric(
                   horizontal: 20.0,
                   vertical: 10.0,
                 ),
@@ -174,7 +174,7 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
           Column(
             children: <Widget>[
               _buildBackAndLanguageButton(),
-              SizedBox(
+              const SizedBox(
                 height: 35.0,
               ),
               Flexible(
@@ -253,7 +253,7 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
                                   );
                                 }),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 25.0,
                           ),
                           Flexible(
@@ -274,7 +274,7 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
                               },
                               builder: (context, state) {
                                 return AnimatedSwitcher(
-                                  duration: Duration(milliseconds: 500),
+                                  duration: const Duration(milliseconds: 500),
                                   child: _buildLevels(state, subCategoryList),
                                 );
                               },
@@ -318,8 +318,8 @@ class _SubcategoryContainerState extends State<SubcategoryContainer>
 
   @override
   void initState() {
-    animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 500));
+    animationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 500));
 
     scaleAnimation = Tween<double>(begin: 0.75, end: 1.0).animate(
         CurvedAnimation(parent: animationController, curve: Curves.easeInOut));

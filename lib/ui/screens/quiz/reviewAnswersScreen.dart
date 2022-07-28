@@ -243,7 +243,7 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 10.0,
                 ),
                 Text(
@@ -253,7 +253,7 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).primaryColor),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10.0,
                 ),
                 Container(
@@ -268,10 +268,10 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
                         color: Theme.of(context).primaryColor),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5.0,
                 ),
-                Divider(),
+                const Divider(),
                 Container(
                   alignment: Alignment.center,
                   padding: EdgeInsets.symmetric(
@@ -384,7 +384,7 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
                       onPressed: () {
                         if (_currentIndex != 0) {
                           _pageController!.animateToPage(_currentIndex - 1,
-                              duration: Duration(milliseconds: 500),
+                              duration: const Duration(milliseconds: 500),
                               curve: Curves.easeInOut);
                         }
                       },
@@ -416,21 +416,21 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
                           onPressed: () {
                             if (_currentIndex != 0) {
                               _pageController!.animateToPage(_currentIndex - 1,
-                                  duration: Duration(milliseconds: 500),
+                                  duration: const Duration(milliseconds: 500),
                                   curve: Curves.easeInOut);
                             }
                           },
                           text: "Previous",
                         ),
                       )
-                    : SizedBox(),
+                    : const SizedBox(),
                 Expanded(
                   child: CustomButton(
                     verticalMargin: 0,
                     onPressed: () {
                       if (_currentIndex != (getQuestionsLength() - 1)) {
                         _pageController!.animateToPage(_currentIndex + 1,
-                            duration: Duration(milliseconds: 500),
+                            duration: const Duration(milliseconds: 500),
                             curve: Curves.easeInOut);
                       }
                     },
@@ -496,8 +496,8 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
         color: getOptionColor(question, option.id),
       ),
       width: MediaQuery.of(context).size.width * (0.8),
-      margin: EdgeInsets.only(top: 15.0),
-      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+      margin: const EdgeInsets.only(top: 15.0),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
       child: widget.quizType == QuizTypes.mathMania
           ? TeXView(
               child: TeXViewDocument(
@@ -530,11 +530,8 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
       String submittedAnswer = '';
       for (int i = 0; i < question.answerOptions!.length; i++) {
         AnswerOption answerOption = question.answerOptions![i];
-        print(" Math Question " +
-            question.question.toString() +
-            "  " +
-            answerOption.title! +
-            "selected option");
+        print(
+            " Math Question ${question.question}  ${answerOption.title!}selected option");
 
         if (answerOption.id == correctAnswerId) {
           correctAnswerTitle = answerOption.title!;
@@ -543,15 +540,10 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
           submittedAnswer = answerOption.title!;
         }
       }
-      print(" Question ${_currentIndex + 1}   ${option.title!}  " +
-          " " +
-          " " +
-          option.id! +
-          "  Correct Answer is  " +
-          correctAnswerId.toString() +
-          correctAnswerTitle);
+      print(
+          " Question ${_currentIndex + 1}   ${option.title!}    ${option.id!}  Correct Answer is  $correctAnswerId$correctAnswerTitle");
       return !question.attempted
-          ? SizedBox()
+          ? const SizedBox()
           : Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -569,9 +561,9 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
                   decoration: BoxDecoration(
                       border: question.attempted
                           ? question.submittedAnswerId == correctAnswerId
-                              ? Border()
+                              ? const Border()
                               : Border.all(color: Colors.red)
-                          : Border(),
+                          : const Border(),
                       borderRadius: BorderRadius.circular(16),
                       color: question.attempted
                           ? question.submittedAnswerId == correctAnswerId
@@ -581,9 +573,9 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
                       // color:
                       ),
                   width: MediaQuery.of(context).size.width * (0.8),
-                  margin: EdgeInsets.only(top: 15.0),
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+                  margin: const EdgeInsets.only(top: 15.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 15.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -640,7 +632,7 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
                         textColor: Constants.grey2,
                         weight: FontWeight.w500,
                       )
-                    : SizedBox(),
+                    : const SizedBox(),
                 question.submittedAnswerId != correctAnswerId
                     ? Container(
                         decoration: BoxDecoration(
@@ -650,8 +642,8 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
                           // color:
                         ),
                         width: MediaQuery.of(context).size.width * (0.8),
-                        margin: EdgeInsets.only(top: 15.0),
-                        padding: EdgeInsets.symmetric(
+                        margin: const EdgeInsets.only(top: 15.0),
+                        padding: const EdgeInsets.symmetric(
                             horizontal: 20.0, vertical: 15.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -757,7 +749,7 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
               border: UiUtils.buildGuessTheWordQuestionAnswer(
                           guessTheWordQuestion.submittedAnswer) ==
                       guessTheWordQuestion.answer
-                  ? Border()
+                  ? const Border()
                   : Border.all(color: Colors.red),
               borderRadius: BorderRadius.circular(16),
               color: UiUtils.buildGuessTheWordQuestionAnswer(
@@ -769,8 +761,8 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
               // color:
               ),
           width: MediaQuery.of(context).size.width * (0.8),
-          margin: EdgeInsets.only(top: 15.0),
-          padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+          margin: const EdgeInsets.only(top: 15.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -830,7 +822,7 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
                 textColor: Constants.grey2,
                 weight: FontWeight.w500,
               )
-            : SizedBox(),
+            : const SizedBox(),
         UiUtils.buildGuessTheWordQuestionAnswer(
                     guessTheWordQuestion.submittedAnswer) !=
                 guessTheWordQuestion.answer
@@ -842,8 +834,9 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
                   // color:
                 ),
                 width: MediaQuery.of(context).size.width * (0.8),
-                margin: EdgeInsets.only(top: 15.0),
-                padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+                margin: const EdgeInsets.only(top: 15.0),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 20.0, vertical: 15.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -882,7 +875,7 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
         ? Container()
         : Container(
             width: MediaQuery.of(context).size.width * (0.8),
-            margin: EdgeInsets.only(top: 25.0),
+            margin: const EdgeInsets.only(top: 25.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -892,7 +885,7 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
                     textColor: Constants.black1,
                     weight: FontWeight.bold,
                     size: 18.0),
-                SizedBox(
+                const SizedBox(
                   height: 10.0,
                 ),
                 TitleText(
@@ -934,23 +927,22 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
                     SizedBox(
                       height: 100,
                       child: InkWell(
-                        onTap: () async {
-                          if (_isPlaying) {
-                            await _audioPlayer.stop();
-                            log("if state");
+                        onTap: () {
+                          setState(() {
+                            if (_isPlaying) {
+                              _audioPlayer.stop();
+                              log("if state");
 
-                            setState(() {
                               _isPlaying = false;
                               isAnimating = true;
-                            });
-                          } else {
-                            await _audioPlayer.play();
-                            log("else state");
-                            setState(() {
+                            } else {
+                              _audioPlayer.play();
+                              log("else state");
+
                               _isPlaying = true;
                               isAnimating = false;
-                            });
-                          }
+                            }
+                          });
                         },
                         child: MusicVisualizer(
                           barCount: colors.length,
@@ -967,7 +959,7 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
                       child: Row(
                         children: [
                           Text(bufferedSeconds.inSeconds.toString()),
-                          Spacer(),
+                          const Spacer(),
                           Text(_audioDuration.inSeconds.toString()),
                         ],
                       ),
@@ -1046,14 +1038,14 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
 
   Widget _buildReportButton(ReportQuestionCubit reportQuestionCubit) {
     return Transform.translate(
-      offset: Offset(-5.0, 10.0),
+      offset: const Offset(-5.0, 10.0),
       child: IconButton(
           onPressed: () {
             showModalBottomSheet(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
+                shape: const RoundedRectangleBorder(
+                    borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(20.0),
-                  topRight: Radius.circular(20.0),
+                  topRight: const Radius.circular(20.0),
                 )),
                 isDismissible: false,
                 enableDrag: false,
@@ -1114,12 +1106,12 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: Icon(Icons.close),
+          icon: const Icon(Icons.close),
           iconSize: 40,
         ),
         titleColor: Constants.white,
         child: CustomCard(
-          padding: EdgeInsets.only(left: 8, right: 8, bottom: 8),
+          padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
           child: Column(
             children: [
               // _newAppBar(),
@@ -1127,7 +1119,7 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
                 flex: 7,
                 child: _buildQuestions(),
               ),
-              Spacer(),
+              const Spacer(),
               Expanded(child: _newBuildBottomMenu()),
 
               // Align(
@@ -1199,7 +1191,7 @@ class _ReportQuestionBottomSheetContainerState
         },
         child: Container(
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(20.0),
                 topRight: Radius.circular(20.0),
               ),
@@ -1216,7 +1208,7 @@ class _ReportQuestionBottomSheetContainerState
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Container(
-                      margin: EdgeInsets.all(10.0),
+                      margin: const EdgeInsets.all(10.0),
                       child: IconButton(
                           onPressed: () {
                             if (widget.reportQuestionCubit.state
@@ -1234,7 +1226,7 @@ class _ReportQuestionBottomSheetContainerState
                 ),
 
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 5.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 5.0),
                   alignment: Alignment.center,
                   child: Text(
                     AppLocalization.of(context)!
@@ -1245,7 +1237,7 @@ class _ReportQuestionBottomSheetContainerState
                         fontWeight: FontWeight.bold),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15.0,
                 ),
                 //
@@ -1254,7 +1246,7 @@ class _ReportQuestionBottomSheetContainerState
                   margin: EdgeInsets.symmetric(
                     horizontal: MediaQuery.of(context).size.width * (0.125),
                   ),
-                  padding: EdgeInsets.only(left: 20.0),
+                  padding: const EdgeInsets.only(left: 20.0),
                   height: 60.0,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
@@ -1281,9 +1273,9 @@ class _ReportQuestionBottomSheetContainerState
                 ),
 
                 AnimatedSwitcher(
-                  duration: Duration(milliseconds: 250),
+                  duration: const Duration(milliseconds: 250),
                   child: errorMessage.isEmpty
-                      ? SizedBox(
+                      ? const SizedBox(
                           height: 20.0,
                         )
                       : Container(

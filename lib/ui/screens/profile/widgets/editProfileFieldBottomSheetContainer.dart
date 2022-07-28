@@ -5,13 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterquiz/app/appLocalization.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/updateUserDetailsCubit.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/userDetailsCubit.dart';
-import 'package:flutterquiz/ui/widgets/customRoundedButton.dart';
-import 'package:flutterquiz/ui/widgets/custom_button.dart';
 import 'package:flutterquiz/ui/widgets/social_button.dart';
 import 'package:flutterquiz/ui/widgets/title_text.dart';
 import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
-import 'package:flutterquiz/utils/size_config.dart';
 import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
 import 'package:flutterquiz/utils/validators.dart';
@@ -107,9 +104,9 @@ class _EditProfileFieldBottomSheetContainerState
         },
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
+            borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(20.0),
-              topRight: Radius.circular(20.0),
+              topRight: const Radius.circular(20.0),
             ),
             color: Constants.secondaryColor,
           ),
@@ -122,7 +119,7 @@ class _EditProfileFieldBottomSheetContainerState
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Container(
-                      margin: EdgeInsets.all(10.0),
+                      margin: const EdgeInsets.all(10.0),
                       alignment: Alignment.centerRight,
                       child: IconButton(
                           onPressed: () {
@@ -135,7 +132,7 @@ class _EditProfileFieldBottomSheetContainerState
                               Navigator.of(context).pop();
                             }
                           },
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.close,
                             size: 28.0,
                             color: Colors.white,
@@ -153,7 +150,7 @@ class _EditProfileFieldBottomSheetContainerState
                       weight: FontWeight.bold),
                 ),
 
-                SizedBox(
+                const SizedBox(
                   height: 15.0,
                 ),
                 //
@@ -166,7 +163,8 @@ class _EditProfileFieldBottomSheetContainerState
                               horizontal:
                                   MediaQuery.of(context).size.width * (0.125),
                             ),
-                            padding: EdgeInsetsDirectional.only(start: 20.0),
+                            padding:
+                                const EdgeInsetsDirectional.only(start: 20.0),
                             height: 60.0,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10.0),
@@ -178,7 +176,7 @@ class _EditProfileFieldBottomSheetContainerState
                               keyboardType: widget.numericKeyboardEnable
                                   ? TextInputType.number
                                   : TextInputType.text,
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 hintText: "old password",
                                 border: InputBorder.none,
                               ),
@@ -196,7 +194,8 @@ class _EditProfileFieldBottomSheetContainerState
                               horizontal:
                                   MediaQuery.of(context).size.width * (0.125),
                             ),
-                            padding: EdgeInsetsDirectional.only(start: 20.0),
+                            padding:
+                                const EdgeInsetsDirectional.only(start: 20.0),
                             height: 60.0,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10.0),
@@ -208,7 +207,7 @@ class _EditProfileFieldBottomSheetContainerState
                               keyboardType: widget.numericKeyboardEnable
                                   ? TextInputType.number
                                   : TextInputType.text,
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 hintText: "new password",
                                 border: InputBorder.none,
                               ),
@@ -224,7 +223,8 @@ class _EditProfileFieldBottomSheetContainerState
                               horizontal:
                                   MediaQuery.of(context).size.width * (0.125),
                             ),
-                            padding: EdgeInsetsDirectional.only(start: 20.0),
+                            padding:
+                                const EdgeInsetsDirectional.only(start: 20.0),
                             height: 60.0,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10.0),
@@ -236,7 +236,7 @@ class _EditProfileFieldBottomSheetContainerState
                               keyboardType: widget.numericKeyboardEnable
                                   ? TextInputType.number
                                   : TextInputType.text,
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 hintText: "confirm password",
                                 border: InputBorder.none,
                               ),
@@ -253,7 +253,7 @@ class _EditProfileFieldBottomSheetContainerState
                           horizontal:
                               MediaQuery.of(context).size.width * (0.125),
                         ),
-                        padding: EdgeInsetsDirectional.only(start: 20.0),
+                        padding: const EdgeInsetsDirectional.only(start: 20.0),
                         height: 60.0,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
@@ -265,7 +265,7 @@ class _EditProfileFieldBottomSheetContainerState
                           keyboardType: widget.numericKeyboardEnable
                               ? TextInputType.number
                               : TextInputType.text,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: InputBorder.none,
                           ),
                         ),
@@ -275,9 +275,9 @@ class _EditProfileFieldBottomSheetContainerState
                 ),
 
                 AnimatedSwitcher(
-                  duration: Duration(milliseconds: 250),
+                  duration: const Duration(milliseconds: 250),
                   child: errorMessage.isEmpty
-                      ? SizedBox(
+                      ? const SizedBox(
                           height: 20.0,
                         )
                       : Container(

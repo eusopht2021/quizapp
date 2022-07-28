@@ -110,9 +110,9 @@ class InfoCard extends StatelessWidget {
         ],
       );
 
-  Widget _recentQuiz() => SizedBox();
+  Widget _recentQuiz() => const SizedBox();
 
-  Widget _featured() => SizedBox();
+  Widget _featured() => const SizedBox();
 
   Widget _ranker() => Container(
         decoration: BoxDecoration(

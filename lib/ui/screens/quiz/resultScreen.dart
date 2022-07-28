@@ -702,7 +702,7 @@ class _ResultScreenState extends State<ResultScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SizedBox(
+        const SizedBox(
           height: 15.0,
         ),
         Platform.isIOS
@@ -719,7 +719,7 @@ class _ResultScreenState extends State<ResultScreen> {
                             Navigator.pop(context);
                           },
                           child: Container(
-                              padding: EdgeInsets.all(5.0),
+                              padding: const EdgeInsets.all(5.0),
                               decoration: BoxDecoration(
                                   border:
                                       Border.all(color: Colors.transparent)),
@@ -747,11 +747,11 @@ class _ResultScreenState extends State<ResultScreen> {
                     color: Theme.of(context).backgroundColor,
                   ),
                 )),
-        SizedBox(
+        const SizedBox(
           height: 5.0,
         ),
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 5.0),
+          padding: const EdgeInsets.symmetric(horizontal: 5.0),
           alignment: Alignment.center,
           child: Text("$title",
               textAlign: TextAlign.center,
@@ -778,7 +778,7 @@ class _ResultScreenState extends State<ResultScreen> {
         children: [
           SvgPicture.asset(UiUtils.getImagePath(icon),
               color: Theme.of(context).colorScheme.secondary),
-          SizedBox(
+          const SizedBox(
             width: 5,
           ),
           Text(
@@ -849,7 +849,7 @@ class _ResultScreenState extends State<ResultScreen> {
                   ),
                   widget.quizType! == QuizTypes.exam
                       ? Transform.translate(
-                          offset: Offset(0.0, -20.0), //
+                          offset: const Offset(0.0, -20.0), //
                           child: RadialPercentageResultContainer(
                             circleColor:
                                 Theme.of(context).colorScheme.secondary,
@@ -903,7 +903,7 @@ class _ResultScreenState extends State<ResultScreen> {
                         ),
                   widget.quizType! == QuizTypes.exam
                       ? Transform.translate(
-                          offset: Offset(0, -30.0),
+                          offset: const Offset(0, -30.0),
                           child: Text(
                             "${widget.obtainedMarks}/${widget.exam!.totalMarks} ${AppLocalization.of(context)!.getTranslatedValues(markKey)!}",
                             style: TextStyle(
@@ -955,14 +955,15 @@ class _ResultScreenState extends State<ResultScreen> {
                 child: _buildResultDataWithIconContainer(
                     "${correctAnswer()}/${totalQuestions()}",
                     "correct.svg",
-                    EdgeInsetsDirectional.only(start: 15.0, bottom: 60.0)),
+                    const EdgeInsetsDirectional.only(
+                        start: 15.0, bottom: 60.0)),
               )
             : Align(
                 alignment: Alignment.bottomRight,
                 child: _buildResultDataWithIconContainer(
                     "${correctAnswer()}/${totalQuestions()}",
                     "correct.svg",
-                    EdgeInsetsDirectional.only(end: 15.0, bottom: 30.0)),
+                    const EdgeInsetsDirectional.only(end: 15.0, bottom: 30.0)),
               ),
 
         //points
@@ -972,7 +973,7 @@ class _ResultScreenState extends State<ResultScreen> {
                 child: _buildResultDataWithIconContainer(
                     "${widget.myPoints}",
                     "score.svg",
-                    EdgeInsetsDirectional.only(end: 15.0, bottom: 60.0)),
+                    const EdgeInsetsDirectional.only(end: 15.0, bottom: 60.0)),
               )
             : Container(),
 
@@ -983,7 +984,7 @@ class _ResultScreenState extends State<ResultScreen> {
                 child: _buildResultDataWithIconContainer(
                     "$_earnedCoins",
                     "earnedCoin.svg",
-                    EdgeInsetsDirectional.only(end: 15.0, bottom: 20.0)),
+                    const EdgeInsetsDirectional.only(end: 15.0, bottom: 20.0)),
               )
             : Container(),
 
@@ -1001,7 +1002,7 @@ class _ResultScreenState extends State<ResultScreen> {
                     radialSizePercentage = 0.325;
                   }
                   return Transform.translate(
-                    offset: Offset(0.0, 15.0), //
+                    offset: const Offset(0.0, 15.0), //
                     child: RadialPercentageResultContainer(
                       circleColor: Theme.of(context).colorScheme.secondary,
                       arcColor: Theme.of(context).backgroundColor,
@@ -1080,21 +1081,13 @@ class _ResultScreenState extends State<ResultScreen> {
                                   .getTranslatedValues("betterNextLbl")!),
                   context.read<UserDetailsCubit>().getUserId() == _winnerId
                       ? Text(
-                          AppLocalization.of(context)!
-                                  .getTranslatedValues("youWin")! +
-                              " ${widget.entryFee} " +
-                              AppLocalization.of(context)!
-                                  .getTranslatedValues("coinsLbl")!,
+                          "${AppLocalization.of(context)!.getTranslatedValues("youWin")!} ${widget.entryFee} ${AppLocalization.of(context)!.getTranslatedValues("coinsLbl")!}",
                           style: TextStyle(
                               fontSize: 17.0,
                               color: Theme.of(context).backgroundColor),
                         )
                       : Text(
-                          AppLocalization.of(context)!
-                                  .getTranslatedValues("youLossLbl")! +
-                              " ${widget.entryFee} " +
-                              AppLocalization.of(context)!
-                                  .getTranslatedValues("coinsLbl")!,
+                          "${AppLocalization.of(context)!.getTranslatedValues("youLossLbl")!} ${widget.entryFee} ${AppLocalization.of(context)!.getTranslatedValues("coinsLbl")!}",
                           style: TextStyle(
                               fontSize: 17.0,
                               color: Theme.of(context).backgroundColor),
@@ -1105,7 +1098,7 @@ class _ResultScreenState extends State<ResultScreen> {
                   ),
                   _winnerId!.isEmpty
                       ? Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
                           child: Row(
                             children: [
                               Column(
@@ -1134,7 +1127,7 @@ class _ResultScreenState extends State<ResultScreen> {
                                     height: nameAndProfileSizedBoxHeight,
                                   ),
                                   Container(
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                         vertical: 4.0, horizontal: 5.0),
                                     decoration: BoxDecoration(
                                       color: Theme.of(context).backgroundColor,
@@ -1151,12 +1144,12 @@ class _ResultScreenState extends State<ResultScreen> {
                                       textAlign: TextAlign.center,
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 4,
                                   ),
                                   Container(
                                     width: constraints.maxWidth * (0.3),
-                                    padding: EdgeInsets.only(left: 10),
+                                    padding: const EdgeInsets.only(left: 10),
                                     child: Text(
                                       AppLocalization.of(context)!
                                           .getTranslatedValues("winnerLbl")!,
@@ -1167,7 +1160,7 @@ class _ResultScreenState extends State<ResultScreen> {
                                   ),
                                 ],
                               ),
-                              Spacer(),
+                              const Spacer(),
                               Column(
                                 children: [
                                   Stack(
@@ -1190,7 +1183,7 @@ class _ResultScreenState extends State<ResultScreen> {
                                     height: nameAndProfileSizedBoxHeight,
                                   ),
                                   Container(
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                         vertical: 4.0, horizontal: 5.0),
                                     decoration: BoxDecoration(
                                       color: Theme.of(context).backgroundColor,
@@ -1207,12 +1200,12 @@ class _ResultScreenState extends State<ResultScreen> {
                                       textAlign: TextAlign.center,
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 4,
                                   ),
                                   Container(
                                     width: constraints.maxWidth * (0.3),
-                                    padding: EdgeInsets.only(left: 10),
+                                    padding: const EdgeInsets.only(left: 10),
                                     child: Text(
                                       AppLocalization.of(context)!
                                           .getTranslatedValues("winnerLbl")!,
@@ -1228,7 +1221,7 @@ class _ResultScreenState extends State<ResultScreen> {
                         )
                       : Row(
                           children: [
-                            SizedBox(
+                            const SizedBox(
                               width: 20.0,
                             ),
                             Column(
@@ -1251,7 +1244,7 @@ class _ResultScreenState extends State<ResultScreen> {
                                   height: nameAndProfileSizedBoxHeight,
                                 ),
                                 Container(
-                                  padding: EdgeInsets.symmetric(
+                                  padding: const EdgeInsets.symmetric(
                                       vertical: 4.0, horizontal: 5.0),
                                   decoration: BoxDecoration(
                                     color: Theme.of(context).backgroundColor,
@@ -1268,13 +1261,13 @@ class _ResultScreenState extends State<ResultScreen> {
                                     textAlign: TextAlign.center,
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 4,
                                 ),
                                 Container(
                                   width: constraints.maxWidth * (0.3),
-                                  padding:
-                                      EdgeInsetsDirectional.only(start: 10),
+                                  padding: const EdgeInsetsDirectional.only(
+                                      start: 10),
                                   child: Text(
                                     AppLocalization.of(context)!
                                         .getTranslatedValues("winnerLbl")!,
@@ -1285,7 +1278,7 @@ class _ResultScreenState extends State<ResultScreen> {
                                 ),
                               ],
                             ),
-                            Spacer(),
+                            const Spacer(),
                             Transform.translate(
                               offset: Offset(0.0, translateOffsetdy),
                               child: Column(
@@ -1309,7 +1302,7 @@ class _ResultScreenState extends State<ResultScreen> {
                                     height: nameAndProfileSizedBoxHeight,
                                   ),
                                   Container(
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                         vertical: 4.0, horizontal: 5.0),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(5.0),
@@ -1326,13 +1319,13 @@ class _ResultScreenState extends State<ResultScreen> {
                                               Theme.of(context).primaryColor),
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 2.0,
                                   ),
                                   Container(
                                     width: constraints.maxWidth * (0.3),
-                                    padding:
-                                        EdgeInsetsDirectional.only(start: 10),
+                                    padding: const EdgeInsetsDirectional.only(
+                                        start: 10),
                                     child: Text(
                                       AppLocalization.of(context)!
                                           .getTranslatedValues("looserLbl")!,
@@ -1344,12 +1337,12 @@ class _ResultScreenState extends State<ResultScreen> {
                                 ],
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 20.0,
                             ),
                           ],
                         ),
-                  Spacer(),
+                  const Spacer(),
                   Container(
                     padding: EdgeInsets.symmetric(
                         vertical: constraints.maxHeight <
@@ -1655,7 +1648,7 @@ class _ResultScreenState extends State<ResultScreen> {
                         ),
                       ));
             }, context),
-            SizedBox(
+            const SizedBox(
               height: 15.0,
             )
           ],
@@ -1679,7 +1672,7 @@ class _ResultScreenState extends State<ResultScreen> {
                 : List<GuessTheWordQuestion>.from([]),
           });
         }, context),
-        SizedBox(
+        const SizedBox(
           height: 15.0,
         )
       ],
@@ -1806,26 +1799,26 @@ class _ResultScreenState extends State<ResultScreen> {
         child: Scaffold(
           body: Stack(
             children: [
-              PageBackgroundGradientContainer(),
+              const PageBackgroundGradientContainer(),
               SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 50.0,
                     ),
                     Center(child: _buildResultContainer(context)),
-                    SizedBox(
+                    const SizedBox(
                       height: 30.0,
                     ),
                     _buildResultButtons(context),
-                    SizedBox(
+                    const SizedBox(
                       height: 50.0,
                     ),
                   ],
                 ),
               ),
-              Text('Hi'),
+              const Text('Hi'),
             ],
           ),
         ),

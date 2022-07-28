@@ -10,7 +10,7 @@ class SettingButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       child: Container(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           decoration: BoxDecoration(
             border: Border.all(
               color: Colors.transparent,

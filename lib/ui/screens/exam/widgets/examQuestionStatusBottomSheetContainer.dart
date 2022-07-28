@@ -10,23 +10,37 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class ExamQuestionStatusBottomSheetContainer extends StatelessWidget {
   final PageController pageController;
   final Function navigateToResultScreen;
-  const ExamQuestionStatusBottomSheetContainer({Key? key, required this.pageController, required this.navigateToResultScreen}) : super(key: key);
+  const ExamQuestionStatusBottomSheetContainer(
+      {Key? key,
+      required this.pageController,
+      required this.navigateToResultScreen})
+      : super(key: key);
 
-  Widget _buildQuestionAttemptedByMarksContainer({required BuildContext context, required String questionMark, required List<Question> questions}) {
+  Widget _buildQuestionAttemptedByMarksContainer(
+      {required BuildContext context,
+      required String questionMark,
+      required List<Question> questions}) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * (0.1)),
+      margin: EdgeInsets.symmetric(
+          horizontal: MediaQuery.of(context).size.width * (0.1)),
       child: Column(
         children: [
           Text(
             "$questionMark ${AppLocalization.of(context)!.getTranslatedValues(markKey)!} (${questions.length})",
-            style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 16.0),
+            style: TextStyle(
+                color: Theme.of(context).primaryColor, fontSize: 16.0),
           ),
           Divider(
             color: Theme.of(context).primaryColor,
           ),
           Wrap(
             children: List.generate(questions.length, (index) => index)
-                .map((index) => hasQuestionAttemptedContainer(attempted: questions[index].attempted, context: context, questionIndex: context.read<ExamCubit>().getQuetionIndexById(questions[index].id!)))
+                .map((index) => hasQuestionAttemptedContainer(
+                    attempted: questions[index].attempted,
+                    context: context,
+                    questionIndex: context
+                        .read<ExamCubit>()
+                        .getQuetionIndexById(questions[index].id!)))
                 .toList(),
           ),
           Divider(
@@ -40,16 +54,23 @@ class ExamQuestionStatusBottomSheetContainer extends StatelessWidget {
     );
   }
 
-  Widget hasQuestionAttemptedContainer({required int questionIndex, required bool attempted, required BuildContext context}) {
+  Widget hasQuestionAttemptedContainer(
+      {required int questionIndex,
+      required bool attempted,
+      required BuildContext context}) {
     return GestureDetector(
       onTap: () {
-        pageController.animateToPage(questionIndex, duration: Duration(milliseconds: 250), curve: Curves.easeInOut);
+        pageController.animateToPage(questionIndex,
+            duration: const Duration(milliseconds: 250),
+            curve: Curves.easeInOut);
         Navigator.of(context).pop();
       },
       child: Container(
         alignment: Alignment.center,
-        margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
-        color: attempted ? Theme.of(context).primaryColor : Theme.of(context).colorScheme.secondary,
+        margin: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
+        color: attempted
+            ? Theme.of(context).primaryColor
+            : Theme.of(context).colorScheme.secondary,
         height: 30.0,
         width: 30.0,
         child: Text(
@@ -67,11 +88,14 @@ class ExamQuestionStatusBottomSheetContainer extends StatelessWidget {
         maxHeight: MediaQuery.of(context).size.height * (0.95),
       ),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(20.0),
             topRight: Radius.circular(20.0),
           ),
-          gradient: UiUtils.buildLinerGradient([Theme.of(context).scaffoldBackgroundColor, Theme.of(context).canvasColor], Alignment.topCenter, Alignment.bottomCenter)),
+          gradient: UiUtils.buildLinerGradient([
+            Theme.of(context).scaffoldBackgroundColor,
+            Theme.of(context).canvasColor
+          ], Alignment.topCenter, Alignment.bottomCenter)),
       child: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -94,7 +118,7 @@ class ExamQuestionStatusBottomSheetContainer extends StatelessWidget {
                 Align(
                   alignment: AlignmentDirectional.centerEnd,
                   child: Container(
-                    margin: EdgeInsets.all(10.0),
+                    margin: const EdgeInsets.all(10.0),
                     child: IconButton(
                         onPressed: () {
                           Navigator.of(context).pop();
@@ -108,11 +132,15 @@ class ExamQuestionStatusBottomSheetContainer extends StatelessWidget {
                 ),
               ],
             ),
-            ...context.read<ExamCubit>().getUniqueQuestionMark().map((questionMark) {
+            ...context
+                .read<ExamCubit>()
+                .getUniqueQuestionMark()
+                .map((questionMark) {
               return _buildQuestionAttemptedByMarksContainer(
                 context: context,
                 questionMark: questionMark,
-                questions: context.read<ExamCubit>().getQuestionsByMark(questionMark),
+                questions:
+                    context.read<ExamCubit>().getQuestionsByMark(questionMark),
               );
             }).toList(),
             Container(
@@ -123,18 +151,19 @@ class ExamQuestionStatusBottomSheetContainer extends StatelessWidget {
                 },
                 widthPercentage: MediaQuery.of(context).size.width,
                 backgroundColor: Theme.of(context).primaryColor,
-                buttonTitle: AppLocalization.of(context)!.getTranslatedValues("submitBtn")!,
+                buttonTitle: AppLocalization.of(context)!
+                    .getTranslatedValues("submitBtn")!,
                 radius: 10,
                 showBorder: false,
                 titleColor: Theme.of(context).backgroundColor,
                 height: 30.0,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20.0,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.0),
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -149,14 +178,17 @@ class ExamQuestionStatusBottomSheetContainer extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10.0,
                   ),
                   Text(
-                    AppLocalization.of(context)!.getTranslatedValues("attemptedLbl")!,
-                    style: TextStyle(fontSize: 12.5, color: Theme.of(context).colorScheme.secondary),
+                    AppLocalization.of(context)!
+                        .getTranslatedValues("attemptedLbl")!,
+                    style: TextStyle(
+                        fontSize: 12.5,
+                        color: Theme.of(context).colorScheme.secondary),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   CircleAvatar(
                     radius: 15,
                     backgroundColor: Theme.of(context).colorScheme.secondary,
@@ -168,12 +200,15 @@ class ExamQuestionStatusBottomSheetContainer extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10.0,
                   ),
                   Text(
-                    AppLocalization.of(context)!.getTranslatedValues("unAttemptedLbl")!,
-                    style: TextStyle(fontSize: 12.5, color: Theme.of(context).colorScheme.secondary),
+                    AppLocalization.of(context)!
+                        .getTranslatedValues("unAttemptedLbl")!,
+                    style: TextStyle(
+                        fontSize: 12.5,
+                        color: Theme.of(context).colorScheme.secondary),
                   ),
                 ],
               ),

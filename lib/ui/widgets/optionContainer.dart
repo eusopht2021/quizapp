@@ -40,8 +40,8 @@ class OptionContainer extends StatefulWidget {
 
 class _OptionContainerState extends State<OptionContainer>
     with TickerProviderStateMixin {
-  late AnimationController animationController =
-      AnimationController(vsync: this, duration: Duration(milliseconds: 90));
+  late AnimationController animationController = AnimationController(
+      vsync: this, duration: const Duration(milliseconds: 90));
   late Animation<double> animation = Tween<double>(begin: 0.0, end: 1.0)
       .animate(CurvedAnimation(
           parent: animationController, curve: Curves.easeInQuad));
@@ -56,18 +56,18 @@ class _OptionContainerState extends State<OptionContainer>
   late Animation<double> topContainerOpacityAnimation =
       Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
     parent: topContainerAnimationController,
-    curve: Interval(0.0, 0.25, curve: Curves.easeInQuad),
+    curve: const Interval(0.0, 0.25, curve: Curves.easeInQuad),
   ));
 
   late Animation<double> topContainerAnimation =
       Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
           parent: topContainerAnimationController,
-          curve: Interval(0.0, 0.5, curve: Curves.easeInQuad)));
+          curve: const Interval(0.0, 0.5, curve: Curves.easeInQuad)));
 
   late Animation<double> answerCorrectnessAnimation =
       Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
           parent: topContainerAnimationController,
-          curve: Interval(0.5, 1.0, curve: Curves.easeInQuad)));
+          curve: const Interval(0.5, 1.0, curve: Curves.easeInQuad)));
 
   late double heightPercentage = 0.105;
   late AssetsAudioPlayer assetsAudioPlayer = AssetsAudioPlayer();
@@ -234,7 +234,7 @@ class _OptionContainerState extends State<OptionContainer>
                               child: widget.answerOption.id ==
                                       widget.correctOptionId
                                   ? Icon(Icons.check, color: Constants.white)
-                                  : Icon(Icons.close, color: Colors.red),
+                                  : const Icon(Icons.close, color: Colors.red),
                             ),
                           );
                         },
@@ -275,7 +275,7 @@ class _OptionContainerState extends State<OptionContainer>
           ? Row(
               children: [
                 _buildOptionDetails(widget.constraints.maxWidth * (0.85)),
-                SizedBox(
+                const SizedBox(
                   width: 4,
                 ),
                 Text(

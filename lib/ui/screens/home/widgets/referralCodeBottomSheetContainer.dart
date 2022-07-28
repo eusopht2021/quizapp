@@ -11,19 +11,23 @@ import 'package:flutterquiz/utils/uiUtils.dart';
 
 class ReferralCodeBottomSheetContainer extends StatefulWidget {
   final ReferAndEarnCubit referAndEarnCubit;
-  ReferralCodeBottomSheetContainer({Key? key, required this.referAndEarnCubit}) : super(key: key);
+  ReferralCodeBottomSheetContainer({Key? key, required this.referAndEarnCubit})
+      : super(key: key);
 
   @override
-  _ReferralCodeBottomSheetContainerState createState() => _ReferralCodeBottomSheetContainerState();
+  _ReferralCodeBottomSheetContainerState createState() =>
+      _ReferralCodeBottomSheetContainerState();
 }
 
-class _ReferralCodeBottomSheetContainerState extends State<ReferralCodeBottomSheetContainer> {
+class _ReferralCodeBottomSheetContainerState
+    extends State<ReferralCodeBottomSheetContainer> {
   final TextEditingController textEditingController = TextEditingController();
   late String errorMessage = "";
 
   String _buildButtonTitle(ReferAndEarnState state) {
     if (state is ReferAndEarnProgress) {
-      return AppLocalization.of(context)!.getTranslatedValues("submittingButton")!;
+      return AppLocalization.of(context)!
+          .getTranslatedValues("submittingButton")!;
     }
     if (state is ReferAndEarnFailure) {
       return AppLocalization.of(context)!.getTranslatedValues("retryLbl")!;
@@ -37,11 +41,13 @@ class _ReferralCodeBottomSheetContainerState extends State<ReferralCodeBottomShe
       bloc: widget.referAndEarnCubit,
       listener: (context, state) {
         if (state is ReferAndEarnSuccess) {
-          context.read<UserDetailsCubit>().updateCoins(addCoin: true, coins: int.parse(state.userProfile.coins!));
+          context.read<UserDetailsCubit>().updateCoins(
+              addCoin: true, coins: int.parse(state.userProfile.coins!));
         }
         if (state is ReferAndEarnFailure) {
           setState(() {
-            errorMessage = AppLocalization.of(context)!.getTranslatedValues(convertErrorCodeToLanguageKey(state.errorMessage))!;
+            errorMessage = AppLocalization.of(context)!.getTranslatedValues(
+                convertErrorCodeToLanguageKey(state.errorMessage))!;
           });
         }
       },
@@ -54,22 +60,26 @@ class _ReferralCodeBottomSheetContainerState extends State<ReferralCodeBottomShe
         },
         child: Container(
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20.0),
-                topRight: Radius.circular(20.0),
+              borderRadius: const BorderRadius.only(
+                topLeft: const Radius.circular(20.0),
+                topRight: const Radius.circular(20.0),
               ),
-              gradient: UiUtils.buildLinerGradient([Theme.of(context).scaffoldBackgroundColor, Theme.of(context).canvasColor], Alignment.topCenter, Alignment.bottomCenter)),
+              gradient: UiUtils.buildLinerGradient([
+                Theme.of(context).scaffoldBackgroundColor,
+                Theme.of(context).canvasColor
+              ], Alignment.topCenter, Alignment.bottomCenter)),
           child: Padding(
             padding: MediaQuery.of(context).viewInsets,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
-                  margin: EdgeInsets.all(10.0),
+                  margin: const EdgeInsets.all(10.0),
                   alignment: Alignment.centerRight,
                   child: IconButton(
                       onPressed: () {
-                        if (widget.referAndEarnCubit.state is! ReferAndEarnProgress) {
+                        if (widget.referAndEarnCubit.state
+                            is! ReferAndEarnProgress) {
                           Navigator.of(context).pop();
                         }
                       },
@@ -83,11 +93,15 @@ class _ReferralCodeBottomSheetContainerState extends State<ReferralCodeBottomShe
                 Container(
                   alignment: Alignment.center,
                   child: Text(
-                    AppLocalization.of(context)!.getTranslatedValues('referralCodeLbl')!,
-                    style: TextStyle(fontSize: 20.0, color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold),
+                    AppLocalization.of(context)!
+                        .getTranslatedValues('referralCodeLbl')!,
+                    style: TextStyle(
+                        fontSize: 20.0,
+                        color: Theme.of(context).primaryColor,
+                        fontWeight: FontWeight.bold),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15.0,
                 ),
                 //
@@ -96,7 +110,7 @@ class _ReferralCodeBottomSheetContainerState extends State<ReferralCodeBottomShe
                   margin: EdgeInsets.symmetric(
                     horizontal: MediaQuery.of(context).size.width * (0.125),
                   ),
-                  padding: EdgeInsets.only(left: 20.0),
+                  padding: const EdgeInsets.only(left: 20.0),
                   height: 60.0,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
@@ -109,7 +123,8 @@ class _ReferralCodeBottomSheetContainerState extends State<ReferralCodeBottomShe
                     ),
                     controller: textEditingController,
                     decoration: InputDecoration(
-                      hintText: AppLocalization.of(context)!.getTranslatedValues('enterReferralCodeLbl')!,
+                      hintText: AppLocalization.of(context)!
+                          .getTranslatedValues('enterReferralCodeLbl')!,
                       hintStyle: TextStyle(
                         color: Theme.of(context).colorScheme.secondary,
                       ),
@@ -122,9 +137,9 @@ class _ReferralCodeBottomSheetContainerState extends State<ReferralCodeBottomShe
                 ),
 
                 AnimatedSwitcher(
-                  duration: Duration(milliseconds: 250),
+                  duration: const Duration(milliseconds: 250),
                   child: errorMessage.isEmpty
-                      ? SizedBox(
+                      ? const SizedBox(
                           height: 20.0,
                         )
                       : Container(
@@ -160,9 +175,13 @@ class _ReferralCodeBottomSheetContainerState extends State<ReferralCodeBottomShe
                           if (state is! ReferAndEarnProgress) {
                             widget.referAndEarnCubit.getReward(
                               name: "",
-                              userProfile: context.read<UserDetailsCubit>().getUserProfile(),
-                              friendReferralCode: textEditingController.text.trim(),
-                              authType: context.read<AuthCubit>().getAuthProvider(),
+                              userProfile: context
+                                  .read<UserDetailsCubit>()
+                                  .getUserProfile(),
+                              friendReferralCode:
+                                  textEditingController.text.trim(),
+                              authType:
+                                  context.read<AuthCubit>().getAuthProvider(),
                             );
                           }
                         },

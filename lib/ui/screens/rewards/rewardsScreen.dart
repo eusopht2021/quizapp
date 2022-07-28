@@ -41,7 +41,7 @@ class _RewardsScreenState extends State<RewardsScreen> {
       onTap: () {
         if (reward.status == "1") {
           Navigator.of(context).push(PageRouteBuilder(
-            transitionDuration: Duration(milliseconds: 400),
+            transitionDuration: const Duration(milliseconds: 400),
             opaque: false,
             pageBuilder: (context, firstAnimation, secondAnimation) {
               return FadeTransition(
@@ -120,8 +120,8 @@ class _RewardsScreenState extends State<RewardsScreen> {
                   ),
                 ],
               ),
-              Spacer(),
-              Container(
+              const Spacer(),
+              SizedBox(
                 height: 55.0,
                 width: 55.0,
                 child: SvgPicture.asset(UiUtils.getImagePath("giftbox.svg")),

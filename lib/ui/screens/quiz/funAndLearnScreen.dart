@@ -41,8 +41,8 @@ class _FunAndLearnScreen extends State<FunAndLearnScreen>
   void initState() {
     timerAnimationController = AnimationController(
         vsync: this,
-        duration:
-            Duration(seconds: comprehensionParagraphReadingTimeInSeconds));
+        duration: const Duration(
+            seconds: comprehensionParagraphReadingTimeInSeconds));
     timerAnimationController
         .forward()
         .then((value) => navigateToQuestionScreen()); //navigateTo
@@ -97,13 +97,13 @@ class _FunAndLearnScreen extends State<FunAndLearnScreen>
     return Align(
       alignment: Alignment.topCenter,
       child: Container(
-          margin: EdgeInsetsDirectional.only(
+          margin: const EdgeInsetsDirectional.only(
             start: 20,
             end: 20,
             top: 40.0,
           ),
           child: SingleChildScrollView(
-            padding: EdgeInsets.only(bottom: 80),
+            padding: const EdgeInsets.only(bottom: 80),
             child: Html(data: widget.comprehension.detail),
           )),
     );
@@ -111,14 +111,14 @@ class _FunAndLearnScreen extends State<FunAndLearnScreen>
 
   Widget _buildTimerAndBackButton() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.0),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          CustomBackButton(),
-          Spacer(),
+          const CustomBackButton(),
+          const Spacer(),
           Transform.translate(
-            offset: Offset(-8.0, 0),
+            offset: const Offset(-8.0, 0),
             child: HorizontalTimerContainer(
                 quizTypes: widget.quizType,
                 timerAnimationController: timerAnimationController),
@@ -135,7 +135,7 @@ class _FunAndLearnScreen extends State<FunAndLearnScreen>
       padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
       child: Stack(
         children: [
-          PageBackgroundGradientContainer(),
+          const PageBackgroundGradientContainer(),
           _buildTimerAndBackButton(),
           _buildParagraph(),
           _buildStartButton(),

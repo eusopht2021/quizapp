@@ -42,7 +42,8 @@ class InterstitialAdCubit extends Cubit<InterstitialAdState> {
   void _createFacebookInterstitialAd(BuildContext context) async {
     await FacebookInterstitialAd.destroyInterstitialAd();
     FacebookInterstitialAd.loadInterstitialAd(
-        placementId: context.read<SystemConfigCubit>().faceBookInterstitialAdId(),
+        placementId:
+            context.read<SystemConfigCubit>().faceBookInterstitialAdId(),
         listener: (result, value) {
           if (result == InterstitialAdResult.LOADED) {
             print("Facebook ad loaded");
@@ -54,7 +55,8 @@ class InterstitialAdCubit extends Cubit<InterstitialAdState> {
             emit(InterstitialAdFailToLoad());
           }
           //if ad dismissed and becomes invalidate
-          if (result == InterstitialAdResult.DISMISSED && value["invalidated"] == true) {
+          if (result == InterstitialAdResult.DISMISSED &&
+              value["invalidated"] == true) {
             createInterstitialAd(context);
           }
         });
@@ -84,7 +86,8 @@ class InterstitialAdCubit extends Cubit<InterstitialAdState> {
               ad.dispose();
               createInterstitialAd(context);
             },
-            onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
+            onAdFailedToShowFullScreenContent:
+                (InterstitialAd ad, AdError error) {
               print('$ad onAdFailedToShowFullScreenContent: $error');
               ad.dispose();
               createInterstitialAd(context);

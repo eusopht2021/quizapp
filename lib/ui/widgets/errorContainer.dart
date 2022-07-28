@@ -40,13 +40,13 @@ class ErrorContainer extends StatelessWidget {
                 )
               : Container(),
           showErrorImage
-              ? SizedBox(
+              ? const SizedBox(
                   height: 25.0,
                 )
               : Container(),
           Container(
             alignment: Alignment.center,
-            padding: EdgeInsets.symmetric(horizontal: 20.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Text(
               "$errorMessage :(",
               style: TextStyle(
@@ -55,7 +55,7 @@ class ErrorContainer extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 25.0,
           ),
           CustomRoundedButton(

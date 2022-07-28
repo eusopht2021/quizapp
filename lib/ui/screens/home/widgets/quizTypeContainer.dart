@@ -8,19 +8,36 @@ class QuizTypeContainer extends StatelessWidget {
   final double heightPercentage;
   final double widthPercentage;
   final QuizType quizType;
-  const QuizTypeContainer({Key? key, required this.quizType, required this.heightPercentage, required this.widthPercentage}) : super(key: key);
+  const QuizTypeContainer(
+      {Key? key,
+      required this.quizType,
+      required this.heightPercentage,
+      required this.widthPercentage})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width * widthPercentage;
     final double height = MediaQuery.of(context).size.height * heightPercentage;
     return Container(
+      decoration: BoxDecoration(
+        boxShadow: [
+          UiUtils.buildBoxShadow(offset: const Offset(5, 5), blurRadius: 10)
+        ],
+        borderRadius: BorderRadius.circular(20.0),
+        color: Theme.of(context).backgroundColor,
+      ),
+      width: width,
+      height: height,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(width: width, height: height * 0.25, child: SvgPicture.asset(quizType.image)),
           SizedBox(
+              width: width,
+              height: height * 0.25,
+              child: SvgPicture.asset(quizType.image)),
+          const SizedBox(
             height: 5.0,
           ),
           Text(
@@ -33,13 +50,14 @@ class QuizTypeContainer extends StatelessWidget {
               color: Theme.of(context).primaryColor,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 4.0,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: Text(
-              AppLocalization.of(context)!.getTranslatedValues(quizType.description)!,
+              AppLocalization.of(context)!
+                  .getTranslatedValues(quizType.description)!,
               textAlign: TextAlign.center,
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
@@ -53,13 +71,6 @@ class QuizTypeContainer extends StatelessWidget {
           ),
         ],
       ),
-      decoration: BoxDecoration(
-        boxShadow: [UiUtils.buildBoxShadow(offset: Offset(5, 5), blurRadius: 10)],
-        borderRadius: BorderRadius.circular(20.0),
-        color: Theme.of(context).backgroundColor,
-      ),
-      width: width,
-      height: height,
     );
   }
 }

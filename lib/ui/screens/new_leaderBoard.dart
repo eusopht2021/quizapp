@@ -45,7 +45,7 @@ class NewLeaderBoardScreen extends StatefulWidget {
                 ),
           ),
         ],
-        child: NewLeaderBoardScreen(),
+        child: const NewLeaderBoardScreen(),
       ),
     );
   }
@@ -132,8 +132,8 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
         return false;
       },
       child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(60),
+        appBar: const PreferredSize(
+          preferredSize: Size.fromHeight(60),
           child: CustomAppBar(
             title: "Leaderboard",
             showBackButton: false,
@@ -160,7 +160,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
         Container(
           height: SizeConfig.screenHeight * 0.07,
           width: SizeConfig.screenWidth,
-          margin: EdgeInsets.symmetric(horizontal: 24),
+          margin: const EdgeInsets.symmetric(horizontal: 24),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             color: Constants.black1.withOpacity(0.3),
@@ -193,7 +193,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
               height: 40,
               width: 100,
               child: Container(
-                padding: EdgeInsets.only(
+                padding: const EdgeInsets.only(
                   top: 8,
                   bottom: 8,
                 ),
@@ -343,7 +343,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                                             Assets.crown,
                                             height: 30,
                                           )
-                                        : SizedBox(),
+                                        : const SizedBox(),
                                     position:
                                         BadgePosition.topEnd(end: 5, top: -20),
                                     badgeColor: Colors.transparent,
@@ -414,10 +414,10 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                                         ),
                                       ),
                                     )
-                                  : SizedBox(),
+                                  : const SizedBox(),
                             ],
                           )
-                        : SizedBox(),
+                        : const SizedBox(),
                   );
                 },
               ),
@@ -430,9 +430,9 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Expanded(
+                        const Expanded(
                           flex: 2,
-                          child: SizedBox(),
+                          child: const SizedBox(),
                         ),
                         Expanded(
                           flex: 5,
@@ -461,7 +461,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                             ),
                           ),
                         ),
-                        Expanded(
+                        const Expanded(
                           flex: 2,
                           child: SizedBox(),
                         ),
@@ -548,7 +548,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                                         Assets.crown,
                                         height: 30,
                                       )
-                                    : SizedBox(),
+                                    : const SizedBox(),
                                 position:
                                     BadgePosition.topEnd(end: 5, top: -20),
                                 badgeColor: Colors.transparent,
@@ -615,9 +615,9 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                                     ),
                                   ),
                                 )
-                              : SizedBox(),
+                              : const SizedBox(),
                         ])
-                      : SizedBox(),
+                      : const SizedBox(),
                 );
               }),
               Positioned(
@@ -629,9 +629,9 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Expanded(
+                        const Expanded(
                           flex: 2,
-                          child: SizedBox(),
+                          child: const SizedBox(),
                         ),
                         Expanded(
                           flex: 5,
@@ -660,7 +660,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                             ),
                           ),
                         ),
-                        Expanded(
+                        const Expanded(
                           flex: 2,
                           child: SizedBox(),
                         ),
@@ -753,7 +753,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                                           Assets.crown,
                                           height: 30,
                                         )
-                                      : SizedBox(),
+                                      : const SizedBox(),
                                   position:
                                       BadgePosition.topEnd(end: 5, top: -20),
                                   badgeColor: Colors.transparent,
@@ -821,10 +821,10 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                                       ),
                                     ),
                                   )
-                                : SizedBox(),
+                                : const SizedBox(),
                           ],
                         )
-                      : SizedBox(),
+                      : const SizedBox(),
                 );
               }),
               Positioned(
@@ -836,7 +836,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Expanded(
+                        const Expanded(
                           flex: 2,
                           child: SizedBox(),
                         ),
@@ -867,9 +867,9 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                             ),
                           ),
                         ),
-                        Expanded(
+                        const Expanded(
                           flex: 2,
-                          child: SizedBox(),
+                          child: const SizedBox(),
                         ),
                       ],
                     ),
@@ -936,12 +936,12 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
             circleColor: Constants.grey5,
             child: Container(
               height: SizeConfig.screenHeight,
-              padding: EdgeInsets.only(top: 10, right: 16, left: 16),
+              padding: const EdgeInsets.only(top: 10, right: 16, left: 16),
               decoration: BoxDecoration(
                 color: Constants.grey5,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
+                borderRadius: const BorderRadius.only(
+                  topLeft: const Radius.circular(20),
+                  topRight: const Radius.circular(20),
                 ),
               ),
               child: ListView(
@@ -962,7 +962,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                     )
                   else
                     ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: users.length,
                       itemBuilder: (context, index) {
@@ -982,7 +982,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
 
                         else if (index % 21 == 0) {
                           // log(index.toString());
-                          return SizedBox();
+                          return const SizedBox();
                         }
                         counterIndex++;
                         return SizedBox(
@@ -1041,8 +1041,8 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                                                     : index == 3
                                                         ? SvgPicture.asset(
                                                             Assets.bronzeCrown)
-                                                        : SizedBox()
-                                            : SizedBox()),
+                                                        : const SizedBox()
+                                            : const SizedBox()),
                                   )
                                 ],
                               ),

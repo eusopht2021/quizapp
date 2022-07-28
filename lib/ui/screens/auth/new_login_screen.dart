@@ -1,10 +1,8 @@
 import 'dart:developer';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterquiz/features/auth/authRepository.dart';
-import 'package:flutterquiz/ui/screens/auth/onBoardingScreen.dart';
 import 'package:flutterquiz/ui/widgets/social_button.dart';
 
 import '../../../app/appLocalization.dart';
@@ -33,8 +31,8 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController edtEmailReset = TextEditingController();
-  TextEditingController edtEmail = new TextEditingController();
-  TextEditingController edtPwd = new TextEditingController();
+  TextEditingController edtEmail = TextEditingController();
+  TextEditingController edtPwd = TextEditingController();
   bool _obscureText = true, isLoading = false;
 
   @override
@@ -161,8 +159,10 @@ class _LoginState extends State<Login> {
       builder: (context, state) {
         if (state is SignInProgress &&
             state.authProvider == AuthProvider.gmail) {
-          return CircularProgressIndicator(
-            color: Constants.primaryColor,
+          return Center(
+            child: CircularProgressIndicator(
+              color: Constants.primaryColor,
+            ),
           );
         }
         return SocialButton(

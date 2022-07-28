@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutterquiz/app/appLocalization.dart';
 import 'package:flutterquiz/utils/size_config.dart';
+import 'package:flutterquiz/utils/widgets_util.dart';
 
 import '../../../../app/routes.dart';
 import '../../../../utils/assets.dart';
@@ -35,7 +36,7 @@ class _OnBoardingState extends State<OnBoarding> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Expanded(
-              flex: 7,
+              flex: 8,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -62,7 +63,7 @@ class _OnBoardingState extends State<OnBoarding> {
                     ),
                   ),
                   Expanded(
-                    flex: 1,
+                    flex: 3,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: List.generate(
@@ -99,8 +100,9 @@ class _OnBoardingState extends State<OnBoarding> {
               ),
             ),
             Expanded(
-              flex: 3,
+              flex: 4,
               child: CustomCard(
+                // height: double.infinity,
                 child: Column(
                   children: [
                     Container(
@@ -117,8 +119,8 @@ class _OnBoardingState extends State<OnBoarding> {
                         align: TextAlign.center,
                       ),
                     ),
-                    // const Spacer(),
-                    // SizedBox(height: SizeConfig.screenHeight * 0.01),
+                    // // const Spacer(),
+                    // WidgetsUtil.verticalSpace10,
                     CustomButton(
                       text: AppLocalization.of(context)!
                           .getTranslatedValues('signUpLbl')!,
@@ -128,8 +130,7 @@ class _OnBoardingState extends State<OnBoarding> {
                       },
                     ),
                     const Spacer(),
-                    // SizedBox(height: double.infinity),
-
+                    // WidgetsUtil.verticalSpace16,
                     Container(
                       margin: const EdgeInsets.only(
                         top: 16,

@@ -316,8 +316,6 @@ class _NewQuizScreenState extends State<NewQuizScreen>
   //change to next Question
 
   void changeQuestion() {
-    log("message");
-
     questionAnimationController.forward(from: 0.0).then((value) {
       //need to dispose the animation controllers
       questionAnimationController.dispose();
@@ -388,6 +386,7 @@ class _NewQuizScreenState extends State<NewQuizScreen>
       } else {
         updateSubmittedAnswerForBookmark(
             context.read<QuestionsCubit>().questions()[currentQuestionIndex]);
+
         navigateToResultScreen();
       }
     }
@@ -1087,7 +1086,7 @@ class _NewQuizScreenState extends State<NewQuizScreen>
                           });
 
                           //
-                          showOptionAnimationController.forward();
+                          // showOptionAnimationController.forward();
                           questionContentAnimationController.forward();
                           //add audio question container keys
 

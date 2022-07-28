@@ -50,7 +50,7 @@ class _NotificationScreen extends State<NotificationScreen> {
     return Scaffold(
         body: Stack(
       children: [
-        PageBackgroundGradientContainer(),
+        const PageBackgroundGradientContainer(),
         Column(children: [
           Align(
             alignment: Alignment.topCenter,

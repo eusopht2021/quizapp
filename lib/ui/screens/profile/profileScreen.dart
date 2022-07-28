@@ -60,9 +60,9 @@ class ProfileScreen extends StatelessWidget {
         enableDrag: false,
         isScrollControlled: true,
         elevation: 5.0,
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20.0),
+          topLeft: const Radius.circular(20.0),
           topRight: Radius.circular(20.0),
         )),
         context: context,
@@ -125,7 +125,7 @@ class ProfileScreen extends StatelessWidget {
                 )
               ],
             ),
-            Spacer(),
+            const Spacer(),
             canEditField
                 ? GestureDetector(
                     onTap: onEdit,
@@ -134,7 +134,7 @@ class ProfileScreen extends StatelessWidget {
                       color: Theme.of(context).primaryColor,
                     ),
                   )
-                : SizedBox(),
+                : const SizedBox(),
           ],
         ),
         width: boxConstraints.maxWidth * (0.85),
@@ -508,7 +508,7 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          PageBackgroundGradientContainer(),
+          const PageBackgroundGradientContainer(),
           SingleChildScrollView(
             padding: EdgeInsets.only(
               top: MediaQuery.of(context).padding.top,
@@ -516,11 +516,11 @@ class ProfileScreen extends StatelessWidget {
             child: Center(
               child: Column(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 20.0,
                   ),
                   _buildProfileContainer(context),
-                  SizedBox(
+                  const SizedBox(
                     height: 30.0,
                   ),
                 ],
@@ -576,7 +576,7 @@ class ProfileScreen extends StatelessWidget {
                             useWhiteLoader: false,
                             heightAndWidth: 45.0,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 15.0,
                           ),
                           Text(
@@ -593,7 +593,7 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 );
               }
-              return SizedBox();
+              return const SizedBox();
             },
           ),
         ],

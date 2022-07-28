@@ -24,9 +24,9 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
-  late AnimationController animationController =
-      AnimationController(vsync: this, duration: Duration(milliseconds: 4010))
-        ..addStatusListener(animationStatusListener);
+  late AnimationController animationController = AnimationController(
+      vsync: this, duration: const Duration(milliseconds: 4010))
+    ..addStatusListener(animationStatusListener);
   late AnimationController titleFadeAnimationController;
 
   late AnimationController clockAnimationController;
@@ -61,30 +61,30 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   void initAnimations() {
-    clockAnimationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 700));
+    clockAnimationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 700));
     clockScaleUpAnimation = Tween<double>(begin: 0.0, end: 0.1).animate(
         CurvedAnimation(
             parent: clockAnimationController,
-            curve: Interval(0.0, 0.4, curve: Curves.easeInOut)));
+            curve: const Interval(0.0, 0.4, curve: Curves.easeInOut)));
     clockScaleDownAnimation = Tween<double>(begin: 0.0, end: 0.9).animate(
         CurvedAnimation(
             parent: clockAnimationController,
-            curve: Interval(0.4, 1.0, curve: Curves.easeInOut)));
+            curve: const Interval(0.4, 1.0, curve: Curves.easeInOut)));
 
-    logoAnimationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 700));
+    logoAnimationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 700));
     logoScaleUpAnimation = Tween<double>(begin: 0.0, end: 1.1).animate(
         CurvedAnimation(
             parent: logoAnimationController,
-            curve: Interval(0.0, 0.4, curve: Curves.easeInOut)));
+            curve: const Interval(0.0, 0.4, curve: Curves.easeInOut)));
     logoScaleDownAnimation = Tween<double>(begin: 0.0, end: 0.1).animate(
         CurvedAnimation(
             parent: logoAnimationController,
-            curve: Interval(0.4, 1.0, curve: Curves.easeInOut)));
+            curve: const Interval(0.4, 1.0, curve: Curves.easeInOut)));
 
-    titleFadeAnimationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 500));
+    titleFadeAnimationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 500));
   }
 
   @override
@@ -173,7 +173,7 @@ class _SplashScreenState extends State<SplashScreen>
     return Scaffold(
       body: Stack(
         children: [
-          PageBackgroundGradientContainer(),
+          const PageBackgroundGradientContainer(),
           BlocConsumer<SystemConfigCubit, SystemConfigState>(
             bloc: context.read<SystemConfigCubit>(),
             listener: (context, state) {
@@ -194,12 +194,12 @@ class _SplashScreenState extends State<SplashScreen>
             },
             builder: (context, state) {
               Widget child = Center(
-                key: Key("splashAnimation"),
+                key: const Key("splashAnimation"),
                 child: _buildSplashAnimation(),
               );
               if (state is SystemConfigFetchFailure) {
                 child = Center(
-                  key: Key("errorContainer"),
+                  key: const Key("errorContainer"),
                   child: ErrorContainer(
                     showBackButton: true,
                     errorMessageColor: Theme.of(context).primaryColor,
@@ -219,7 +219,7 @@ class _SplashScreenState extends State<SplashScreen>
 
               return AnimatedSwitcher(
                   child: child,
-                  duration: Duration(
+                  duration: const Duration(
                     microseconds: 500,
                   ));
             },
@@ -251,7 +251,7 @@ class _SplashScreenState extends State<SplashScreen>
                                 useWhiteLoader: false,
                               );
                             }
-                            return SizedBox(
+                            return const SizedBox(
                               height: 60.0,
                               width: 60.0,
                             );

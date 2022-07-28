@@ -82,7 +82,8 @@ class _CoinHistoryScreenState extends State<CoinHistoryScreen> {
         if (hasMoreCoinHistoryFetchError) {
           return Center(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
               child: IconButton(
                   onPressed: () {
                     context.read<CoinHistoryCubit>().getMoreCoinHistory(
@@ -97,7 +98,8 @@ class _CoinHistoryScreenState extends State<CoinHistoryScreen> {
         } else {
           return Center(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
               child: CircularProgressContainer(
                 useWhiteLoader: false,
                 heightAndWidth: 40,
@@ -130,7 +132,7 @@ class _CoinHistoryScreenState extends State<CoinHistoryScreen> {
                         color: Theme.of(context).backgroundColor,
                         fontSize: 16.5),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 2.5,
                   ),
                   Text(
@@ -140,7 +142,7 @@ class _CoinHistoryScreenState extends State<CoinHistoryScreen> {
                 ],
               ),
             ),
-            Spacer(),
+            const Spacer(),
             LayoutBuilder(builder: (context, boxConstraints) {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -166,12 +168,12 @@ class _CoinHistoryScreenState extends State<CoinHistoryScreen> {
             })
           ],
         ),
-        padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
         decoration: BoxDecoration(
             color: Theme.of(context).primaryColor,
             borderRadius: BorderRadius.circular(10.0)),
         height: MediaQuery.of(context).size.height * (0.1),
-        margin: EdgeInsets.symmetric(vertical: 10.0),
+        margin: const EdgeInsets.symmetric(vertical: 10.0),
       ),
     );
   }
@@ -237,7 +239,7 @@ class _CoinHistoryScreenState extends State<CoinHistoryScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          PageBackgroundGradientContainer(),
+          const PageBackgroundGradientContainer(),
           Align(
             alignment: Alignment.topCenter,
             child: _buildCoinHistory(),

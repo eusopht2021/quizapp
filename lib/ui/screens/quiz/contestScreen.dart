@@ -65,7 +65,7 @@ class _ContestScreen extends State<ContestScreen>
                 ),
                 centerTitle: true,
                 title: Padding(
-                  padding: EdgeInsets.only(top: 8),
+                  padding: const EdgeInsets.only(top: 8),
                   child: Text(
                     AppLocalization.of(context)!
                         .getTranslatedValues("contestLbl")!,
@@ -101,7 +101,7 @@ class _ContestScreen extends State<ContestScreen>
                     ])),
             body: Stack(
               children: [
-                PageBackgroundGradientContainer(),
+                const PageBackgroundGradientContainer(),
                 BlocConsumer<ContestCubit, ContestState>(
                     bloc: context.read<ContestCubit>(),
                     listener: (context, state) {
@@ -164,22 +164,23 @@ class _ContestScreen extends State<ContestScreen>
             showErrorImage: true)
         : ListView.builder(
             shrinkWrap: false,
-            physics: AlwaysScrollableScrollPhysics(),
+            physics: const AlwaysScrollableScrollPhysics(),
             itemCount: data.contestDetails.length,
             itemBuilder: (BuildContext context, int index) {
               return Container(
                   height: data.contestDetails[index].showDescription == false
                       ? MediaQuery.of(context).size.height * .3
                       : MediaQuery.of(context).size.height * .4,
-                  margin: EdgeInsets.all(15),
+                  margin: const EdgeInsets.all(15),
                   width: MediaQuery.of(context).size.width * .9,
                   decoration: BoxDecoration(
                       color: Theme.of(context).backgroundColor,
                       boxShadow: [
                         UiUtils.buildBoxShadow(
-                            offset: Offset(5, 5), blurRadius: 10.0),
+                            offset: const Offset(5, 5), blurRadius: 10.0),
                       ],
-                      borderRadius: BorderRadius.all(Radius.circular(20))),
+                      borderRadius:
+                          const BorderRadius.all(const Radius.circular(20))),
                   child: contestDesign(data, index, 0));
             });
   }
@@ -199,22 +200,23 @@ class _ContestScreen extends State<ContestScreen>
             showErrorImage: true)
         : ListView.builder(
             shrinkWrap: false,
-            physics: AlwaysScrollableScrollPhysics(),
+            physics: const AlwaysScrollableScrollPhysics(),
             itemCount: data.contestDetails.length,
             itemBuilder: (BuildContext context, int index) {
               return Container(
                   height: data.contestDetails[index].showDescription == false
                       ? MediaQuery.of(context).size.height * .3
                       : MediaQuery.of(context).size.height * .4,
-                  margin: EdgeInsets.all(15),
+                  margin: const EdgeInsets.all(15),
                   width: MediaQuery.of(context).size.width * .9,
                   decoration: BoxDecoration(
                       color: Theme.of(context).backgroundColor,
                       boxShadow: [
                         UiUtils.buildBoxShadow(
-                            offset: Offset(5, 5), blurRadius: 10.0),
+                            offset: const Offset(5, 5), blurRadius: 10.0),
                       ],
-                      borderRadius: BorderRadius.all(Radius.circular(20))),
+                      borderRadius:
+                          const BorderRadius.all(const Radius.circular(20))),
                   child: contestDesign(data, index, 1));
             });
   }
@@ -234,22 +236,23 @@ class _ContestScreen extends State<ContestScreen>
             showErrorImage: true)
         : ListView.builder(
             shrinkWrap: false,
-            physics: AlwaysScrollableScrollPhysics(),
+            physics: const AlwaysScrollableScrollPhysics(),
             itemCount: data.contestDetails.length,
             itemBuilder: (BuildContext context, int index) {
               return Container(
                   height: data.contestDetails[index].showDescription == false
                       ? MediaQuery.of(context).size.height * .3
                       : MediaQuery.of(context).size.height * .4,
-                  margin: EdgeInsets.all(15),
+                  margin: const EdgeInsets.all(15),
                   width: MediaQuery.of(context).size.width * .9,
                   decoration: BoxDecoration(
                       color: Theme.of(context).backgroundColor,
                       boxShadow: [
                         UiUtils.buildBoxShadow(
-                            offset: Offset(5, 5), blurRadius: 10.0),
+                            offset: const Offset(5, 5), blurRadius: 10.0),
                       ],
-                      borderRadius: BorderRadius.all(Radius.circular(20))),
+                      borderRadius:
+                          const BorderRadius.all(const Radius.circular(20))),
                   child: contestDesign(data, index, 2));
             });
   }
@@ -260,9 +263,9 @@ class _ContestScreen extends State<ContestScreen>
         Expanded(
             flex: 6,
             child: ClipRRect(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(15),
-                topRight: Radius.circular(15),
+              borderRadius: const BorderRadius.only(
+                topLeft: const Radius.circular(15),
+                topRight: const Radius.circular(15),
               ),
               child: CachedNetworkImage(
                 placeholder: (context, _) {
@@ -341,12 +344,12 @@ class _ContestScreen extends State<ContestScreen>
         ),
         data.contestDetails[index].showDescription!
             ? Container(
-                padding: EdgeInsets.only(left: 10),
+                padding: const EdgeInsets.only(left: 10),
                 color: Theme.of(context).backgroundColor,
                 width: MediaQuery.of(context).size.width,
                 child: SingleChildScrollView(
                     //scrollDirection: Axis.horizontal,
-                    physics: AlwaysScrollableScrollPhysics(),
+                    physics: const AlwaysScrollableScrollPhysics(),
                     child: Text(
                       data.contestDetails[index].description!,
                       style: TextStyle(
@@ -362,10 +365,10 @@ class _ContestScreen extends State<ContestScreen>
         Expanded(
           flex: 3,
           child: Container(
-            padding: EdgeInsets.only(left: 10),
+            padding: const EdgeInsets.only(left: 10),
             decoration: BoxDecoration(
                 color: Theme.of(context).backgroundColor,
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                     bottomLeft: Radius.circular(20),
                     bottomRight: Radius.circular(20))),
             child: Row(
@@ -435,7 +438,7 @@ class _ContestScreen extends State<ContestScreen>
                 ),
                 Column(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 1.0,
                     ),
                     type == 0

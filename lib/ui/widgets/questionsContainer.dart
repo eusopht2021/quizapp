@@ -199,8 +199,7 @@ class _QuestionsContainerState extends State<QuestionsContainer> {
     }
     return Container(
       child: Text(
-        AppLocalization.of(context)!.getTranslatedValues("levelLbl")! +
-            " : ${widget.level}",
+        "${AppLocalization.of(context)!.getTranslatedValues("levelLbl")!} : ${widget.level}",
         style: TextStyle(color: Theme.of(context).colorScheme.secondary),
       ),
     );
@@ -217,8 +216,7 @@ class _QuestionsContainerState extends State<QuestionsContainer> {
             return Align(
               alignment: AlignmentDirectional.topEnd,
               child: Text(
-                AppLocalization.of(context)!.getTranslatedValues("coinsLbl")! +
-                    " : ${state.userProfile.coins}",
+                "${AppLocalization.of(context)!.getTranslatedValues("coinsLbl")!} : ${state.userProfile.coins}",
                 style:
                     TextStyle(color: Theme.of(context).colorScheme.secondary),
               ),
@@ -300,20 +298,20 @@ class _QuestionsContainerState extends State<QuestionsContainer> {
         return SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 17.5,
               ),
               widget.quizType == QuizTypes.battle ||
                       widget.quizType == QuizTypes.groupPlay
-                  ? SizedBox()
+                  ? const SizedBox()
                   : HorizontalTimerContainer(
                       quizTypes: widget.quizType,
                       timerAnimationController:
                           widget.timerAnimationController),
               widget.quizType == QuizTypes.battle ||
                       widget.quizType == QuizTypes.groupPlay
-                  ? SizedBox()
-                  : SizedBox(
+                  ? const SizedBox()
+                  : const SizedBox(
                       height: 15,
                     ),
               Container(
@@ -332,7 +330,7 @@ class _QuestionsContainerState extends State<QuestionsContainer> {
               Divider(
                 color: Theme.of(context).colorScheme.secondary,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 5.0,
               ),
               Container(
@@ -389,7 +387,7 @@ class _QuestionsContainerState extends State<QuestionsContainer> {
                     )
                   : Container(),
               _buildOptions(question, constraints),
-              SizedBox(
+              const SizedBox(
                 height: 15.0,
               ),
             ],
@@ -399,19 +397,9 @@ class _QuestionsContainerState extends State<QuestionsContainer> {
     });
 
     return Container(
-      child: showContent
-          ? SlideTransition(
-              position: widget.questionContentAnimation.drive(
-                  Tween<Offset>(begin: Offset(0.5, 0.0), end: Offset.zero)),
-              child: FadeTransition(
-                opacity: widget.questionContentAnimation,
-                child: child,
-              ),
-            )
-          : Container(),
       transform: Matrix4.identity()..scale(scale),
       transformAlignment: Alignment.center,
-      padding: EdgeInsets.symmetric(horizontal: 25.0),
+      padding: const EdgeInsets.symmetric(horizontal: 25.0),
       width: MediaQuery.of(context).size.width *
           UiUtils.quesitonContainerWidthPercentage,
       height: MediaQuery.of(context).size.height *
@@ -420,6 +408,16 @@ class _QuestionsContainerState extends State<QuestionsContainer> {
       decoration: BoxDecoration(
           color: Theme.of(context).backgroundColor,
           borderRadius: BorderRadius.circular(25)),
+      child: showContent
+          ? SlideTransition(
+              position: widget.questionContentAnimation.drive(Tween<Offset>(
+                  begin: const Offset(0.5, 0.0), end: Offset.zero)),
+              child: FadeTransition(
+                opacity: widget.questionContentAnimation,
+                child: child,
+              ),
+            )
+          : Container(),
     );
   }
 
@@ -433,9 +431,10 @@ class _QuestionsContainerState extends State<QuestionsContainer> {
           opacity: widget.questionSlideAnimation
               .drive(Tween<double>(begin: 1.0, end: 0.0)),
           child: SlideTransition(
-              child: _buildQuesitonContainer(1.0, questionIndex, true, context),
-              position: widget.questionSlideAnimation.drive(
-                  Tween<Offset>(begin: Offset.zero, end: Offset(-1.5, 0.0)))));
+              position: widget.questionSlideAnimation.drive(Tween<Offset>(
+                  begin: Offset.zero, end: const Offset(-1.5, 0.0))),
+              child:
+                  _buildQuesitonContainer(1.0, questionIndex, true, context)));
     }
     //if the question is second or after current question
     //so we need to animation that scale this question

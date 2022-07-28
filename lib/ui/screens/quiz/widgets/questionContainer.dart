@@ -71,7 +71,7 @@ class QuestionContainer extends StatelessWidget {
                   ),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 15.0,
         ),
         question!.imageUrl == null
@@ -108,7 +108,7 @@ class QuestionContainer extends StatelessWidget {
                   ),
         question!.imageUrl == null
             ? Container()
-            : SizedBox(
+            : const SizedBox(
                 height: 5.0,
               ),
       ],

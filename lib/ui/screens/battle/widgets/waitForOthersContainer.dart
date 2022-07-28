@@ -32,17 +32,17 @@ class WaitForOthersContainer extends StatelessWidget {
               topMarginPercentage: 0.03,
               widthPercentage: 0.75),
           Container(
-            child: Center(
-              child: Text(AppLocalization.of(context)!
-                  .getTranslatedValues('waitOtherComplete')!),
-            ),
-            padding: EdgeInsets.symmetric(horizontal: 25.0),
+            padding: const EdgeInsets.symmetric(horizontal: 25.0),
             width: MediaQuery.of(context).size.width * (0.85),
             height: MediaQuery.of(context).size.height *
                 UiUtils.questionContainerHeightPercentage,
             decoration: BoxDecoration(
                 color: Theme.of(context).backgroundColor,
                 borderRadius: BorderRadius.circular(25)),
+            child: Center(
+              child: Text(AppLocalization.of(context)!
+                  .getTranslatedValues('waitOtherComplete')!),
+            ),
           )
         ],
       ),

@@ -11,8 +11,8 @@ class RectangleUserProfileContainer extends StatelessWidget {
   final Color progressColor;
   final bool isLeft;
 
-  static final userDetailsHeightPercentage = (0.039);
-  static final userDetailsWidthPercentage = (0.12);
+  static const userDetailsHeightPercentage = (0.039);
+  static const userDetailsWidthPercentage = (0.12);
   const RectangleUserProfileContainer({
     Key? key,
     required this.animationController,
@@ -97,7 +97,7 @@ class RectangleUserProfileContainer extends StatelessWidget {
               isLeft ? MainAxisAlignment.start : MainAxisAlignment.end,
           children: [
             isLeft ? _buildProfileContainer(context) : _buildUserName(context),
-            SizedBox(
+           const SizedBox(
               width: 12.50,
             ),
             isLeft ? _buildUserName(context) : _buildProfileContainer(context),

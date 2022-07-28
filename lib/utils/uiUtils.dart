@@ -111,7 +111,7 @@ class UiUtils {
               fontWeight: FontWeight.bold,
               fontSize: 16.0)),
       behavior: SnackBarBehavior.fixed,
-      duration: duration ?? Duration(seconds: 2),
+      duration: duration ?? const Duration(seconds: 2),
       backgroundColor: Constants.primaryColor,
       action: showAction
           ? SnackBarAction(
@@ -147,7 +147,7 @@ class UiUtils {
     return BoxShadow(
       color: color ?? Colors.black.withOpacity(0.1),
       blurRadius: blurRadius ?? 10.0,
-      offset: offset ?? Offset(5.0, 5.0),
+      offset: offset ?? const Offset(5.0, 5.0),
     );
   }
 

@@ -13,7 +13,14 @@ class TimerContainer extends StatefulWidget {
   final int? minutes;
   final String? data;
 
-  TimerContainer({Key? key, required this.changeQuestion, required this.setTimer, required this.quizType, this.minutes, this.data}) : super(key: key);
+  TimerContainer(
+      {Key? key,
+      required this.changeQuestion,
+      required this.setTimer,
+      required this.quizType,
+      this.minutes,
+      this.data})
+      : super(key: key);
 
   @override
   TimerContainerState createState() => TimerContainerState();
@@ -86,15 +93,16 @@ class TimerContainerState extends State<TimerContainer> {
         //cancel timer
         timer.cancel();
 
-        if (widget.quizType == QuizTypes.battle || widget.quizType == QuizTypes.groupPlay) {
+        if (widget.quizType == QuizTypes.battle ||
+            widget.quizType == QuizTypes.groupPlay) {
           print("User did not submit answer for this question");
           widget.changeQuestion("-1");
         } else if (widget.quizType == QuizTypes.guessTheWord) {
           //start timer and change question
-          await Future.delayed(Duration(milliseconds: 500));
+          await Future.delayed(const Duration(milliseconds: 500));
           widget.changeQuestion();
         } else if (widget.data == "data") {
-          await Future.delayed(Duration(milliseconds: 500));
+          await Future.delayed(const Duration(milliseconds: 500));
           widget.changeQuestion();
         } else {
           //if quizType is not battleQuiz or live battle
@@ -102,7 +110,7 @@ class TimerContainerState extends State<TimerContainer> {
 
           //deduct points for skipping questions
           context.read<QuestionsCubit>().deductPointsForLeavingQuestion();
-          await Future.delayed(Duration(milliseconds: 500));
+          await Future.delayed(const Duration(milliseconds: 500));
 
           //start timer and change question
           widget.changeQuestion();
@@ -147,7 +155,8 @@ class TimerContainerState extends State<TimerContainer> {
         }
       }
       //start timer
-      widget.setTimer(Timer.periodic(Duration(seconds: 1), timerCallback));
+      widget
+          .setTimer(Timer.periodic(const Duration(seconds: 1), timerCallback));
     }
   }
 
@@ -176,10 +185,16 @@ class TimerContainerState extends State<TimerContainer> {
           ),
           Center(
             child: Padding(
-              padding: widget.quizType == QuizTypes.selfChallenge ? EdgeInsets.only(right: 23, top: 15.0) : EdgeInsets.only(right: 3.5, top: 3.5),
+              padding: widget.quizType == QuizTypes.selfChallenge
+                  ? const EdgeInsets.only(right: 23, top: 15.0)
+                  : const EdgeInsets.only(right: 3.5, top: 3.5),
               child: Text(
                 getTime(),
-                style: TextStyle(color: Theme.of(context).primaryColor, fontSize: widget.quizType == QuizTypes.selfChallenge ? 16.0 : 19.5),
+                style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontSize: widget.quizType == QuizTypes.selfChallenge
+                        ? 16.0
+                        : 19.5),
               ),
             ),
           )

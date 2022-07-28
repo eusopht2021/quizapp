@@ -27,9 +27,9 @@ class StyleProperties {
   // static const smallInsets6 = EdgeInsets.all(6);
   static const insets10 = EdgeInsets.all(10);
   // static const insets12 = EdgeInsets.all(12);
-  static EdgeInsets insets15 = EdgeInsets.all(15);
-  static EdgeInsets insets18 = EdgeInsets.all(18);
-  static EdgeInsets insets20 = EdgeInsets.all(20);
+  static EdgeInsets insets15 = const EdgeInsets.all(15);
+  static EdgeInsets insets18 = const EdgeInsets.all(18);
+  static EdgeInsets insets20 = const EdgeInsets.all(20);
   // static const smallInsets5ExceptBottom = EdgeInsets.fromLTRB(5, 5, 5, 0);
   // static const bottomInsets10 = EdgeInsets.only(bottom: 10);
   static const rightInset15 = EdgeInsets.only(right: 15);
@@ -41,7 +41,7 @@ class StyleProperties {
   // static const topInsets30 = EdgeInsets.only(top: 30);
   // static const topInsets40 = EdgeInsets.only(top: 40);
   static EdgeInsets insetsBottom80Hzt20 =
-      EdgeInsets.only(left: 20, right: 20, bottom: 80);
+      const EdgeInsets.only(left: 20, right: 20, bottom: 80);
   // static const insetsTop40Hzt20 = EdgeInsets.only(top: 40, left: 20, right: 20);
   // static const insetsVrt5Hzt20 = EdgeInsets.symmetric(vertical: 5, horizontal: 20);
   // static const insetsVrt5Hzt10 = EdgeInsets.symmetric(vertical: 5, horizontal: 10);

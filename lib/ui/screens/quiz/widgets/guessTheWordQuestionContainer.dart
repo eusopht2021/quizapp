@@ -118,20 +118,20 @@ class GuessTheWordQuestionContainerState
         i++) {
       submittedAnswer.add(-1);
       controllers.add(AnimationController(
-          vsync: this, duration: Duration(milliseconds: 150)));
+          vsync: this, duration: const Duration(milliseconds: 150)));
       animations.add(Tween<double>(begin: 0.0, end: 1.0).animate(
           CurvedAnimation(
               parent: controllers[i],
               curve: Curves.linear,
               reverseCurve: Curves.linear)));
       topContainerAnimationControllers.add(AnimationController(
-          vsync: this, duration: Duration(milliseconds: 150)));
+          vsync: this, duration: const Duration(milliseconds: 150)));
       topContainerAnimations.add(Tween<double>(begin: 0.0, end: 1.0).animate(
           CurvedAnimation(
               parent: topContainerAnimationControllers[i],
               curve: Curves.linear)));
       bottomBorderAnimationControllers.add(AnimationController(
-          vsync: this, duration: Duration(milliseconds: 150)));
+          vsync: this, duration: const Duration(milliseconds: 150)));
       bottomBorderAnimations.add(Tween<double>(begin: 0.0, end: 1.0).animate(
           CurvedAnimation(
               parent: bottomBorderAnimationControllers[i],
@@ -249,7 +249,7 @@ class GuessTheWordQuestionContainerState
                         color: currentSelectedIndex == answerBoxIndex
                             ? Constants.primaryColor
                             : Constants.secondaryColor))),
-            margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 2.5),
+            margin: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 2.5),
             height: optionBoxContainerHeight,
             width: 35.0,
             child: AnimatedBuilder(
@@ -353,7 +353,7 @@ class GuessTheWordQuestionContainerState
                       .reverse();
                   await controllers[currentSelectedIndex].reverse();
                 }
-                await Future.delayed(Duration(milliseconds: 25));
+                await Future.delayed(const Duration(milliseconds: 25));
 
                 //adding new letter
                 setState(() {
@@ -377,7 +377,7 @@ class GuessTheWordQuestionContainerState
         opacity: submittedAnswer.contains(optionIndex) ? 0.5 : 1.0,
         child: Container(
           alignment: Alignment.center,
-          margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 5),
+          margin: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15.0),
               color: Constants.primaryColor),
@@ -515,7 +515,7 @@ class GuessTheWordQuestionContainerState
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15.0),
               color: Constants.primaryColor),
-          margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 5),
+          margin: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5),
           child: Text(
             AppLocalization.of(context)!.getTranslatedValues(hintKey)!,
             style: TextStyle(
@@ -586,7 +586,7 @@ class GuessTheWordQuestionContainerState
               textColor: Constants.black1,
             );
           }
-          return SizedBox();
+          return const SizedBox();
         });
   }
 
@@ -608,13 +608,13 @@ class GuessTheWordQuestionContainerState
             height: SizeConfig.screenHeight,
             child: Column(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 17.5,
                 ),
                 HorizontalTimerContainer(
                     quizTypes: QuizTypes.guessTheWord,
                     timerAnimationController: widget.timerAnimationController),
-                SizedBox(
+                const SizedBox(
                   height: 12.5,
                 ),
                 Container(
@@ -623,7 +623,7 @@ class GuessTheWordQuestionContainerState
                       Align(
                         alignment: AlignmentDirectional.centerEnd,
                         child:
-                            widget.showHint ? _buildCurrentCoins() : SizedBox(),
+                            widget.showHint ? _buildCurrentCoins() : const SizedBox(),
                       ),
                       Align(
                         alignment: AlignmentDirectional.center,
@@ -641,7 +641,7 @@ class GuessTheWordQuestionContainerState
                 Divider(
                   color: Constants.black1,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5.0,
                 ),
                 //
@@ -696,7 +696,7 @@ class GuessTheWordQuestionContainerState
                   height: widget.constraints.maxHeight * (0.025),
                 ),
                 AnimatedSwitcher(
-                    duration: Duration(milliseconds: 300),
+                    duration: const Duration(milliseconds: 300),
                     child: widget
                             .questions[widget.currentQuestionIndex].hasAnswered
                         ? _buildAnswerCorrectness()
@@ -705,7 +705,7 @@ class GuessTheWordQuestionContainerState
                   height: widget.constraints.maxHeight * (0.04),
                 ),
                 _buildOptions(question.options),
-                SizedBox(
+                const SizedBox(
                   height: 15.0,
                 ),
               ],

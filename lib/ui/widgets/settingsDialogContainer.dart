@@ -29,9 +29,9 @@ class SettingsDialogContainer extends StatelessWidget {
         title: fontSizeLbl),
   ];
   Widget _buildSettingsItem(int settingItemIndex, BuildContext context) {
-    final sizedBoxHeight = 2.5;
+    const sizedBoxHeight = 2.5;
     return Container(
-      padding: EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
+      padding: const EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
       child: GestureDetector(
         onTap: () {
           if (settingItemIndex == 0) {
@@ -50,12 +50,12 @@ class SettingsDialogContainer extends StatelessWidget {
         },
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: sizedBoxHeight,
             ),
             Row(
               children: [
-                SizedBox(
+                const SizedBox(
                   width: 15.0,
                 ),
                 Container(
@@ -68,7 +68,7 @@ class SettingsDialogContainer extends StatelessWidget {
                     color: Constants.white,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 15.0,
                 ),
                 TitleText(
@@ -77,12 +77,12 @@ class SettingsDialogContainer extends StatelessWidget {
                     size: 16,
                     textColor: Constants.white),
                 settingItems[settingItemIndex].showSwitch!
-                    ? Spacer()
+                    ? const Spacer()
                     : Container(),
                 settingItems[settingItemIndex].showSwitch!
                     ? Transform.translate(
-                        offset: Offset(10.0, 0.0),
-                        child: Container(
+                        offset: const Offset(10.0, 0.0),
+                        child: SizedBox(
                             height: 27.50,
                             child: Transform.scale(
                               scale: 0.6,
@@ -120,7 +120,7 @@ class SettingsDialogContainer extends StatelessWidget {
                     : Container()
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: sizedBoxHeight,
             ),
           ],
