@@ -43,7 +43,7 @@ class SignInScreenState extends State<SignInScreen> {
         builder: (context) => Scaffold(
           body: Stack(
             children: <Widget>[
-              PageBackgroundGradientContainer(),
+              const PageBackgroundGradientContainer(),
               SingleChildScrollView(
                 child: showForm(context),
               ),
@@ -128,7 +128,7 @@ class SignInScreenState extends State<SignInScreen> {
         border: InputBorder.none,
         hintText:
             AppLocalization.of(context)!.getTranslatedValues('emailLbl')! + "*",
-        contentPadding: EdgeInsets.all(15),
+        contentPadding: const EdgeInsets.all(15),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
           borderSide: new BorderSide(
@@ -158,7 +158,7 @@ class SignInScreenState extends State<SignInScreen> {
         fillColor: Theme.of(context).backgroundColor,
         filled: true,
         border: InputBorder.none,
-        contentPadding: EdgeInsets.all(10),
+        contentPadding: const EdgeInsets.all(10),
         hintText:
             AppLocalization.of(context)!.getTranslatedValues('pwdLbl')! + "*",
         focusedBorder: OutlineInputBorder(
@@ -276,14 +276,14 @@ class SignInScreenState extends State<SignInScreen> {
               .getTranslatedValues('enterEmailLbl')!,
           hintStyle: TextStyle(
               color: Theme.of(context).colorScheme.secondary.withOpacity(0.5)),
-          contentPadding: EdgeInsets.all(15),
+          contentPadding: const EdgeInsets.all(15),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.0),
             borderSide: BorderSide.none,
           ),
           enabledBorder: UnderlineInputBorder(
             borderRadius: BorderRadius.circular(10.0),
-            borderSide: new BorderSide(color: Colors.white),
+            borderSide: const BorderSide(color: Colors.white),
           ),
         ));
   }
@@ -303,10 +303,10 @@ class SignInScreenState extends State<SignInScreen> {
             onTap: () async {
               showModalBottomSheet(
                   isScrollControlled: true,
-                  shape: RoundedRectangleBorder(
+                  shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20.0),
-                        topRight: Radius.circular(20.0)),
+                        topLeft: const Radius.circular(20.0),
+                        topRight: const Radius.circular(20.0)),
                   ),
                   context: context,
                   builder: (context) => Padding(
@@ -318,9 +318,9 @@ class SignInScreenState extends State<SignInScreen> {
                               Theme.of(context).canvasColor
                             ], Alignment.topCenter, Alignment.bottomCenter),
                             color: Theme.of(context).backgroundColor,
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                topRight: Radius.circular(20))),
+                            borderRadius: const BorderRadius.only(
+                                topLeft: const Radius.circular(20),
+                                topRight: const Radius.circular(20))),
                         constraints: BoxConstraints(
                             maxHeight:
                                 MediaQuery.of(context).size.height * (0.4)),
@@ -337,7 +337,7 @@ class SignInScreenState extends State<SignInScreen> {
                                     fontWeight: FontWeight.bold),
                               ),
                               Padding(
-                                  padding: EdgeInsetsDirectional.only(
+                                  padding: const EdgeInsetsDirectional.only(
                                       start: 20, end: 20, top: 20),
                                   child: Text(
                                     AppLocalization.of(context)!
@@ -357,7 +357,7 @@ class SignInScreenState extends State<SignInScreen> {
                                           .08,
                                       top: 20),
                                   child: showEmailForForgotPwd()),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                               CustomRoundedButton(
@@ -550,12 +550,12 @@ class SignInScreenState extends State<SignInScreen> {
               color: Theme.of(context).colorScheme.secondary.withOpacity(0.4),
             ),
           ),
-          SizedBox(width: 4),
+          const SizedBox(width: 4),
           CupertinoButton(
             onPressed: () {
               Navigator.of(context).pushNamed(Routes.signupScreen);
             },
-            padding: EdgeInsets.all(0),
+            padding: const EdgeInsets.all(0),
             child: Text(
               AppLocalization.of(context)!.getTranslatedValues('signUpLbl')!,
               style: TextStyle(

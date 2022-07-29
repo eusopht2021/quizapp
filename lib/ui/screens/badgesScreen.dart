@@ -21,7 +21,7 @@ class BadgesScreen extends StatefulWidget {
 
   static Route<BadgesScreen> route(RouteSettings routeSettings) {
     return CupertinoPageRoute(
-      builder: (_) => BadgesScreen(),
+      builder: (_) => const BadgesScreen(),
     );
   }
 
@@ -46,20 +46,29 @@ class _BadgesScreenState extends State<BadgesScreen> {
   void showBadgeDetails(BuildContext context, Badge badge) {
     showModalBottomSheet(
         elevation: 5.0,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20.0),
+        shape: const RoundedRectangleBorder(
+            borderRadius: const BorderRadius.only(
+          topLeft: const Radius.circular(20.0),
           topRight: Radius.circular(20.0),
         )),
         context: context,
         builder: (context) {
           return Container(
-            padding: EdgeInsets.symmetric(horizontal: 15.0),
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            decoration: BoxDecoration(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(20.0),
+                  topRight: const Radius.circular(20.0),
+                ),
+                gradient: UiUtils.buildLinerGradient([
+                  Theme.of(context).scaffoldBackgroundColor,
+                  Theme.of(context).canvasColor
+                ], Alignment.topCenter, Alignment.bottomCenter)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Container(
+                SizedBox(
                     height: MediaQuery.of(context).size.height * (0.25),
                     width: MediaQuery.of(context).size.width * (0.3),
                     child: LayoutBuilder(builder: (context, constraints) {
@@ -85,7 +94,7 @@ class _BadgesScreenState extends State<BadgesScreen> {
                           fontSize: 22.5,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 2.5,
                       ),
                       Text(
@@ -96,7 +105,7 @@ class _BadgesScreenState extends State<BadgesScreen> {
                           fontSize: 18.0,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 2.5,
                       ),
                       //
@@ -107,7 +116,7 @@ class _BadgesScreenState extends State<BadgesScreen> {
                                 if (state is StatisticInitial ||
                                     state is StatisticFetchInProgress) {
                                   return Center(
-                                    child: Container(
+                                    child: SizedBox(
                                       height: 15.0,
                                       width: 15.0,
                                       child: CircularProgressIndicator(
@@ -138,7 +147,7 @@ class _BadgesScreenState extends State<BadgesScreen> {
                                         fontSize: 16.0,
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 5.0,
                                     ),
                                   ],
@@ -160,15 +169,6 @@ class _BadgesScreenState extends State<BadgesScreen> {
                 )
               ],
             ),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20.0),
-                  topRight: Radius.circular(20.0),
-                ),
-                gradient: UiUtils.buildLinerGradient([
-                  Theme.of(context).scaffoldBackgroundColor,
-                  Theme.of(context).canvasColor
-                ], Alignment.topCenter, Alignment.bottomCenter)),
           );
         });
   }
@@ -236,7 +236,7 @@ class _BadgesScreenState extends State<BadgesScreen> {
                 bottom: 20.0,
               ),
               itemCount: badges.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
                 crossAxisSpacing: 7.5,
                 mainAxisSpacing: 10.0,
@@ -256,6 +256,11 @@ class _BadgesScreenState extends State<BadgesScreen> {
                               alignment: Alignment.bottomCenter,
                               child: Container(
                                 width: constraints.maxWidth,
+                                height: constraints.maxHeight * (0.65),
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).backgroundColor,
+                                  borderRadius: BorderRadius.circular(15.0),
+                                ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.start,
@@ -283,11 +288,6 @@ class _BadgesScreenState extends State<BadgesScreen> {
                                       ),
                                     ),
                                   ],
-                                ),
-                                height: constraints.maxHeight * (0.65),
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context).backgroundColor,
-                                  borderRadius: BorderRadius.circular(15.0),
                                 ),
                               ),
                             ),

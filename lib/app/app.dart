@@ -30,6 +30,7 @@ import 'package:flutterquiz/features/profileManagement/cubits/uploadProfileCubit
 import 'package:flutterquiz/features/profileManagement/cubits/userDetailsCubit.dart';
 import 'package:flutterquiz/features/profileManagement/profileManagementRepository.dart';
 import 'package:flutterquiz/features/quiz/cubits/comprehensionCubit.dart';
+import 'package:flutterquiz/features/quiz/cubits/getContestLeaderboardCubit.dart';
 import 'package:flutterquiz/features/quiz/cubits/quizCategoryCubit.dart';
 import 'package:flutterquiz/features/quiz/cubits/subCategoryCubit.dart';
 import 'package:flutterquiz/features/quiz/quizRepository.dart';
@@ -178,13 +179,24 @@ class MyApp extends StatelessWidget {
             create: (_) => LeaderBoardDailyCubit(const NewLeaderBoardScreen())),
 
         BlocProvider<LeaderBoardMonthlyCubit>(
-            create: (_) => LeaderBoardMonthlyCubit(const NewLeaderBoardScreen())),
+            create: (_) =>
+                LeaderBoardMonthlyCubit(const NewLeaderBoardScreen())),
 
         BlocProvider<LeaderBoardAllTimeCubit>(
-            create: (_) => LeaderBoardAllTimeCubit( const NewLeaderBoardScreen())),
+            create: (_) =>
+                LeaderBoardAllTimeCubit(const NewLeaderBoardScreen())),
         //
         BlocProvider<UploadProfileCubit>(
             create: (_) => UploadProfileCubit(ProfileManagementRepository())),
+
+        BlocProvider<StatisticCubit>(
+          create: (_) => StatisticCubit(
+            StatisticRepository(),
+          ),
+        ),
+        BlocProvider<GetContestLeaderboardCubit>(
+          create: (_) => GetContestLeaderboardCubit(QuizRepository()),
+        ),
 
         //Setting this cubit globally so we can fetch again once
         //set quiz categories success

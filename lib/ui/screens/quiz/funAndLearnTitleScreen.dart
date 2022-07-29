@@ -12,6 +12,7 @@ import 'package:flutterquiz/ui/widgets/circularProgressContainner.dart';
 import 'package:flutterquiz/ui/widgets/customBackButton.dart';
 import 'package:flutterquiz/ui/widgets/errorContainer.dart';
 import 'package:flutterquiz/ui/widgets/pageBackgroundGradientContainer.dart';
+import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
 
@@ -56,9 +57,9 @@ class _FunAndLearnTitleScreen extends State<FunAndLearnTitleScreen> {
     return Align(
       alignment: AlignmentDirectional.topStart,
       child: Padding(
-        padding: EdgeInsetsDirectional.only(top: 15.0, start: 20),
+        padding: const EdgeInsetsDirectional.only(top: 15.0, start: 20),
         child: CustomBackButton(
-          iconColor: Theme.of(context).primaryColor,
+          iconColor: Constants.white,
         ),
       ),
     );
@@ -87,8 +88,8 @@ class _FunAndLearnTitleScreen extends State<FunAndLearnTitleScreen> {
               if (state is ComprehensionProgress ||
                   state is ComprehensionInitial) {
                 return Center(
-                  child: CircularProgressContainer(
-                    useWhiteLoader: false,
+                  child: CircularProgressIndicator(
+                    color: Constants.white,
                   ),
                 );
               }
@@ -108,7 +109,7 @@ class _FunAndLearnTitleScreen extends State<FunAndLearnTitleScreen> {
                   (state as ComprehensionSuccess).getComprehension;
               return ListView.builder(
                   shrinkWrap: true,
-                  padding: EdgeInsets.only(bottom: 15.0),
+                  padding: const EdgeInsets.only(bottom: 15.0),
                   itemCount: comprehensions.length,
                   itemBuilder: (context, index) {
                     return GestureDetector(
@@ -121,17 +122,17 @@ class _FunAndLearnTitleScreen extends State<FunAndLearnTitleScreen> {
                             });
                       },
                       child: Card(
-                        margin: EdgeInsets.symmetric(
+                        margin: const EdgeInsets.symmetric(
                           horizontal: 20.0,
                           vertical: 10.0,
                         ),
-                        color: Theme.of(context).primaryColor,
+                        color: Constants.secondaryColor,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20)),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Spacer(),
+                            const Spacer(),
                             Text(
                               comprehensions[index].title!,
                               maxLines: 1,
@@ -142,11 +143,11 @@ class _FunAndLearnTitleScreen extends State<FunAndLearnTitleScreen> {
                                 color: Theme.of(context).backgroundColor,
                               ),
                             ),
-                            Spacer(),
+                            const Spacer(),
                             Container(
                               height: 90,
                               width: 100,
-                              padding: EdgeInsets.all(5),
+                              padding: const EdgeInsets.all(5),
                               child: Card(
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20)),
@@ -175,18 +176,21 @@ class _FunAndLearnTitleScreen extends State<FunAndLearnTitleScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Constants.primaryColor,
         body: Padding(
-      padding: EdgeInsets.only(
-        top: MediaQuery.of(context).padding.top,
-      ),
-      child: Stack(
-        children: [
-          PageBackgroundGradientContainer(),
-          _buildBackButton(),
-          _buildTitle(),
-          Align(alignment: Alignment.bottomCenter, child: BannerAdContainer()),
-        ],
-      ),
-    ));
+          padding: EdgeInsets.only(
+            top: MediaQuery.of(context).padding.top,
+          ),
+          child: Stack(
+            children: [
+              // const PageBackgroundGradientContainer(),
+              _buildBackButton(),
+              _buildTitle(),
+              Align(
+                  alignment: Alignment.bottomCenter,
+                  child: BannerAdContainer()),
+            ],
+          ),
+        ));
   }
 }

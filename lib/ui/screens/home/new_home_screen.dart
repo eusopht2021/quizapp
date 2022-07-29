@@ -21,6 +21,8 @@ import 'package:flutterquiz/features/profileManagement/profileManagementLocalDat
 import 'package:flutterquiz/features/profileManagement/profileManagementRepository.dart';
 import 'package:flutterquiz/features/quiz/cubits/quizCategoryCubit.dart';
 import 'package:flutterquiz/features/systemConfig/cubits/systemConfigCubit.dart';
+import 'package:flutterquiz/ui/navigation/navbarcubit.dart';
+import 'package:flutterquiz/ui/navigation/navbaritems.dart';
 import 'package:flutterquiz/ui/screens/battle/widgets/randomOrPlayFrdDialog.dart';
 import 'package:flutterquiz/ui/screens/battle/widgets/roomDialog.dart';
 import 'package:flutterquiz/ui/screens/home/widgets/appUnderMaintenanceDialog.dart';
@@ -356,7 +358,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                           Expanded(
                             flex: 2,
                             child: SvgPicture.asset(
-                              Assets.man5,
+                              Assets.man9,
                               height: 48,
                               width: 48,
                             ),
@@ -407,7 +409,10 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                                 background: Constants.white,
                                 icon: Assets.findFriendsIcon,
                                 itemSpace: 12,
-                                onTap: () => log('Find Friends'),
+                                onTap: () {
+                                  BlocProvider.of<NavigationCubit>(context)
+                                      .getNavBarItem(NavbarItems.discover);
+                                },
                                 height: 44,
                                 text: 'Find Friends',
                                 showBorder: true,
@@ -415,7 +420,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                             ),
                             const Spacer(),
                             SvgPicture.asset(
-                              Assets.woman2,
+                              Assets.womanWave,
                               height: 48,
                               width: 48,
                             ),
@@ -593,7 +598,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
             (element) => element.quizTypeEnum == QuizTypes.dailyQuiz);
       }
       //remove (== "0") in default condition
-      if (!systemCubit.getIsAudioQuestionAvailable() == "0") {
+      if (!systemCubit.getIsAudioQuestionAvailable()) {
         _quizTypes.removeWhere(
             (element) => element.quizTypeEnum == QuizTypes.audioQuestions);
       }
@@ -602,7 +607,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
             (element) => element.quizTypeEnum == QuizTypes.funAndLearn);
       }
       //remove (== "0") in default condition
-      if (!systemCubit.getIsGuessTheWordAvailable() == "0") {
+      if (!systemCubit.getIsGuessTheWordAvailable()) {
         _quizTypes.removeWhere(
             (element) => element.quizTypeEnum == QuizTypes.guessTheWord);
       }
@@ -836,87 +841,103 @@ class _NewHomeScreenState extends State<NewHomeScreen>
         _onQuizTypeContainerTap(1);
       } else if (containerNumber == 3) {
         _onQuizTypeContainerTap(2);
-      } else {
-        if (context.read<SystemConfigCubit>().isSelfChallengeEnable()) {
-          log("self challange is enabled");
-          if (_quizTypes.length >= 4) {
-            _onQuizTypeContainerTap(3);
-          }
-          return;
-        }
-        log("self challange is not enabled");
+      } else if (containerNumber == 4) {
+        _onQuizTypeContainerTap(3);
+      } else if (containerNumber == 5) {
+        _onQuizTypeContainerTap(4);
+      } else if (containerNumber == 6) {
+        _onQuizTypeContainerTap(5);
+      } else if (containerNumber == 7) {
+        _onQuizTypeContainerTap(6);
+      } else if (containerNumber == 8) {
+        _onQuizTypeContainerTap(7);
+      } else if (containerNumber == 9) {
+        _onQuizTypeContainerTap(8);
+      } else if (containerNumber == 10) {
+        _onQuizTypeContainerTap(9);
+      }
 
-        if (containerNumber == 4) {
-          if (_quizTypes.length >= 4) {
-            _onQuizTypeContainerTap(3);
-          }
-        } else if (containerNumber == 5) {
-          if (_quizTypes.length >= 5) {
-            _onQuizTypeContainerTap(4);
-          }
-        } else if (containerNumber == 6) {
-          if (_quizTypes.length >= 6) {
-            _onQuizTypeContainerTap(5);
-          }
-        }
-      }
-    } else if (currentMenu == 2) {
-      //determine
-      if (containerNumber == 1) {
-        if (_quizTypes.length >= 5) {
-          _onQuizTypeContainerTap(4);
-        }
-      } else if (containerNumber == 2) {
-        if (_quizTypes.length >= 6) {
-          _onQuizTypeContainerTap(5);
-        }
-      } else if (containerNumber == 3) {
-        if (_quizTypes.length >= 7) {
-          _onQuizTypeContainerTap(6);
-        }
-      } else {
-        //if self challenge is enable
-        if (context.read<SystemConfigCubit>().isSelfChallengeEnable()) {
-          if (_quizTypes.length >= 8) {
-            _onQuizTypeContainerTap(7);
-            return;
-          }
-          return;
-        }
+      //    else {
+      //     if (context.read<SystemConfigCubit>().isSelfChallengeEnable()) {
+      //       log("self challange is enabled");
+      //       if (_quizTypes.length >= 4) {
+      //         _onQuizTypeContainerTap(3);
+      //       }
+      //       return;
+      //     }
+      //     log("self challange is not enabled");
 
-        if (containerNumber == 4) {
-          if (_quizTypes.length >= 8) {
-            _onQuizTypeContainerTap(7);
-          }
-        } else if (containerNumber == 5) {
-          if (_quizTypes.length >= 9) {
-            _onQuizTypeContainerTap(8);
-          }
-        } else if (containerNumber == 6) {
-          if (_quizTypes.length >= 10) {
-            _onQuizTypeContainerTap(9);
-          }
-        }
-      }
-    } else {
-      //for menu 3
-      if (containerNumber == 1) {
-        if (_quizTypes.length >= 9) {
-          _onQuizTypeContainerTap(8);
-        }
-      } else if (containerNumber == 2) {
-        if (_quizTypes.length >= 10) {
-          _onQuizTypeContainerTap(9);
-        }
-      } else if (containerNumber == 3) {
-        if (_quizTypes.length >= 11) {
-          _onQuizTypeContainerTap(10);
-        }
-      } else {
-        if (_quizTypes.length == 12) {
-          _onQuizTypeContainerTap(11);
-        }
-      }
+      //     if (containerNumber == 4) {
+      //       if (_quizTypes.length >= 4) {
+      //         _onQuizTypeContainerTap(3);
+      //       }
+      //     } else if (containerNumber == 5) {
+      //       if (_quizTypes.length >= 5) {
+      //         _onQuizTypeContainerTap(4);
+      //       }
+      //     } else if (containerNumber == 6) {
+      //       if (_quizTypes.length >= 6) {
+      //         _onQuizTypeContainerTap(5);
+      //       }
+      //     }
+      //   }
+      // } else if (currentMenu == 2) {
+      //   //determine
+      //   if (containerNumber == 1) {
+      //     if (_quizTypes.length >= 5) {
+      //       _onQuizTypeContainerTap(4);
+      //     }
+      //   } else if (containerNumber == 2) {
+      //     if (_quizTypes.length >= 6) {
+      //       _onQuizTypeContainerTap(5);
+      //     }
+      //   } else if (containerNumber == 3) {
+      //     if (_quizTypes.length >= 7) {
+      //       _onQuizTypeContainerTap(6);
+      //     }
+      //   } else {
+      //     //if self challenge is enable
+      //     if (context.read<SystemConfigCubit>().isSelfChallengeEnable()) {
+      //       if (_quizTypes.length >= 8) {
+      //         _onQuizTypeContainerTap(7);
+      //         return;
+      //       }
+      //       return;
+      //     }
+
+      //     if (containerNumber == 4) {
+      //       if (_quizTypes.length >= 8) {
+      //         _onQuizTypeContainerTap(7);
+      //       }
+      //     } else if (containerNumber == 5) {
+      //       if (_quizTypes.length >= 9) {
+      //         _onQuizTypeContainerTap(8);
+      //       }
+      //     } else if (containerNumber == 6) {
+      //       if (_quizTypes.length >= 10) {
+      //         _onQuizTypeContainerTap(9);
+      //       }
+      //     }
+      //   }
+      // } else {
+      //   //for menu 3
+      //   if (containerNumber == 1) {
+      //     if (_quizTypes.length >= 9) {
+      //       _onQuizTypeContainerTap(8);
+      //     }
+      //   } else if (containerNumber == 2) {
+      //     if (_quizTypes.length >= 10) {
+      //       _onQuizTypeContainerTap(9);
+      //     }
+      //   } else if (containerNumber == 3) {
+      //     if (_quizTypes.length >= 11) {
+      //       _onQuizTypeContainerTap(10);
+      //     }
+      //   } else {
+      //     if (_quizTypes.length == 12) {
+      //       _onQuizTypeContainerTap(11);
+      //     }
+      //   }
     }
   }
 

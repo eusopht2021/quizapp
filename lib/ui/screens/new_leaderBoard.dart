@@ -117,7 +117,6 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
   List<String> tabItems = ['Daily', 'Monthly', 'All Time'];
   bool isExpand = false;
 
-  Navigation navBar = Navigation();
 
   @override
   Widget build(BuildContext context) {
@@ -937,8 +936,8 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
               decoration: BoxDecoration(
                 color: Constants.grey5,
                 borderRadius: const BorderRadius.only(
-                  topLeft: const Radius.circular(20),
-                  topRight: const Radius.circular(20),
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
                 ),
               ),
               child: ListView(

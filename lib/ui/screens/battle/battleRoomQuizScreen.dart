@@ -75,13 +75,14 @@ class BattleRoomQuizScreen extends StatefulWidget {
 class _BattleRoomQuizScreenState extends State<BattleRoomQuizScreen>
     with TickerProviderStateMixin, WidgetsBindingObserver {
   late AnimationController timerAnimationController = AnimationController(
-      vsync: this, duration: Duration(seconds: questionDurationInSeconds))
+      vsync: this, duration: const Duration(seconds: questionDurationInSeconds))
     ..addStatusListener(currentUserTimerAnimationStatusListener)
     ..forward();
 
   late AnimationController opponentUserTimerAnimationController =
       AnimationController(
-          vsync: this, duration: Duration(seconds: questionDurationInSeconds))
+          vsync: this,
+          duration: const Duration(seconds: questionDurationInSeconds))
         ..forward();
 
   //to animate the question container
@@ -98,8 +99,8 @@ class _BattleRoomQuizScreenState extends State<BattleRoomQuizScreen>
 
   late AnimationController messageAnimationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 300),
-      reverseDuration: Duration(milliseconds: 300));
+      duration: const Duration(milliseconds: 300),
+      reverseDuration: const Duration(milliseconds: 300));
   late Animation<double> messageAnimation = Tween<double>(begin: 0.0, end: 1.0)
       .animate(CurvedAnimation(
           parent: messageAnimationController, curve: Curves.easeOutBack));
@@ -107,15 +108,15 @@ class _BattleRoomQuizScreenState extends State<BattleRoomQuizScreen>
   late AnimationController opponentMessageAnimationController =
       AnimationController(
           vsync: this,
-          duration: Duration(milliseconds: 300),
-          reverseDuration: Duration(milliseconds: 300));
+          duration: const Duration(milliseconds: 300),
+          reverseDuration: const Duration(milliseconds: 300));
   late Animation<double> opponentMessageAnimation =
       Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
           parent: opponentMessageAnimationController,
           curve: Curves.easeOutBack));
 
-  late AnimationController messageBoxAnimationController =
-      AnimationController(vsync: this, duration: Duration(milliseconds: 350));
+  late AnimationController messageBoxAnimationController = AnimationController(
+      vsync: this, duration: const Duration(milliseconds: 350));
   late Animation<double> messageBoxAnimation =
       Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
           parent: messageBoxAnimationController, curve: Curves.easeInOut));
@@ -248,10 +249,10 @@ class _BattleRoomQuizScreenState extends State<BattleRoomQuizScreen>
 
   //
   void initializeAnimation() {
-    questionAnimationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 500));
-    questionContentAnimationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 250));
+    questionAnimationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 500));
+    questionContentAnimationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 250));
 
     questionSlideAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(
@@ -259,11 +260,11 @@ class _BattleRoomQuizScreenState extends State<BattleRoomQuizScreen>
     questionScaleUpAnimation = Tween<double>(begin: 0.0, end: 0.1).animate(
         CurvedAnimation(
             parent: questionAnimationController,
-            curve: Interval(0.0, 0.5, curve: Curves.easeInQuad)));
+            curve: const Interval(0.0, 0.5, curve: Curves.easeInQuad)));
     questionScaleDownAnimation = Tween<double>(begin: 0.0, end: 0.05).animate(
         CurvedAnimation(
             parent: questionAnimationController,
-            curve: Interval(0.5, 1.0, curve: Curves.easeOutQuad)));
+            curve: const Interval(0.5, 1.0, curve: Curves.easeOutQuad)));
     questionContentAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(
             parent: questionContentAnimationController,
@@ -308,7 +309,8 @@ class _BattleRoomQuizScreenState extends State<BattleRoomQuizScreen>
             tournamentBattleCubit.getQuestions()[currentQuestionIndex]);
 
         //need to give the delay so user can see the correct answer or incorrect
-        await Future.delayed(Duration(seconds: inBetweenQuestionTimeInSeconds));
+        await Future.delayed(
+            const Duration(seconds: inBetweenQuestionTimeInSeconds));
         //update answer and current points in database
 
         tournamentBattleCubit.submitAnswer(
@@ -339,7 +341,8 @@ class _BattleRoomQuizScreenState extends State<BattleRoomQuizScreen>
             battleRoomCubit.getQuestions()[currentQuestionIndex]);
 
         //need to give the delay so user can see the correct answer or incorrect
-        await Future.delayed(Duration(seconds: inBetweenQuestionTimeInSeconds));
+        await Future.delayed(
+            const Duration(seconds: inBetweenQuestionTimeInSeconds));
         //update answer and current points in database
 
         battleRoomCubit.submitAnswer(
@@ -577,7 +580,7 @@ class _BattleRoomQuizScreenState extends State<BattleRoomQuizScreen>
     }
 
     currentUserMessageDisappearTimer =
-        Timer.periodic(Duration(seconds: 1), (timer) {
+        Timer.periodic(const Duration(seconds: 1), (timer) {
       if (currentUserMessageDisappearTimeInSeconds == 0) {
         //
         timer.cancel();
@@ -595,7 +598,7 @@ class _BattleRoomQuizScreenState extends State<BattleRoomQuizScreen>
     }
 
     opponentUserMessageDisappearTimer =
-        Timer.periodic(Duration(seconds: 1), (timer) {
+        Timer.periodic(const Duration(seconds: 1), (timer) {
       if (opponentUserMessageDisappearTimeInSeconds == 0) {
         //
         timer.cancel();
@@ -696,7 +699,8 @@ class _BattleRoomQuizScreenState extends State<BattleRoomQuizScreen>
               : QuizTypes.battle,
           isCurrentUser: true,
         ),
-        alignment: Alignment(-0.5, 1.0), //-0.5 left side nad 0.5 is right side,
+        alignment:
+            const Alignment(-0.5, 1.0), //-0.5 left side nad 0.5 is right side,
       ),
       start: 10,
       bottom: (bottomPadding * 2.5) +
@@ -714,7 +718,8 @@ class _BattleRoomQuizScreenState extends State<BattleRoomQuizScreen>
               : QuizTypes.battle,
           isCurrentUser: false,
         ),
-        alignment: Alignment(0.5, 1.0), //-0.5 left side nad 0.5 is right side,
+        alignment:
+            const Alignment(0.5, 1.0), //-0.5 left side nad 0.5 is right side,
       ),
       end: 10,
       bottom: (bottomPadding * 2.5) +
@@ -969,7 +974,7 @@ class _BattleRoomQuizScreenState extends State<BattleRoomQuizScreen>
                   messageBoxAnimationController.forward();
                 }
               },
-              icon: Icon(CupertinoIcons.chat_bubble_2_fill),
+              icon: const Icon(CupertinoIcons.chat_bubble_2_fill),
               color: buttonColor,
             ),
           );
@@ -982,8 +987,8 @@ class _BattleRoomQuizScreenState extends State<BattleRoomQuizScreen>
     return Align(
       alignment: Alignment.topCenter,
       child: SlideTransition(
-        position: messageBoxAnimation
-            .drive(Tween<Offset>(begin: Offset(1.5, 0), end: Offset.zero)),
+        position: messageBoxAnimation.drive(
+            Tween<Offset>(begin: const Offset(1.5, 0), end: Offset.zero)),
         child: MessageBoxContainer(
           quizType: QuizTypes.battle,
           topPadding: MediaQuery.of(context).size.height *
@@ -1050,7 +1055,7 @@ class _BattleRoomQuizScreenState extends State<BattleRoomQuizScreen>
               },
               iconColor: Theme.of(context).backgroundColor,
             ),
-            Spacer(),
+            const Spacer(),
             SettingButton(onPressed: () {
               toggleSettingDialog();
               showDialog(
@@ -1147,7 +1152,7 @@ class _BattleRoomQuizScreenState extends State<BattleRoomQuizScreen>
           child: Stack(
             clipBehavior: Clip.none,
             children: [
-              PageBackgroundGradientContainer(),
+              const PageBackgroundGradientContainer(),
               Align(
                 alignment: Alignment.topCenter,
                 child: QuizPlayAreaBackgroundContainer(

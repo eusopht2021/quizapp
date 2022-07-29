@@ -2,8 +2,10 @@ import 'dart:developer';
 
 import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutterquiz/features/badges/cubits/badgesCubit.dart';
 import 'package:flutterquiz/ui/navigation/navbarcubit.dart';
 import 'package:flutterquiz/ui/navigation/navbaritems.dart';
+import 'package:flutterquiz/ui/widgets/badgesIconContainer.dart';
 import 'package:intl/intl.dart';
 
 import 'package:fl_chart/fl_chart.dart';
@@ -102,6 +104,7 @@ class _ProfileState extends State<Profile> {
     'Stats',
     'Details',
   ];
+  final statisticsDetailsContainerHeightPercentage = 0.145;
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +113,11 @@ class _ProfileState extends State<Profile> {
         BlocProvider.of<NavigationCubit>(context)
             .getNavBarItem(NavbarItems.newhome);
 
-        return false;
+        if (widget.routefromHomeScreen) {
+          return true;
+        } else {
+          return false;
+        }
       }),
       child: DefaultLayout(
         expandBodyBehindAppBar: true,
@@ -855,22 +862,44 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  SizedBox _badgesTabItem() {
-    return SizedBox(
-      height: 300,
-      child: GridView.count(
-        padding: EdgeInsets.zero,
-        crossAxisCount: 3,
-        children: List.generate(
-          Assets.badges.length,
-          (index) {
-            return Image.asset(
-              Assets.badges[index],
-            );
-          },
-        ),
-      ),
-    );
+  _badgesTabItem() {
+    return BlocBuilder<BadgesCubit, BadgesState>(
+        bloc: context.read<BadgesCubit>(),
+        builder: (context, state) {
+          final child = state is BadgesFetchSuccess
+              ? context.read<BadgesCubit>().getUnlockedBadges().isEmpty
+                  ? Container()
+                  : SizedBox(
+                      height: 300,
+                      child: GridView.count(
+                        padding: EdgeInsets.zero,
+                        crossAxisCount: 3,
+                        children: (context
+                                .read<BadgesCubit>()
+                                .getUnlockedBadges()
+                                .map((badge) => BadgesIconContainer(
+                                      badge: badge,
+                                      constraints: const BoxConstraints(
+                                          maxHeight: 160, maxWidth: 100),
+                                      addTopPadding: false,
+                                    ))
+                                .toList()
+
+                            // children: List.generate(
+                            //   Assets.badges.length,
+                            //   (index) {
+                            //     return Image.asset(
+                            //       Assets.badges[index],
+                            //     );
+
+                            ),
+                      ),
+                    )
+              : const SizedBox();
+          return SizedBox(
+            child: child,
+          );
+        });
   }
 
   Widget _tabs(profile) {

@@ -236,7 +236,7 @@ class _MultiUserBattleRoomResultScreenState
                   fontSize: 22.0,
                   fontWeight: FontWeight.w500),
             ),
-            SizedBox(
+            const SizedBox(
               height: 2.5,
             ),
             _winAmount != -1
@@ -265,7 +265,7 @@ class _MultiUserBattleRoomResultScreenState
       child: Scaffold(
         body: Stack(
           children: [
-            PageBackgroundGradientContainer(),
+            const PageBackgroundGradientContainer(),
 
             _buildResultLabel(),
 

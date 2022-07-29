@@ -129,7 +129,7 @@ class _MessageBoxContainerState extends State<MessageBoxContainer> {
                     color: Colors.grey.withOpacity(0.3),
                     spreadRadius: 5,
                     blurRadius: 7,
-                    offset: Offset(0, 3), // changes position of shadow
+                    offset: const Offset(0, 3), // changes position of shadow
                   ),
                 ],
               ),
@@ -193,8 +193,8 @@ class ChatContainer extends StatelessWidget {
           maxWidth: MediaQuery.of(context).size.width * (0.5),
         ),
         margin: messageByCurrentUser
-            ? EdgeInsets.only(bottom: 20.0, right: 15.0)
-            : EdgeInsets.only(bottom: 20.0, left: 15.0),
+            ? const EdgeInsets.only(bottom: 20.0, right: 15.0)
+            : const EdgeInsets.only(bottom: 20.0, left: 15.0),
         child: Column(
           crossAxisAlignment: messageByCurrentUser
               ? CrossAxisAlignment.end
@@ -405,7 +405,7 @@ class _EmojisContainerState extends State<EmojisContainer> {
           bottom: 100,
         ),
         itemCount: emojis.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
           childAspectRatio: 1.0,
           crossAxisSpacing: 15.0,

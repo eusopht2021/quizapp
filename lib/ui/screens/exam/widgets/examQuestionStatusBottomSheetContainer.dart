@@ -3,6 +3,7 @@ import 'package:flutterquiz/app/appLocalization.dart';
 import 'package:flutterquiz/features/exam/cubits/examCubit.dart';
 import 'package:flutterquiz/features/quiz/models/question.dart';
 import 'package:flutterquiz/ui/widgets/customRoundedButton.dart';
+import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,7 +32,7 @@ class ExamQuestionStatusBottomSheetContainer extends StatelessWidget {
                 color: Theme.of(context).primaryColor, fontSize: 16.0),
           ),
           Divider(
-            color: Theme.of(context).primaryColor,
+            color: Constants.white,
           ),
           Wrap(
             children: List.generate(questions.length, (index) => index)
@@ -44,7 +45,7 @@ class ExamQuestionStatusBottomSheetContainer extends StatelessWidget {
                 .toList(),
           ),
           Divider(
-            color: Theme.of(context).primaryColor,
+            color: Constants.primaryColor,
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height * (0.02),
@@ -68,14 +69,12 @@ class ExamQuestionStatusBottomSheetContainer extends StatelessWidget {
       child: Container(
         alignment: Alignment.center,
         margin: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
-        color: attempted
-            ? Theme.of(context).primaryColor
-            : Theme.of(context).colorScheme.secondary,
+        color: attempted ? Constants.primaryColor : Constants.secondaryColor,
         height: 30.0,
         width: 30.0,
         child: Text(
           "${questionIndex + 1}",
-          style: TextStyle(color: Theme.of(context).backgroundColor),
+          style: TextStyle(color: Constants.white),
         ),
       ),
     );
@@ -92,10 +91,7 @@ class ExamQuestionStatusBottomSheetContainer extends StatelessWidget {
             topLeft: Radius.circular(20.0),
             topRight: Radius.circular(20.0),
           ),
-          gradient: UiUtils.buildLinerGradient([
-            Theme.of(context).scaffoldBackgroundColor,
-            Theme.of(context).canvasColor
-          ], Alignment.topCenter, Alignment.bottomCenter)),
+          color: Constants.white),
       child: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -109,7 +105,7 @@ class ExamQuestionStatusBottomSheetContainer extends StatelessWidget {
                       child: Text(
                         "${AppLocalization.of(context)!.getTranslatedValues(totalQuestionsKey)!} : ${context.read<ExamCubit>().getQuestions().length}",
                         style: TextStyle(
-                          color: Theme.of(context).primaryColor,
+                          color: Constants.primaryColor,
                           fontSize: 17.0,
                           fontWeight: FontWeight.bold,
                         ),
@@ -126,7 +122,7 @@ class ExamQuestionStatusBottomSheetContainer extends StatelessWidget {
                         icon: Icon(
                           Icons.close,
                           size: 28.0,
-                          color: Theme.of(context).primaryColor,
+                          color: Constants.primaryColor,
                         )),
                   ),
                 ),
@@ -155,7 +151,7 @@ class ExamQuestionStatusBottomSheetContainer extends StatelessWidget {
                     .getTranslatedValues("submitBtn")!,
                 radius: 10,
                 showBorder: false,
-                titleColor: Theme.of(context).backgroundColor,
+                titleColor: Constants.white,
                 height: 30.0,
               ),
             ),
@@ -168,12 +164,12 @@ class ExamQuestionStatusBottomSheetContainer extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CircleAvatar(
-                    backgroundColor: Theme.of(context).primaryColor,
+                    backgroundColor: Constants.primaryColor,
                     radius: 15,
                     child: Center(
                       child: Icon(
                         Icons.check,
-                        color: Theme.of(context).backgroundColor,
+                        color: Constants.white,
                         size: 22,
                       ),
                     ),
@@ -185,17 +181,16 @@ class ExamQuestionStatusBottomSheetContainer extends StatelessWidget {
                     AppLocalization.of(context)!
                         .getTranslatedValues("attemptedLbl")!,
                     style: TextStyle(
-                        fontSize: 12.5,
-                        color: Theme.of(context).colorScheme.secondary),
+                        fontSize: 12.5, color: Constants.secondaryColor),
                   ),
                   const Spacer(),
                   CircleAvatar(
                     radius: 15,
-                    backgroundColor: Theme.of(context).colorScheme.secondary,
+                    backgroundColor: Constants.secondaryColor,
                     child: Center(
                       child: Icon(
                         Icons.check,
-                        color: Theme.of(context).backgroundColor,
+                        color: Constants.white,
                         size: 22,
                       ),
                     ),
@@ -208,7 +203,7 @@ class ExamQuestionStatusBottomSheetContainer extends StatelessWidget {
                         .getTranslatedValues("unAttemptedLbl")!,
                     style: TextStyle(
                         fontSize: 12.5,
-                        color: Theme.of(context).colorScheme.secondary),
+                        color: Constants.secondaryColor),
                   ),
                 ],
               ),

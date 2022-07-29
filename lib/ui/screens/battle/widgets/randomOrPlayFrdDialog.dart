@@ -64,8 +64,9 @@ class _RandomOrPlayFrdDialogState extends State<RandomOrPlayFrdDialog> {
       height: constraints.maxHeight * (0.2),
       decoration: BoxDecoration(
           color: Constants.primaryColor,
-          borderRadius: BorderRadius.only(
-              topRight: Radius.circular(20), topLeft: Radius.circular(20))),
+          borderRadius: const BorderRadius.only(
+              topRight: const Radius.circular(20),
+              topLeft: const Radius.circular(20))),
       alignment: Alignment.center,
       child: TitleText(
         text: AppLocalization.of(context)!.getTranslatedValues("randomLbl")!,
@@ -101,7 +102,7 @@ class _RandomOrPlayFrdDialogState extends State<RandomOrPlayFrdDialog> {
                 .first['id'];
           });
         },
-        underline: SizedBox(),
+        underline: const SizedBox(),
         //values is map of name and id. only passing name to dropdown
         items: values.map((e) => e['name']).toList().map((name) {
           return DropdownMenuItem(
@@ -129,7 +130,7 @@ class _RandomOrPlayFrdDialogState extends State<RandomOrPlayFrdDialog> {
     return context.read<SystemConfigCubit>().getIsCategoryEnableForBattle() ==
             "1"
         ? Container(
-            padding: EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
               horizontal: 20.0,
             ),
             margin:
@@ -195,7 +196,7 @@ class _RandomOrPlayFrdDialogState extends State<RandomOrPlayFrdDialog> {
                 },
                 builder: (context, state) {
                   return AnimatedSwitcher(
-                    duration: Duration(milliseconds: 500),
+                    duration: const Duration(milliseconds: 500),
                     child: state is QuizCategorySuccess
                         ? _buildDropdown(
                             values: state.categories
@@ -426,7 +427,7 @@ class _RandomOrPlayFrdDialogState extends State<RandomOrPlayFrdDialog> {
                         }),
                       ),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     playWithFrdBtn(constraints),
                     SizedBox(
                       height: constraints.maxHeight * (0.025),

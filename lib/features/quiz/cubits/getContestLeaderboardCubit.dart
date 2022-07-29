@@ -22,11 +22,16 @@ class GetContestLeaderboardFailure extends GetContestLeaderboardState {
 
 class GetContestLeaderboardCubit extends Cubit<GetContestLeaderboardState> {
   final QuizRepository _quizRepository;
-  GetContestLeaderboardCubit(this._quizRepository) : super(GetContestLeaderboardInitial());
+  GetContestLeaderboardCubit(this._quizRepository)
+      : super(GetContestLeaderboardInitial());
 
-   getContestLeaderboard({String? userId, String? contestId}) async {
+  getContestLeaderboard({String? userId, String? contestId}) async {
     emit(GetContestLeaderboardProgress());
-    _quizRepository.getContestLeaderboard(userId: userId,contestId: contestId).then((val) => emit(GetContestLeaderboardSuccess(val)),)
+    _quizRepository
+        .getContestLeaderboard(userId: userId, contestId: contestId)
+        .then(
+          (val) => emit(GetContestLeaderboardSuccess(val)),
+        )
         .catchError((e) {
       print(e.toString());
       emit(GetContestLeaderboardFailure(e.toString()));

@@ -19,6 +19,7 @@ import 'package:flutterquiz/ui/widgets/circularProgressContainner.dart';
 import 'package:flutterquiz/ui/widgets/customBackButton.dart';
 import 'package:flutterquiz/ui/widgets/errorContainer.dart';
 import 'package:flutterquiz/ui/widgets/pageBackgroundGradientContainer.dart';
+import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
@@ -165,7 +166,7 @@ class _ExamsScreenState extends State<ExamsScreen> {
           MediaQuery.of(context).size.height * (UiUtils.appBarHeightPercentage),
       decoration: BoxDecoration(
           boxShadow: [UiUtils.buildAppbarShadow()],
-          color: Theme.of(context).backgroundColor,
+          color: Constants.primaryColor,
           borderRadius: const BorderRadius.only(
               bottomLeft: Radius.circular(20.0),
               bottomRight: Radius.circular(20.0))),
@@ -178,7 +179,7 @@ class _ExamsScreenState extends State<ExamsScreen> {
                   const EdgeInsetsDirectional.only(start: 25.0, bottom: 25.0),
               child: CustomBackButton(
                 removeSnackBars: false,
-                iconColor: Theme.of(context).primaryColor,
+                iconColor: Constants.white,
               ),
             ),
           ),
@@ -213,8 +214,7 @@ class _ExamsScreenState extends State<ExamsScreen> {
         child: Text(
           title,
           style: TextStyle(
-            color: Theme.of(context)
-                .primaryColor
+            color: Constants.white
                 .withOpacity(_currentSelectedTab == index ? 1.0 : 0.5),
             fontSize: 16.0,
           ),
@@ -237,15 +237,17 @@ class _ExamsScreenState extends State<ExamsScreen> {
         if (state is CompletedExamsFetchInProgress ||
             state is CompletedExamsInitial) {
           return Center(
-            child: CircularProgressContainer(
-              useWhiteLoader: false,
+            child: CircularProgressIndicator(
+              color: Constants.primaryColor,
             ),
           );
         }
         if (state is CompletedExamsFetchFailure) {
           return Center(
             child: ErrorContainer(
-                errorMessageColor: Theme.of(context).primaryColor,
+                buttonColor: Constants.primaryColor,
+                buttonTitleColor: Constants.white,
+                errorMessageColor: Constants.primaryColor,
                 errorMessage: AppLocalization.of(context)!.getTranslatedValues(
                     convertErrorCodeToLanguageKey(state.errorMessage)),
                 onTapRetry: () {
@@ -293,15 +295,17 @@ class _ExamsScreenState extends State<ExamsScreen> {
       builder: (context, state) {
         if (state is ExamsFetchInProgress || state is ExamsInitial) {
           return Center(
-            child: CircularProgressContainer(
-              useWhiteLoader: false,
+            child: CircularProgressIndicator(
+              color: Constants.primaryColor,
             ),
           );
         }
         if (state is ExamsFetchFailure) {
           return Center(
             child: ErrorContainer(
-                errorMessageColor: Theme.of(context).primaryColor,
+                buttonColor: Constants.primaryColor,
+                buttonTitleColor: Constants.white,
+                errorMessageColor: Constants.primaryColor,
                 errorMessage: AppLocalization.of(context)!.getTranslatedValues(
                     convertErrorCodeToLanguageKey(state.errorMessage)),
                 onTapRetry: () {
@@ -499,9 +503,9 @@ class _ExamsScreenState extends State<ExamsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Constants.white,
       body: Stack(
         children: [
-          const PageBackgroundGradientContainer(),
           Align(
             alignment: Alignment.topCenter,
             child: _currentSelectedTab == 1

@@ -71,7 +71,6 @@ class _DiscoverState extends State<Discover> {
       onWillPop: (() async {
         BlocProvider.of<NavigationCubit>(context)
             .getNavBarItem(NavbarItems.newhome);
-    
 
         return false;
       }),

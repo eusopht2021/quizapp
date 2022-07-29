@@ -15,7 +15,10 @@ import 'package:flutterquiz/ui/widgets/badgesIconContainer.dart';
 import 'package:flutterquiz/ui/widgets/circularProgressContainner.dart';
 import 'package:flutterquiz/ui/widgets/pageBackgroundGradientContainer.dart';
 import 'package:flutterquiz/ui/widgets/roundedAppbar.dart';
+import 'package:flutterquiz/ui/widgets/title_text.dart';
+import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
+import 'package:flutterquiz/utils/size_config.dart';
 import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
 
@@ -59,7 +62,20 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
       builder: (context, state) {
         final child = state is BadgesFetchSuccess
             ? context.read<BadgesCubit>().getUnlockedBadges().isEmpty
-                ? Container()
+                ? SizedBox(
+                    height: double.infinity,
+                    width: SizeConfig.screenWidth,
+                    child: Center(
+                      child: Expanded(
+                        child: TitleText(
+                          text:
+                              "Badges are locked, Play Quizes to Unlock the Badges",
+                          weight: FontWeight.w500,
+                          textColor: Constants.orange1.withOpacity(0.2),
+                        ),
+                      ),
+                    ),
+                  )
                 : Column(
                     children: [
                       Row(

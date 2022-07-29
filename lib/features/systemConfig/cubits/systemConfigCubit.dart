@@ -348,8 +348,8 @@ class SystemConfigCubit extends Cubit<SystemConfigState> {
       return (state as SystemConfigFetchSuccess)
               .systemConfigModel
               .selfChallengeMode ==
-          "0";
-      //"1"
+          "1";
+      //"0"
     }
     return false;
   }

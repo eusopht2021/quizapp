@@ -114,13 +114,13 @@ class _NavigationState extends State<Navigation> {
           log(" navbar items: ${state.navbarItems}");
 
           if (state.navbarItems == NavbarItems.newhome) {
-            return NewHomeScreen();
+            return const NewHomeScreen();
           } else if (state.navbarItems == NavbarItems.discover) {
-            return Discover();
+            return const Discover();
           } else if (state.navbarItems == NavbarItems.leaderboard) {
-            return NewLeaderBoardScreen();
+            return const NewLeaderBoardScreen();
           } else if (state.navbarItems == NavbarItems.profile) {
-            return Profile(routefromHomeScreen: false);
+            return const Profile(routefromHomeScreen: false);
           }
 
           return Container();

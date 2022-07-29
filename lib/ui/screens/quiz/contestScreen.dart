@@ -16,7 +16,10 @@ import 'package:flutterquiz/ui/widgets/circularProgressContainner.dart';
 import 'package:flutterquiz/ui/widgets/customBackButton.dart';
 import 'package:flutterquiz/ui/widgets/errorContainer.dart';
 import 'package:flutterquiz/ui/widgets/pageBackgroundGradientContainer.dart';
+import 'package:flutterquiz/ui/widgets/title_text.dart';
+import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
+import 'package:flutterquiz/utils/size_config.dart';
 import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
 
@@ -58,34 +61,30 @@ class _ContestScreen extends State<ContestScreen>
         length: 3,
         child: Builder(builder: (BuildContext context) {
           return Scaffold(
+            backgroundColor: Constants.primaryColor,
             appBar: AppBar(
-                backgroundColor: Theme.of(context).backgroundColor,
+                backgroundColor: Constants.primaryColor,
                 leading: CustomBackButton(
-                  iconColor: Theme.of(context).primaryColor,
+                  iconColor: Constants.white,
                 ),
                 centerTitle: true,
                 title: Padding(
                   padding: const EdgeInsets.only(top: 8),
-                  child: Text(
-                    AppLocalization.of(context)!
-                        .getTranslatedValues("contestLbl")!,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 22.0),
-                  ),
+                  child: TitleText(
+                      text: AppLocalization.of(context)!
+                          .getTranslatedValues("contestLbl")!,
+                      align: TextAlign.center,
+                      textColor: Constants.white,
+                      weight: FontWeight.bold,
+                      size: 22.0),
                 ),
                 bottom: TabBar(
                     labelPadding: EdgeInsetsDirectional.only(
                         top: MediaQuery.of(context).size.height * .03),
-                    labelColor: Theme.of(context).primaryColor,
-                    unselectedLabelColor: Theme.of(context)
-                        .colorScheme
-                        .secondary
-                        .withOpacity(0.7),
+                    labelColor: Constants.white,
+                    unselectedLabelColor: Constants.grey4.withOpacity(0.7),
                     labelStyle: Theme.of(context).textTheme.subtitle1,
-                    indicatorColor: Theme.of(context).primaryColor,
+                    indicatorColor: Constants.white,
                     indicatorSize: TabBarIndicatorSize.tab,
                     indicatorWeight: 5,
                     tabs: [
@@ -101,7 +100,6 @@ class _ContestScreen extends State<ContestScreen>
                     ])),
             body: Stack(
               children: [
-                const PageBackgroundGradientContainer(),
                 BlocConsumer<ContestCubit, ContestState>(
                     bloc: context.read<ContestCubit>(),
                     listener: (context, state) {
@@ -117,8 +115,8 @@ class _ContestScreen extends State<ContestScreen>
                     builder: (context, state) {
                       if (state is ContestProgress || state is ContestInitial) {
                         return Center(
-                            child: CircularProgressContainer(
-                          useWhiteLoader: false,
+                            child: CircularProgressIndicator(
+                          color: Constants.white,
                         ));
                       }
                       if (state is ContestFailure) {
@@ -155,7 +153,7 @@ class _ContestScreen extends State<ContestScreen>
             showBackButton: false,
             errorMessage: AppLocalization.of(context)!.getTranslatedValues(
                 convertErrorCodeToLanguageKey(data.errorMessage))!,
-            errorMessageColor: Theme.of(context).primaryColor,
+            errorMessageColor: Constants.white,
             onTapRetry: () {
               context
                   .read<ContestCubit>()
@@ -169,7 +167,7 @@ class _ContestScreen extends State<ContestScreen>
             itemBuilder: (BuildContext context, int index) {
               return Container(
                   height: data.contestDetails[index].showDescription == false
-                      ? MediaQuery.of(context).size.height * .3
+                      ? MediaQuery.of(context).size.height * .35
                       : MediaQuery.of(context).size.height * .4,
                   margin: const EdgeInsets.all(15),
                   width: MediaQuery.of(context).size.width * .9,
@@ -210,7 +208,7 @@ class _ContestScreen extends State<ContestScreen>
                   margin: const EdgeInsets.all(15),
                   width: MediaQuery.of(context).size.width * .9,
                   decoration: BoxDecoration(
-                      color: Theme.of(context).backgroundColor,
+                      color: Constants.secondaryColor,
                       boxShadow: [
                         UiUtils.buildBoxShadow(
                             offset: const Offset(5, 5), blurRadius: 10.0),
@@ -227,7 +225,7 @@ class _ContestScreen extends State<ContestScreen>
             showBackButton: false,
             errorMessage: AppLocalization.of(context)!.getTranslatedValues(
                 convertErrorCodeToLanguageKey(data.errorMessage))!,
-            errorMessageColor: Theme.of(context).primaryColor,
+            errorMessageColor: Constants.white,
             onTapRetry: () {
               context
                   .read<ContestCubit>()
@@ -240,21 +238,25 @@ class _ContestScreen extends State<ContestScreen>
             itemCount: data.contestDetails.length,
             itemBuilder: (BuildContext context, int index) {
               return Container(
-                  height: data.contestDetails[index].showDescription == false
-                      ? MediaQuery.of(context).size.height * .3
-                      : MediaQuery.of(context).size.height * .4,
-                  margin: const EdgeInsets.all(15),
-                  width: MediaQuery.of(context).size.width * .9,
-                  decoration: BoxDecoration(
-                      color: Theme.of(context).backgroundColor,
-                      boxShadow: [
-                        UiUtils.buildBoxShadow(
-                            offset: const Offset(5, 5), blurRadius: 10.0),
-                      ],
-                      borderRadius:
-                          const BorderRadius.all(const Radius.circular(20))),
-                  child: contestDesign(data, index, 2));
-            });
+                height: data.contestDetails[index].showDescription == false
+                    ? MediaQuery.of(context).size.height * .3
+                    : MediaQuery.of(context).size.height * .4,
+                margin: const EdgeInsets.all(15),
+                width: MediaQuery.of(context).size.width * .9,
+                decoration: BoxDecoration(
+                  color: Constants.white,
+                  boxShadow: [
+                    UiUtils.buildBoxShadow(
+                        offset: const Offset(5, 5), blurRadius: 10.0),
+                  ],
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(20),
+                  ),
+                ),
+                child: contestDesign(data, index, 2),
+              );
+            },
+          );
   }
 
   Widget contestDesign(dynamic data, int index, int type) {
@@ -264,14 +266,14 @@ class _ContestScreen extends State<ContestScreen>
             flex: 6,
             child: ClipRRect(
               borderRadius: const BorderRadius.only(
-                topLeft: const Radius.circular(15),
-                topRight: const Radius.circular(15),
+                topLeft: Radius.circular(15),
+                topRight: Radius.circular(15),
               ),
               child: CachedNetworkImage(
                 placeholder: (context, _) {
                   return Center(
-                    child: CircularProgressContainer(
-                      useWhiteLoader: false,
+                    child: CircularProgressIndicator(
+                      color: Constants.white,
                     ),
                   );
                 },
@@ -300,14 +302,14 @@ class _ContestScreen extends State<ContestScreen>
               ),
             )),
         Divider(
-          color: Theme.of(context).primaryColor,
+          color: Constants.primaryColor,
           height: 0.1,
         ),
         Expanded(
           flex: 2,
           child: Container(
-            color: Theme.of(context)
-                .backgroundColor, //height: MediaQuery.of(context).size.height*.05,
+            color: Constants
+                .white, //height: MediaQuery.of(context).size.height*.05,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -316,7 +318,7 @@ class _ContestScreen extends State<ContestScreen>
                   child: Text(
                     data.contestDetails[index].name.toString(),
                     style: TextStyle(
-                        color: Theme.of(context).primaryColor,
+                        color: Constants.primaryColor,
                         fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -331,7 +333,7 @@ class _ContestScreen extends State<ContestScreen>
                       data.contestDetails[index].showDescription!
                           ? Icons.keyboard_arrow_up_sharp
                           : Icons.keyboard_arrow_down_sharp,
-                      color: Theme.of(context).primaryColor,
+                      color: Constants.primaryColor,
                       size: 40,
                     )),
               ],
@@ -339,13 +341,13 @@ class _ContestScreen extends State<ContestScreen>
           ),
         ),
         Divider(
-          color: Theme.of(context).primaryColor,
+          color: Constants.primaryColor,
           height: 0.1,
         ),
         data.contestDetails[index].showDescription!
             ? Container(
                 padding: const EdgeInsets.only(left: 10),
-                color: Theme.of(context).backgroundColor,
+                color: Constants.white,
                 width: MediaQuery.of(context).size.width,
                 child: SingleChildScrollView(
                     //scrollDirection: Axis.horizontal,
@@ -353,21 +355,23 @@ class _ContestScreen extends State<ContestScreen>
                     child: Text(
                       data.contestDetails[index].description!,
                       style: TextStyle(
-                          color:
-                              Theme.of(context).primaryColor.withOpacity(0.6),
+                          color: Constants.primaryColor.withOpacity(0.6),
                           fontWeight: FontWeight.bold),
                     )))
             : Container(),
         Divider(
-          color: Theme.of(context).primaryColor,
+          color: Constants.primaryColor,
           height: 0.1,
         ),
         Expanded(
-          flex: 3,
+          flex: 4,
           child: Container(
-            padding: const EdgeInsets.only(left: 10),
+            height: SizeConfig.screenHeight * 0.4,
+            padding: const EdgeInsets.only(
+              left: 10,
+            ),
             decoration: BoxDecoration(
-                color: Theme.of(context).backgroundColor,
+                color: Constants.white,
                 borderRadius: const BorderRadius.only(
                     bottomLeft: Radius.circular(20),
                     bottomRight: Radius.circular(20))),
@@ -381,14 +385,13 @@ class _ContestScreen extends State<ContestScreen>
                         AppLocalization.of(context)!
                             .getTranslatedValues("entryFeesLbl")!,
                         style: TextStyle(
-                            color:
-                                Theme.of(context).primaryColor.withOpacity(0.6),
+                            color: Constants.primaryColor.withOpacity(0.6),
                             fontWeight: FontWeight.bold),
                       ),
                       Text(
                         data.contestDetails[index].entry.toString(),
                         style: TextStyle(
-                            color: Theme.of(context).primaryColor,
+                            color: Constants.primaryColor,
                             fontWeight: FontWeight.bold),
                       ),
                     ],
@@ -402,14 +405,13 @@ class _ContestScreen extends State<ContestScreen>
                         AppLocalization.of(context)!
                             .getTranslatedValues("endsOnLbl")!,
                         style: TextStyle(
-                            color:
-                                Theme.of(context).primaryColor.withOpacity(0.6),
+                            color: Constants.primaryColor.withOpacity(0.6),
                             fontWeight: FontWeight.bold),
                       ),
                       Text(
                         data.contestDetails[index].endDate.toString(),
                         style: TextStyle(
-                            color: Theme.of(context).primaryColor,
+                            color: Constants.primaryColor,
                             fontWeight: FontWeight.bold),
                       ),
                     ],
@@ -423,14 +425,13 @@ class _ContestScreen extends State<ContestScreen>
                         AppLocalization.of(context)!
                             .getTranslatedValues("playersLbl")!,
                         style: TextStyle(
-                            color:
-                                Theme.of(context).primaryColor.withOpacity(0.6),
+                            color: Constants.primaryColor.withOpacity(0.6),
                             fontWeight: FontWeight.bold),
                       ),
                       Text(
                         data.contestDetails[index].participants.toString(),
                         style: TextStyle(
-                            color: Theme.of(context).primaryColor,
+                            color: Constants.primaryColor,
                             fontWeight: FontWeight.bold),
                       ),
                     ],
@@ -439,21 +440,20 @@ class _ContestScreen extends State<ContestScreen>
                 Column(
                   children: [
                     const SizedBox(
-                      height: 1.0,
+                      height: 5.0,
                     ),
                     type == 0
                         ? TextButton(
                             style: TextButton.styleFrom(
-                              primary: Theme.of(context).backgroundColor,
-                              backgroundColor: Theme.of(context).primaryColor,
+                              primary: Constants.white,
+                              backgroundColor: Constants.primaryColor,
                               side: BorderSide(
-                                  color: Theme.of(context).primaryColor,
-                                  width: 1),
+                                  color: Constants.primaryColor, width: 1),
                               minimumSize: Size(
                                   MediaQuery.of(context).size.width * .1,
                                   MediaQuery.of(context).size.height * .05),
-                              shape: new RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(10.0),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
                               ),
                             ),
                             onPressed: () {
@@ -474,18 +474,17 @@ class _ContestScreen extends State<ContestScreen>
                                     const EdgeInsetsDirectional.only(end: 10.0),
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    onPrimary:
-                                        Theme.of(context).backgroundColor,
-                                    primary: Theme.of(context).primaryColor,
+                                    onPrimary: Constants.white,
+                                    primary: Constants.primaryColor,
                                     side: BorderSide(
-                                        color: primaryColor, width: 1),
+                                        color: Constants.primaryColor,
+                                        width: 1),
                                     minimumSize: Size(
                                         MediaQuery.of(context).size.width * .2,
                                         MediaQuery.of(context).size.height *
                                             .05),
-                                    shape: new RoundedRectangleBorder(
-                                      borderRadius:
-                                          new BorderRadius.circular(10.0),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
                                     ),
                                   ),
                                   onPressed: () {
@@ -537,9 +536,7 @@ class _ContestScreen extends State<ContestScreen>
                                   child: Text(
                                     AppLocalization.of(context)!
                                         .getTranslatedValues("playLbl")!,
-                                    style: TextStyle(
-                                        color:
-                                            Theme.of(context).backgroundColor),
+                                    style: TextStyle(color: Constants.white),
                                   ),
                                 ),
                               )

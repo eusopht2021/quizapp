@@ -77,9 +77,12 @@ class Assets {
   static String man6 = 'assets/avatars/man6.svg';
   static String man7 = 'assets/avatars/man7.svg';
   static String man8 = 'assets/avatars/man8.svg';
+  static String man9 = 'assets/avatars/man9.svg';
+
   static String woman1 = 'assets/avatars/woman1.svg';
   static String woman2 = 'assets/avatars/woman2.svg';
   static String woman3 = 'assets/avatars/woman3.svg';
+  static String womanWave = 'assets/avatars/womanWave.svg';
 
   // BADGES
   static String badge1 = 'assets/badges/badge1.png';

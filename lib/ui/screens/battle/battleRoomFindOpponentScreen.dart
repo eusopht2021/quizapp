@@ -46,26 +46,26 @@ class _BattleRoomFindOpponentScreenState
     with TickerProviderStateMixin, WidgetsBindingObserver {
   late ScrollController scrollController = ScrollController();
   late AnimationController letterAnimationController =
-      AnimationController(vsync: this, duration: Duration(seconds: 4));
+      AnimationController(vsync: this, duration: const Duration(seconds: 4));
   late AnimationController quizCountDownAnimationController =
-      AnimationController(vsync: this, duration: Duration(seconds: 4));
+      AnimationController(vsync: this, duration: const Duration(seconds: 4));
   late Animation<int> quizCountDownAnimation =
       IntTween(begin: 3, end: 0).animate(quizCountDownAnimationController);
-  late AnimationController animationController =
-      AnimationController(vsync: this, duration: Duration(milliseconds: 950))
-        ..forward();
+  late AnimationController animationController = AnimationController(
+      vsync: this, duration: const Duration(milliseconds: 950))
+    ..forward();
   late Animation<double> mapAnimation = Tween<double>(begin: 0.0, end: 1.0)
       .animate(CurvedAnimation(
           parent: animationController,
-          curve: Interval(0.0, 0.4, curve: Curves.easeInOut)));
+          curve: const Interval(0.0, 0.4, curve: Curves.easeInOut)));
   late Animation<double> playerDetailsAnimation =
       Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
           parent: animationController,
-          curve: Interval(0.4, 0.7, curve: Curves.easeInOut)));
+          curve: const Interval(0.4, 0.7, curve: Curves.easeInOut)));
   late Animation<double> findingOpponentStatusAnimation =
       Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
           parent: animationController,
-          curve: Interval(0.7, 1.0, curve: Curves.easeInOut)));
+          curve: const Interval(0.7, 1.0, curve: Curves.easeInOut)));
 
   //to store images of map so we can simulate the mapSlideAnimation
   late List<String> images = [];
@@ -80,7 +80,7 @@ class _BattleRoomFindOpponentScreenState
   void initState() {
     addImages();
 
-    Future.delayed(Duration(milliseconds: 1000), () {
+    Future.delayed(const Duration(milliseconds: 1000), () {
       //search for battle room after initial animation completed
       searchBattleRoom();
       startScrollImageAnimation();
@@ -137,7 +137,7 @@ class _BattleRoomFindOpponentScreenState
 
   //this will be call only when user has created room successfully
   void setWaitForOpponentTimer() {
-    waitForOpponentTimer = Timer.periodic(Duration(seconds: 1), (timer) {
+    waitForOpponentTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (waitingTime == 0) {
         //delete room so other user can not join
         context.read<BattleRoomCubit>().deleteBattleRoom(false);
@@ -167,7 +167,7 @@ class _BattleRoomFindOpponentScreenState
       }
 
       scrollController.animateTo(scrollController.position.maxScrollExtent,
-          duration: Duration(seconds: 20), curve: Curves.linear);
+          duration: const Duration(seconds: 20), curve: Curves.linear);
     }
   }
 
@@ -179,7 +179,7 @@ class _BattleRoomFindOpponentScreenState
       waitForOpponent = true;
     });
     letterAnimationController.repeat(reverse: false);
-    Future.delayed(Duration(milliseconds: 100), () {
+    Future.delayed(const Duration(milliseconds: 100), () {
       startScrollImageAnimation();
     });
     setWaitForOpponentTimer();
@@ -207,7 +207,7 @@ class _BattleRoomFindOpponentScreenState
                 width: MediaQuery.of(context).size.width * (0.3)),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 2.5,
         ),
         Container(
@@ -261,7 +261,7 @@ class _BattleRoomFindOpponentScreenState
                       color: Theme.of(context).primaryColor),
                   height: MediaQuery.of(context).size.height * (0.15),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 2.5,
                 ),
                 Container(
@@ -292,7 +292,7 @@ class _BattleRoomFindOpponentScreenState
             children: [
               FindOpponentLetterAnimation(
                   animationController: letterAnimationController),
-              SizedBox(
+              const SizedBox(
                 height: 2.5,
               ),
               Container(
@@ -319,8 +319,8 @@ class _BattleRoomFindOpponentScreenState
         ? FadeTransition(
             opacity: findingOpponentStatusAnimation,
             child: SlideTransition(
-              position: findingOpponentStatusAnimation.drive(
-                  Tween<Offset>(begin: Offset(0.075, 0.0), end: Offset.zero)),
+              position: findingOpponentStatusAnimation.drive(Tween<Offset>(
+                  begin: const Offset(0.075, 0.0), end: Offset.zero)),
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Container(
@@ -359,13 +359,13 @@ class _BattleRoomFindOpponentScreenState
               ),
             ),
           )
-        : SizedBox();
+        : const SizedBox();
   }
 
   //to display map animation
   Widget _buildFindingMap() {
     return Align(
-      key: Key("userFinding"),
+      key: const Key("userFinding"),
       alignment: Alignment.topCenter,
       child: Padding(
         padding: const EdgeInsets.only(top: 10.0),
@@ -393,7 +393,7 @@ class _BattleRoomFindOpponentScreenState
   //build details when opponent found
   Widget _buildUserFoundDetails() {
     return Align(
-        key: Key("userFound"),
+        key: const Key("userFound"),
         alignment: Alignment.topCenter,
         child: Container(
           height: MediaQuery.of(context).size.height * (0.6),
@@ -436,7 +436,7 @@ class _BattleRoomFindOpponentScreenState
   Widget _buildOpponentNotFoundDetails() {
     return Align(
       alignment: Alignment.topCenter,
-      key: Key("userNotFound"),
+      key: const Key("userNotFound"),
       child: Container(
         height: MediaQuery.of(context).size.height * (0.6),
         child: Column(
@@ -531,7 +531,7 @@ class _BattleRoomFindOpponentScreenState
             child = _buildUserFoundDetails();
           }
           return AnimatedSwitcher(
-              duration: Duration(milliseconds: 500),
+              duration: const Duration(milliseconds: 500),
               child: waitForOpponent ? child : _buildOpponentNotFoundDetails());
         },
       ),
@@ -551,8 +551,8 @@ class _BattleRoomFindOpponentScreenState
     return FadeTransition(
       opacity: playerDetailsAnimation,
       child: SlideTransition(
-        position: playerDetailsAnimation
-            .drive(Tween<Offset>(begin: Offset(0.075, 0.0), end: Offset.zero)),
+        position: playerDetailsAnimation.drive(
+            Tween<Offset>(begin: const Offset(0.075, 0.0), end: Offset.zero)),
         child: Align(
           alignment: Alignment.bottomCenter,
           child: Container(
@@ -638,7 +638,7 @@ class _BattleRoomFindOpponentScreenState
             } else if (state is BattleRoomUserFound) {
               //if opponent found
               waitForOpponentTimer?.cancel();
-              await Future.delayed(Duration(milliseconds: 500));
+              await Future.delayed(const Duration(milliseconds: 500));
               await quizCountDownAnimationController.forward();
               Navigator.of(context).pushReplacementNamed(Routes.battleRoomQuiz,
                   arguments: {"battleLbl": "", "isTournamentBattle": false});
@@ -650,7 +650,7 @@ class _BattleRoomFindOpponentScreenState
           },
           child: Stack(
             children: [
-              PageBackgroundGradientContainer(),
+              const PageBackgroundGradientContainer(),
               _buildFindingOpponentMapDetails(),
               _buildPlayersDetails(),
               _buildFindingOpponentStatus(),

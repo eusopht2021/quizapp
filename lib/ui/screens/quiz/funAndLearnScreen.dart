@@ -75,7 +75,7 @@ class _FunAndLearnScreen extends State<FunAndLearnScreen>
         ),
         child: CustomRoundedButton(
           widthPercentage: MediaQuery.of(context).size.width * (0.85),
-          backgroundColor: Theme.of(context).primaryColor,
+          backgroundColor: Constants.secondaryColor,
           buttonTitle:
               AppLocalization.of(context)!.getTranslatedValues(letsStart)!,
           radius: 5,
@@ -83,7 +83,7 @@ class _FunAndLearnScreen extends State<FunAndLearnScreen>
             timerAnimationController.stop();
             navigateToQuestionScreen();
           },
-          titleColor: Theme.of(context).backgroundColor,
+          titleColor: Constants.white,
           showBorder: false,
           height: 40.0,
           elevation: 5.0,
@@ -104,7 +104,9 @@ class _FunAndLearnScreen extends State<FunAndLearnScreen>
           ),
           child: SingleChildScrollView(
             padding: const EdgeInsets.only(bottom: 80),
-            child: Html(data: widget.comprehension.detail),
+            child: Html(data: widget.comprehension.detail, style: {
+              "body": Style(color: Constants.white),
+            }),
           )),
     );
   }
@@ -115,7 +117,9 @@ class _FunAndLearnScreen extends State<FunAndLearnScreen>
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const CustomBackButton(),
+          CustomBackButton(
+            iconColor: Constants.white,
+          ),
           const Spacer(),
           Transform.translate(
             offset: const Offset(-8.0, 0),
@@ -131,16 +135,17 @@ class _FunAndLearnScreen extends State<FunAndLearnScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Constants.primaryColor,
         body: Padding(
-      padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-      child: Stack(
-        children: [
-          const PageBackgroundGradientContainer(),
-          _buildTimerAndBackButton(),
-          _buildParagraph(),
-          _buildStartButton(),
-        ],
-      ),
-    ));
+          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+          child: Stack(
+            children: [
+              // const PageBackgroundGradientContainer(),
+              _buildTimerAndBackButton(),
+              _buildParagraph(),
+              _buildStartButton(),
+            ],
+          ),
+        ));
   }
 }

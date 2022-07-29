@@ -38,13 +38,13 @@ class BadgesIconContainer extends StatelessWidget {
             ),
             child: CustomPaint(
               painter: HexagonCustomPainter(color: Theme.of(context).backgroundColor, paintingStyle: PaintingStyle.stroke), //
-              child: Container(
+              child: SizedBox(
+                width: constraints.maxWidth * (0.725),
+                height: constraints.maxHeight * (0.5),
                 child: Padding(
                   padding: const EdgeInsets.all(12.5),
                   child: CachedNetworkImage(imageUrl: badge.badgeIcon),
-                ),
-                width: constraints.maxWidth * (0.725),
-                height: constraints.maxHeight * (0.5), //55
+                ), //55
               ),
             ),
           ),

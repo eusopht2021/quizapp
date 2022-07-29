@@ -35,7 +35,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         builder: (context) => Scaffold(
           body: Stack(
             children: [
-              PageBackgroundGradientContainer(),
+              const PageBackgroundGradientContainer(),
               SingleChildScrollView(
                 child: form(),
               ),
@@ -123,7 +123,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         border: InputBorder.none,
         hintText:
             AppLocalization.of(context)!.getTranslatedValues('emailLbl')! + "*",
-        contentPadding: EdgeInsets.all(15),
+        contentPadding: const EdgeInsets.all(15),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
           borderSide: new BorderSide(
@@ -153,7 +153,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         fillColor: Theme.of(context).backgroundColor,
         filled: true,
         border: InputBorder.none,
-        contentPadding: EdgeInsets.all(10),
+        contentPadding: const EdgeInsets.all(10),
         hintText:
             AppLocalization.of(context)!.getTranslatedValues('pwdLbl')! + "*",
         focusedBorder: OutlineInputBorder(
@@ -196,7 +196,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         fillColor: Theme.of(context).backgroundColor,
         filled: true,
         border: InputBorder.none,
-        contentPadding: EdgeInsets.all(15),
+        contentPadding: const EdgeInsets.all(15),
         hintText:
             AppLocalization.of(context)!.getTranslatedValues('cnPwdLbl')! + "*",
         focusedBorder: OutlineInputBorder(
@@ -238,12 +238,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
             color: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
           ),
         ),
-        SizedBox(width: 2),
+        const SizedBox(width: 2),
         CupertinoButton(
           onPressed: () {
             Navigator.of(context).pushNamed(Routes.loginScreen);
           },
-          padding: EdgeInsets.all(0),
+          padding: const EdgeInsets.all(0),
           child: Text(
             AppLocalization.of(context)!.getTranslatedValues('loginLbl')!,
             style: TextStyle(
