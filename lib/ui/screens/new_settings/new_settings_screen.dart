@@ -411,6 +411,7 @@ Widget _settingsOptionsContainer(
           text: subtitle!,
           size: Constants.bodyXSmall,
           weight: FontWeight.w400,
+          maxlines: 1,
         ),
         trailing: Icon(
           Icons.arrow_forward_ios,
