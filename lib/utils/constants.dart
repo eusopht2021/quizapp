@@ -64,8 +64,8 @@ const String settingsThemeKey = "theme";
 //Add your database url
 //make sure do not add '/' at the end of url
 
-// const String databaseUrl = "https://elitequiz.wrteam.in";
-const String databaseUrl = "https://cricketmobileapp.com/api";
+const String databaseUrl = "https://elitequiz.wrteam.in";
+// const String databaseUrl = "https://cricketmobileapp.com/api";
 
 const String baseUrl = '$databaseUrl/Api/';
 
