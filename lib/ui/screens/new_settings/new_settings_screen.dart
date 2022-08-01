@@ -25,6 +25,7 @@ import 'package:flutterquiz/ui/navigation/navigation.dart';
 import 'package:flutterquiz/ui/navigation/navigation_bar_state.dart';
 import 'package:flutterquiz/ui/screens/appSettingsScreen.dart';
 import 'package:flutterquiz/ui/screens/auth/onBoardingScreen.dart';
+import 'package:flutterquiz/ui/screens/new_settings/faq_screen.dart';
 import 'package:flutterquiz/ui/screens/profile/widgets/editProfileFieldBottomSheetContainer.dart';
 import 'package:flutterquiz/ui/screens/quiz/voice_note_screen.dart';
 import 'package:flutterquiz/ui/widgets/title_text.dart';
@@ -247,7 +248,12 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                           ),
                           WidgetsUtil.verticalSpace24,
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => const VoiceNoteScreen()));
+                            },
                             child: _settingsOptionsContainer(
                               listTileicon: SvgPicture.asset(
                                 Assets.puzzleIcon,
@@ -265,7 +271,7 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (_) => const VoiceNoteScreen()));
+                                      builder: (_) => const FaqScreen()));
                             },
                             child: _settingsOptionsContainer(
                               listTileicon: Icon(

@@ -10,12 +10,14 @@ class CustomDialog extends StatelessWidget {
   final Function? onBackButtonPress;
   final Function? onWillPop;
   final double? topPadding;
+  bool? showbackButton;
   CustomDialog(
       {Key? key,
       this.height,
       required this.child,
       this.topPadding,
       this.onBackButtonPress,
+      this.showbackButton,
       this.onWillPop})
       : super(key: key);
 
@@ -38,22 +40,24 @@ class CustomDialog extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                    padding: EdgeInsets.only(
-                      left: MediaQuery.of(context).size.width * (0.075),
-                      top: 20.0,
-                    ),
-                    child: IconButton(
-                        onPressed: onBackButtonPress == null
-                            ? () {
-                                Navigator.of(context).pop();
-                              }
-                            : onBackButtonPress as void Function()?,
-                        iconSize: 40.0,
-                        icon: Icon(
-                          Icons.arrow_back,
-                          color: Constants.white,
-                        ))),
+                showbackButton!
+                    ? Padding(
+                        padding: EdgeInsets.only(
+                          left: MediaQuery.of(context).size.width * (0.075),
+                          top: 20.0,
+                        ),
+                        child: IconButton(
+                            onPressed: onBackButtonPress == null
+                                ? () {
+                                    Navigator.of(context).pop();
+                                  }
+                                : onBackButtonPress as void Function()?,
+                            iconSize: 40.0,
+                            icon: Icon(
+                              Icons.arrow_back,
+                              color: Constants.white,
+                            )))
+                    : SizedBox(),
                 SizedBox(
                   height:
                       topPadding ?? MediaQuery.of(context).size.height * (0.02),

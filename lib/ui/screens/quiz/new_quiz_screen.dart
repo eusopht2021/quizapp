@@ -1039,7 +1039,7 @@ class _NewQuizScreenState extends State<NewQuizScreen>
                   (value) {
                     toggleSettingDialog();
                   },
-                );
+                );  
               },
             ),
           ],

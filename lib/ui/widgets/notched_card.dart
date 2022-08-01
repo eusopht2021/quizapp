@@ -4,9 +4,11 @@ import 'package:flutterquiz/utils/constants.dart';
 class NotchedCard extends StatelessWidget {
   final Widget child;
   Color? circleColor;
+  Color? dotColor;
   NotchedCard({
     Key? key,
     this.circleColor,
+    this.dotColor,
     required this.child,
   }) : super(key: key);
 
@@ -42,7 +44,7 @@ class NotchedCard extends StatelessWidget {
               width: 8,
               height: 8,
               decoration: BoxDecoration(
-                color: Constants.primaryColor,
+                color: dotColor ?? Constants.primaryColor,
                 shape: BoxShape.circle,
               ),
             ),

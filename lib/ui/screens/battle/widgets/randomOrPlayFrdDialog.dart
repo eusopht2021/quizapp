@@ -378,6 +378,7 @@ class _RandomOrPlayFrdDialogState extends State<RandomOrPlayFrdDialog> {
   @override
   Widget build(BuildContext context) {
     return CustomDialog(
+      showbackButton: true,
       topPadding: MediaQuery.of(context).size.height * (0.15),
       height: MediaQuery.of(context).size.height * (0.6),
       child: BlocListener<UpdateScoreAndCoinsCubit, UpdateScoreAndCoinsState>(

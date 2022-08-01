@@ -105,16 +105,6 @@ class _ContestLeaderBoardScreen extends State<ContestLeaderBoardScreen> {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              // SvgPicture.asset(
-              //     UiUtils.getImagePath(
-              //       "leaderboard_dark.svg",
-              //     ),
-
-              //     height: MediaQuery.of(context).size.height * .025,
-              //     width: MediaQuery.of(context).size.width * .03),
-              // const SizedBox(
-              //   width: 5,
-              // ),
               Text(
                 AppLocalization.of(context)!
                     .getTranslatedValues("contestLeaderBoardLbl")!,
@@ -123,10 +113,17 @@ class _ContestLeaderBoardScreen extends State<ContestLeaderBoardScreen> {
             ],
           ),
         ),
-        body: Stack(
-          children: [
-            leaderBoard(),
-          ],
+        body: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(Assets.backgroundCircle),
+            ),
+          ),
+          child: Stack(
+            children: [
+              leaderBoard(),
+            ],
+          ),
         ));
   }
 

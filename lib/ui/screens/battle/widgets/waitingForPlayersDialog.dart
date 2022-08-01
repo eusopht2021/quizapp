@@ -196,6 +196,7 @@ class _WaitingForPlayesDialogState extends State<WaitingForPlayesDialog> {
   @override
   Widget build(BuildContext context) {
     return CustomDialog(
+      showbackButton: true,
       onWillPop: () {
         onBackEvent();
         return Future.value(false);

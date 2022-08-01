@@ -800,6 +800,7 @@ class _RoomDialogState extends State<RoomDialog> {
   @override
   Widget build(BuildContext context) {
     return CustomDialog(
+      showbackButton: true,
       onWillPop: () {
         //means user is in create tab
         if (currentSelectedTab == 1) {

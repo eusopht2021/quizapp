@@ -79,6 +79,18 @@ class Assets {
   static String man8 = 'assets/avatars/man8.svg';
   static String man9 = 'assets/avatars/man9.svg';
 
+  static List menAvatars = [
+    man1,
+    man2,
+    man3,
+    man4,
+    man5,
+    man6,
+    man7,
+    man8,
+    man9,
+  ];
+
   static String woman1 = 'assets/avatars/woman1.svg';
   static String woman2 = 'assets/avatars/woman2.svg';
   static String woman3 = 'assets/avatars/woman3.svg';
@@ -133,6 +145,8 @@ class Assets {
   static String hellicopterIllustration =
       'assets/images/helicopterIllustration.png';
   static String cupIllustration = 'assets/images/CupIllustration.png';
+  static String inviteFriendsContainer =
+      'assets/images/inviteFriendsDialogContainer.svg';
 
   static String maskGroup = 'assets/images/maskGroup.png';
 

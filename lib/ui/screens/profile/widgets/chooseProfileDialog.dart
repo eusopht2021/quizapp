@@ -23,7 +23,8 @@ class _ChooseProfileDialog extends State<ChooseProfileDialog> {
       maxWidth: 1800,
       maxHeight: 1800,
     );
-    File rotatedImage = await FlutterExifRotation.rotateAndSaveImage(path: pickedFile!.path);
+    File rotatedImage =
+        await FlutterExifRotation.rotateAndSaveImage(path: pickedFile!.path);
 
     image = rotatedImage;
     //File(pickedFile.path);
@@ -38,7 +39,8 @@ class _ChooseProfileDialog extends State<ChooseProfileDialog> {
       maxWidth: 1800,
       maxHeight: 1800,
     );
-    File rotatedImage = await FlutterExifRotation.rotateAndSaveImage(path: pickedFile!.path);
+    File rotatedImage =
+        await FlutterExifRotation.rotateAndSaveImage(path: pickedFile!.path);
 
     image = rotatedImage;
     //File(pickedFile.path);
@@ -49,41 +51,53 @@ class _ChooseProfileDialog extends State<ChooseProfileDialog> {
   @override
   Widget build(BuildContext context) {
     return CustomDialog(
+        showbackButton: true,
         height: MediaQuery.of(context).size.height * .2,
         //shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)), //this right here
         child: Container(
-            decoration: BoxDecoration(color: Theme.of(context).scaffoldBackgroundColor, borderRadius: BorderRadius.circular(15)),
+            decoration: BoxDecoration(
+                color: Theme.of(context).scaffoldBackgroundColor,
+                borderRadius: BorderRadius.circular(15)),
             child: Padding(
               padding: const EdgeInsets.all(5.0),
-              child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, children: [
-                TextButton.icon(
-                    icon: Icon(
-                      Icons.photo_library,
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    label: Text(
-                      AppLocalization.of(context)!.getTranslatedValues("photoLibraryLbl")!,
-                      style: TextStyle(color: Theme.of(context).colorScheme.secondary, fontWeight: FontWeight.bold),
-                    ),
-                    onPressed: () {
-                      _getFromGallery(context);
-                      Navigator.of(context).pop();
-                    }),
-                TextButton.icon(
-                  icon: Icon(
-                    Icons.photo_camera,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  label: Text(
-                    AppLocalization.of(context)!.getTranslatedValues("cameraLbl")!,
-                    style: TextStyle(color: Theme.of(context).colorScheme.secondary, fontWeight: FontWeight.bold),
-                  ),
-                  onPressed: () {
-                    _getFromCamera(context);
-                    Navigator.of(context).pop();
-                  },
-                )
-              ]),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    TextButton.icon(
+                        icon: Icon(
+                          Icons.photo_library,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        label: Text(
+                          AppLocalization.of(context)!
+                              .getTranslatedValues("photoLibraryLbl")!,
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.secondary,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        onPressed: () {
+                          _getFromGallery(context);
+                          Navigator.of(context).pop();
+                        }),
+                    TextButton.icon(
+                      icon: Icon(
+                        Icons.photo_camera,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      label: Text(
+                        AppLocalization.of(context)!
+                            .getTranslatedValues("cameraLbl")!,
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      onPressed: () {
+                        _getFromCamera(context);
+                        Navigator.of(context).pop();
+                      },
+                    )
+                  ]),
             )));
   }
 }
