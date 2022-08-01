@@ -342,8 +342,8 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                                                     .getTranslatedValues(
                                                         "yesBtn")!,
                                                 style: TextStyle(
-                                                    color: Theme.of(context)
-                                                        .primaryColor),
+                                                    color:
+                                                        Constants.primaryColor),
                                               )),
                                           TextButton(
                                               onPressed: () {
@@ -354,8 +354,8 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                                                     .getTranslatedValues(
                                                         "noBtn")!,
                                                 style: TextStyle(
-                                                    color: Theme.of(context)
-                                                        .primaryColor),
+                                                    color:
+                                                        Constants.primaryColor),
                                               )),
                                         ],
                                       ));

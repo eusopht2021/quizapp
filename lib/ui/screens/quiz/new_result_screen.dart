@@ -2017,7 +2017,9 @@ class _NewResultScreenState extends State<NewResultScreen> {
                                     showTitles: true,
                                     getTitlesWidget: ((value, meta) {
                                       return TitleText(
-                                        text: value.toInt().toString(),
+                                        //text: "${value.toInt()}",
+
+                                        text: "${value.toInt()}",
                                         textColor: Constants.black1,
                                         size: 15,
                                         weight: FontWeight.w500,

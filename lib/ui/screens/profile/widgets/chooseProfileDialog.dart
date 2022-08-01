@@ -4,6 +4,7 @@ import 'package:flutter_exif_rotation/flutter_exif_rotation.dart';
 import 'package:flutterquiz/app/appLocalization.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/uploadProfileCubit.dart';
 import 'package:flutterquiz/ui/screens/battle/widgets/customDialog.dart';
+import 'package:flutterquiz/utils/constants.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ChooseProfileDialog extends StatefulWidget {
@@ -56,7 +57,7 @@ class _ChooseProfileDialog extends State<ChooseProfileDialog> {
         //shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)), //this right here
         child: Container(
             decoration: BoxDecoration(
-                color: Theme.of(context).scaffoldBackgroundColor,
+                color: Constants.white,
                 borderRadius: BorderRadius.circular(15)),
             child: Padding(
               padding: const EdgeInsets.all(5.0),
@@ -67,14 +68,14 @@ class _ChooseProfileDialog extends State<ChooseProfileDialog> {
                     TextButton.icon(
                         icon: Icon(
                           Icons.photo_library,
-                          color: Theme.of(context).primaryColor,
+                          color: Constants.primaryColor,
                         ),
                         label: Text(
                           AppLocalization.of(context)!
                               .getTranslatedValues("photoLibraryLbl")!,
                           style: TextStyle(
-                              color: Theme.of(context).colorScheme.secondary,
-                              fontWeight: FontWeight.bold),
+                              color: Constants.black1,
+                              fontWeight: FontWeight.w500),
                         ),
                         onPressed: () {
                           _getFromGallery(context);
@@ -83,14 +84,14 @@ class _ChooseProfileDialog extends State<ChooseProfileDialog> {
                     TextButton.icon(
                       icon: Icon(
                         Icons.photo_camera,
-                        color: Theme.of(context).primaryColor,
+                        color: Constants.primaryColor,
                       ),
                       label: Text(
                         AppLocalization.of(context)!
                             .getTranslatedValues("cameraLbl")!,
                         style: TextStyle(
-                            color: Theme.of(context).colorScheme.secondary,
-                            fontWeight: FontWeight.bold),
+                            color: Constants.black1,
+                            fontWeight: FontWeight.w500),
                       ),
                       onPressed: () {
                         _getFromCamera(context);

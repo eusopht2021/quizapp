@@ -152,9 +152,8 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
                   vertical: 10.0,
                 ),
                 child: TitleText(
-                  text: AppLocalization.of(context)!
-                          .getTranslatedValues("levelLbl")! +
-                      " ${index + 1}",
+                  text:
+                      "${AppLocalization.of(context)!.getTranslatedValues("levelLbl")!} ${index + 1}",
                   size: 20,
                   weight: FontWeight.bold,
                   textColor: Constants.white,
@@ -226,7 +225,7 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
 
                       return Column(
                         children: [
-                          Container(
+                          SizedBox(
                             height: MediaQuery.of(context).size.height * (0.2),
                             child: PageView.builder(
                                 itemCount: subCategoryList.length,
@@ -355,8 +354,9 @@ class _SubcategoryContainerState extends State<SubcategoryContainer>
           scale: scaleAnimation.value,
           child: Container(
             decoration: BoxDecoration(
-                color: Constants.secondaryColor,
-                borderRadius: BorderRadius.circular(20.0)),
+              color: Constants.secondaryColor,
+              borderRadius: BorderRadius.circular(20.0),
+            ),
             alignment: Alignment.center,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
