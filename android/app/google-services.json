@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "468139533987",
-    "project_id": "quiz-online-87c0a",
-    "storage_bucket": "quiz-online-87c0a.appspot.com"
+    "project_number": "292600646134",
+    "project_id": "quizsigns",
+    "storage_bucket": "quizsigns.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:468139533987:android:9989428f9b93c23b048116",
+        "mobilesdk_app_id": "1:292600646134:android:68fd15e38d8e7245b25fd7",
         "android_client_info": {
-          "package_name": "com.wrteam.flutterquiz"
+          "package_name": "com.wss.quizsigns"
         }
       },
       "oauth_client": [
         {
-          "client_id": "468139533987-30r8n4s178rt02fbs3j7gdjv0qabbhf7.apps.googleusercontent.com",
+          "client_id": "292600646134-pd4hain8bts6pgif2cjpmg6h40cp2i2a.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCu-wKslXPvyjdz-ntbyBGycCIsEgPZ1r0"
+          "current_key": "AIzaSyDh8OsgkGDdSBOGbgYNGdkw1rJsWtW6Ga8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "468139533987-30r8n4s178rt02fbs3j7gdjv0qabbhf7.apps.googleusercontent.com",
+              "client_id": "292600646134-pd4hain8bts6pgif2cjpmg6h40cp2i2a.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

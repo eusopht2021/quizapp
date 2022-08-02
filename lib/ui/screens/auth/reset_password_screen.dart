@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutterquiz/ui/screens/auth/widgets/newPasswordScreen.dart';
 
 import '../../../app/appLocalization.dart';
 import '../../../app/routes.dart';
@@ -25,6 +26,7 @@ class ResetPassword extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultLayout(
       title: AppLocalization.of(context)!.getTranslatedValues('resetPwdLbl')!,
+      // title: 'Reset Password',
       child: Form(
         key: _formKeyDialog,
         child: Column(
@@ -63,7 +65,11 @@ class ResetPassword extends StatelessWidget {
               text: AppLocalization.of(context)!
                   .getTranslatedValues('resetPwdLbl')!,
               onPressed: () {
-                resetPswd(context);
+                // resetPswd(context);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => NewPasswordScreen()));
                 // Navigator.of(context).pushNamed(Routes.loginScreen);
               },
             ),

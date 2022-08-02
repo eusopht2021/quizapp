@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutterquiz/app/appLocalization.dart';
+import 'package:flutterquiz/ui/screens/new_settings/faq_screen.dart';
 import 'package:flutterquiz/utils/size_config.dart';
 import 'package:flutterquiz/utils/widgets_util.dart';
 
@@ -125,7 +126,15 @@ class _OnBoardingState extends State<OnBoarding> {
                       text: AppLocalization.of(context)!
                           .getTranslatedValues('signUpLbl')!,
                       onPressed: () {
-                        Navigator.of(context).pushNamed(Routes.signupoptions);
+                        // This was the original navigation
+                        // Navigator.of(context).pushNamed(Routes.signupoptions);
+                        // This navigation was only to design the NewPasswordScreen
+                        // Navigator.of(context).pushNamed(Routes.resetpswdScreen);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => FaqScreen()));
+
                         // Get.to(() => const SignUpOptions());
                       },
                     ),

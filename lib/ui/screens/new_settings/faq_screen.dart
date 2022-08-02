@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterquiz/ui/screens/new_settings/faq_description_one.dart';
 import 'package:flutterquiz/ui/screens/new_settings/invite_friendsScreen.dart';
 
 import 'package:flutterquiz/ui/widgets/notched_card.dart';
@@ -72,7 +73,12 @@ class FaqScreen extends StatelessWidget {
                   _customDivider(),
                   WidgetsUtil.verticalSpace16,
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => FaqDescriptionOne()));
+                    },
                     child: TitleText(
                       text: "Intro to Queezy apps",
                       weight: FontWeight.w500,
