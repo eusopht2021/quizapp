@@ -90,6 +90,9 @@ class ProfileScreen extends StatelessWidget {
     return LayoutBuilder(builder: (context, boxConstraints) {
       return Container(
         //decoration: BoxDecoration(border: Border.all()),
+        width: boxConstraints.maxWidth * (0.85),
+        height: 50,
+        //decoration: BoxDecoration(border: Border.all()),
         child: Row(
           children: [
             Container(
@@ -110,7 +113,7 @@ class ProfileScreen extends StatelessWidget {
                       fontSize: 13.0,
                       color: Theme.of(context).primaryColor.withOpacity(0.6)),
                 ),
-                Container(
+                SizedBox(
                   //decoration: BoxDecoration(border: Border.all()),
                   width: boxConstraints.maxWidth * (0.625),
                   child: Text(
@@ -137,8 +140,6 @@ class ProfileScreen extends StatelessWidget {
                 : const SizedBox(),
           ],
         ),
-        width: boxConstraints.maxWidth * (0.85),
-        height: 50,
       );
     });
   }

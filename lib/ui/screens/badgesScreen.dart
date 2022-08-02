@@ -47,8 +47,8 @@ class _BadgesScreenState extends State<BadgesScreen> {
     showModalBottomSheet(
         elevation: 5.0,
         shape: const RoundedRectangleBorder(
-            borderRadius: const BorderRadius.only(
-          topLeft: const Radius.circular(20.0),
+            borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20.0),
           topRight: Radius.circular(20.0),
         )),
         context: context,
@@ -58,7 +58,7 @@ class _BadgesScreenState extends State<BadgesScreen> {
             decoration: BoxDecoration(
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(20.0),
-                  topRight: const Radius.circular(20.0),
+                  topRight: Radius.circular(20.0),
                 ),
                 gradient: UiUtils.buildLinerGradient([
                   Theme.of(context).scaffoldBackgroundColor,

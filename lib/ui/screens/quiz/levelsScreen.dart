@@ -12,6 +12,7 @@ import 'package:flutterquiz/ui/widgets/circularProgressContainner.dart';
 import 'package:flutterquiz/ui/widgets/customBackButton.dart';
 import 'package:flutterquiz/ui/widgets/errorContainer.dart';
 import 'package:flutterquiz/ui/widgets/pageBackgroundGradientContainer.dart';
+import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
 
@@ -59,7 +60,7 @@ class _LevelsScreenState extends State<LevelsScreen> {
     return Padding(
       padding: const EdgeInsetsDirectional.only(top: 30, start: 20, end: 20),
       child: CustomBackButton(
-        iconColor: Theme.of(context).primaryColor,
+        iconColor: Constants.white,
       ),
     );
   }
@@ -85,7 +86,9 @@ class _LevelsScreenState extends State<LevelsScreen> {
             if (state is UnlockedLevelInitial ||
                 state is UnlockedLevelFetchInProgress) {
               return Center(
-                child: CircularProgressContainer(useWhiteLoader: false),
+                child: CircularProgressIndicator(
+                  color: Constants.white,
+                ),
               );
             }
             if (state is UnlockedLevelFetchFailure) {
@@ -138,18 +141,16 @@ class _LevelsScreenState extends State<LevelsScreen> {
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20.0),
-                          color: Theme.of(context).primaryColor,
+                          color: Constants.secondaryColor,
                         ),
                         alignment: Alignment.center,
                         height: 75.0,
-                        margin: EdgeInsets.only(bottom: 20.0),
+                        margin: const EdgeInsets.only(bottom: 20.0),
                         child: Text(
-                          AppLocalization.of(context)!
-                                  .getTranslatedValues("levelLbl")! +
-                              " ${index + 1}",
+                          "${AppLocalization.of(context)!.getTranslatedValues("levelLbl")!} ${index + 1}",
                           style: TextStyle(
                             fontSize: 20.0,
-                            color: Theme.of(context).backgroundColor,
+                            color: Constants.white,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -173,9 +174,9 @@ class _LevelsScreenState extends State<LevelsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Constants.primaryColor,
       body: Stack(
         children: <Widget>[
-          PageBackgroundGradientContainer(),
           _buildBackButton(),
           _buildLevels(),
           _buildBannerAd(),

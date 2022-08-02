@@ -125,7 +125,7 @@ class _OtpScreen extends State<OtpScreen> {
     return WillPopScope(
       onWillPop: () {
         if (isLoading) {
-          print("Is loading is true");
+          // print("Is loading is true");
           return Future.value(false);
         }
         if (context.read<SignInCubit>().state is SignInProgress) {

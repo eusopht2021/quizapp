@@ -65,8 +65,7 @@ class _RandomOrPlayFrdDialogState extends State<RandomOrPlayFrdDialog> {
       decoration: BoxDecoration(
           color: Constants.primaryColor,
           borderRadius: const BorderRadius.only(
-              topRight: const Radius.circular(20),
-              topLeft: const Radius.circular(20))),
+              topRight: Radius.circular(20), topLeft: Radius.circular(20))),
       alignment: Alignment.center,
       child: TitleText(
         text: AppLocalization.of(context)!.getTranslatedValues("randomLbl")!,
@@ -86,12 +85,11 @@ class _RandomOrPlayFrdDialogState extends State<RandomOrPlayFrdDialog> {
     return DropdownButton<String>(
         key: Key(keyValue),
         borderRadius: BorderRadius.circular(20),
-        dropdownColor: Theme.of(context).canvasColor,
-        // dropdownColor: Constants.primaryColor,
+        dropdownColor: Constants.primaryColor,
         // //same as background of dropdown color
         style: TextStyle(color: Constants.white, fontSize: 16.0),
         isExpanded: true,
-        iconEnabledColor: Theme.of(context).primaryColor,
+        iconEnabledColor: Constants.white,
         // iconEnabledColor: Constants.primaryColor,
         onChanged: (value) {
           setState(() {
@@ -113,13 +111,13 @@ class _RandomOrPlayFrdDialogState extends State<RandomOrPlayFrdDialog> {
                         AppLocalization.of(context)!.getTranslatedValues(name)!,
                     size: Constants.bodyXLarge,
                     textColor: Constants.white,
-                    weight: FontWeight.w500,
+                    // weight: FontWeight.w500,
                   )
                 : TitleText(
                     text: name,
                     size: Constants.bodyXLarge,
                     textColor: Constants.white,
-                    weight: FontWeight.w500,
+                    // weight: FontWeight.w500,
                   ),
           );
         }).toList(),
@@ -136,7 +134,7 @@ class _RandomOrPlayFrdDialogState extends State<RandomOrPlayFrdDialog> {
             margin:
                 EdgeInsets.symmetric(horizontal: constraints.maxWidth * (0.05)),
             decoration: BoxDecoration(
-                color: Theme.of(context).canvasColor,
+                color: Constants.primaryColor,
                 // color: Constants.primaryColor,
                 borderRadius: BorderRadius.circular(25.0)),
             height: constraints.maxHeight * (0.115),
@@ -171,7 +169,7 @@ class _RandomOrPlayFrdDialogState extends State<RandomOrPlayFrdDialog> {
                                     AppLocalization.of(context)!
                                         .getTranslatedValues(retryLbl)!,
                                     style: TextStyle(
-                                      color: Theme.of(context).primaryColor,
+                                      color: Constants.primaryColor,
                                     ),
                                   ),
                                 )
@@ -258,7 +256,7 @@ class _RandomOrPlayFrdDialogState extends State<RandomOrPlayFrdDialog> {
           Text(
             "${AppLocalization.of(context)!.getTranslatedValues(currentCoinsKey)!}:  ",
             style: TextStyle(
-              color: Theme.of(context).colorScheme.secondary.withOpacity(0.75),
+              color: Constants.white,
               fontSize: 18.0,
               fontWeight: FontWeight.w500,
             ),
@@ -270,7 +268,7 @@ class _RandomOrPlayFrdDialogState extends State<RandomOrPlayFrdDialog> {
                 return Text(
                   context.read<UserDetailsCubit>().getCoins()!,
                   style: TextStyle(
-                    color: Theme.of(context).colorScheme.secondary,
+                    color: Constants.white,
                     fontSize: 18.0,
                     fontWeight: FontWeight.bold,
                   ),
@@ -301,50 +299,52 @@ class _RandomOrPlayFrdDialogState extends State<RandomOrPlayFrdDialog> {
   }
 
   Widget letsGoButton(BoxConstraints boxConstraints) {
-    return Container(
-      alignment: Alignment.center,
-      child: CustomButton(
-        onPressed: () {
-          UserProfile userProfile =
-              context.read<UserDetailsCubit>().getUserProfile();
-          if (int.parse(userProfile.coins!) < randomBattleEntryCoins) {
-            //if ad not loaded than show not enough coins
-            if (context.read<RewardedAdCubit>().state is! RewardedAdLoaded) {
+    return Expanded(
+      child: Container(
+        alignment: Alignment.center,
+        child: CustomButton(
+          onPressed: () {
+            UserProfile userProfile =
+                context.read<UserDetailsCubit>().getUserProfile();
+            if (int.parse(userProfile.coins!) < randomBattleEntryCoins) {
+              //if ad not loaded than show not enough coins
+              if (context.read<RewardedAdCubit>().state is! RewardedAdLoaded) {
+                UiUtils.errorMessageDialog(
+                    context,
+                    AppLocalization.of(context)!.getTranslatedValues(
+                        convertErrorCodeToLanguageKey(notEnoughCoinsCode))!);
+                return;
+              }
+
+              showDialog(
+                  context: context,
+                  builder: (_) => WatchRewardAdDialog(onTapYesButton: () {
+                        //showAd
+                        context.read<RewardedAdCubit>().showAd(
+                            context: context,
+                            onAdDismissedCallback: _addCoinsAfterRewardAd);
+                      }));
+              return;
+            }
+            if (selectedCategory == _defaultSelectedCategoryValue &&
+                context
+                        .read<SystemConfigCubit>()
+                        .getIsCategoryEnableForBattle() ==
+                    "1") {
               UiUtils.errorMessageDialog(
                   context,
-                  AppLocalization.of(context)!.getTranslatedValues(
-                      convertErrorCodeToLanguageKey(notEnoughCoinsCode))!);
+                  AppLocalization.of(context)!
+                      .getTranslatedValues(pleaseSelectCategoryKey)!);
               return;
             }
 
-            showDialog(
-                context: context,
-                builder: (_) => WatchRewardAdDialog(onTapYesButton: () {
-                      //showAd
-                      context.read<RewardedAdCubit>().showAd(
-                          context: context,
-                          onAdDismissedCallback: _addCoinsAfterRewardAd);
-                    }));
-            return;
-          }
-          if (selectedCategory == _defaultSelectedCategoryValue &&
-              context
-                      .read<SystemConfigCubit>()
-                      .getIsCategoryEnableForBattle() ==
-                  "1") {
-            UiUtils.errorMessageDialog(
-                context,
-                AppLocalization.of(context)!
-                    .getTranslatedValues(pleaseSelectCategoryKey)!);
-            return;
-          }
-
-          Navigator.of(context).pushReplacementNamed(
-              Routes.battleRoomFindOpponent,
-              arguments: selectedCategoryId);
-        },
-        text: AppLocalization.of(context)!.getTranslatedValues("letsPlay")!,
-        // style: _buildTextStyle(),
+            Navigator.of(context).pushReplacementNamed(
+                Routes.battleRoomFindOpponent,
+                arguments: selectedCategoryId);
+          },
+          text: AppLocalization.of(context)!.getTranslatedValues("letsPlay")!,
+          // style: _buildTextStyle(),
+        ),
       ),
     );
   }

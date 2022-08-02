@@ -19,7 +19,7 @@ class ResendOtpTimerContainerState extends State<ResendOtpTimerContainer> {
   //
   void setResendOtpTimer() {
     print("Start resend otp timer");
-    print("------------------------------------");
+    // print("------------------------------------");
     setState(() {
       resendOtpTimeInSeconds = otpTimeOutSeconds - 1;
     });

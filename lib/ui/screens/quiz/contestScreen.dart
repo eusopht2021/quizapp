@@ -189,7 +189,7 @@ class _ContestScreen extends State<ContestScreen>
             showBackButton: false,
             errorMessage: AppLocalization.of(context)!.getTranslatedValues(
                 convertErrorCodeToLanguageKey(data.errorMessage))!,
-            errorMessageColor: Theme.of(context).primaryColor,
+            errorMessageColor: Constants.white,
             onTapRetry: () {
               context
                   .read<ContestCubit>()
@@ -214,7 +214,7 @@ class _ContestScreen extends State<ContestScreen>
                             offset: const Offset(5, 5), blurRadius: 10.0),
                       ],
                       borderRadius:
-                          const BorderRadius.all(const Radius.circular(20))),
+                          const BorderRadius.all(Radius.circular(20))),
                   child: contestDesign(data, index, 1));
             });
   }

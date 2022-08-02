@@ -28,7 +28,7 @@ class RewardedAdCubit extends Cubit<RewardedAdState> {
       adUnitId: context.read<SystemConfigCubit>().googleRewardedAdId(),
       request: AdRequest(),
       rewardedAdLoadCallback: RewardedAdLoadCallback(onAdFailedToLoad: (error) {
-        print("Rewarded ad failed to load");
+        // print("Rewarded ad failed to load");
         emit(RewardedAdFailure());
       }, onAdLoaded: (ad) {
         _rewardedAd = ad;
@@ -49,7 +49,7 @@ class RewardedAdCubit extends Cubit<RewardedAdState> {
         }
 
         if (result == RewardedVideoAdResult.ERROR) {
-          print(value);
+          // print(value);
           emit(RewardedAdFailure());
         }
         //if (result == RewardedVideoAdResult.VIDEO_COMPLETE)

@@ -1,13 +1,16 @@
 import 'dart:developer';
-
-import 'package:badges/badges.dart';
+import 'package:badges/badges.dart' as badges;
+import 'package:flutterquiz/features/badges/badge.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutterquiz/features/badges/cubits/badgesCubit.dart';
 import 'package:flutterquiz/ui/navigation/navbarcubit.dart';
 import 'package:flutterquiz/ui/navigation/navbaritems.dart';
+import 'package:flutterquiz/ui/styles/colors.dart';
 import 'package:flutterquiz/ui/widgets/badgesIconContainer.dart';
+import 'package:flutterquiz/ui/widgets/errorContainer.dart';
+import 'package:flutterquiz/features/profileManagement/cubits/userDetailsCubit.dart';
+import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:intl/intl.dart';
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -258,13 +261,264 @@ class _ProfileState extends State<Profile> {
   Widget _tabItem(String profile) {
     switch (selectedIndex) {
       case 0:
-        return _badgesTabItem();
+        return _buildBadges(context);
       case 1:
         return _statsTabBloc();
       case 2:
         return _detailsTab(profile);
     }
     return const SizedBox();
+  }
+
+  List<Badge> _organizedBadges(List<Badge> badges) {
+    List<Badge> lockedBadges =
+        badges.where((element) => element.status == "0").toList();
+    List<Badge> unlockedBadges = badges
+        .where((element) => element.status == "1" || element.status == "2")
+        .toList();
+    unlockedBadges.addAll(lockedBadges);
+    return unlockedBadges;
+  }
+
+  Widget _buildBadges(BuildContext context) {
+    return BlocConsumer<BadgesCubit, BadgesState>(
+      listener: (context, state) {
+        if (state is BadgesFetchFailure) {
+          if (state.errorMessage == unauthorizedAccessCode) {
+            UiUtils.showAlreadyLoggedInDialog(context: context);
+          }
+        }
+      },
+      bloc: context.read<BadgesCubit>(),
+      builder: (context, state) {
+        if (state is BadgesFetchInProgress || state is BadgesInitial) {
+          return Center(
+            child: CircularProgressIndicator(
+              color: Constants.primaryColor,
+            ),
+          );
+        }
+        if (state is BadgesFetchFailure) {
+          return Center(
+            child: ErrorContainer(
+              errorMessage: AppLocalization.of(context)!.getTranslatedValues(
+                  convertErrorCodeToLanguageKey(state.errorMessage)),
+              onTapRetry: () {
+                context.read<BadgesCubit>().getBadges(
+                    userId: context.read<UserDetailsCubit>().getUserId(),
+                    refreshBadges: true);
+              },
+              showErrorImage: true,
+            ),
+          );
+        }
+        final List<Badge> badges =
+            _organizedBadges((state as BadgesFetchSuccess).badges);
+        return SizedBox(
+          height: SizeConfig.screenHeight * 0.6,
+          child: GridView.builder(
+              padding: const EdgeInsets.only(
+                  bottom: kBottomNavigationBarHeight * 3, top: 0.0),
+              itemCount: badges.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                crossAxisSpacing: 7.5,
+                mainAxisSpacing: 10.0,
+                childAspectRatio: 0.575,
+              ),
+              itemBuilder: (context, index) {
+                return LayoutBuilder(
+                  builder: (context, constraints) {
+                    return GestureDetector(
+                      onTap: () {
+                        showBadgeDetails(context, badges[index]);
+                      },
+                      child: Stack(
+                        children: [
+                          Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8.0,
+                                  ),
+                                  child: Text(
+                                    badges[index].badgeLabel,
+                                    textAlign: TextAlign.center,
+                                    maxLines: 3,
+                                    style: TextStyle(
+                                      color: badges[index].status == "0"
+                                          ? badgeLockedColor
+                                          : Constants.black1, //
+                                      fontSize: 14,
+                                      height: 1.25,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          BadgesIconContainer(
+                            badge: badges[index],
+                            constraints: constraints,
+                            addTopPadding: true,
+                          ),
+                          badges[index].status == "0"
+                              ? Positioned(
+                                  top: 50,
+                                  left: 30,
+                                  child: Image.asset(
+                                    Assets.password,
+                                    color: Constants.black1,
+                                    height: 60,
+                                    width: 60,
+                                  ),
+                                )
+                              : const SizedBox(),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              }),
+        );
+      },
+    );
+  }
+
+  void showBadgeDetails(BuildContext context, Badge badge) {
+    showModalBottomSheet(
+        elevation: 5.0,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20.0),
+          topRight: Radius.circular(20.0),
+        )),
+        context: context,
+        builder: (context) {
+          return Container(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            decoration: BoxDecoration(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(20.0),
+                  topRight: Radius.circular(20.0),
+                ),
+                gradient: UiUtils.buildLinerGradient([
+                  Theme.of(context).scaffoldBackgroundColor,
+                  Theme.of(context).canvasColor
+                ], Alignment.topCenter, Alignment.bottomCenter)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                    height: MediaQuery.of(context).size.height * (0.25),
+                    width: MediaQuery.of(context).size.width * (0.3),
+                    child: LayoutBuilder(builder: (context, constraints) {
+                      return BadgesIconContainer(
+                        badge: badge,
+                        constraints: constraints,
+                        addTopPadding: true,
+                      );
+                    })),
+                Transform.translate(
+                  offset:
+                      Offset(0, MediaQuery.of(context).size.height * (-0.05)),
+                  child: Column(
+                    children: [
+                      Text(
+                        "${badge.badgeLabel}",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: badge.status == "0"
+                              ? badgeLockedColor
+                              : Theme.of(context).primaryColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 22.5,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 2.5,
+                      ),
+                      Text(
+                        "${badge.badgeNote}",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.secondary,
+                          fontSize: 18.0,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 2.5,
+                      ),
+                      //
+                      badge.type == "big_thing" && badge.status == "0"
+                          ? BlocBuilder<StatisticCubit, StatisticState>(
+                              bloc: context.read<StatisticCubit>(),
+                              builder: (context, state) {
+                                if (state is StatisticInitial ||
+                                    state is StatisticFetchInProgress) {
+                                  return Center(
+                                    child: SizedBox(
+                                      height: 15.0,
+                                      width: 15.0,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2.5,
+                                        color: Theme.of(context).primaryColor,
+                                      ),
+                                    ),
+                                  );
+                                }
+                                if (state is StatisticFetchFailure) {
+                                  return Container();
+                                }
+                                final statisticDetails =
+                                    (state as StatisticFetchSuccess)
+                                        .statisticModel;
+                                final answerToGo = int.parse(
+                                        badge.badgeCounter) -
+                                    int.parse(statisticDetails.correctAnswers);
+                                return Column(
+                                  children: [
+                                    Text(
+                                      "${AppLocalization.of(context)!.getTranslatedValues(needMoreKey)!} $answerToGo ${AppLocalization.of(context)!.getTranslatedValues(correctAnswerToUnlockKey)!}",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondary,
+                                        fontSize: 16.0,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 5.0,
+                                    ),
+                                  ],
+                                );
+                              },
+                            )
+                          : Container(),
+
+                      Text(
+                        "${AppLocalization.of(context)!.getTranslatedValues(getKey)!} ${badge.badgeReward} ${AppLocalization.of(context)!.getTranslatedValues(coinsUnlockingByBadgeKey)!}",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.secondary,
+                          fontSize: 14.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          );
+        });
   }
 
   Widget _detailsTab(String profile) {
@@ -297,21 +551,21 @@ class _ProfileState extends State<Profile> {
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Badge(
+                        badges.Badge(
                           elevation: 0,
                           showBadge: true,
                           badgeContent: Image.asset(Assets.portugal),
                           badgeColor: Colors.transparent,
-                          position: BadgePosition.bottomEnd(),
-                          child: Badge(
+                          position: badges.BadgePosition.bottomEnd(),
+                          child: badges.Badge(
                             elevation: 0,
                             showBadge: true,
                             badgeContent: SvgPicture.asset(
                               Assets.crown,
                               height: 30,
                             ),
-                            position:
-                                BadgePosition.topStart(start: 15, top: -20),
+                            position: badges.BadgePosition.topStart(
+                                start: 15, top: -20),
                             badgeColor: Colors.transparent,
                             child: CircleAvatar(
                               radius: 35,
@@ -356,21 +610,21 @@ class _ProfileState extends State<Profile> {
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Badge(
+                        badges.Badge(
                           elevation: 0,
                           showBadge: true,
                           badgeContent: Image.asset(Assets.portugal),
                           badgeColor: Colors.transparent,
-                          position: BadgePosition.bottomEnd(),
-                          child: Badge(
+                          position: badges.BadgePosition.bottomEnd(),
+                          child: badges.Badge(
                             elevation: 0,
                             showBadge: true,
                             badgeContent: SvgPicture.asset(
                               Assets.crown,
                               height: 30,
                             ),
-                            position:
-                                BadgePosition.topStart(start: 15, top: -20),
+                            position: badges.BadgePosition.topStart(
+                                start: 15, top: -20),
                             badgeColor: Colors.transparent,
                             child: CircleAvatar(
                               radius: 35,
@@ -862,45 +1116,45 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  _badgesTabItem() {
-    return BlocBuilder<BadgesCubit, BadgesState>(
-        bloc: context.read<BadgesCubit>(),
-        builder: (context, state) {
-          final child = state is BadgesFetchSuccess
-              ? context.read<BadgesCubit>().getUnlockedBadges().isEmpty
-                  ? Container()
-                  : SizedBox(
-                      height: 300,
-                      child: GridView.count(
-                        padding: EdgeInsets.zero,
-                        crossAxisCount: 3,
-                        children: (context
-                                .read<BadgesCubit>()
-                                .getUnlockedBadges()
-                                .map((badge) => BadgesIconContainer(
-                                      badge: badge,
-                                      constraints: const BoxConstraints(
-                                          maxHeight: 160, maxWidth: 100),
-                                      addTopPadding: false,
-                                    ))
-                                .toList()
+  // _badgesTabItem() {
+  //   return BlocBuilder<BadgesCubit, BadgesState>(
+  //       bloc: context.read<BadgesCubit>(),
+  //       builder: (context, state) {
+  //         final child = state is BadgesFetchSuccess
+  //             ? context.read<BadgesCubit>().getUnlockedBadges().isEmpty
+  //                 ? Container()
+  //                 : SizedBox(
+  //                     height: 300,
+  //                     child: GridView.count(
+  //                       padding: EdgeInsets.zero,
+  //                       crossAxisCount: 3,
+  //                       children: (context
+  //                               .read<BadgesCubit>()
+  //                               .getUnlockedBadges()
+  //                               .map((badge) => BadgesIconContainer(
+  //                                     badge: badge,
+  //                                     constraints: const BoxConstraints(
+  //                                         maxHeight: 160, maxWidth: 100),
+  //                                     addTopPadding: false,
+  //                                   ))
+  //                               .toList()
 
-                            // children: List.generate(
-                            //   Assets.badges.length,
-                            //   (index) {
-                            //     return Image.asset(
-                            //       Assets.badges[index],
-                            //     );
+  //                           // children: List.generate(
+  //                           //   Assets.badges.length,
+  //                           //   (index) {
+  //                           //     return Image.asset(
+  //                           //       Assets.badges[index],
+  //                           //     );
 
-                            ),
-                      ),
-                    )
-              : const SizedBox();
-          return SizedBox(
-            child: child,
-          );
-        });
-  }
+  //                           ),
+  //                     ),
+  //                   )
+  //             : const SizedBox();
+  //         return SizedBox(
+  //           child: child,
+  //         );
+  //       });
+  // }
 
   Widget _tabs(profile) {
     return Column(
@@ -992,8 +1246,8 @@ class _ProfileState extends State<Profile> {
           Expanded(
             child: rowItem(
               Assets.local,
-              'LOCAL RANK',
-              '#${state.userProfile.status}',
+              'COINS',
+              '#${state.userProfile.coins}',
             ),
           ),
         ],
@@ -1042,13 +1296,13 @@ class _ProfileState extends State<Profile> {
   }
 
   Widget _avatar(String imageUrl) {
-    return Badge(
+    return badges.Badge(
       badgeContent: Image.asset(
         Assets.turkey,
         width: 30,
         height: 28,
       ),
-      position: BadgePosition.bottomEnd(end: 1),
+      position: badges.BadgePosition.bottomEnd(end: 1),
       elevation: 0,
       badgeColor: Colors.transparent,
       child: CachedNetworkImage(

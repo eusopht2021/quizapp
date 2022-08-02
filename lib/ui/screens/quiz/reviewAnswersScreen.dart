@@ -883,7 +883,7 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
                     text: AppLocalization.of(context)!
                         .getTranslatedValues(notesKey)!,
                     textColor: Constants.black1,
-                    weight: FontWeight.bold,
+                    weight: FontWeight.w500,
                     size: 18.0),
                 const SizedBox(
                   height: 10.0,

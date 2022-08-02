@@ -117,7 +117,6 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
   List<String> tabItems = ['Daily', 'Monthly', 'All Time'];
   bool isExpand = false;
 
-
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -865,7 +864,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                         ),
                         const Expanded(
                           flex: 2,
-                          child: const SizedBox(),
+                          child: SizedBox(),
                         ),
                       ],
                     ),
@@ -946,13 +945,23 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                 children: [
                   if (users.isEmpty)
                     Padding(
-                      padding: const EdgeInsets.only(top: 20),
+                      padding: const EdgeInsets.only(top: 15),
                       child: SizedBox(
                         width: double.infinity,
-                        child: Icon(
-                          Icons.group_add_outlined,
-                          size: 150,
-                          color: Constants.grey1.withOpacity(0.2),
+                        child: Column(
+                          children: [
+                            Icon(
+                              Icons.group_add_outlined,
+                              size: 150,
+                              color: Constants.grey1.withOpacity(0.2),
+                            ),
+                            TitleText(
+                              text: "No Users",
+                              weight: FontWeight.w500,
+                              size: Constants.heading2,
+                              textColor: Constants.grey1.withOpacity(0.2),
+                            ),
+                          ],
                         ),
                       ),
                     )

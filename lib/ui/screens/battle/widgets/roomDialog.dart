@@ -226,7 +226,7 @@ class _RoomDialogState extends State<RoomDialog> {
             boxShadow: entryFeeValue == entryFee
                 ? [
                     BoxShadow(
-                        color: Theme.of(context).primaryColor.withOpacity(0.5),
+                        color: Constants.primaryColor,
                         blurRadius: 5,
                         offset: const Offset(2.5, 2.5))
                   ]
@@ -250,7 +250,7 @@ class _RoomDialogState extends State<RoomDialog> {
                     style: TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.w500,
-                      color: Theme.of(context).primaryColor,
+                      color: Constants.primaryColor,
                     ),
                     controller: textEditingController,
                     cursorColor: Constants.primaryColor,

@@ -252,6 +252,11 @@ class _NewQuestionsContainerState extends State<NewQuestionsContainer> {
   }) {
     return widget.quizType == QuizTypes.mathMania
         ? TeXView(
+            loadingWidgetBuilder: (_) {
+              return CircularProgressIndicator(
+                color: Constants.primaryColor,
+              );
+            },
             onRenderFinished: (height) {
               widget.timerAnimationController.forward();
             },
@@ -259,8 +264,8 @@ class _NewQuestionsContainerState extends State<NewQuestionsContainer> {
               questionText,
             ),
             style: TeXViewStyle(
-              contentColor: Theme.of(context).colorScheme.secondary,
-              backgroundColor: Theme.of(context).backgroundColor,
+              contentColor: Constants.black1,
+              backgroundColor: Constants.white,
               sizeUnit: TeXViewSizeUnit.pixels,
               textAlign: TeXViewTextAlign.center,
               fontStyle: TeXViewFontStyle(

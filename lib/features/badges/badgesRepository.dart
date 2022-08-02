@@ -39,8 +39,7 @@ class BadgesRepository {
       await _badgesRemoteDataSource.setBadges(
           userId: userId, badgeType: badgeType);
     } catch (e) {
-      print("Error while updating badge");
-      print(e.toString());
+      print("Error while updating badge $e");
     }
   }
 }

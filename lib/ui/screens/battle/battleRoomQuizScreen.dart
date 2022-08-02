@@ -24,6 +24,7 @@ import 'package:flutterquiz/features/tournament/model/tournamentBattle.dart';
 import 'package:flutterquiz/features/tournament/model/tournamentPlayerDetails.dart';
 import 'package:flutterquiz/ui/screens/battle/widgets/messageBoxContainer.dart';
 import 'package:flutterquiz/ui/screens/battle/widgets/messageContainer.dart';
+import 'package:flutterquiz/ui/screens/quiz/widgets/new_question_container.dart';
 
 import 'package:flutterquiz/ui/widgets/customBackButton.dart';
 import 'package:flutterquiz/ui/widgets/exitGameDailog.dart';
@@ -122,7 +123,7 @@ class _BattleRoomQuizScreenState extends State<BattleRoomQuizScreen>
           parent: messageBoxAnimationController, curve: Curves.easeInOut));
 
   late int currentQuestionIndex = 0;
-
+  double timeTakenToCompleteQuiz = 0;
   //if user left the by pressing home button or lock screen
   //this will be true
   bool showYouLeftQuiz = false;
@@ -565,6 +566,7 @@ class _BattleRoomQuizScreenState extends State<BattleRoomQuizScreen>
                 "battleRoom": state.battleRoom,
                 "numberOfPlayer": 2,
                 "quizType": QuizTypes.battle,
+                "timeTakenToCompleteQuiz": timeTakenToCompleteQuiz,
                 "entryFee": state.battleRoom.entryFee,
               },
             );
@@ -1152,7 +1154,6 @@ class _BattleRoomQuizScreenState extends State<BattleRoomQuizScreen>
           child: Stack(
             clipBehavior: Clip.none,
             children: [
-              const PageBackgroundGradientContainer(),
               Align(
                 alignment: Alignment.topCenter,
                 child: QuizPlayAreaBackgroundContainer(
@@ -1161,7 +1162,7 @@ class _BattleRoomQuizScreenState extends State<BattleRoomQuizScreen>
               ),
               Align(
                 alignment: Alignment.topCenter,
-                child: QuestionsContainer(
+                child: NewQuestionsContainer(
                   topPadding: MediaQuery.of(context).size.height *
                       UiUtils.getQuestionContainerTopPaddingPercentage(
                           MediaQuery.of(context).size.height),

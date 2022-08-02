@@ -206,7 +206,7 @@ class AuthRemoteDataSource {
           log('authRemoteDataSource FB: $e');
         }
       } else if (authProvider == AuthProvider.email) {
-        print("email provider");
+        // print("email provider");
         UserCredential userCredential =
             await signInWithEmailAndPassword(email!, password!);
         print('User: ${userCredential.user?.email}');

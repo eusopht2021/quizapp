@@ -114,7 +114,7 @@ const String uploadProfileUrl = "${baseUrl}upload_profile_image";
 const String updateUserCoinsAndScoreUrl = "${baseUrl}set_user_coin_score";
 const String updateProfileUrl = "${baseUrl}update_profile";
 
-const String getCategoryUrl = "${baseUrl}get_categories";
+const String getCategoryUrl = "${baseUrl}get_categories"; 
 const String getQuestionsByLevelUrl = "${baseUrl}get_questions_by_level";
 const String getQuestionForDailyQuizUrl = "${baseUrl}get_daily_quiz";
 const String getLevelUrl = "${baseUrl}get_level_data";
@@ -144,7 +144,7 @@ const String getGuessTheWordQuestionUrl = "${baseUrl}get_guess_the_word";
 const String getAppSettingsUrl = "${baseUrl}get_settings";
 const String reportQuestionUrl = "${baseUrl}report_question";
 const String getQuestionsByCategoryOrSubcategory = "${baseUrl}get_questions";
-const String updateFcmIdUrl = "${baseUrl}update_fcm_id";
+const String updateFcmIdUrl = "${baseUrl} ";
 const String getAudioQuestionUrl = "${baseUrl}get_audio_questions"; //
 const String getUserBadgesUrl = "${baseUrl}get_user_badges";
 const String setUserBadgesUrl = "${baseUrl}set_badges";

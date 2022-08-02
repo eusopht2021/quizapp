@@ -705,13 +705,10 @@ class _NewResultScreenState extends State<NewResultScreen> {
     return widget.questions!.length;
   }
 
-  Widget _buildGreetingMessage(String title, String message) {
+  Widget _buildGreetingMessage({String? title, String? message}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const SizedBox(
-          height: 15.0,
-        ),
         Platform.isIOS
             ? Stack(
                 children: [
@@ -732,7 +729,7 @@ class _NewResultScreenState extends State<NewResultScreen> {
                               border: Border.all(color: Colors.transparent)),
                           child: Icon(
                             Icons.arrow_back_ios,
-                            color: Theme.of(context).backgroundColor,
+                            color: Constants.primaryColor,
                           ),
                         ),
                       ),
@@ -740,25 +737,20 @@ class _NewResultScreenState extends State<NewResultScreen> {
                   ),
                   Container(
                     alignment: Alignment.center,
-                    child: Text(
-                      message,
-                      style: TextStyle(
-                        fontSize: 19.0,
-                        color: Theme.of(context).backgroundColor,
-                      ),
+                    child: TitleText(
+                      text: message!,
+                      size: Constants.bodyXLarge,
+                      textColor: Constants.white,
                     ),
                   ),
                 ],
               )
             : Container(
                 alignment: Alignment.center,
-                child: Text(
-                  message,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 19.0,
-                    color: Theme.of(context).backgroundColor,
-                  ),
+                child: TitleText(
+                  text: message!,
+                  size: Constants.bodyXLarge,
+                  textColor: Constants.white,
                 ),
               ),
         const SizedBox(
@@ -767,13 +759,10 @@ class _NewResultScreenState extends State<NewResultScreen> {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 5.0),
           alignment: Alignment.center,
-          child: Text(
-            title,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 25.0 * MediaQuery.of(context).textScaleFactor * 1.25,
-              color: Theme.of(context).backgroundColor,
-            ),
+          child: TitleText(
+            text: title!,
+            size: Constants.bodyNormal,
+            textColor: Constants.white,
           ),
         ),
       ],
@@ -868,21 +857,18 @@ class _NewResultScreenState extends State<NewResultScreen> {
                 children: [
                   _winnerId!.isEmpty
                       ? _buildGreetingMessage(
-                          AppLocalization.of(context)!
+                          title: AppLocalization.of(context)!
                               .getTranslatedValues("matchDrawLbl")!,
-                          AppLocalization.of(context)!
-                              .getTranslatedValues("congratulationsLbl")!)
+                          message: "")
                       : _isWinner
                           ? _buildGreetingMessage(
-                              AppLocalization.of(context)!
+                              title: AppLocalization.of(context)!
                                   .getTranslatedValues("victoryLbl")!,
-                              AppLocalization.of(context)!
-                                  .getTranslatedValues("congratulationsLbl")!)
+                              message: "")
                           : _buildGreetingMessage(
-                              AppLocalization.of(context)!
+                              title: AppLocalization.of(context)!
                                   .getTranslatedValues("defeatLbl")!,
-                              AppLocalization.of(context)!
-                                  .getTranslatedValues("betterNextLbl")!),
+                              message: ""),
                   context.read<UserDetailsCubit>().getUserId() == _winnerId
                       ? Text(
                           "${AppLocalization.of(context)!.getTranslatedValues("youWin")!} ${widget.entryFee} ${AppLocalization.of(context)!.getTranslatedValues("coinsLbl")!}",
@@ -934,15 +920,13 @@ class _NewResultScreenState extends State<NewResultScreen> {
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 4.0, horizontal: 5.0),
                                     decoration: BoxDecoration(
-                                      color: Theme.of(context).backgroundColor,
+                                      color: Constants.white,
                                       borderRadius: BorderRadius.circular(5.0),
                                     ),
                                     width: constraints.maxWidth * (0.3),
                                     child: Text(
                                       widget.battleRoom!.user1!.name,
-                                      style: TextStyle(
-                                          color:
-                                              Theme.of(context).primaryColor),
+                                      style: TextStyle(color: Constants.black1),
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       textAlign: TextAlign.center,
@@ -954,12 +938,21 @@ class _NewResultScreenState extends State<NewResultScreen> {
                                   Container(
                                     width: constraints.maxWidth * (0.3),
                                     padding: const EdgeInsets.only(left: 10),
-                                    child: Text(
-                                      AppLocalization.of(context)!
-                                          .getTranslatedValues("winnerLbl")!,
-                                      style: TextStyle(
-                                          color: Theme.of(context)
-                                              .backgroundColor),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          AppLocalization.of(context)!
+                                              .getTranslatedValues(
+                                                  "winnerLbl")!,
+                                          style:
+                                              TextStyle(color: Constants.white),
+                                        ),
+                                        Text(
+                                          "${winnerDetails!.points} points",
+                                          style:
+                                              TextStyle(color: Constants.white),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ],
@@ -990,15 +983,13 @@ class _NewResultScreenState extends State<NewResultScreen> {
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 4.0, horizontal: 5.0),
                                     decoration: BoxDecoration(
-                                      color: Theme.of(context).backgroundColor,
+                                      color: Constants.white,
                                       borderRadius: BorderRadius.circular(5.0),
                                     ),
                                     width: constraints.maxWidth * (0.3),
                                     child: Text(
                                       widget.battleRoom!.user2!.name,
-                                      style: TextStyle(
-                                          color:
-                                              Theme.of(context).primaryColor),
+                                      style: TextStyle(color: Constants.black1),
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       textAlign: TextAlign.center,
@@ -1010,12 +1001,21 @@ class _NewResultScreenState extends State<NewResultScreen> {
                                   Container(
                                     width: constraints.maxWidth * (0.3),
                                     padding: const EdgeInsets.only(left: 10),
-                                    child: Text(
-                                      AppLocalization.of(context)!
-                                          .getTranslatedValues("winnerLbl")!,
-                                      style: TextStyle(
-                                          color: Theme.of(context)
-                                              .backgroundColor),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          AppLocalization.of(context)!
+                                              .getTranslatedValues(
+                                                  "winnerLbl")!,
+                                          style:
+                                              TextStyle(color: Constants.white),
+                                        ),
+                                        Text(
+                                          "${looserDetails!.points} points",
+                                          style:
+                                              TextStyle(color: Constants.white),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ],
@@ -1051,14 +1051,14 @@ class _NewResultScreenState extends State<NewResultScreen> {
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 4.0, horizontal: 5.0),
                                   decoration: BoxDecoration(
-                                    color: Theme.of(context).backgroundColor,
+                                    color: Constants.white,
                                     borderRadius: BorderRadius.circular(5.0),
                                   ),
                                   width: constraints.maxWidth * (0.3),
                                   child: Text(
                                     winnerDetails.name,
                                     style: TextStyle(
-                                      color: Theme.of(context).primaryColor,
+                                      color: Constants.black1,
                                     ),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
@@ -1075,9 +1075,7 @@ class _NewResultScreenState extends State<NewResultScreen> {
                                   child: Text(
                                     AppLocalization.of(context)!
                                         .getTranslatedValues("winnerLbl")!,
-                                    style: TextStyle(
-                                        color:
-                                            Theme.of(context).backgroundColor),
+                                    style: TextStyle(color: Constants.white),
                                   ),
                                 ),
                               ],
@@ -1110,7 +1108,7 @@ class _NewResultScreenState extends State<NewResultScreen> {
                                         vertical: 4.0, horizontal: 5.0),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(5.0),
-                                      color: Theme.of(context).backgroundColor,
+                                      color: Constants.white,
                                     ),
                                     width: constraints.maxWidth * (0.3),
                                     child: Text(
@@ -1118,9 +1116,7 @@ class _NewResultScreenState extends State<NewResultScreen> {
                                       textAlign: TextAlign.center,
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          color:
-                                              Theme.of(context).primaryColor),
+                                      style: TextStyle(color: Constants.white),
                                     ),
                                   ),
                                   const SizedBox(
@@ -1133,46 +1129,15 @@ class _NewResultScreenState extends State<NewResultScreen> {
                                     child: Text(
                                       AppLocalization.of(context)!
                                           .getTranslatedValues("looserLbl")!,
-                                      style: TextStyle(
-                                          color: Theme.of(context)
-                                              .backgroundColor),
+                                      style: TextStyle(color: Constants.white),
                                     ),
                                   ),
                                 ],
                               ),
                             ),
-                            const SizedBox(
-                              width: 20.0,
-                            ),
                           ],
                         ),
                   const Spacer(),
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                        vertical: constraints.maxHeight <
-                                UiUtils.profileHeightBreakPointResultScreen
-                            ? 7.5
-                            : 15.0),
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).backgroundColor,
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    width: constraints.maxWidth * (0.8),
-                    child: Text(
-                      "${winnerDetails!.points}:${looserDetails!.points}",
-                      style: TextStyle(
-                          fontSize: 17.5,
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).primaryColor),
-                    ),
-                  ),
-                  SizedBox(
-                    height: constraints.maxHeight <
-                            UiUtils.profileHeightBreakPointResultScreen
-                        ? 10.0
-                        : 20.0,
-                  ),
                 ],
               );
             },
@@ -1197,7 +1162,7 @@ class _NewResultScreenState extends State<NewResultScreen> {
     return Screenshot(
       controller: screenshotController,
       child: Container(
-        // height: MediaQuery.of(context).size.height * (0.575),
+        height: SizeConfig.screenHeight * 0.45,
         width: SizeConfig.screenWidth,
         margin: const EdgeInsets.all(
           24,
@@ -1961,7 +1926,6 @@ class _NewResultScreenState extends State<NewResultScreen> {
           ),
           backgroundColor: Constants.white,
           body: SingleChildScrollView(
-            padding: EdgeInsets.zero,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

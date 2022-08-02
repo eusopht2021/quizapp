@@ -140,7 +140,7 @@ class _FunAndLearnTitleScreen extends State<FunAndLearnTitleScreen> {
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20.0,
-                                color: Theme.of(context).backgroundColor,
+                                color: Constants.white,
                               ),
                             ),
                             const Spacer(),
@@ -153,12 +153,10 @@ class _FunAndLearnTitleScreen extends State<FunAndLearnTitleScreen> {
                                     borderRadius: BorderRadius.circular(20)),
                                 child: Center(
                                     child: Text(
-                                  "${comprehensions[index].noOfQue}\n" +
-                                      AppLocalization.of(context)!
-                                          .getTranslatedValues("questionLbl")!,
+                                  "${comprehensions[index].noOfQue}\n${AppLocalization.of(context)!.getTranslatedValues("questionLbl")!}",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                      color: Theme.of(context).primaryColor,
+                                      color: Constants.primaryColor,
                                       height: 1.0),
                                 )),
                               ),
