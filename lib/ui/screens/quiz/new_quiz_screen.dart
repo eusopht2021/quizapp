@@ -1039,7 +1039,7 @@ class _NewQuizScreenState extends State<NewQuizScreen>
                   (value) {
                     toggleSettingDialog();
                   },
-                );  
+                );
               },
             ),
           ],
@@ -1121,7 +1121,7 @@ class _NewQuizScreenState extends State<NewQuizScreen>
                   if (state is QuestionsFetchFailure) {
                     return Center(
                       child: ErrorContainer(
-                        errorMessageColor: Theme.of(context).backgroundColor,
+                        errorMessageColor: Constants.primaryColor,
                         showBackButton: true,
                         errorMessage: AppLocalization.of(context)!
                             .getTranslatedValues(convertErrorCodeToLanguageKey(

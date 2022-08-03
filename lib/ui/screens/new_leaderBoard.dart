@@ -227,11 +227,11 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
   double _topPosition(index) {
     double position = 0;
     index == 0
-        ? position = 30.0
+        ? position = SizeConfig.screenHeight * (0.030)
         : index == 1
-            ? position = 60.0
+            ? position = SizeConfig.screenHeight * (0.055)
             : index == 2
-                ? position = 100.0
+                ? position = SizeConfig.screenHeight * (0.100)
                 : null;
 
     return position;
@@ -242,7 +242,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
     index == 0
         ? position = 0
         : index == 1
-            ? position = 30
+            ? position = SizeConfig.screenHeight * (0.040)
             // : index == 2
             //     ? position = 60
             : index == 2
@@ -255,10 +255,10 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
     double? position = 0;
     index == 0
         ? position = 0
-        : index == 2
-            ? position = 40
-            : index == 1
-                ? position = null
+        : index == 1
+            ? position = null
+            : index == 2
+                ? position = SizeConfig.screenHeight * (0.050)
                 : null;
     return position;
   }
@@ -296,7 +296,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                   "20", context.read<UserDetailsCubit>().getUserId());
             },
             showErrorImage: true,
-            errorMessageColor: Theme.of(context).primaryColor,
+            errorMessageColor: Constants.white,
           );
         }
         final monthlyList =
@@ -505,7 +505,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                   "20", context.read<UserDetailsCubit>().getUserId());
             },
             showErrorImage: true,
-            errorMessageColor: Theme.of(context).primaryColor,
+            errorMessageColor: Constants.white,
           );
         }
         final dailyList = (state as LeaderBoardDailySuccess).leaderBoardDetails;
@@ -705,7 +705,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                   "20", context.read<UserDetailsCubit>().getUserId());
             },
             showErrorImage: true,
-            errorMessageColor: Theme.of(context).primaryColor,
+            errorMessageColor: Constants.white,
           );
         }
         final allTimeList =
@@ -903,7 +903,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
     // log('Draggable: ${draggable.length}   leaderboard : ${leaderBoardList.length}   ');
     return NotificationListener(
       onNotification: (DraggableScrollableNotification dSnotification) {
-        if (dSnotification.extent >= 1.0) {
+        if (dSnotification.extent >= 0.97) {
           setState(() {
             isExpand = true;
             log('IsExpand false running');
@@ -922,7 +922,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
         snap: true,
         initialChildSize: 0.45,
         minChildSize: 0.45,
-        maxChildSize: 1.0,
+        maxChildSize: 0.97,
         builder: (context, controller) {
           controller.addListener(() {
             scrollListener(controller);
@@ -943,25 +943,20 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                 controller: controller,
                 shrinkWrap: true,
                 children: [
-                  if (users.isEmpty)
+                  if (users.length < 3)
                     Padding(
-                      padding: const EdgeInsets.only(top: 15),
+                      padding: const EdgeInsets.only(
+                        top: 50,
+                      ),
                       child: SizedBox(
                         width: double.infinity,
-                        child: Column(
-                          children: [
-                            Icon(
-                              Icons.group_add_outlined,
-                              size: 150,
-                              color: Constants.grey1.withOpacity(0.2),
-                            ),
-                            TitleText(
-                              text: "No Users",
-                              weight: FontWeight.w500,
-                              size: Constants.heading2,
-                              textColor: Constants.grey1.withOpacity(0.2),
-                            ),
-                          ],
+                        child: Center(
+                          child: TitleText(
+                            text: "No Users".toUpperCase(),
+                            weight: FontWeight.w500,
+                            size: Constants.heading2,
+                            textColor: Constants.grey1.withOpacity(0.2),
+                          ),
                         ),
                       ),
                     )
@@ -1022,14 +1017,40 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                                     ),
                                   ),
                                   Expanded(
-                                    flex: 9,
+                                    flex: 8,
                                     child: ListTile(
-                                        leading: CircleAvatar(
-                                          backgroundColor: Colors.transparent,
-                                          backgroundImage: NetworkImage(
-                                              users[index]['profile'] ?? ""),
+                                        leading: Badge(
+                                          badgeContent: Image.asset(
+                                            index % 3 == 0
+                                                ? Assets.portugal
+                                                : index % 2 == 0
+                                                    ? Assets.turkey
+                                                    : Assets.france,
+                                            width: 20,
+                                            height: 20,
+                                          ),
+                                          position: BadgePosition.bottomEnd(),
+                                          badgeColor: Colors.transparent,
+                                          elevation: 0,
+                                          child: CircleAvatar(
+                                            radius: 30,
+                                            backgroundColor: Colors.transparent,
+                                            backgroundImage:
+                                                CachedNetworkImageProvider(
+                                              users[index]['profile'],
+                                              errorListener: () {
+                                                Image.asset(
+                                                  Assets.person,
+                                                  isAntiAlias: true,
+                                                  width: 30,
+                                                  height: 30,
+                                                );
+                                              },
+                                            ),
+                                          ),
                                         ),
                                         title: TitleText(
+                                          maxlines: 2,
                                           text:
                                               users[index]['name'] ?? "Player",
                                         ),

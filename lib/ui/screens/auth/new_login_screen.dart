@@ -50,8 +50,14 @@ class _LoginState extends State<Login> {
               key: _formKey,
               child: Column(
                 children: [
-                  SizedBox(height: 85, child: _showGoogleButton()),
-                  SizedBox(height: 75, child: _showFacebookButton()),
+                  SizedBox(
+                    height: 85,
+                    child: _showGoogleButton(),
+                  ),
+                  SizedBox(
+                    height: 75,
+                    child: _showFacebookButton(),
+                  ),
                   CustomDivider(
                     text:
                         AppLocalization.of(context)!.getTranslatedValues('or')!,
@@ -126,6 +132,7 @@ class _LoginState extends State<Login> {
   Widget _showGoogleButton() {
     return BlocConsumer<SignInCubit, SignInState>(
       listener: (context, state) {
+        //Exceuting only if authProvider is not email
         if (state is SignInSuccess &&
             state.authProvider != AuthProvider.email) {
           context.read<AuthCubit>().updateAuthDetails(
@@ -142,18 +149,17 @@ class _LoginState extends State<Login> {
             //get user detials of signed in user
             context.read<UserDetailsCubit>().fetchUserDetails(state.user.uid);
             //updateFcm id
-            log(state.user.uid);
-            Navigator.of(context).pushNamedAndRemoveUntil(
-                Routes.loginScreen, (Route<dynamic> route) => false);
+            print(state.user.uid);
+            Navigator.of(context)
+                .pushReplacementNamed(Routes.home, arguments: false);
           }
         } else if (state is SignInFailure &&
             state.authProvider != AuthProvider.email) {
           UiUtils.setSnackbar(
-            AppLocalization.of(context)!.getTranslatedValues(
-                convertErrorCodeToLanguageKey(state.errorMessage))!,
-            context,
-            false,
-          );
+              AppLocalization.of(context)!.getTranslatedValues(
+                  convertErrorCodeToLanguageKey(state.errorMessage))!,
+              context,
+              false);
         }
       },
       builder: (context, state) {

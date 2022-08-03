@@ -256,7 +256,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
               padding: EdgeInsets.zero,
               children: [
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () { },
                   child: Container(
                     height: 84,
                     width: SizeConfig.screenWidth,

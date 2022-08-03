@@ -308,7 +308,7 @@ class _BattleRoomQuizScreenState extends State<BattleRoomQuizScreen>
             submittedAnswer);
         updateSubmittedAnswerForBookmark(
             tournamentBattleCubit.getQuestions()[currentQuestionIndex]);
-
+        updateTotalSecondsToCompleteQuiz();
         //need to give the delay so user can see the correct answer or incorrect
         await Future.delayed(
             const Duration(seconds: inBetweenQuestionTimeInSeconds));
@@ -373,6 +373,15 @@ class _BattleRoomQuizScreenState extends State<BattleRoomQuizScreen>
             .read<BattleRoomCubit>()
             .getQuestions()[currentQuestionIndex]
             .attempted;
+  }
+
+  void updateTotalSecondsToCompleteQuiz() {
+    QuizTypes? quizType;
+
+    timeTakenToCompleteQuiz = timeTakenToCompleteQuiz +
+        UiUtils.timeTakenToSubmitAnswer(
+            animationControllerValue: timerAnimationController.value,
+            quizType: quizType!);
   }
 
   //next question

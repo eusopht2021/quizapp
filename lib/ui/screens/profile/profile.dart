@@ -1,5 +1,5 @@
 import 'dart:developer';
-import 'package:badges/badges.dart' as badges;
+import 'package:badges/badges.dart' as badgesLib;
 import 'package:flutterquiz/features/badges/badge.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutterquiz/features/badges/cubits/badgesCubit.dart';
@@ -92,7 +92,7 @@ class _ProfileState extends State<Profile> {
     });
   }
 
-  int selectedIndex = 1;
+  int selectedIndex = 0;
 
   List<String> statsFilter = [
     'Weekly',
@@ -333,54 +333,58 @@ class _ProfileState extends State<Profile> {
                       onTap: () {
                         showBadgeDetails(context, badges[index]);
                       },
-                      child: Stack(
-                        children: [
-                          Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 8.0,
-                                  ),
-                                  child: Text(
-                                    badges[index].badgeLabel,
-                                    textAlign: TextAlign.center,
-                                    maxLines: 3,
-                                    style: TextStyle(
-                                      color: badges[index].status == "0"
-                                          ? badgeLockedColor
-                                          : Constants.black1, //
-                                      fontSize: 14,
-                                      height: 1.25,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            badgesLib.Badge(
+                              badgeContent: badges[index].status == "0"
+                                  ? Image.asset(
+                                      Assets.password,
+                                      color: Constants.black1,
+                                    )
+                                  : const SizedBox(),
+                              badgeColor: Colors.transparent,
+                              position: badgesLib.BadgePosition.center(),
+                              elevation: 0,
+                              child: BadgesIconContainer(
+                                badge: badges[index],
+                                constraints: constraints,
+                                addTopPadding: true,
+                              ),
                             ),
-                          ),
-                          BadgesIconContainer(
-                            badge: badges[index],
-                            constraints: constraints,
-                            addTopPadding: true,
-                          ),
-                          badges[index].status == "0"
-                              ? Positioned(
-                                  top: 50,
-                                  left: 30,
-                                  child: Image.asset(
-                                    Assets.password,
-                                    color: Constants.black1,
-                                    height: 60,
-                                    width: 60,
-                                  ),
-                                )
-                              : const SizedBox(),
-                        ],
+                            WidgetsUtil.verticalSpace4,
+                            Text(
+                              badges[index].badgeLabel,
+                              textAlign: TextAlign.center,
+                              maxLines: 3,
+                              style: TextStyle(
+                                color: badges[index].status == "0"
+                                    ? badgeLockedColor
+                                    : Constants.black1, //
+                                fontSize: 14,
+                                height: 1.25,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+
+                            // badges[index].status == "0"
+                            //     ? Positioned(
+                            //         top: 50,
+                            //         left: 30,
+                            //         child: Image.asset(
+                            //           Assets.password,
+                            //           color: Constants.black1,
+                            //           height: 60,
+                            //           width: 60,
+                            //         ),
+                            //       )
+                            //     : const SizedBox(),
+                          ],
+                        ),
                       ),
                     );
                   },
@@ -551,20 +555,20 @@ class _ProfileState extends State<Profile> {
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        badges.Badge(
+                        badgesLib.Badge(
                           elevation: 0,
                           showBadge: true,
                           badgeContent: Image.asset(Assets.portugal),
                           badgeColor: Colors.transparent,
-                          position: badges.BadgePosition.bottomEnd(),
-                          child: badges.Badge(
+                          position: badgesLib.BadgePosition.bottomEnd(),
+                          child: badgesLib.Badge(
                             elevation: 0,
                             showBadge: true,
                             badgeContent: SvgPicture.asset(
                               Assets.crown,
                               height: 30,
                             ),
-                            position: badges.BadgePosition.topStart(
+                            position: badgesLib.BadgePosition.topStart(
                                 start: 15, top: -20),
                             badgeColor: Colors.transparent,
                             child: CircleAvatar(
@@ -610,20 +614,20 @@ class _ProfileState extends State<Profile> {
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        badges.Badge(
+                        badgesLib.Badge(
                           elevation: 0,
                           showBadge: true,
                           badgeContent: Image.asset(Assets.portugal),
                           badgeColor: Colors.transparent,
-                          position: badges.BadgePosition.bottomEnd(),
-                          child: badges.Badge(
+                          position: badgesLib.BadgePosition.bottomEnd(),
+                          child: badgesLib.Badge(
                             elevation: 0,
                             showBadge: true,
                             badgeContent: SvgPicture.asset(
                               Assets.crown,
                               height: 30,
                             ),
-                            position: badges.BadgePosition.topStart(
+                            position: badgesLib.BadgePosition.topStart(
                                 start: 15, top: -20),
                             badgeColor: Colors.transparent,
                             child: CircleAvatar(
@@ -1296,19 +1300,27 @@ class _ProfileState extends State<Profile> {
   }
 
   Widget _avatar(String imageUrl) {
-    return badges.Badge(
+    return badgesLib.Badge(
       badgeContent: Image.asset(
         Assets.turkey,
         width: 30,
         height: 28,
       ),
-      position: badges.BadgePosition.bottomEnd(end: 1),
+      position: badgesLib.BadgePosition.bottomEnd(end: 1),
       elevation: 0,
       badgeColor: Colors.transparent,
-      child: CachedNetworkImage(
-        imageUrl: imageUrl,
-        width: 96,
-        height: 96,
+      child: ClipOval(
+        clipBehavior: Clip.antiAlias,
+        child: CircleAvatar(
+          radius: 50,
+          backgroundColor: Colors.transparent,
+          child: CachedNetworkImage(
+            imageUrl: imageUrl,
+            width: 100,
+            height: 100,
+            fit: BoxFit.fill,
+          ),
+        ),
       ),
     );
   }

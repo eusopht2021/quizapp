@@ -53,8 +53,10 @@ class Assets {
   static String crown = "assets/icons/medal.svg";
   static String silverCrown = "assets/icons/SilverCrown.svg";
   static String bronzeCrown = "assets/icons/BronzeCrown.svg";
-
+  static String clipboard = "assets/icons/clipboard.png";
   static String leaderBoardOutlined = "assets/icons/leaderboardoutlined.png";
+  static String shareIcon = "assets/icons/shareIcon.png";
+
   static String fireworks = "assets/icons/fireworks.png";
   static String findFriendsIcon = "assets/icons/findFriendsIcon.svg";
 

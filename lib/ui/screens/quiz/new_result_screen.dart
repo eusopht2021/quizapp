@@ -810,7 +810,7 @@ class _NewResultScreenState extends State<NewResultScreen> {
           size: 16,
           weight: FontWeight.w500,
         ),
-        WidgetsUtil.verticalSpace24,
+        WidgetsUtil.verticalSpace10,
         newReviewAnswersButton(),
         _buildPlayAgainButton()
       ],
@@ -872,20 +872,19 @@ class _NewResultScreenState extends State<NewResultScreen> {
                   context.read<UserDetailsCubit>().getUserId() == _winnerId
                       ? Text(
                           "${AppLocalization.of(context)!.getTranslatedValues("youWin")!} ${widget.entryFee} ${AppLocalization.of(context)!.getTranslatedValues("coinsLbl")!}",
-                          style: TextStyle(
-                              fontSize: 17.0,
-                              color: Theme.of(context).backgroundColor),
+                          style:
+                              TextStyle(fontSize: 17.0, color: Constants.white),
                         )
                       : Text(
                           "${AppLocalization.of(context)!.getTranslatedValues("youLossLbl")!} ${widget.entryFee} ${AppLocalization.of(context)!.getTranslatedValues("coinsLbl")!}",
-                          style: TextStyle(
-                              fontSize: 17.0,
-                              color: Theme.of(context).backgroundColor),
+                          style:
+                              TextStyle(fontSize: 17.0, color: Constants.white),
                         ),
-                  SizedBox(
-                    height:
-                        constraints.maxHeight * verticalSpacePercentage - 10.2,
-                  ),
+                  // SizedBox(
+                  //   height:
+                  //       constraints.maxHeight * verticalSpacePercentage - 10.2,
+                  // ),
+                  WidgetsUtil.verticalSpace20,
                   _winnerId!.isEmpty
                       ? Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -901,8 +900,7 @@ class _NewResultScreenState extends State<NewResultScreen> {
                                         children: [
                                           Center(
                                             child: CircleAvatar(
-                                              radius: constraints.maxHeight *
-                                                  (profileRadiusPercentage),
+                                              radius: 50,
                                               backgroundImage:
                                                   CachedNetworkImageProvider(
                                                       widget.battleRoom!.user1!
@@ -965,8 +963,7 @@ class _NewResultScreenState extends State<NewResultScreen> {
                                     children: [
                                       Center(
                                         child: CircleAvatar(
-                                          radius: constraints.maxHeight *
-                                              (profileRadiusPercentage),
+                                          radius: 50,
                                           backgroundImage:
                                               CachedNetworkImageProvider(widget
                                                   .battleRoom!
@@ -1035,8 +1032,7 @@ class _NewResultScreenState extends State<NewResultScreen> {
                                   children: [
                                     Center(
                                       child: CircleAvatar(
-                                        radius: constraints.maxHeight *
-                                            (profileRadiusPercentage),
+                                        radius: 50,
                                         backgroundImage:
                                             CachedNetworkImageProvider(
                                                 winnerDetails!.profileUrl),
@@ -1078,63 +1074,75 @@ class _NewResultScreenState extends State<NewResultScreen> {
                                     style: TextStyle(color: Constants.white),
                                   ),
                                 ),
+                                Text(
+                                  "${winnerDetails.points} points",
+                                  style: TextStyle(color: Constants.white),
+                                ),
                               ],
                             ),
                             const Spacer(),
-                            Transform.translate(
-                              offset: Offset(0.0, translateOffsetdy),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Stack(
-                                    alignment: Alignment.center,
-                                    children: [
-                                      Center(
-                                        child: CircleAvatar(
-                                          radius: constraints.maxHeight *
-                                              (looserProfileRadiusPercentage),
-                                          backgroundImage:
-                                              CachedNetworkImageProvider(
-                                                  looserDetails!.profileUrl),
-                                        ),
+                            // WidgetsUtil.verticalSpace16,
+                            // Transform.translate(
+                            //   offset: Offset(0.0, translateOffsetdy),
+                            //   child:
+
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    Center(
+                                      child: CircleAvatar(
+                                        radius: 50,
+                                        //constraints.maxHeight *
+                                        //   (looserProfileRadiusPercentage),
+                                        backgroundImage:
+                                            CachedNetworkImageProvider(
+                                                looserDetails!.profileUrl),
                                       ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: nameAndProfileSizedBoxHeight,
-                                  ),
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 4.0, horizontal: 5.0),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5.0),
-                                      color: Constants.white,
                                     ),
-                                    width: constraints.maxWidth * (0.3),
-                                    child: Text(
-                                      looserDetails.name,
-                                      textAlign: TextAlign.center,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(color: Constants.white),
-                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: nameAndProfileSizedBoxHeight,
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 4.0, horizontal: 5.0),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5.0),
+                                    color: Constants.white,
                                   ),
-                                  const SizedBox(
-                                    height: 2.0,
+                                  width: constraints.maxWidth * (0.3),
+                                  child: Text(
+                                    looserDetails.name,
+                                    textAlign: TextAlign.center,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(color: Constants.black1),
                                   ),
-                                  Container(
-                                    width: constraints.maxWidth * (0.3),
-                                    padding: const EdgeInsetsDirectional.only(
-                                        start: 10),
-                                    child: Text(
-                                      AppLocalization.of(context)!
-                                          .getTranslatedValues("looserLbl")!,
-                                      style: TextStyle(color: Constants.white),
-                                    ),
+                                ),
+                                const SizedBox(
+                                  height: 2.0,
+                                ),
+                                Container(
+                                  width: constraints.maxWidth * (0.3),
+                                  padding: const EdgeInsetsDirectional.only(
+                                      start: 10),
+                                  child: Text(
+                                    AppLocalization.of(context)!
+                                        .getTranslatedValues("looserLbl")!,
+                                    style: TextStyle(color: Constants.white),
                                   ),
-                                ],
-                              ),
+                                ),
+                                Text(
+                                  "${looserDetails.points} points",
+                                  style: TextStyle(color: Constants.white),
+                                ),
+                              ],
                             ),
+                            // ),
                           ],
                         ),
                   const Spacer(),
@@ -1162,7 +1170,7 @@ class _NewResultScreenState extends State<NewResultScreen> {
     return Screenshot(
       controller: screenshotController,
       child: Container(
-        height: SizeConfig.screenHeight * 0.45,
+        height: SizeConfig.screenHeight * 0.50,
         width: SizeConfig.screenWidth,
         margin: const EdgeInsets.all(
           24,
@@ -1893,36 +1901,28 @@ class _NewResultScreenState extends State<NewResultScreen> {
             automaticallyImplyLeading: false,
             elevation: 0,
             centerTitle: true,
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Spacer(
-                  flex: 2,
-                ),
-                TitleText(
-                  text: _isWinner ? "Congratulations" : "Defeat",
-                  textColor: Constants.black1,
-                  size: 24,
-                  weight: FontWeight.w500,
-                ),
-                const Spacer(),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, Routes.home, (route) => true);
-                    },
-                    child: Icon(
-                      Icons.close,
-                      color: Constants.black1,
-                      size: 30,
-                    ),
+            title: TitleText(
+              text: _isWinner ? "Congratulations" : "Defeat",
+              textColor: Constants.black1,
+              weight: FontWeight.w500,
+              size: Constants.heading3,
+            ),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, Routes.home, (route) => true);
+                  },
+                  icon: Icon(
+                    Icons.close,
+                    color: Constants.black1,
+                    size: 30,
                   ),
                 ),
-              ],
-            ),
+              )
+            ],
           ),
           backgroundColor: Constants.white,
           body: SingleChildScrollView(
