@@ -103,92 +103,97 @@ class _FaqDescriptionOneState extends State<FaqDescriptionOne> {
                   size: Constants.bodyNormal,
                 ),
                 WidgetsUtil.verticalSpace20,
-                Stack(
-                  children: [
-                    Container(
-                      // height: SizeConfig.screenHeight / 3,
-                      width: SizeConfig.screenWidth,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: _controller.value.isInitialized
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Stack(
+                    children: [
+                      _controller.value.isInitialized
                           ? AspectRatio(
                               aspectRatio: _controller.value.aspectRatio,
                               child: VideoPlayer(_controller),
                             )
                           : Container(),
-                    ),
-                    // Container(
-                    //   color: Colors.black.withOpacity(0.7),
-                    // ),
-                    // Container(
-                    //   alignment: Alignment.center,
-                    //   child: Center(
-                    //     child: Container(
-                    //       height: 20,
-                    //       width: 30,
-                    //       color: Constants.primaryColor,
-                    //     ),
-                    //   ),
-                    // ),
-                    // Container(
-                    //   alignment: Alignment.center,
-                    //   child: Center(
-                    //     child: Icon(
-                    //       Icons.smart_display,
-                    //       color: Constants.white,
-                    //       size: 30,
-                    //     ),
-                    //   ),
-                    // ),
-                    Positioned(
-                      left: 0,
-                      bottom: 0,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        padding: const EdgeInsets.all(10),
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: const Color(0xffF2F7FD),
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _controller.value.isPlaying
-                                  ? _controller.pause()
-                                  : _controller.play();
-                            });
-                          },
-                          child: Container(
-                            width: SizeConfig.screenWidth / 3,
-                            child: Row(
-                              children: [
-                                TitleText(
-                                  text: "Watch on",
-                                  weight: FontWeight.w400,
-                                  textColor: Constants.black1,
-                                  size: Constants.bodyXSmall,
-                                ),
-                                Icon(
+                      Positioned(
+                          top: SizeConfig.screenHeight / 11,
+                          left: SizeConfig.screenWidth / 3,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(15),
+                            child: Container(
+                              height: 50,
+                              width: 50,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    primary: Constants.white),
+                                onPressed: () {
+                                  setState(() {
+                                    _controller.value.isPlaying
+                                        ? _controller.pause()
+                                        : _controller.play();
+                                  });
+                                },
+                                child: Icon(
                                   _controller.value.isPlaying
                                       ? Icons.pause
                                       : Icons.play_arrow,
-                                  color: Colors.red,
+                                  color: Constants.primaryColor,
+                                  size: 20,
                                 ),
-                                TitleText(
-                                  text: "Youtube",
-                                  weight: FontWeight.w400,
-                                  textColor: Constants.black1,
-                                  size: Constants.bodyXSmall,
+                              ),
+                            ),
+                          )),
+                      Positioned(
+                        left: 0,
+                        bottom: 0,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            padding: const EdgeInsets.all(10),
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: const Color(0xffF2F7FD),
+                              ),
+                              onPressed: () {},
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(20),
+                                child: Container(
+                                  width: SizeConfig.screenWidth / 3.1,
+                                  child: Row(
+                                    children: [
+                                      TitleText(
+                                        text: "Watch on ",
+                                        weight: FontWeight.w400,
+                                        textColor: Constants.black1,
+                                        size: Constants.bodyXSmall,
+                                      ),
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(20),
+                                        child: Container(
+                                          height: 15,
+                                          width: 15,
+                                          child: Image.asset(
+                                            'assets/icons/youtube_logo.png',
+                                          ),
+                                        ),
+                                      ),
+                                      TitleText(
+                                        text: "  Youtube",
+                                        weight: FontWeight.w700,
+                                        textColor: Constants.black1,
+                                        size: Constants.bodyXSmall,
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ],
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ),

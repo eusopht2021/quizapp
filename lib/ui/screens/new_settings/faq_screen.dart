@@ -90,7 +90,12 @@ class FaqScreen extends StatelessWidget {
                   _customDivider(),
                   WidgetsUtil.verticalSpace16,
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => FaqDescriptionOne()));
+                    },
                     child: TitleText(
                       text: "How to login or sign up",
                       weight: FontWeight.w500,
@@ -112,7 +117,12 @@ class FaqScreen extends StatelessWidget {
                   _customDivider(),
                   WidgetsUtil.verticalSpace16,
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => FaqDescriptionOne()));
+                    },
                     child: TitleText(
                       text: "How to create quiz in the app",
                       weight: FontWeight.w500,
@@ -124,7 +134,12 @@ class FaqScreen extends StatelessWidget {
                   _customDivider(),
                   WidgetsUtil.verticalSpace16,
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => FaqDescriptionOne()));
+                    },
                     child: TitleText(
                       text: "How to take quiz in the app",
                       weight: FontWeight.w500,
@@ -136,7 +151,12 @@ class FaqScreen extends StatelessWidget {
                   _customDivider(),
                   WidgetsUtil.verticalSpace16,
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => FaqDescriptionOne()));
+                    },
                     child: TitleText(
                       text: "How do I play quiz with other players?",
                       weight: FontWeight.w500,
