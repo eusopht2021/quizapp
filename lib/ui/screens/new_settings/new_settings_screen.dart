@@ -201,8 +201,7 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                                       context.read<UpdateUserDetailCubit>(),
                                   userDetailsCubit:
                                       context.read<UserDetailsCubit>());
-                              BlocProvider.of<NavigationCubit>(context)
-                                  .getNavBarItem(NavbarItems.newhome);
+
                             },
                             child: _settingsOptionsContainer(
                               listTileicon: Image.asset(
@@ -389,7 +388,7 @@ Widget _settingsOptionsContainer(
   return Container(
     decoration: BoxDecoration(
       borderRadius: const BorderRadius.all(
-        const Radius.circular(16),
+        Radius.circular(16),
       ),
       color: Constants.grey5,
     ),
@@ -487,8 +486,8 @@ void editpasswordFieldBottomSheet({
       isScrollControlled: true,
       elevation: 5.0,
       shape: const RoundedRectangleBorder(
-          borderRadius: const BorderRadius.only(
-        topLeft: const Radius.circular(20.0),
+          borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(20.0),
         topRight: Radius.circular(20.0),
       )),
       context: context!,

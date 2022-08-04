@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterquiz/ui/screens/new_leaderBoard.dart';
@@ -60,7 +61,7 @@ class LeaderBoardDailyCubit extends Cubit<LeaderBoardDailyState> {
       rankD = responseJson["data"][0]["my_rank"]["user_rank"].toString();
       profileD = responseJson["data"][0]["my_rank"][profileKey].toString();
       scoreD = responseJson["data"][0]["my_rank"]["score"].toString();
-
+      // log((responseJson).toString() + "response leader");
       return Map.from(responseJson);
     } catch (e) {
       print(e.toString());

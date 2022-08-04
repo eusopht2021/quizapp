@@ -2,8 +2,6 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutterquiz/app/appLocalization.dart';
-import 'package:flutterquiz/utils/size_config.dart';
-import 'package:flutterquiz/utils/widgets_util.dart';
 
 import '../../../../app/routes.dart';
 import '../../../../utils/assets.dart';

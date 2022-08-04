@@ -21,6 +21,7 @@ import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
+import 'package:flutterquiz/utils/widgets_util.dart';
 
 class SubCategoryAndLevelScreen extends StatefulWidget {
   final String? category;
@@ -362,10 +363,12 @@ class _SubcategoryContainerState extends State<SubcategoryContainer>
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TitleText(
+                  align: TextAlign.center,
                   text: widget.subcategory.subcategoryName!,
                   textColor: Constants.white,
                   size: 22.0,
                 ),
+                WidgetsUtil.verticalSpace4,
                 TitleText(
                   text:
                       "${AppLocalization.of(context)!.getTranslatedValues(questionsKey)!} : ${widget.subcategory.noOfQue!}",

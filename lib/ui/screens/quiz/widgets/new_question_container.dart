@@ -19,6 +19,7 @@ import 'package:flutterquiz/ui/widgets/title_text.dart';
 import 'package:flutterquiz/utils/answerEncryption.dart';
 import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/lifeLineOptions.dart';
+import 'package:flutterquiz/utils/size_config.dart';
 import 'package:flutterquiz/utils/widgets_util.dart';
 
 class NewQuestionsContainer extends StatefulWidget {
@@ -252,19 +253,21 @@ class _NewQuestionsContainerState extends State<NewQuestionsContainer> {
   }) {
     return widget.quizType == QuizTypes.mathMania
         ? TeXView(
-            loadingWidgetBuilder: (_) {
-              return CircularProgressIndicator(
-                color: Constants.primaryColor,
-              );
-            },
-            onRenderFinished: (height) {
-              widget.timerAnimationController.forward();
-            },
+            // renderingEngine: const TeXViewRenderingEngine.mathjax(),
+            // loadingWidgetBuilder: (_) {
+            //   return CircularProgressIndicator(
+            //     color: Constants.primaryColor,
+            //   );
+            // },
+            // onRenderFinished: (height) {
+            //   widget.timerAnimationController.forward();
+            // },
+
             child: TeXViewDocument(
               questionText,
             ),
             style: TeXViewStyle(
-              contentColor: Constants.black1,
+              // contentColor: Constants.black1,
               backgroundColor: Constants.white,
               sizeUnit: TeXViewSizeUnit.pixels,
               textAlign: TeXViewTextAlign.center,
@@ -313,91 +316,94 @@ class _NewQuestionsContainerState extends State<NewQuestionsContainer> {
           );
         }
         Question question = widget.questions[index];
-        return SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 17.5,
-              ),
-              widget.quizType == QuizTypes.battle ||
-                      widget.quizType == QuizTypes.groupPlay
-                  ? const SizedBox()
-                  : HorizontalTimerContainer(
-                      quizTypes: widget.quizType,
-                      timerAnimationController:
-                          widget.timerAnimationController),
-              widget.quizType == QuizTypes.battle ||
-                      widget.quizType == QuizTypes.groupPlay
-                  ? const SizedBox()
-                  : const SizedBox(
-                      height: 15,
-                    ),
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  Align(
-                    alignment: AlignmentDirectional.topStart,
-                    child: _buildLevelContainer(),
-                  ),
-                  // _buildCurrentCoins(),
-                  WidgetsUtil.verticalSpace24,
-                  _buildCurrentQuestionIndex(),
-                ],
-              ),
-              WidgetsUtil.verticalSpace8,
-              Container(
-                alignment: Alignment.center,
-                child: _buildQuestionText(
-                  questionText: question.question!,
+        return SizedBox(
+          height: SizeConfig.screenHeight,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 17.5,
                 ),
-              ),
-              question.imageUrl != null && question.imageUrl!.isNotEmpty
-                  ? SizedBox(
-                      height: constraints.maxHeight * (0.0175),
-                    )
-                  : WidgetsUtil.verticalSpace24,
-              question.imageUrl != null && question.imageUrl!.isNotEmpty
-                  ? Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: constraints.maxHeight * (0.225),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(25.0),
+                widget.quizType == QuizTypes.battle ||
+                        widget.quizType == QuizTypes.groupPlay
+                    ? const SizedBox()
+                    : HorizontalTimerContainer(
+                        quizTypes: widget.quizType,
+                        timerAnimationController:
+                            widget.timerAnimationController),
+                widget.quizType == QuizTypes.battle ||
+                        widget.quizType == QuizTypes.groupPlay
+                    ? const SizedBox()
+                    : const SizedBox(
+                        height: 15,
                       ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(25.0),
-                        child: CachedNetworkImage(
-                          placeholder: (context, _) {
-                            return Center(
-                                child: CircularProgressIndicator(
-                              color: Constants.primaryColor,
-                            ));
-                          },
-                          imageUrl: question.imageUrl!,
-                          imageBuilder: (context, imageProvider) {
-                            return Container(
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: imageProvider, fit: BoxFit.cover),
-                                borderRadius: BorderRadius.circular(25.0),
-                              ),
-                            );
-                          },
-                          errorWidget: (context, image, error) {
-                            return Center(
-                              child: Icon(
-                                Icons.error,
-                                color: Theme.of(context).primaryColor,
-                              ),
-                            );
-                          },
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Align(
+                      alignment: AlignmentDirectional.topStart,
+                      child: _buildLevelContainer(),
+                    ),
+                    // _buildCurrentCoins(),
+                    WidgetsUtil.verticalSpace24,
+                    _buildCurrentQuestionIndex(),
+                  ],
+                ),
+                WidgetsUtil.verticalSpace8,
+                Container(
+                  alignment: Alignment.center,
+                  child: _buildQuestionText(
+                    questionText: question.question!,
+                  ),
+                ),
+                question.imageUrl != null && question.imageUrl!.isNotEmpty
+                    ? SizedBox(
+                        height: constraints.maxHeight * (0.0175),
+                      )
+                    : WidgetsUtil.verticalSpace24,
+                question.imageUrl != null && question.imageUrl!.isNotEmpty
+                    ? Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: constraints.maxHeight * (0.225),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25.0),
                         ),
-                      ),
-                    )
-                  : const SizedBox(),
-              _buildOptions(question, constraints),
-              WidgetsUtil.verticalSpace16,
-            ],
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(25.0),
+                          child: CachedNetworkImage(
+                            placeholder: (context, _) {
+                              return Center(
+                                  child: CircularProgressIndicator(
+                                color: Constants.primaryColor,
+                              ));
+                            },
+                            imageUrl: question.imageUrl!,
+                            imageBuilder: (context, imageProvider) {
+                              return Container(
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: imageProvider, fit: BoxFit.cover),
+                                  borderRadius: BorderRadius.circular(25.0),
+                                ),
+                              );
+                            },
+                            errorWidget: (context, image, error) {
+                              return Center(
+                                child: Icon(
+                                  Icons.error,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      )
+                    : const SizedBox(),
+                _buildOptions(question, constraints),
+                WidgetsUtil.verticalSpace16,
+              ],
+            ),
           ),
         );
       }

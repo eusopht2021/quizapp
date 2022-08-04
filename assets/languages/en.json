@@ -37,6 +37,8 @@
   "emailFldLbl": "Email Address",
   "emailRequiredMsg": "Email is Required",
   "validEmail": "enter valid email",
+
+
   "emailLbl": "Email",
   "pwdLengthMsg": "password should be more than 6 char long",
   "pwdLbl": "Password",

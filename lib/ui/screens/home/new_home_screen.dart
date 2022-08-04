@@ -256,7 +256,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
               padding: EdgeInsets.zero,
               children: [
                 GestureDetector(
-                  onTap: () { },
+                  onTap: () {},
                   child: Container(
                     height: 84,
                     width: SizeConfig.screenWidth,
@@ -396,14 +396,15 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                       ),
                       WidgetsUtil.verticalSpace16,
                       SizedBox(
-                        width: SizeConfig.screenWidth,
+                        // width: SizeConfig.screenWidth,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Spacer(),
                             Expanded(
-                              flex: 15,
+                              flex: 3,
                               child: SocialButton(
+                                horizontalMargin: 10,
                                 textColor: Constants.primaryColor,
                                 iconColor: Constants.primaryColor,
                                 background: Constants.white,
@@ -415,14 +416,16 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                                 },
                                 height: 44,
                                 text: 'Find Friends',
-                                showBorder: true,
+                                showBorder: false ,
                               ),
                             ),
-                            const Spacer(),
-                            SvgPicture.asset(
-                              Assets.womanWave,
-                              height: 48,
-                              width: 48,
+                            // const Spacer(),
+                            Expanded(
+                              child: SvgPicture.asset(
+                                Assets.womanWave,
+                                height: 48,
+                                width: 48,
+                              ),
                             ),
                             WidgetsUtil.horizontalSpace16,
                           ],

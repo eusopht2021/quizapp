@@ -56,6 +56,8 @@ class Assets {
   static String clipboard = "assets/icons/clipboard.png";
   static String leaderBoardOutlined = "assets/icons/leaderboardoutlined.png";
   static String shareIcon = "assets/icons/shareIcon.png";
+  static String lock = "assets/icons/lock.png";
+  static String youtubeLogo = "assets/icons/youtube_logo.png";
 
   static String fireworks = "assets/icons/fireworks.png";
   static String findFriendsIcon = "assets/icons/findFriendsIcon.svg";

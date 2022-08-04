@@ -335,39 +335,31 @@ class _ProfileState extends State<Profile> {
                       },
                       child: Align(
                         alignment: Alignment.bottomCenter,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
+                        child: Stack(
+                          // crossAxisAlignment: CrossAxisAlignment.center,
+                          // mainAxisAlignment: MainAxisAlignment.start,
+                          // mainAxisSize: MainAxisSize.min,
                           children: [
-                            badgesLib.Badge(
-                              badgeContent: badges[index].status == "0"
-                                  ? Image.asset(
-                                      Assets.password,
-                                      color: Constants.black1,
-                                    )
-                                  : const SizedBox(),
-                              badgeColor: Colors.transparent,
-                              position: badgesLib.BadgePosition.center(),
-                              elevation: 0,
-                              child: BadgesIconContainer(
-                                badge: badges[index],
-                                constraints: constraints,
-                                addTopPadding: true,
-                              ),
+                            BadgesIconContainer(
+                              badge: badges[index],
+                              constraints: constraints,
+                              addTopPadding: true,
                             ),
-                            WidgetsUtil.verticalSpace4,
-                            Text(
-                              badges[index].badgeLabel,
-                              textAlign: TextAlign.center,
-                              maxLines: 3,
-                              style: TextStyle(
-                                color: badges[index].status == "0"
-                                    ? badgeLockedColor
-                                    : Constants.black1, //
-                                fontSize: 14,
-                                height: 1.25,
-                                fontWeight: FontWeight.bold,
+
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Text(
+                                badges[index].badgeLabel,
+                                textAlign: TextAlign.center,
+                                maxLines: 3,
+                                style: TextStyle(
+                                  color: badges[index].status == "0"
+                                      ? badgeLockedColor
+                                      : Constants.black1, //
+                                  fontSize: 14,
+                                  height: 1.25,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
 

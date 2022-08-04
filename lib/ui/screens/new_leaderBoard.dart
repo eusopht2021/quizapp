@@ -899,6 +899,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
     }
     log(startsFromThree.length.toString());
     int counterIndex = 0;
+
     // log(draggable[""].toString());
     // log('Draggable: ${draggable.length}   leaderboard : ${leaderBoardList.length}   ');
     return NotificationListener(
@@ -982,8 +983,10 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
 
                         else if (index % 21 == 0) {
                           // log(index.toString());
+
                           return const SizedBox();
                         }
+                        // log("counter :$counterIndex");
                         counterIndex++;
                         return SizedBox(
                           height: 100,
@@ -1010,7 +1013,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                                         backgroundColor: Constants.white,
                                         child: TitleText(
                                           text: isExpand
-                                              ? ((counterIndex).toString())
+                                              ? (counterIndex.toString())
                                               : (counterIndex + 3).toString(),
                                         ),
                                       ),

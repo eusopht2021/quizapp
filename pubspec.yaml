@@ -86,12 +86,17 @@ dependencies:
   country_code_picker: ^2.0.2
   flutter_windowmanager: ^0.2.0
   encrypt:
-  flutter_tex: ^4.0.3+4
+ # flutter_tex: ^4.0.3+4
+  flutter_tex:
+    git:
+      url: https://github.com/faisal-kabir/math_text.git
+      ref: master
   badges: ^2.0.3
   html: ^0.15.0
   timer_count_down: ^2.2.1
   permission_handler: ^10.0.0
   flutter_switch: ^0.3.2
+  video_player: ^2.4.5
   
 
 dev_dependencies:

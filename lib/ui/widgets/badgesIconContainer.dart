@@ -1,7 +1,10 @@
+import 'package:badges/badges.dart' as badges;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterquiz/features/badges/badge.dart';
 import 'package:flutterquiz/ui/styles/colors.dart';
+
+import 'package:flutterquiz/utils/assets.dart';
 import 'package:flutterquiz/utils/constants.dart';
 
 class BadgesIconContainer extends StatelessWidget {
@@ -58,7 +61,17 @@ class BadgesIconContainer extends StatelessWidget {
                 height: constraints.maxHeight * (0.5),
                 child: Padding(
                   padding: const EdgeInsets.all(12.5),
-                  child: CachedNetworkImage(imageUrl: badge.badgeIcon),
+                  child: badge.status == "0"
+                      ? badges.Badge(
+                          elevation: 0,
+                          badgeColor: Colors.transparent,
+                          position: badges.BadgePosition.center(),
+                          badgeContent: Image.asset(
+                            Assets.lock,
+                            color: Constants.black1,
+                          ),
+                          child: CachedNetworkImage(imageUrl: badge.badgeIcon))
+                      : CachedNetworkImage(imageUrl: badge.badgeIcon),
                 ), //55
               ),
             ),

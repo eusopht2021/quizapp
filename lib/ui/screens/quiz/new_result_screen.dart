@@ -810,7 +810,7 @@ class _NewResultScreenState extends State<NewResultScreen> {
           size: 16,
           weight: FontWeight.w500,
         ),
-        WidgetsUtil.verticalSpace10,
+        // WidgetsUtil.verticalSpace10,
         newReviewAnswersButton(),
         _buildPlayAgainButton()
       ],
@@ -1170,7 +1170,7 @@ class _NewResultScreenState extends State<NewResultScreen> {
     return Screenshot(
       controller: screenshotController,
       child: Container(
-        height: SizeConfig.screenHeight * 0.50,
+        height: SizeConfig.screenHeight * 0.53,
         width: SizeConfig.screenWidth,
         margin: const EdgeInsets.all(
           24,

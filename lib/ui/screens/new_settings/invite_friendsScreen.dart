@@ -25,6 +25,7 @@ import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/size_config.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
 import 'package:flutterquiz/utils/widgets_util.dart';
+import 'package:share_plus/share_plus.dart';
 
 class InviteFriendsScreen extends StatefulWidget {
   const InviteFriendsScreen({Key? key}) : super(key: key);
@@ -140,11 +141,18 @@ class _InviteFriendsScreenState extends State<InviteFriendsScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CircleAvatar(
-                      backgroundColor: Colors.transparent,
-                      radius: 35,
-                      child: CachedNetworkImage(
-                          imageUrl: state.userProfile.profileUrl!),
+                    ClipOval(
+                      clipBehavior: Clip.antiAlias,
+                      child: CircleAvatar(
+                        radius: 40,
+                        backgroundColor: Colors.transparent,
+                        child: CachedNetworkImage(
+                          imageUrl: state.userProfile.profileUrl!,
+                          width: 100,
+                          height: 100,
+                          fit: BoxFit.fill,
+                        ),
+                      ),
                     ),
                     TitleText(
                       text: "VS",
@@ -153,7 +161,8 @@ class _InviteFriendsScreenState extends State<InviteFriendsScreen> {
                       textColor: Constants.white,
                     ),
                     CircleAvatar(
-                      radius: 35,
+                      backgroundColor: Colors.transparent,
+                      radius: 40,
                       backgroundImage: svg.Svg(Assets.menAvatars[
                           randomAvatar.nextInt(Assets.menAvatars.length)]),
                     ),
@@ -229,7 +238,12 @@ class _InviteFriendsScreenState extends State<InviteFriendsScreen> {
                             flex: 2,
                             child: SocialButton(
                               textColor: Constants.primaryColor,
-                              onTap: () {},
+                              onTap: () {
+                                Share.share(context
+                                    .read<UserDetailsCubit>()
+                                    .getUserProfile()
+                                    .referCode!);
+                              },
                               text: "",
                               itemSpace: 0,
                               showBorder: true,

@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutterquiz/ui/screens/auth/newPasswordScreen.dart';
 
 import '../../../app/appLocalization.dart';
 import '../../../app/routes.dart';
@@ -35,11 +36,17 @@ class ResetPassword extends StatelessWidget {
                 left: 24,
                 right: 24,
               ),
-              child: TitleText(
-                text: AppLocalization.of(context)!
-                    .getTranslatedValues('enterEmlTextLbl')!,
-                size: Constants.bodyNormal,
-                weight: FontWeight.w400,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (_) => const NewPasswordScreen()));
+                },
+                child: TitleText(
+                  text: AppLocalization.of(context)!
+                      .getTranslatedValues('enterEmlTextLbl')!,
+                  size: Constants.bodyNormal,
+                  weight: FontWeight.w400,
+                ),
               ),
             ),
             WidgetsUtil.verticalSpace24,
