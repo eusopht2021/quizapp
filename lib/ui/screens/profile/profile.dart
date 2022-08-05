@@ -221,8 +221,6 @@ class _ProfileState extends State<Profile> {
             width: SizeConfig.screenWidth,
             height: SizeConfig.screenHeight,
             child: SingleChildScrollView(
-              padding:
-                  const EdgeInsets.only(bottom: kBottomNavigationBarHeight),
               child: Column(
                 children: [
                   WidgetsUtil.verticalSpace24,
@@ -315,10 +313,14 @@ class _ProfileState extends State<Profile> {
         final List<Badge> badges =
             _organizedBadges((state as BadgesFetchSuccess).badges);
         return SizedBox(
-          height: SizeConfig.screenHeight * 0.6,
+          // height: SizeConfig.screenHeight * 0.7,
           child: GridView.builder(
-              padding: const EdgeInsets.only(
-                  bottom: kBottomNavigationBarHeight * 3, top: 0.0),
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              padding: EdgeInsets.only(
+                  bottom: widget.routefromHomeScreen
+                      ? kBottomNavigationBarHeight
+                      : kBottomNavigationBarHeight * 2),
               itemCount: badges.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
@@ -400,14 +402,12 @@ class _ProfileState extends State<Profile> {
           return Container(
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
             decoration: BoxDecoration(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(20.0),
-                  topRight: Radius.circular(20.0),
-                ),
-                gradient: UiUtils.buildLinerGradient([
-                  Theme.of(context).scaffoldBackgroundColor,
-                  Theme.of(context).canvasColor
-                ], Alignment.topCenter, Alignment.bottomCenter)),
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(20.0),
+                topRight: Radius.circular(20.0),
+              ),
+              color: Constants.secondaryColor,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
@@ -432,8 +432,8 @@ class _ProfileState extends State<Profile> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: badge.status == "0"
-                              ? badgeLockedColor
-                              : Theme.of(context).primaryColor,
+                              ? Constants.white
+                              : Constants.white,
                           fontWeight: FontWeight.bold,
                           fontSize: 22.5,
                         ),
@@ -445,7 +445,7 @@ class _ProfileState extends State<Profile> {
                         "${badge.badgeNote}",
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: Theme.of(context).colorScheme.secondary,
+                          color: Constants.white,
                           fontSize: 18.0,
                         ),
                       ),
@@ -465,7 +465,7 @@ class _ProfileState extends State<Profile> {
                                       width: 15.0,
                                       child: CircularProgressIndicator(
                                         strokeWidth: 2.5,
-                                        color: Theme.of(context).primaryColor,
+                                        color: Constants.white,
                                       ),
                                     ),
                                   );
@@ -485,9 +485,7 @@ class _ProfileState extends State<Profile> {
                                       "${AppLocalization.of(context)!.getTranslatedValues(needMoreKey)!} $answerToGo ${AppLocalization.of(context)!.getTranslatedValues(correctAnswerToUnlockKey)!}",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .secondary,
+                                        color: Constants.white,
                                         fontSize: 16.0,
                                       ),
                                     ),
@@ -504,7 +502,7 @@ class _ProfileState extends State<Profile> {
                         "${AppLocalization.of(context)!.getTranslatedValues(getKey)!} ${badge.badgeReward} ${AppLocalization.of(context)!.getTranslatedValues(coinsUnlockingByBadgeKey)!}",
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: Theme.of(context).colorScheme.secondary,
+                          color: Constants.white,
                           fontSize: 14.0,
                         ),
                       ),
@@ -526,6 +524,7 @@ class _ProfileState extends State<Profile> {
           child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               width: double.infinity,
+              height: SizeConfig.screenWidth * 0.8,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 color: Constants.indigoWithOpacity02,
@@ -659,7 +658,6 @@ class _ProfileState extends State<Profile> {
                 ],
               )),
         ),
-        WidgetsUtil.verticalSpace32,
       ],
     );
   }
@@ -1311,6 +1309,11 @@ class _ProfileState extends State<Profile> {
             width: 100,
             height: 100,
             fit: BoxFit.fill,
+            placeholder: (_, __) {
+              return CircularProgressIndicator(
+                color: Constants.primaryColor,
+              );
+            },
           ),
         ),
       ),

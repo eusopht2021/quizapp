@@ -121,6 +121,7 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
   @override
   void dispose() {
     _audioPlayer.dispose();
+
     super.dispose();
   }
 
@@ -598,15 +599,17 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
                                     fontStyle: TeXViewFontStyle(fontSize: 19)),
                               ),
                             )
-                          : Text(
-                              submittedAnswer,
-                              style: TextStyle(
-                                color: question.attempted
-                                    ? question.submittedAnswerId ==
-                                            correctAnswerId
-                                        ? Constants.white
-                                        : Colors.red
-                                    : Colors.red,
+                          : Expanded(
+                              child: Text(
+                                submittedAnswer,
+                                style: TextStyle(
+                                  color: question.attempted
+                                      ? question.submittedAnswerId ==
+                                              correctAnswerId
+                                          ? Constants.white
+                                          : Colors.red
+                                      : Colors.red,
+                                ),
                               ),
                             ),
                       Icon(

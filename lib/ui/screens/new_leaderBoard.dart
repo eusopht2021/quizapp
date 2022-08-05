@@ -883,6 +883,8 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
     List startsFromThree = [];
     List startsFromZero = [];
     List users = [];
+    int index = 0;
+    int counterIndex = 0;
 
     for (int i = 0; i < leaderBoardList.length; i++) {
       startsFromZero.add(leaderBoardList[i]);
@@ -898,18 +900,26 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
       users = startsFromThree;
     }
     log(startsFromThree.length.toString());
-    int counterIndex = 0;
 
     // log(draggable[""].toString());
     // log('Draggable: ${draggable.length}   leaderboard : ${leaderBoardList.length}   ');
     return NotificationListener(
       onNotification: (DraggableScrollableNotification dSnotification) {
+        log("counte======r :$counterIndex");
         if (dSnotification.extent >= 0.97) {
+          if (isExpand) {
+            counterIndex = startsFromZero[index];
+            counterIndex++;
+          }
           setState(() {
             isExpand = true;
             log('IsExpand false running');
           });
         } else if (dSnotification.extent <= 0.45) {
+          if (!isExpand) {
+            counterIndex = startsFromThree[index];
+            counterIndex++;
+          }
           setState(
             () {
               isExpand = false;
@@ -941,6 +951,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                 ),
               ),
               child: ListView(
+                padding: EdgeInsets.zero,
                 controller: controller,
                 shrinkWrap: true,
                 children: [
@@ -967,6 +978,8 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                       shrinkWrap: true,
                       itemCount: users.length,
                       itemBuilder: (context, index) {
+                        int newindex = index + 1;
+                        // (index % 21 == 0) ?   : index;
                         if (hasMore && index == (leaderBoardList.length - 1)) {
                           return Center(
                             child: Padding(
@@ -986,8 +999,8 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
 
                           return const SizedBox();
                         }
-                        // log("counter :$counterIndex");
-                        counterIndex++;
+
+                        log("$index  index");
                         return SizedBox(
                           height: 100,
                           child: Card(
@@ -1013,8 +1026,8 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                                         backgroundColor: Constants.white,
                                         child: TitleText(
                                           text: isExpand
-                                              ? (counterIndex.toString())
-                                              : (counterIndex + 3).toString(),
+                                              ? "$index"
+                                              : "${index + 3}",
                                         ),
                                       ),
                                     ),
@@ -1023,35 +1036,45 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                                     flex: 8,
                                     child: ListTile(
                                         leading: Badge(
-                                          badgeContent: Image.asset(
-                                            index % 3 == 0
-                                                ? Assets.portugal
-                                                : index % 2 == 0
-                                                    ? Assets.turkey
-                                                    : Assets.france,
-                                            width: 20,
-                                            height: 20,
-                                          ),
-                                          position: BadgePosition.bottomEnd(),
-                                          badgeColor: Colors.transparent,
-                                          elevation: 0,
-                                          child: CircleAvatar(
-                                            radius: 30,
-                                            backgroundColor: Colors.transparent,
-                                            backgroundImage:
-                                                CachedNetworkImageProvider(
-                                              users[index]['profile'],
-                                              errorListener: () {
-                                                Image.asset(
-                                                  Assets.person,
-                                                  isAntiAlias: true,
-                                                  width: 30,
-                                                  height: 30,
-                                                );
-                                              },
+                                            badgeContent: Image.asset(
+                                              index % 3 == 0
+                                                  ? Assets.portugal
+                                                  : index % 2 == 0
+                                                      ? Assets.turkey
+                                                      : Assets.france,
+                                              width: 20,
+                                              height: 20,
                                             ),
-                                          ),
-                                        ),
+                                            position: BadgePosition.bottomEnd(),
+                                            badgeColor: Colors.transparent,
+                                            elevation: 0,
+                                            child: ClipOval(
+                                              clipBehavior: Clip.antiAlias,
+                                              child: CircleAvatar(
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                                radius: 25,
+                                                child: CachedNetworkImage(
+                                                  imageUrl: users[index]
+                                                          ['profile'] ??
+                                                      "",
+                                                  placeholder: (url, string) {
+                                                    return CircularProgressIndicator(
+                                                      color: Constants
+                                                          .primaryColor,
+                                                    );
+                                                  },
+                                                  errorWidget: (_, __, ___) {
+                                                    return Image.asset(
+                                                      Assets.person,
+                                                      width: 30,
+                                                      height: 30,
+                                                    );
+                                                  },
+                                                  // placeholder: Image.asset(Assets.person),
+                                                ),
+                                              ),
+                                            )),
                                         title: TitleText(
                                           maxlines: 2,
                                           text:

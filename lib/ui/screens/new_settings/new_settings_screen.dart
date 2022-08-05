@@ -21,11 +21,9 @@ import 'package:flutterquiz/features/systemConfig/cubits/appSettingsCubit.dart';
 import 'package:flutterquiz/features/systemConfig/systemConfigRepository.dart';
 import 'package:flutterquiz/ui/navigation/navbarcubit.dart';
 import 'package:flutterquiz/ui/navigation/navbaritems.dart';
-import 'package:flutterquiz/ui/navigation/navigation.dart';
-import 'package:flutterquiz/ui/navigation/navigation_bar_state.dart';
-import 'package:flutterquiz/ui/screens/appSettingsScreen.dart';
-import 'package:flutterquiz/ui/screens/auth/onBoardingScreen.dart';
-import 'package:flutterquiz/ui/screens/new_settings/faq_screen.dart';
+import 'package:flutterquiz/ui/screens/new_settings/FAQ%20Screens/about.dart';
+import 'package:flutterquiz/ui/screens/new_settings/FAQ%20Screens/contactUs.dart';
+import 'package:flutterquiz/ui/screens/new_settings/FAQ%20Screens/faq_screen.dart';
 import 'package:flutterquiz/ui/screens/profile/widgets/editProfileFieldBottomSheetContainer.dart';
 import 'package:flutterquiz/ui/screens/quiz/voice_note_screen.dart';
 import 'package:flutterquiz/ui/widgets/title_text.dart';
@@ -38,6 +36,7 @@ import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
 import 'package:flutterquiz/utils/widgets_util.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:launch_review/launch_review.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class NewSettingsScreen extends StatefulWidget {
@@ -138,6 +137,7 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                       horizontal: 24,
                     ),
                     child: SingleChildScrollView(
+                      padding: const EdgeInsets.only(bottom: 30),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
@@ -149,7 +149,15 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                             size: Constants.bodyNormal,
                           ),
                           WidgetsUtil.verticalSpace16,
-                          GestureDetector(
+                          _settingsOptionsContainer(
+                            listTileicon: Image.asset(
+                              Assets.person,
+                              height: 25,
+                              width: 25,
+                              color: Constants.primaryColor,
+                            ),
+                            title: "Update Username",
+                            subtitle: state.userProfile.name!,
                             onTap: () {
                               editProfileFieldBottomSheet(
                                 nameLbl,
@@ -161,35 +169,30 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                                 context.read<UpdateUserDetailCubit>(),
                               );
                             },
-                            child: _settingsOptionsContainer(
-                              listTileicon: Image.asset(
-                                Assets.person,
-                                height: 25,
-                                width: 25,
-                                color: Constants.primaryColor,
-                              ),
-                              title: "Update Username",
-                              subtitle: state.userProfile.name!,
-                            ),
                           ),
                           WidgetsUtil.verticalSpace16,
-                          GestureDetector(
-                            onTap: () {},
-                            child: _settingsOptionsContainer(
-                              listTileicon: Image.asset(
-                                Assets.mail,
-                                height: 25,
-                                width: 25,
-                                color: Constants.primaryColor,
-                              ),
-                              title: "Change Email Address",
-                              subtitle: state.userProfile.email!.isEmpty
-                                  ? "-"
-                                  : state.userProfile.email!,
+                          _settingsOptionsContainer(
+                            listTileicon: Image.asset(
+                              Assets.mail,
+                              height: 25,
+                              width: 25,
+                              color: Constants.primaryColor,
                             ),
+                            title: "Change Email Address",
+                            subtitle: state.userProfile.email!.isEmpty
+                                ? "-"
+                                : state.userProfile.email!,
                           ),
                           WidgetsUtil.verticalSpace16,
-                          GestureDetector(
+                          _settingsOptionsContainer(
+                            listTileicon: Image.asset(
+                              Assets.password,
+                              height: 25,
+                              width: 25,
+                              color: Constants.primaryColor,
+                            ),
+                            title: "Change Password",
+                            subtitle: "last change 1 year ago",
                             onTap: () {
                               editpasswordFieldBottomSheet(
                                   fieldTitle: pwdLbl,
@@ -201,18 +204,7 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                                       context.read<UpdateUserDetailCubit>(),
                                   userDetailsCubit:
                                       context.read<UserDetailsCubit>());
-
                             },
-                            child: _settingsOptionsContainer(
-                              listTileicon: Image.asset(
-                                Assets.password,
-                                height: 25,
-                                width: 25,
-                                color: Constants.primaryColor,
-                              ),
-                              title: "Change Password",
-                              subtitle: "last change 1 year ago",
-                            ),
                           ),
                           WidgetsUtil.verticalSpace24,
                           TitleText(
@@ -246,43 +238,86 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                             ],
                           ),
                           WidgetsUtil.verticalSpace24,
-                          GestureDetector(
+                          _settingsOptionsContainer(
+                            listTileicon: SvgPicture.asset(
+                              Assets.puzzleIcon,
+                              height: 25,
+                              width: 25,
+                              color: Constants.primaryColor,
+                            ),
+                            title: "Change Difficulty",
+                            subtitle: "Easy, normal, hard",
                             onTap: () {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (_) => const VoiceNoteScreen()));
                             },
-                            child: _settingsOptionsContainer(
-                              listTileicon: SvgPicture.asset(
-                                Assets.puzzleIcon,
-                                height: 25,
-                                width: 25,
-                                color: Constants.primaryColor,
-                              ),
-                              title: "Change Difficulty",
-                              subtitle: "Easy, normal, hard",
-                            ),
                           ),
                           WidgetsUtil.verticalSpace16,
-                          GestureDetector(
+                          _settingsOptionsContainer(
+                            listTileicon: Icon(
+                              Icons.question_mark,
+                              color: Constants.primaryColor,
+                            ),
+                            title: "FAQ",
+                            subtitle: "Most frequently asked questions",
                             onTap: () {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (_) => const FaqScreen()));
                             },
-                            child: _settingsOptionsContainer(
-                              listTileicon: Icon(
-                                Icons.question_mark,
-                                color: Constants.primaryColor,
-                              ),
-                              title: "FAQ",
-                              subtitle: "Most frequently asked questions",
+                          ),
+                          WidgetsUtil.verticalSpace16,
+                          _settingsOptionsContainer(
+                            title: "Contact Us",
+                            listTileicon: Icon(
+                              Icons.contacts_outlined,
+                              color: Constants.primaryColor,
                             ),
+                            subtitle: "for any Enquiry",
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => const ContactUs()));
+                            },
+                          ),
+                          WidgetsUtil.verticalSpace16,
+                          _settingsOptionsContainer(
+                            title: "About Us",
+                            listTileicon: Icon(
+                              Icons.info_outline,
+                              color: Constants.primaryColor,
+                            ),
+                            subtitle: "About Us",
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => const AboutUs()));
+                            },
+                          ),
+                          WidgetsUtil.verticalSpace16,
+                          _settingsOptionsContainer(
+                            listTileicon: Icon(
+                              Icons.stars,
+                              color: Constants.primaryColor,
+                            ),
+                            subtitle: "Rate our App",
+                            title: "Rate Us",
+                            onTap: () {
+                              /// rate us button
+                              Navigator.of(context).pop();
+                              LaunchReview.launch(
+                                androidAppId: packageName,
+                                iOSAppId: "585027354",
+                              );
+                            },
                           ),
                           WidgetsUtil.verticalSpace32,
-                          GestureDetector(
+                          InkWell(
                             onTap: () {
                               showDialog(
                                   context: context,
@@ -383,38 +418,45 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
   }
 }
 
-Widget _settingsOptionsContainer(
-    {Widget? listTileicon, String? title, String? subtitle}) {
-  return Container(
-    decoration: BoxDecoration(
-      borderRadius: const BorderRadius.all(
-        Radius.circular(16),
+Widget _settingsOptionsContainer({
+  Widget? listTileicon,
+  String? title,
+  String? subtitle,
+  Function()? onTap,
+}) {
+  return InkWell(
+    onTap: onTap,
+    child: Ink(
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(
+          Radius.circular(16),
+        ),
+        color: Constants.grey5,
       ),
-      color: Constants.grey5,
-    ),
-    height: SizeConfig.screenHeight * 0.09,
-    child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: ListTile(
-        leading: CircleAvatar(
-          radius: 24,
-          backgroundColor: Constants.white,
-          child: listTileicon,
-        ),
-        title: TitleText(
-          text: title!,
-          size: Constants.bodyNormal,
-          weight: FontWeight.w500,
-        ),
-        subtitle: TitleText(
-          text: subtitle!,
-          size: Constants.bodyXSmall,
-          weight: FontWeight.w400,
-          maxlines: 1,
-        ),
-        trailing: Icon(
-          Icons.arrow_forward_ios,
-          color: Constants.black1,
+      height: SizeConfig.screenHeight * 0.09,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: ListTile(
+          leading: CircleAvatar(
+            radius: 24,
+            backgroundColor: Constants.white,
+            child: listTileicon,
+          ),
+          title: TitleText(
+            text: title!,
+            size: Constants.bodyNormal,
+            weight: FontWeight.w500,
+          ),
+          subtitle: TitleText(
+            text: subtitle!,
+            size: Constants.bodyXSmall,
+            weight: FontWeight.w400,
+            maxlines: 1,
+          ),
+          trailing: Icon(
+            Icons.arrow_forward_ios,
+            color: Constants.black1,
+          ),
         ),
       ),
     ),

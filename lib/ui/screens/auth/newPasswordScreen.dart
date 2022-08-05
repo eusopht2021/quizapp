@@ -6,6 +6,7 @@ import 'package:flutterquiz/ui/widgets/default_layout.dart';
 import 'package:flutterquiz/utils/assets.dart';
 import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/title_text.dart';
+
 import 'package:flutterquiz/utils/widgets_util.dart';
 
 class NewPasswordScreen extends StatefulWidget {
@@ -36,10 +37,8 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
               WidgetsUtil.verticalSpace24,
               TitleText(
                 text:
-                    'Your new password must be different from previous used passwords.',
-                size: Constants.bodyNormal,
+                    "Your new password must be different from previous used passwords.",
                 weight: FontWeight.w400,
-                align: TextAlign.center,
                 textColor: Constants.grey2,
               ),
               WidgetsUtil.verticalSpace24,

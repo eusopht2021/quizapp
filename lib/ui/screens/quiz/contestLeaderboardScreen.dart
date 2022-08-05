@@ -9,21 +9,15 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutterquiz/app/appLocalization.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/userDetailsCubit.dart';
 import 'package:flutterquiz/features/quiz/cubits/getContestLeaderboardCubit.dart';
-import 'package:flutterquiz/features/quiz/quizRemoteDataSoure.dart';
 import 'package:flutterquiz/features/quiz/quizRepository.dart';
-import 'package:flutterquiz/ui/styles/colors.dart';
 import 'package:flutterquiz/ui/widgets/customBackButton.dart';
-import 'package:flutterquiz/ui/widgets/custom_button.dart';
 import 'package:flutterquiz/ui/widgets/errorContainer.dart';
 import 'package:flutterquiz/ui/widgets/notched_card.dart';
-import 'package:flutterquiz/ui/widgets/pageBackgroundGradientContainer.dart';
 import 'package:flutterquiz/ui/widgets/title_text.dart';
 import 'package:flutterquiz/utils/assets.dart';
 import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/size_config.dart';
-import 'package:flutterquiz/utils/uiUtils.dart';
 import 'package:flutterquiz/utils/widgets_util.dart';
-import 'package:http/http.dart';
 
 class ContestLeaderBoardScreen extends StatefulWidget {
   final String? contestId;
@@ -185,22 +179,24 @@ class _ContestLeaderBoardScreen extends State<ContestLeaderBoardScreen> {
                               badgeColor: Colors.transparent,
                               position: BadgePosition.bottomEnd(),
                               child: Badge(
-                                  elevation: 0,
-                                  showBadge: true,
-                                  badgeContent: index == 0
-                                      ? SvgPicture.asset(
-                                          Assets.crown,
-                                          height: 30,
-                                        )
-                                      : const SizedBox(),
-                                  position:
-                                      BadgePosition.topEnd(end: 5, top: -20),
-                                  badgeColor: Colors.transparent,
+                                elevation: 0,
+                                showBadge: true,
+                                badgeContent: index == 0
+                                    ? SvgPicture.asset(
+                                        Assets.crown,
+                                        height: 30,
+                                      )
+                                    : const SizedBox(),
+                                position:
+                                    BadgePosition.topEnd(end: 5, top: -20),
+                                badgeColor: Colors.transparent,
+                                child: ClipOval(
+                                  clipBehavior: Clip.antiAlias,
                                   child: CircleAvatar(
-                                    radius: 25,
                                     backgroundColor: Colors.transparent,
-                                    backgroundImage: CachedNetworkImageProvider(
-                                      index == 0
+                                    radius: 25,
+                                    child: CachedNetworkImage(
+                                      imageUrl: index == 0
                                           ? getContestLeaderboardList[0]
                                               .profile!
                                           : index == 1
@@ -210,8 +206,23 @@ class _ContestLeaderBoardScreen extends State<ContestLeaderBoardScreen> {
                                                   ? getContestLeaderboardList[2]
                                                       .profile!
                                                   : "",
+                                      placeholder: (url, string) {
+                                        return CircularProgressIndicator(
+                                          color: Constants.primaryColor,
+                                        );
+                                      },
+                                      errorWidget: (_, __, ___) {
+                                        return Image.asset(
+                                          Assets.person,
+                                          width: 30,
+                                          height: 30,
+                                        );
+                                      },
+                                      // placeholder: Image.asset(Assets.person),
                                     ),
-                                  )),
+                                  ),
+                                ),
+                              ),
                             ),
                             WidgetsUtil.verticalSpace20,
                             SizedBox(
@@ -423,20 +434,40 @@ class _ContestLeaderBoardScreen extends State<ContestLeaderBoardScreen> {
                                         backgroundColor: Constants.white,
                                         child: TitleText(
                                           text: isExpand
-                                              ? ((counterIndex).toString())
-                                              : (counterIndex + 3).toString(),
+                                              ? ((index + 1).toString())
+                                              : (index + 3).toString(),
                                         ),
                                       ),
                                     ),
                                   ),
+
+                                  //),
                                   Expanded(
                                     flex: 9,
                                     child: ListTile(
-                                        leading: CircleAvatar(
-                                          backgroundColor: Colors.transparent,
-                                          backgroundImage:
-                                              CachedNetworkImageProvider(
-                                                  users[index].profile! ?? ""),
+                                        leading: ClipOval(
+                                          clipBehavior: Clip.antiAlias,
+                                          child: CircleAvatar(
+                                            backgroundColor: Colors.transparent,
+                                            radius: 25,
+                                            child: CachedNetworkImage(
+                                              imageUrl:
+                                                  users[index].profile! ?? "",
+                                              placeholder: (url, string) {
+                                                return CircularProgressIndicator(
+                                                  color: Constants.primaryColor,
+                                                );
+                                              },
+                                              errorWidget: (_, __, ___) {
+                                                return Image.asset(
+                                                  Assets.person,
+                                                  width: 30,
+                                                  height: 30,
+                                                );
+                                              },
+                                              // placeholder: Image.asset(Assets.person),
+                                            ),
+                                          ),
                                         ),
                                         title: TitleText(
                                           text: users[index].name ?? "Player",

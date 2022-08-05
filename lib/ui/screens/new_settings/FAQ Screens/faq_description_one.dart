@@ -78,7 +78,7 @@ class _IntroToQuizState extends State<IntroToQuiz> {
                   text: "Intro to Queezy apps",
                   weight: FontWeight.w500,
                   textColor: Constants.black1,
-                  size: Constants.bodyLarge,
+                  size: Constants.bodyXLarge,
                 ),
                 WidgetsUtil.verticalSpace10,
                 TitleText(
