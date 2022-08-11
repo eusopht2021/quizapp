@@ -222,6 +222,7 @@ class _DiscoverState extends State<Discover> {
               Assets.quizCategories.length,
               (index) {
                 return CategoryCard(
+                  showAsSubCategories: false,
                   backgroundColor: Assets.quizCategories[index].color,
                   icon: Assets.quizCategories[index].asset,
                   categoryName: Assets.quizCategories[index].name,

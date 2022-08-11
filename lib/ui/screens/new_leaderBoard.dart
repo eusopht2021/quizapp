@@ -889,7 +889,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
     for (int i = 0; i < leaderBoardList.length; i++) {
       startsFromZero.add(leaderBoardList[i]);
 
-      if (i > 2) {
+      if (i >= 3) {
         startsFromThree.add(leaderBoardList[i]);
       }
     }
@@ -900,26 +900,18 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
       users = startsFromThree;
     }
     log(startsFromThree.length.toString());
-
+    // print("${users[3]}");
     // log(draggable[""].toString());
     // log('Draggable: ${draggable.length}   leaderboard : ${leaderBoardList.length}   ');
     return NotificationListener(
       onNotification: (DraggableScrollableNotification dSnotification) {
         log("counte======r :$counterIndex");
-        if (dSnotification.extent >= 0.97) {
-          if (isExpand) {
-            counterIndex = startsFromZero[index];
-            counterIndex++;
-          }
+        if (dSnotification.extent >= 0.98) {
           setState(() {
             isExpand = true;
             log('IsExpand false running');
           });
         } else if (dSnotification.extent <= 0.45) {
-          if (!isExpand) {
-            counterIndex = startsFromThree[index];
-            counterIndex++;
-          }
           setState(
             () {
               isExpand = false;
@@ -933,7 +925,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
         snap: true,
         initialChildSize: 0.45,
         minChildSize: 0.45,
-        maxChildSize: 0.97,
+        maxChildSize: 0.98,
         builder: (context, controller) {
           controller.addListener(() {
             scrollListener(controller);
@@ -955,7 +947,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                 controller: controller,
                 shrinkWrap: true,
                 children: [
-                  if (users.length < 3)
+                  if (users.length < 2)
                     Padding(
                       padding: const EdgeInsets.only(
                         top: 50,
@@ -978,7 +970,6 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                       shrinkWrap: true,
                       itemCount: users.length,
                       itemBuilder: (context, index) {
-                        int newindex = index + 1;
                         // (index % 21 == 0) ?   : index;
                         if (hasMore && index == (leaderBoardList.length - 1)) {
                           return Center(

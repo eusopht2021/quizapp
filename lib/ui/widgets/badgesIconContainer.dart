@@ -63,6 +63,7 @@ class BadgesIconContainer extends StatelessWidget {
                   padding: const EdgeInsets.all(12.5),
                   child: badge.status == "0"
                       ? badges.Badge(
+                          toAnimate: false,
                           elevation: 0,
                           badgeColor: Colors.transparent,
                           position: badges.BadgePosition.center(),

@@ -33,6 +33,7 @@ import 'package:flutterquiz/features/quiz/cubits/comprehensionCubit.dart';
 import 'package:flutterquiz/features/quiz/cubits/getContestLeaderboardCubit.dart';
 import 'package:flutterquiz/features/quiz/cubits/quizCategoryCubit.dart';
 import 'package:flutterquiz/features/quiz/cubits/subCategoryCubit.dart';
+import 'package:flutterquiz/features/quiz/cubits/unlockedLevelCubit.dart';
 import 'package:flutterquiz/features/quiz/quizRepository.dart';
 import 'package:flutterquiz/features/settings/settingsCubit.dart';
 import 'package:flutterquiz/features/settings/settingsLocalDataSource.dart';
@@ -188,6 +189,13 @@ class MyApp extends StatelessWidget {
         //
         BlocProvider<UploadProfileCubit>(
             create: (_) => UploadProfileCubit(ProfileManagementRepository())),
+
+        BlocProvider<SubCategoryCubit>(
+          create: (_) => SubCategoryCubit(QuizRepository()),
+        ),
+        BlocProvider<UnlockedLevelCubit>(
+          create: (_) => UnlockedLevelCubit(QuizRepository()),
+        ),
 
         BlocProvider<StatisticCubit>(
           create: (_) => StatisticCubit(

@@ -1,12 +1,14 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart' as svg;
 import 'package:flutterquiz/app/appLocalization.dart';
 import 'package:flutterquiz/app/routes.dart';
 import 'package:flutterquiz/features/ads/interstitialAdCubit.dart';
@@ -26,7 +28,6 @@ import 'package:flutterquiz/ui/navigation/navbaritems.dart';
 import 'package:flutterquiz/ui/screens/battle/widgets/randomOrPlayFrdDialog.dart';
 import 'package:flutterquiz/ui/screens/battle/widgets/roomDialog.dart';
 import 'package:flutterquiz/ui/screens/home/widgets/appUnderMaintenanceDialog.dart';
-import 'package:flutterquiz/ui/screens/home/widgets/new_quiz_category_card.dart';
 import 'package:flutterquiz/ui/screens/profile/widgets/editProfileFieldBottomSheetContainer.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/quizTypes.dart';
@@ -100,6 +101,9 @@ class _NewHomeScreenState extends State<NewHomeScreen>
   bool? dragUP;
   int currentMenu = 1;
   bool routefromHomeScreen = false;
+  int? selectedIndex;
+  bool? showDescription = false;
+  final descriptions = <int>[];
 
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
@@ -416,7 +420,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                                 },
                                 height: 44,
                                 text: 'Find Friends',
-                                showBorder: false ,
+                                showBorder: false,
                               ),
                             ),
                             // const Spacer(),
@@ -466,18 +470,73 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                         ],
                       ),
                       WidgetsUtil.verticalSpace16,
-                      ...List.generate(_quizTypes.length, (index) {
-                        return QuizCategoryCard(
-                          name: _quizTypes[index].getTitle(context),
-                          asset: _quizTypes[index].image,
-                          category: AppLocalization.of(context)!
-                              .getTranslatedValues(
-                                  _quizTypes[index].description)!,
-                          onTap: () {
-                            _navigateToQuizZone(index + 1);
-                          },
-                        );
-                      }),
+
+                      GridView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        padding: const EdgeInsets.only(top: 16),
+                        itemCount: _quizTypes.length,
+                        shrinkWrap: true,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          mainAxisExtent: 135,
+                          crossAxisSpacing: 16,
+                          mainAxisSpacing: 16,
+                          crossAxisCount: 2,
+                        ),
+                        itemBuilder: ((context, index) {
+                          // log(categoryList.length.toString() + " lists");
+                          bool checked = index == selectedIndex;
+
+                          return categoryCard(
+                            mainIconColor: checked
+                                ? Constants.primaryColor
+                                : Constants.white,
+                            showDesc: descriptions.contains(index),
+                            onTap: () {
+                              setState(() {
+                                selectedIndex = index;
+                                _navigateToQuizZone(index + 1);
+                              });
+                            },
+                            onTapIcon: () {
+                              if (descriptions.contains(index)) {
+                                descriptions.remove(index);
+                              } else {
+                                descriptions.add(index);
+                              }
+
+                              setState(() {});
+                            },
+                            iconColor: checked
+                                ? Constants.white
+                                : Constants.primaryColor,
+                            iconShadowOpacity: checked ? 0.2 : 1,
+                            quizDescription: AppLocalization.of(context)!
+                                .getTranslatedValues(
+                                    _quizTypes[index].description)!,
+                            icon: _quizTypes[index].image,
+                            backgroundColor:
+                                checked ? Constants.pink : Constants.grey5,
+                            categoryName: _quizTypes[index].getTitle(context),
+                            textColor: checked
+                                ? Constants.white
+                                : Constants.primaryColor,
+                          );
+                        }),
+                      ),
+
+                      // ...List.generate(_quizTypes.length, (index) {
+                      //   return QuizCategoryCard(
+                      //     name: _quizTypes[index].getTitle(context),
+                      //     asset: _quizTypes[index].image,
+                      //     category: AppLocalization.of(context)!
+                      //         .getTranslatedValues(
+                      //             _quizTypes[index].description)!,
+                      //     onTap: () {
+                      //       _navigateToQuizZone(index + 1);
+                      //     },
+                      //   );
+                      // }),
                     ],
                   ),
                 ),
@@ -1032,4 +1091,112 @@ class _NewHomeScreenState extends State<NewHomeScreen>
           arguments: {"quizType": QuizTypes.mathMania});
     }
   }
+
+// categoryCard
+
+  Widget categoryCard({
+    final String? quizDescription,
+    final String? categoryName,
+    final String? icon,
+    final Color? backgroundColor,
+    final Color? iconColor,
+    final Color? textColor,
+    final double? iconShadowOpacity,
+    final Color? mainIconColor,
+    Function()? onTap,
+    Function()? onTapIcon,
+    bool? showDesc,
+  }) {
+    return Badge(
+      position: BadgePosition.topEnd(end: 0),
+      elevation: 0,
+      badgeColor: iconColor!,
+      badgeContent: SvgPicture.asset(
+        icon!,
+        color: mainIconColor,
+        width: 35,
+        height: 35,
+      ),
+      toAnimate: false,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: StyleProperties.cardsRadius,
+          color: backgroundColor,
+        ),
+        padding: StyleProperties.insets10,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            GestureDetector(
+              onTap: onTap,
+              child: Column(
+                children: [
+                  WidgetsUtil.verticalSpace24,
+                  // _iconBox(
+                  //     icon: icon,
+                  //     iconColor: iconColor,
+                  //     iconShadowOpacity: iconShadowOpacity),
+                  // WidgetsUtil.verticalSpace10,
+                  TitleText(
+                    text: categoryName!,
+                    textColor: textColor ?? Constants.white,
+                    size: Constants.bodyNormal,
+                    weight: FontWeight.w500,
+                    align: TextAlign.center,
+                  ),
+                  // WidgetsUtil.verticalSpace4,
+                ],
+              ),
+            ),
+            Expanded(
+              flex: 10,
+              child: Align(
+                alignment: Alignment.bottomRight,
+                child: GestureDetector(
+                  onTap: onTapIcon!,
+                  child: showDesc!
+                      ? TitleText(
+                          text: quizDescription ?? "",
+                          textColor: textColor ?? Constants.white,
+                          size: Constants.bodyXSmall,
+                          weight: FontWeight.w400,
+                          align: TextAlign.center,
+                        )
+                      : Icon(
+                          Icons.error,
+                          color: iconColor,
+                        ),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _iconBox({icon, iconShadowOpacity, iconColor}) => Container(
+        decoration: BoxDecoration(
+            color: Constants.white.withOpacity(iconShadowOpacity ?? 0.2),
+            borderRadius: StyleProperties.cardsRadius),
+        width: 48,
+        height: 48,
+        padding: const EdgeInsets.all(10),
+        child: icon.contains('.svg')
+            ? SvgPicture.asset(
+                icon,
+                height: 38,
+                color: iconColor ?? Constants.white,
+              )
+            : icon.contains('.png')
+                ? Image.asset(
+                    icon,
+                    height: 38,
+                    color: iconColor ?? Constants.white,
+                  )
+                : Icon(
+                    Icons.error,
+                    color: iconColor,
+                  ),
+      );
 }
