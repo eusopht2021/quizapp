@@ -1108,35 +1108,56 @@ class _NewHomeScreenState extends State<NewHomeScreen>
     bool? showDesc,
   }) {
     return Badge(
-      position: BadgePosition.topEnd(end: 0),
-      elevation: 0,
-      badgeColor: iconColor!,
-      badgeContent: SvgPicture.asset(
-        icon!,
-        color: mainIconColor,
-        width: 35,
-        height: 35,
+      stackFit: StackFit.expand,
+      badgeContent: GestureDetector(
+        onTap: onTapIcon!,
+        child: showDesc!
+            ? TitleText(
+                text: quizDescription ?? "",
+                textColor: textColor ?? Constants.white,
+                size: Constants.bodyXSmall,
+                weight: FontWeight.w400,
+                align: TextAlign.justify,
+              )
+            : Icon(
+                Icons.error,
+                color: iconColor,
+              ),
       ),
-      toAnimate: false,
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: StyleProperties.cardsRadius,
-          color: backgroundColor,
+      badgeColor: Colors.transparent,
+      elevation: 0,
+      position: BadgePosition.bottomEnd(bottom: 3, end: 5),
+      child: Badge(
+        position: BadgePosition.topEnd(
+          top: 10,
+          end: 10,
         ),
-        padding: StyleProperties.insets10,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            GestureDetector(
-              onTap: onTap,
+        elevation: 0,
+        badgeColor: iconColor!,
+        badgeContent: SvgPicture.asset(
+          icon!,
+          color: mainIconColor,
+          width: 20,
+          height: 20,
+        ),
+        toAnimate: false,
+        child: GestureDetector(
+          onTap: onTap,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: StyleProperties.cardsRadius,
+              color: backgroundColor,
+            ),
+            padding:
+                showDesc ? StyleProperties.insets10 : StyleProperties.insets18,
+            child: Align(
+              alignment: Alignment.center,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  WidgetsUtil.verticalSpace24,
-                  // _iconBox(
-                  //     icon: icon,
-                  //     iconColor: iconColor,
-                  //     iconShadowOpacity: iconShadowOpacity),
-                  // WidgetsUtil.verticalSpace10,
+                  showDesc
+                      ? WidgetsUtil.verticalSpace16
+                      : WidgetsUtil.verticalSpace24,
                   TitleText(
                     text: categoryName!,
                     textColor: textColor ?? Constants.white,
@@ -1144,32 +1165,12 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                     weight: FontWeight.w500,
                     align: TextAlign.center,
                   ),
-                  // WidgetsUtil.verticalSpace4,
+                  // const Spacer(),
+                  showDesc ? const SizedBox() : WidgetsUtil.verticalSpace24,
                 ],
               ),
             ),
-            Expanded(
-              flex: 10,
-              child: Align(
-                alignment: Alignment.bottomRight,
-                child: GestureDetector(
-                  onTap: onTapIcon!,
-                  child: showDesc!
-                      ? TitleText(
-                          text: quizDescription ?? "",
-                          textColor: textColor ?? Constants.white,
-                          size: Constants.bodyXSmall,
-                          weight: FontWeight.w400,
-                          align: TextAlign.center,
-                        )
-                      : Icon(
-                          Icons.error,
-                          color: iconColor,
-                        ),
-                ),
-              ),
-            )
-          ],
+          ),
         ),
       ),
     );

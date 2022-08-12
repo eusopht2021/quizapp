@@ -14,6 +14,7 @@ import 'package:flutterquiz/ui/widgets/bannerAdContainer.dart';
 import 'package:flutterquiz/ui/widgets/customBackButton.dart';
 import 'package:flutterquiz/ui/widgets/default_layout.dart';
 import 'package:flutterquiz/ui/widgets/errorContainer.dart';
+import 'package:flutterquiz/utils/assets.dart';
 import 'package:flutterquiz/utils/category_card.dart';
 import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
@@ -275,7 +276,7 @@ class _CategoryScreen extends State<CategoryScreen> {
                 return QuizCategoryCard(
                   horizontalMargin: 8,
                   category: "",
-                  asset: categoryList[index].image!,
+                  asset: Assets.quizCategories[index].asset,
                   name: categoryList[index].categoryName!,
                   onTap: () {
                     if (widget.quizType == QuizTypes.quizZone) {

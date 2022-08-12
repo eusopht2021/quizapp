@@ -80,7 +80,9 @@ class CustomTextField extends StatelessWidget {
             maxLines: maxLines ?? 1,
             focusNode: node,
             onTap: onTap,
-            style: TextStyle(color: typedTextColor ?? Constants.white),
+            style: TextStyle(
+              color: typedTextColor ?? Constants.white,
+            ),
             decoration: InputDecoration(
               filled: true,
               fillColor: fillColor ?? Constants.white,
@@ -119,6 +121,7 @@ class CustomTextField extends StatelessWidget {
                     )
                   : null,
               hintText: hint,
+              
               hintStyle: GoogleFonts.rubik(
                 fontWeight: FontWeight.w400,
                 fontSize: Constants.bodyNormal,

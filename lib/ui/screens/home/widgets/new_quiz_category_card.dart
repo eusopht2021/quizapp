@@ -45,8 +45,8 @@ class QuizCategoryCard extends StatelessWidget {
           child: asset.contains('.svg')
               ? SvgPicture.asset(
                   asset,
-                  height: 64,
-                  width: 64,
+                  height: 50,
+                  width: 50,
                   color: Constants.primaryColor,
                   placeholderBuilder: ((context) {
                     return const Icon(Icons.error);
@@ -54,8 +54,8 @@ class QuizCategoryCard extends StatelessWidget {
                 )
               : Image.asset(
                   asset,
-                  height: 64,
-                  width: 64,
+                  height: 50,
+                  width: 50,
                   errorBuilder: ((context, error, stackTrace) {
                     return const Icon(Icons.error);
                   }),
