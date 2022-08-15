@@ -1,5 +1,5 @@
 import 'dart:developer';
-import 'package:badges/badges.dart' as badgesLib;
+import 'package:badges/badges.dart' as bdgs;
 import 'package:flutterquiz/features/badges/badge.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutterquiz/features/badges/cubits/badgesCubit.dart';
@@ -249,7 +249,26 @@ class _ProfileState extends State<Profile> {
           right: 0,
           left: 0,
           child: Center(
-            child: _avatar(state.userProfile.profileUrl!),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  Routes.selectProfile,
+                  arguments: false,
+                );
+              },
+              child: bdgs.Badge(
+                  badgeColor: Constants.white,
+                  elevation: 0,
+                  position: bdgs.BadgePosition.bottomStart(
+                    start: 0,
+                  ),
+                  badgeContent: Icon(
+                    Icons.add_a_photo_outlined,
+                    color: Constants.primaryColor,
+                  ),
+                  child: _avatar(state.userProfile.profileUrl!)),
+            ),
           ),
         ),
       ],
@@ -546,26 +565,38 @@ class _ProfileState extends State<Profile> {
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        badgesLib.Badge(
+                        bdgs.Badge(
+                          toAnimate: false,
                           elevation: 0,
                           showBadge: true,
                           badgeContent: Image.asset(Assets.portugal),
                           badgeColor: Colors.transparent,
-                          position: badgesLib.BadgePosition.bottomEnd(),
-                          child: badgesLib.Badge(
+                          position: bdgs.BadgePosition.bottomEnd(),
+                          child: bdgs.Badge(
+                            toAnimate: false,
                             elevation: 0,
                             showBadge: true,
                             badgeContent: SvgPicture.asset(
                               Assets.crown,
                               height: 30,
                             ),
-                            position: badgesLib.BadgePosition.topStart(
+                            position: bdgs.BadgePosition.topStart(
                                 start: 15, top: -20),
                             badgeColor: Colors.transparent,
                             child: CircleAvatar(
                               radius: 35,
                               backgroundColor: Colors.transparent,
-                              backgroundImage: NetworkImage(profile),
+                              child: CachedNetworkImage(
+                                imageUrl: profile,
+                                width: 100,
+                                height: 100,
+                                fit: BoxFit.fill,
+                                placeholder: (_, __) {
+                                  return CircularProgressIndicator(
+                                    color: Constants.primaryColor,
+                                  );
+                                },
+                              ),
                             ),
                           ),
                         ),
@@ -605,20 +636,22 @@ class _ProfileState extends State<Profile> {
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        badgesLib.Badge(
+                        bdgs.Badge(
+                          toAnimate: false,
                           elevation: 0,
                           showBadge: true,
                           badgeContent: Image.asset(Assets.portugal),
                           badgeColor: Colors.transparent,
-                          position: badgesLib.BadgePosition.bottomEnd(),
-                          child: badgesLib.Badge(
+                          position: bdgs.BadgePosition.bottomEnd(),
+                          child: bdgs.Badge(
+                            toAnimate: false,
                             elevation: 0,
                             showBadge: true,
                             badgeContent: SvgPicture.asset(
                               Assets.crown,
                               height: 30,
                             ),
-                            position: badgesLib.BadgePosition.topStart(
+                            position: bdgs.BadgePosition.topStart(
                                 start: 15, top: -20),
                             badgeColor: Colors.transparent,
                             child: CircleAvatar(
@@ -1290,13 +1323,14 @@ class _ProfileState extends State<Profile> {
   }
 
   Widget _avatar(String imageUrl) {
-    return badgesLib.Badge(
+    return bdgs.Badge(
+      toAnimate: false,
       badgeContent: Image.asset(
         Assets.turkey,
         width: 30,
         height: 28,
       ),
-      position: badgesLib.BadgePosition.bottomEnd(end: 1),
+      position: bdgs.BadgePosition.bottomEnd(end: 1),
       elevation: 0,
       badgeColor: Colors.transparent,
       child: ClipOval(

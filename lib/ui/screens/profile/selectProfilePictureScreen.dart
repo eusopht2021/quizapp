@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
+import 'dart:math';
 import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -217,7 +218,7 @@ class _SelectProfilePictureScreen extends State<SelectProfilePictureScreen> {
               .defaultProfileImages;
       avatars = defaultProfileImages;
     } else {
-      log('SystemConfig is not Success');
+      // log('SystemConfig is not Success');
     }
 
     return SizedBox(
@@ -361,10 +362,10 @@ class _SelectProfilePictureScreen extends State<SelectProfilePictureScreen> {
 
         return TextButton(
           style: TextButton.styleFrom(
-            backgroundColor: Theme.of(context).primaryColor,
+            backgroundColor: Constants.secondaryColor,
             padding: const EdgeInsetsDirectional.only(
                 end: 40, start: 40, bottom: 15, top: 15),
-            side: BorderSide(color: Theme.of(context).primaryColor, width: 1),
+            side: BorderSide(color: Constants.secondaryColor, width: 1),
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(15.0))),
           ),
@@ -534,7 +535,11 @@ class _SelectProfilePictureScreen extends State<SelectProfilePictureScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () {
-        return Future.value(false);
+        if (widget.updateProfileAndName) {
+          return Future.value(false);
+        } else {
+          return Future.value(true);
+        }
       },
       child: Scaffold(
         backgroundColor: Constants.primaryColor,

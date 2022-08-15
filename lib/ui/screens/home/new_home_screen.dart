@@ -1107,69 +1107,67 @@ class _NewHomeScreenState extends State<NewHomeScreen>
     Function()? onTapIcon,
     bool? showDesc,
   }) {
-    return Badge(
-      stackFit: StackFit.expand,
-      badgeContent: GestureDetector(
-        onTap: onTapIcon!,
-        child: showDesc!
-            ? TitleText(
-                text: quizDescription ?? "",
-                textColor: textColor ?? Constants.white,
-                size: Constants.bodyXSmall,
-                weight: FontWeight.w400,
-                align: TextAlign.justify,
-              )
-            : Icon(
-                Icons.error,
-                color: iconColor,
-              ),
-      ),
-      badgeColor: Colors.transparent,
-      elevation: 0,
-      position: BadgePosition.bottomEnd(bottom: 3, end: 5),
-      child: Badge(
-        position: BadgePosition.topEnd(
-          top: 10,
-          end: 10,
+    return GestureDetector(
+      onTap: onTapIcon,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: StyleProperties.cardsRadius,
+          color: backgroundColor,
         ),
-        elevation: 0,
-        badgeColor: iconColor!,
-        badgeContent: SvgPicture.asset(
-          icon!,
-          color: mainIconColor,
-          width: 20,
-          height: 20,
-        ),
-        toAnimate: false,
-        child: GestureDetector(
-          onTap: onTap,
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: StyleProperties.cardsRadius,
-              color: backgroundColor,
-            ),
-            padding:
-                showDesc ? StyleProperties.insets10 : StyleProperties.insets18,
-            child: Align(
-              alignment: Alignment.center,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  showDesc
-                      ? WidgetsUtil.verticalSpace16
-                      : WidgetsUtil.verticalSpace24,
-                  TitleText(
-                    text: categoryName!,
-                    textColor: textColor ?? Constants.white,
-                    size: Constants.bodyNormal,
-                    weight: FontWeight.w500,
-                    align: TextAlign.center,
-                  ),
-                  // const Spacer(),
-                  showDesc ? const SizedBox() : WidgetsUtil.verticalSpace24,
-                ],
+        padding: StyleProperties.insets18,
+        child: Align(
+          alignment: Alignment.center,
+          child: Stack(
+            children: [
+              GestureDetector(
+                onTap: onTap,
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: SvgPicture.asset(
+                        icon!,
+                        color: iconColor,
+                        width: 50,
+                        height: 50,
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.center,
+                      child: TitleText(
+                        text: categoryName!,
+                        textColor: textColor ?? Constants.white,
+                        size: Constants.bodyNormal,
+                        weight: FontWeight.w500,
+                        align: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
+              Align(
+                alignment: const Alignment(1.3, -1.7),
+                child: showDesc!
+                    ? Card(
+                        color: Constants.white,
+                        elevation: 10,
+                        shadowColor: Constants.primaryColor.withOpacity(0.5),
+                        margin: EdgeInsets.zero,
+                        child: Center(
+                          child: TitleText(
+                            text: quizDescription!,
+                            textColor: Constants.primaryColor,
+                            align: TextAlign.center,
+                          ),
+                        ),
+                      )
+                    : Icon(
+                        Icons.info,
+                        color: iconColor,
+                      ),
+              ),
+
+              // const Spacer(),
+            ],
           ),
         ),
       ),

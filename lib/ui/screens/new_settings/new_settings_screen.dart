@@ -21,6 +21,7 @@ import 'package:flutterquiz/features/systemConfig/cubits/appSettingsCubit.dart';
 import 'package:flutterquiz/features/systemConfig/systemConfigRepository.dart';
 import 'package:flutterquiz/ui/navigation/navbarcubit.dart';
 import 'package:flutterquiz/ui/navigation/navbaritems.dart';
+import 'package:flutterquiz/ui/screens/home/widgets/languageBottomSheetContainer.dart';
 import 'package:flutterquiz/ui/screens/new_settings/FAQ%20Screens/about.dart';
 import 'package:flutterquiz/ui/screens/new_settings/FAQ%20Screens/contactUs.dart';
 import 'package:flutterquiz/ui/screens/new_settings/FAQ%20Screens/faq_screen.dart';
@@ -98,6 +99,12 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
   TextEditingController? newPassword;
   TextEditingController? confirmPassword;
   bool _isOn = false;
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -206,6 +213,91 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                                       context.read<UserDetailsCubit>());
                             },
                           ),
+                          WidgetsUtil.verticalSpace16,
+                          _settingsOptionsContainer(
+                            title: "Language",
+                            subtitle: "Change Language",
+                            onTap: () {
+                              Navigator.of(context).pop();
+                              showDialog(
+                                  context: context,
+                                  builder: (_) => LanguageDailogContainer());
+                            },
+                            listTileicon: Icon(
+                              Icons.language,
+                              color: Constants.primaryColor,
+                            ),
+                          ),
+                          WidgetsUtil.verticalSpace16,
+                          _settingsOptionsContainer(
+                              title: "Delete Account",
+                              subtitle: "Delete your Account",
+                              listTileicon: Icon(
+                                Icons.delete_outline_rounded,
+                                color: Constants.primaryColor,
+                              ),
+                              onTap: () {
+                                showDialog<bool>(
+                                    context: context,
+                                    builder: (_) => AlertDialog(
+                                          content: Text(
+                                            AppLocalization.of(context)!
+                                                .getTranslatedValues(
+                                                    deleteAccountConfirmationKey)!,
+                                            style: TextStyle(
+                                              color: Constants.primaryColor,
+                                            ),
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context)
+                                                      .pop(true);
+                                                  Navigator
+                                                      .pushNamedAndRemoveUntil(
+                                                          context,
+                                                          Routes
+                                                              .onBoardingScreen,
+                                                          (route) => true);
+                                                  BlocProvider.of<
+                                                              NavigationCubit>(
+                                                          context)
+                                                      .getNavBarItem(
+                                                          NavbarItems.newhome);
+                                                },
+                                                child: Text(
+                                                  AppLocalization.of(context)!
+                                                      .getTranslatedValues(
+                                                          "yesBtn")!,
+                                                  style: TextStyle(
+                                                      color: Constants
+                                                          .primaryColor),
+                                                )),
+                                            TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context)
+                                                      .pop(false);
+                                                },
+                                                child: Text(
+                                                  AppLocalization.of(context)!
+                                                      .getTranslatedValues(
+                                                          "noBtn")!,
+                                                  style: TextStyle(
+                                                      color: Constants
+                                                          .primaryColor),
+                                                )),
+                                          ],
+                                        )).then((value) {
+                                  if (value != null && value) {
+                                    context
+                                        .read<DeleteAccountCubit>()
+                                        .deleteUserAccount(
+                                            userId: context
+                                                .read<UserDetailsCubit>()
+                                                .getUserId());
+                                  }
+                                });
+                              }),
                           WidgetsUtil.verticalSpace24,
                           TitleText(
                             text: "OTHER",

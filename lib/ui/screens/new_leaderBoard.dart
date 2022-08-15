@@ -325,12 +325,14 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                         ? Column(
                             children: [
                               Badge(
+                                toAnimate: false,
                                 elevation: 0,
                                 showBadge: true,
                                 badgeContent: Image.asset(Assets.portugal),
                                 badgeColor: Colors.transparent,
                                 position: BadgePosition.bottomEnd(),
                                 child: Badge(
+                                    toAnimate: false,
                                     elevation: 0,
                                     showBadge: true,
                                     badgeContent: index == 0
@@ -530,12 +532,14 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                   child: index < 3
                       ? Column(children: [
                           Badge(
+                            toAnimate: false,
                             elevation: 0,
                             showBadge: true,
                             badgeContent: Image.asset(Assets.portugal),
                             badgeColor: Colors.transparent,
                             position: BadgePosition.bottomEnd(),
                             child: Badge(
+                                toAnimate: false,
                                 elevation: 0,
                                 showBadge: true,
                                 badgeContent: index == 0
@@ -735,12 +739,14 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                       ? Column(
                           children: [
                             Badge(
+                              toAnimate: false,
                               elevation: 0,
                               showBadge: true,
                               badgeContent: Image.asset(Assets.portugal),
                               badgeColor: Colors.transparent,
                               position: BadgePosition.bottomEnd(),
                               child: Badge(
+                                  toAnimate: false,
                                   elevation: 0,
                                   showBadge: true,
                                   badgeContent: index == 0
@@ -1027,6 +1033,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                                     flex: 8,
                                     child: ListTile(
                                         leading: Badge(
+                                            toAnimate: false,
                                             badgeContent: Image.asset(
                                               index % 3 == 0
                                                   ? Assets.portugal

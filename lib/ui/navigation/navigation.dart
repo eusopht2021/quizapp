@@ -47,6 +47,12 @@ class _NavigationState extends State<Navigation> {
     //   color: Colors.pink,
     // ),
   ];
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     bool isKeyboardOpen = MediaQuery.of(context).viewInsets.bottom != 0;
