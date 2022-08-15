@@ -380,6 +380,25 @@
   "exam": "Exam",
   "desExam": "Give exam",
   "hint" : "Hint",
+  "seeAll" : "See All",
+  "liveQuizzes" : "Live Quizzes",
+  "takepartLbl" : "Take part in challenges with friends or other players",
+  "findFriendsLbs" : "Find Friends",
+  "featured": "Featured",
+  "points" : "Points",
+  "worldRank" : "WORLD RANK",
+  "updateUsername" : "Update Username",
+  "changePassword" : "Change Password",
+  "youHaveAnswered" : "You have answered total",
+  
+
+
+
+
+
+
+
+
   "tournament" : "Tournament",
   "desTournament" : "Play exiciting tournament",
   "myRank" : "My Rank",

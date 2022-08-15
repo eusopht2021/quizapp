@@ -23,16 +23,18 @@ import 'package:flutterquiz/utils/uiUtils.dart';
 
 class CategoryScreen extends StatefulWidget {
   final QuizTypes quizType;
+  final String? categoryTitle;
 
-  const CategoryScreen({required this.quizType});
+  const CategoryScreen({required this.quizType, this.categoryTitle});
 
   @override
   _CategoryScreen createState() => _CategoryScreen();
   static Route<dynamic> route(RouteSettings routeSettings) {
-    Map arguments = routeSettings.arguments as Map;
+    Map arguments = routeSettings.arguments as Map<String, dynamic>;
     return CupertinoPageRoute(
       builder: (_) => CategoryScreen(
         quizType: arguments['quizType'] as QuizTypes,
+        categoryTitle: arguments['categoryTitle'] as String,
       ),
     );
   }
@@ -56,7 +58,7 @@ class _CategoryScreen extends State<CategoryScreen> {
   Widget build(BuildContext context) {
     return DefaultLayout(
       backgroundColor: Constants.primaryColor,
-      title: "",
+      title: widget.categoryTitle ?? "",
       titleColor: Constants.white,
       child: Stack(
         children: <Widget>[
@@ -109,7 +111,7 @@ class _CategoryScreen extends State<CategoryScreen> {
           if (state is QuizCategoryFailure) {
             return ErrorContainer(
               showBackButton: false,
-              errorMessageColor: Theme.of(context).primaryColor,
+              errorMessageColor: Constants.white,
               showErrorImage: true,
               errorMessage: AppLocalization.of(context)!.getTranslatedValues(
                 convertErrorCodeToLanguageKey(state.errorMessage),
@@ -307,12 +309,15 @@ class _CategoryScreen extends State<CategoryScreen> {
                               .pushNamed(Routes.levels, arguments: {
                             "maxLevel": categoryList[index].maxLevel,
                             "categoryId": categoryList[index].id,
+                            "categoryName": categoryList[index].categoryName,
                           });
                         }
                       } else {
-                        Navigator.of(context).pushNamed(
-                            Routes.subcategoryAndLevel,
-                            arguments: categoryList[index].id);
+                        Navigator.of(context)
+                            .pushNamed(Routes.subcategoryAndLevel, arguments: {
+                          "category": categoryList[index].id,
+                          "categoryName": categoryList[index].categoryName,
+                        });
                       }
                     } else if (widget.quizType == QuizTypes.audioQuestions) {
                       //noOf means how many subcategory it has

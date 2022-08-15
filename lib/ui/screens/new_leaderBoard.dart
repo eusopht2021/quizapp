@@ -429,7 +429,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                       children: [
                         const Expanded(
                           flex: 2,
-                          child: const SizedBox(),
+                          child: SizedBox(),
                         ),
                         Expanded(
                           flex: 5,
@@ -630,7 +630,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                       children: [
                         const Expanded(
                           flex: 2,
-                          child: const SizedBox(),
+                          child: SizedBox(),
                         ),
                         Expanded(
                           flex: 5,
@@ -912,7 +912,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
     return NotificationListener(
       onNotification: (DraggableScrollableNotification dSnotification) {
         log("counte======r :$counterIndex");
-        if (dSnotification.extent >= 0.98) {
+        if (dSnotification.extent >= 1) {
           setState(() {
             isExpand = true;
             log('IsExpand false running');
@@ -931,7 +931,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
         snap: true,
         initialChildSize: 0.45,
         minChildSize: 0.45,
-        maxChildSize: 0.98,
+        maxChildSize: 1,
         builder: (context, controller) {
           controller.addListener(() {
             scrollListener(controller);
@@ -1080,7 +1080,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                                         ),
                                         subtitle: TitleText(
                                           text:
-                                              '${users[index]['score'] ?? "0"}  points',
+                                              '${users[index]['score'] ?? "0"} ${AppLocalization.of(context)!.getTranslatedValues("points")!}',
                                         ),
                                         trailing: isExpand
                                             ? index == 1

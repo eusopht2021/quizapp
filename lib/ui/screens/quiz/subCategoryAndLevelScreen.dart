@@ -18,9 +18,11 @@ import 'package:flutterquiz/ui/widgets/bannerAdContainer.dart';
 import 'package:flutterquiz/ui/widgets/circularProgressContainner.dart';
 
 import 'package:flutterquiz/ui/widgets/customBackButton.dart';
+import 'package:flutterquiz/ui/widgets/default_layout.dart';
 import 'package:flutterquiz/ui/widgets/errorContainer.dart';
 import 'package:flutterquiz/ui/widgets/pageBackgroundGradientContainer.dart';
 import 'package:flutterquiz/ui/widgets/title_text.dart';
+import 'package:flutterquiz/utils/assets.dart';
 import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/stringLabels.dart';
@@ -30,10 +32,14 @@ import 'package:flutterquiz/utils/widgets_util.dart';
 
 class SubCategoryAndLevelScreen extends StatefulWidget {
   final String? category;
-  const SubCategoryAndLevelScreen({Key? key, this.category}) : super(key: key);
+  final String? categoryName;
+  const SubCategoryAndLevelScreen(
+      {Key? key, this.category, required this.categoryName})
+      : super(key: key);
   @override
   _SubCategoryAndLevelScreen createState() => _SubCategoryAndLevelScreen();
   static Route<dynamic> route(RouteSettings routeSettings) {
+    final arguments = routeSettings.arguments as Map<String, dynamic>;
     return CupertinoPageRoute(
         builder: (_) => MultiBlocProvider(
               providers: [
@@ -45,7 +51,9 @@ class SubCategoryAndLevelScreen extends StatefulWidget {
                 ),
               ],
               child: SubCategoryAndLevelScreen(
-                  category: routeSettings.arguments as String?),
+                category: arguments['category'],
+                categoryName: arguments['categoryName'],
+              ),
             ));
   }
 }
@@ -73,9 +81,18 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          CustomBackButton(
-            iconColor: Constants.white,
-          ),
+          InkWell(
+            onTap: () => Navigator.pop(context),
+            child: Container(
+              padding: const EdgeInsets.all(
+                15,
+              ),
+              child: Image.asset(
+                Assets.backIcon,
+                color: Constants.white,
+              ),
+            ),
+          )
         ],
       ),
     );
@@ -194,11 +211,14 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return DefaultLayout(
       backgroundColor: Constants.primaryColor,
-      body: Column(
+      title: widget.categoryName ?? "",
+      showBackButton: true,
+      titleColor: Constants.white,
+      child: Column(
         children: [
-          _buildBackAndLanguageButton(),
+          // _buildBackAndLanguageButton(),
           const SizedBox(
             height: 35.0,
           ),
@@ -480,11 +500,6 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
           // ),
           itemCount: subCategoryList.length,
           itemBuilder: (context, index) {
-            context.read<UnlockedLevelCubit>().fetchUnlockLevel(
-                context.read<UserDetailsCubit>().getUserId(),
-                widget.category,
-                subCategoryList[index].id);
-
             return Container(
               decoration: BoxDecoration(
                 borderRadius: StyleProperties.cardsRadius,
@@ -514,6 +529,8 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
                       subcategory: subCategoryList[index],
                       currentIndex: currentIndex,
                       index: index,
+                      category: widget.category,
+                      subCategoryList: subCategoryList[index].id,
                     ),
 
                     // const Divider(),
@@ -571,13 +588,17 @@ class SubcategoryContainer extends StatefulWidget {
   final int index;
   final int currentIndex;
   final Subcategory subcategory;
+  final String? category;
   final Widget? levels;
+  final String? subCategoryList;
 
   SubcategoryContainer(
       {Key? key,
       required this.currentIndex,
       required this.index,
+      required this.category,
       required this.levels,
+      required this.subCategoryList,
       required this.subcategory})
       : super(key: key);
 
@@ -591,6 +612,7 @@ class _SubcategoryContainerState extends State<SubcategoryContainer>
   late Animation<double> scaleAnimation;
   final expansionBoxes = [];
   bool? isExpanded = false;
+  int? index;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -626,6 +648,11 @@ class _SubcategoryContainerState extends State<SubcategoryContainer>
           iconColor: Constants.primaryColor,
           collapsedIconColor: Constants.primaryColor,
           onExpansionChanged: ((value) {
+            context.read<UnlockedLevelCubit>().fetchUnlockLevel(
+                context.read<UserDetailsCubit>().getUserId(),
+                widget.category,
+                widget.subCategoryList);
+
             if (expansionBoxes.contains(widget.index)) {
               expansionBoxes.remove(widget.index);
             } else {

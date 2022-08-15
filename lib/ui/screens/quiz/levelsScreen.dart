@@ -10,6 +10,7 @@ import 'package:flutterquiz/features/quiz/quizRepository.dart';
 import 'package:flutterquiz/ui/widgets/bannerAdContainer.dart';
 import 'package:flutterquiz/ui/widgets/circularProgressContainner.dart';
 import 'package:flutterquiz/ui/widgets/customBackButton.dart';
+import 'package:flutterquiz/ui/widgets/default_layout.dart';
 import 'package:flutterquiz/ui/widgets/errorContainer.dart';
 import 'package:flutterquiz/ui/widgets/pageBackgroundGradientContainer.dart';
 import 'package:flutterquiz/utils/constants.dart';
@@ -19,21 +20,26 @@ import 'package:flutterquiz/utils/uiUtils.dart';
 class LevelsScreen extends StatefulWidget {
   final String maxLevel;
   final String categoryId;
+  final String? categoryName;
   const LevelsScreen(
-      {Key? key, required this.maxLevel, required this.categoryId})
+      {Key? key,
+      required this.maxLevel,
+      required this.categoryId,
+      required this.categoryName})
       : super(key: key);
 
   @override
   _LevelsScreenState createState() => _LevelsScreenState();
 
   static Route<dynamic> route(RouteSettings routeSettings) {
-    Map arguments = routeSettings.arguments as Map;
+    Map arguments = routeSettings.arguments as Map<String, dynamic>;
     return CupertinoPageRoute(
         builder: (_) => BlocProvider<UnlockedLevelCubit>(
               create: (_) => UnlockedLevelCubit(QuizRepository()),
               child: LevelsScreen(
                 maxLevel: arguments['maxLevel'],
                 categoryId: arguments['categoryId'],
+                categoryName: arguments['categoryName'],
               ),
             ));
   }
@@ -69,7 +75,7 @@ class _LevelsScreenState extends State<LevelsScreen> {
     return Align(
       alignment: Alignment.topCenter,
       child: Padding(
-        padding: const EdgeInsetsDirectional.only(top: 75, start: 20, end: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: BlocConsumer<UnlockedLevelCubit, UnlockedLevelState>(
           bloc: context.read<UnlockedLevelCubit>(),
           listener: (context, state) {
@@ -107,6 +113,7 @@ class _LevelsScreenState extends State<LevelsScreen> {
             int unlockedLevel =
                 (state as UnlockedLevelFetchSuccess).unlockedLevel;
             return ListView.builder(
+                padding: EdgeInsets.zero,
                 itemCount: int.parse(widget.maxLevel),
                 itemBuilder: (context, index) {
                   return GestureDetector(
@@ -173,11 +180,13 @@ class _LevelsScreenState extends State<LevelsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return DefaultLayout(
+      title: widget.categoryName ?? "",
       backgroundColor: Constants.primaryColor,
-      body: Stack(
+      titleColor: Constants.white,
+      child: Stack(
         children: <Widget>[
-          _buildBackButton(),
+          // _buildBackButton(),
           _buildLevels(),
           _buildBannerAd(),
         ],

@@ -22,6 +22,7 @@ import 'package:flutterquiz/features/profileManagement/models/userProfile.dart';
 import 'package:flutterquiz/features/profileManagement/profileManagementLocalDataSource.dart';
 import 'package:flutterquiz/features/profileManagement/profileManagementRepository.dart';
 import 'package:flutterquiz/features/quiz/cubits/quizCategoryCubit.dart';
+import 'package:flutterquiz/features/quiz/cubits/subCategoryCubit.dart';
 import 'package:flutterquiz/features/systemConfig/cubits/systemConfigCubit.dart';
 import 'package:flutterquiz/ui/navigation/navbarcubit.dart';
 import 'package:flutterquiz/ui/navigation/navbaritems.dart';
@@ -134,7 +135,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
   }
 
   ScrollController scrollController = ScrollController();
-
+  int? index;
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
@@ -340,144 +341,158 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                   ),
                 ),
                 WidgetsUtil.verticalSpace24,
-                Container(
-                  margin: const EdgeInsets.only(
-                    left: 24,
-                    right: 24,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Constants.grey3.withOpacity(0.4),
-                    borderRadius: BorderRadius.circular(20),
-                    image: DecorationImage(
-                      fit: BoxFit.fill,
-                      image: AssetImage(Assets.cardCircles),
-                    ),
-                  ),
-                  child: Column(
-                    children: [
-                      WidgetsUtil.verticalSpace16,
-                      Row(
-                        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Expanded(
-                            flex: 2,
-                            child: SvgPicture.asset(
-                              Assets.man9,
-                              height: 48,
-                              width: 48,
-                            ),
-                          ),
-                          Expanded(
-                            flex: 6,
-                            child: Center(
-                              child: TitleText(
-                                text: 'Featured'.toUpperCase(),
-                                size: Constants.bodySmall,
-                                textColor: Constants.white,
-                                weight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                          const Expanded(
-                            flex: 2,
-                            child: SizedBox(),
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 40,
-                          right: 40,
-                        ),
-                        child: TitleText(
-                          text:
-                              'Take part in challenges with friends or other players',
-                          size: Constants.bodyLarge,
-                          align: TextAlign.center,
-                          weight: FontWeight.w500,
-                          textColor: Constants.white,
-                        ),
-                      ),
-                      WidgetsUtil.verticalSpace16,
-                      SizedBox(
-                        // width: SizeConfig.screenWidth,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Spacer(),
-                            Expanded(
-                              flex: 3,
-                              child: SocialButton(
-                                horizontalMargin: 10,
-                                textColor: Constants.primaryColor,
-                                iconColor: Constants.primaryColor,
-                                background: Constants.white,
-                                icon: Assets.findFriendsIcon,
-                                itemSpace: 12,
-                                onTap: () {
-                                  BlocProvider.of<NavigationCubit>(context)
-                                      .getNavBarItem(NavbarItems.discover);
-                                },
-                                height: 44,
-                                text: 'Find Friends',
-                                showBorder: false,
-                              ),
-                            ),
-                            // const Spacer(),
-                            Expanded(
-                              child: SvgPicture.asset(
-                                Assets.womanWave,
-                                height: 48,
-                                width: 48,
-                              ),
-                            ),
-                            WidgetsUtil.horizontalSpace16,
-                          ],
-                        ),
-                      ),
-                      WidgetsUtil.verticalSpace16,
-                    ],
-                  ),
-                ),
+                _buildSelfChallenge(),
+
+                // Container(
+                //   margin: const EdgeInsets.only(
+                //     left: 24,
+                //     right: 24,
+                //   ),
+                //   decoration: BoxDecoration(
+                //     color: Constants.grey3.withOpacity(0.4),
+                //     borderRadius: BorderRadius.circular(20),
+                //     image: DecorationImage(
+                //       fit: BoxFit.fill,
+                //       image: AssetImage(Assets.cardCircles),
+                //     ),
+                //   ),
+                //   child:
+
+                //   Column(
+                //     // mainAxisAlignment: MainAxisAlignment.center,
+                //     children: [
+                //       // WidgetsUtil.verticalSpace16,
+                //       // Row(s
+                //       //   // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //       //   children: [
+                //       //     Expanded(
+                //       //       flex: 2,
+                //       //       child: SvgPicture.asset(
+                //       //         Assets.man9,
+                //       //         height: 48,
+                //       //         width: 48,
+                //       //       ),
+                //       //     ),
+                //       //     Expanded(
+                //       //       flex: 6,
+                //       //       child: Center(
+                //       //         child: TitleText(
+                //       //           text: AppLocalization.of(context)!
+                //       //               .getTranslatedValues("featured")!
+                //       //               .toUpperCase(),
+                //       //           size: Constants.bodySmall,
+                //       //           textColor: Constants.white,
+                //       //           weight: FontWeight.w500,
+                //       //         ),
+                //       //       ),
+                //       //     ),
+                //       //     const Expanded(
+                //       //       flex: 2,
+                //       //       child: SizedBox(),
+                //       //     ),
+                //       //   ],
+                //       // ),
+                //       // Padding(
+                //       //   padding: const EdgeInsets.only(
+                //       //     left: 40,
+                //       //     right: 40,
+                //       //   ),
+                //       //   child: TitleText(
+                //       //     text: AppLocalization.of(context)!
+                //       //         .getTranslatedValues("takepartLbl")!,
+                //       //     size: Constants.bodyLarge,
+                //       //     align: TextAlign.center,
+                //       //     weight: FontWeight.w500,
+                //       //     textColor: Constants.white,
+                //       //   ),
+                //       // ),
+                //       // WidgetsUtil.verticalSpace16,
+                //       // SizedBox(
+                //       //   // width: SizeConfig.screenWidth,
+                //       //   child: Row(
+                //       //     mainAxisAlignment: MainAxisAlignment.center,
+                //       //     children: [
+                //       //       const Spacer(),
+                //       //       Expanded(
+                //       //         flex: 3,
+                //       //         child: SocialButton(
+                //       //           horizontalMargin: 10,
+                //       //           textColor: Constants.primaryColor,
+                //       //           iconColor: Constants.primaryColor,
+                //       //           background: Constants.white,
+                //       //           icon: Assets.findFriendsIcon,
+                //       //           itemSpace: 12,
+                //       //           onTap: () {
+                //       //             BlocProvider.of<NavigationCubit>(context)
+                //       //                 .getNavBarItem(NavbarItems.discover);
+                //       //           },
+                //       //           height: 44,
+                //       //           text: AppLocalization.of(context)!
+                //       //               .getTranslatedValues("findFriendsLbs")!,
+                //       //           showBorder: false,
+                //       //         ),
+                //       //       ),
+                //       //       // const Spacer(),
+                //       //       Expanded(
+                //       //         child: SvgPicture.asset(
+                //       //           Assets.womanWave,
+                //       //           height: 48,
+                //       //           width: 48,
+                //       //         ),
+                //       //       ),
+                //       //       WidgetsUtil.horizontalSpace16,
+                //       //     ],
+                //       //   ),
+                //       // ),
+                //       // WidgetsUtil.verticalSpace16,
+
+                //     ],
+                //   ),
+                // ),
                 WidgetsUtil.verticalSpace24,
                 Container(
+                  margin: EdgeInsets.zero,
                   decoration: StyleProperties.sheetBorder,
-                  padding: StyleProperties.insetsBottom80Hzt20,
+                  padding: StyleProperties.insets18,
                   child: Column(
                     children: [
                       WidgetsUtil.verticalSpace24,
                       Row(
                         children: [
                           TitleText(
-                            text: 'Live Quizzes',
+                            text: AppLocalization.of(context)!
+                                .getTranslatedValues("liveQuizzes")!,
                             size: Constants.bodyXLarge,
                             textColor: Constants.black1,
                             weight: FontWeight.w500,
                           ),
                           const Spacer(),
-                          InkWell(
-                            onTap: () {
-                              _scrollController();
-                              log('See All');
-                            },
-                            child: TitleText(
-                              text: 'See All',
-                              textColor: Constants.primaryColor,
-                              size: Constants.bodySmall,
-                              weight: FontWeight.w500,
-                            ),
-                          ),
+                          // InkWell(
+                          //   onTap: () {
+                          //     _scrollController();
+                          //     log('See All');
+                          //   },
+                          //   child: TitleText(
+                          //     text: AppLocalization.of(context)!
+                          //         .getTranslatedValues("seeAll")!,
+                          //     textColor: Constants.primaryColor,
+                          //     size: Constants.bodySmall,
+                          //     weight: FontWeight.w500,
+                          //   ),
+                          // ),
                         ],
                       ),
                       WidgetsUtil.verticalSpace16,
 
                       GridView.builder(
                         physics: const NeverScrollableScrollPhysics(),
-                        padding: const EdgeInsets.only(top: 16),
+                        padding: const EdgeInsets.only(
+                            top: 16, right: 0, left: 0, bottom: kToolbarHeight),
                         itemCount: _quizTypes.length,
                         shrinkWrap: true,
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
+                          // childAspectRatio: 1,
                           mainAxisExtent: 135,
                           crossAxisSpacing: 16,
                           mainAxisSpacing: 16,
@@ -513,7 +528,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                             iconShadowOpacity: checked ? 0.2 : 1,
                             quizDescription: AppLocalization.of(context)!
                                 .getTranslatedValues(
-                                    _quizTypes[index].description)!,
+                                    _quizTypes[index].description),
                             icon: _quizTypes[index].image,
                             backgroundColor:
                                 checked ? Constants.pink : Constants.grey5,
@@ -561,6 +576,84 @@ class _NewHomeScreenState extends State<NewHomeScreen>
             }
           }
         },
+      ),
+    );
+  }
+
+  Widget _buildSelfChallenge() {
+    return GestureDetector(
+      onTap: () {
+        context.read<QuizCategoryCubit>().updateState(QuizCategoryInitial());
+        context.read<SubCategoryCubit>().updateState(SubCategoryInitial());
+        Navigator.of(context).pushNamed(Routes.selfChallenge);
+      },
+      child: Align(
+        alignment: Alignment.topCenter,
+        child: SlideTransition(
+          position: selfChallengeSlideAnimation,
+          child: Container(
+            margin: const EdgeInsets.only(
+              top: 0,
+              left: 24,
+              right: 24,
+            ),
+            decoration: BoxDecoration(
+              color: Theme.of(context).backgroundColor,
+
+              //gradient: UiUtils.buildLinerGradient([Theme.of(context).colorScheme.secondary, Theme.of(context).primaryColor], Alignment.centerLeft, Alignment.centerRight),
+
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height * (0.1),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20.0),
+              child: Stack(
+                clipBehavior: Clip.hardEdge,
+                children: [
+                  Align(
+                    alignment: AlignmentDirectional.centerStart,
+                    child: Container(
+                      margin: const EdgeInsetsDirectional.only(start: 20.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          TitleText(
+                            text: AppLocalization.of(context)!
+                                .getTranslatedValues(selfChallengeLbl)!,
+                            size: Constants.bodyLarge,
+                            weight: FontWeight.w500,
+                            textColor: Constants.primaryColor,
+                          ),
+                          const SizedBox(
+                            height: 1.0,
+                          ),
+                          TitleText(
+                            text: AppLocalization.of(context)!
+                                .getTranslatedValues(challengeYourselfLbl)!,
+                            size: 14.0,
+                            textColor: Constants.primaryColor,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Align(
+                    alignment: AlignmentDirectional.centerEnd,
+                    child: Transform.scale(
+                        scale: 0.55,
+                        child: SvgPicture.asset(
+                          "assets/images/selfchallenge_icon.svg",
+                          color: Constants.primaryColor,
+                        )),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -1019,8 +1112,12 @@ class _NewHomeScreenState extends State<NewHomeScreen>
             false);
       }
     } else if (_quizTypes[quizTypeIndex].quizTypeEnum == QuizTypes.quizZone) {
-      Navigator.of(context).pushNamed(Routes.category,
-          arguments: {"quizType": QuizTypes.quizZone});
+      Navigator.of(context).pushNamed(Routes.category, arguments: {
+        "quizType": QuizTypes.quizZone,
+        "categoryTitle": "Quiz Zone"
+
+        /// ??
+      });
     } else if (_quizTypes[quizTypeIndex].quizTypeEnum ==
         QuizTypes.selfChallenge) {
       Navigator.of(context).pushNamed(Routes.selfChallenge);
@@ -1110,6 +1207,8 @@ class _NewHomeScreenState extends State<NewHomeScreen>
     return GestureDetector(
       onTap: onTapIcon,
       child: Container(
+        // width: SizeConfig.screenWidth,
+        margin: EdgeInsets.zero,
         decoration: BoxDecoration(
           borderRadius: StyleProperties.cardsRadius,
           color: backgroundColor,
@@ -1145,10 +1244,10 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                 ),
               ),
               Align(
-                alignment: const Alignment(1.3, -1.7),
+                alignment: const Alignment(1.45, -1.7),
                 child: showDesc!
                     ? Card(
-                        color: Constants.white,
+                        color: Constants.grey5,
                         elevation: 10,
                         shadowColor: Constants.primaryColor.withOpacity(0.5),
                         margin: EdgeInsets.zero,
@@ -1160,9 +1259,14 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                           ),
                         ),
                       )
-                    : Icon(
-                        Icons.info,
-                        color: iconColor,
+                    : Badge(
+                        position: BadgePosition.topEnd(),
+                        badgeColor: Colors.transparent,
+                        elevation: 0,
+                        child: Icon(
+                          Icons.info,
+                          color: iconColor,
+                        ),
                       ),
               ),
 

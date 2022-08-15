@@ -474,7 +474,7 @@ class _ContestLeaderBoardScreen extends State<ContestLeaderBoardScreen> {
                                         ),
                                         subtitle: TitleText(
                                           text:
-                                              '${users[index].score ?? "0"}  points',
+                                              '${users[index].score ?? "0"} ${AppLocalization.of(context)!.getTranslatedValues("points")!}',
                                         ),
                                         trailing: isExpand
                                             ? index == 0

@@ -345,6 +345,7 @@
   "chat": "چیٹ",
   "messages": "پیغامات",
   "emojis": "ایموجیز۔",
+  "mathMania": "میتھ مینیا",
   "updateApplication": "ایک اپ ڈیٹ دستیاب ہے۔ براہ کرم اس ایپ کو استعمال کرنے کے لیے اپ ڈیٹ کریں۔",
   "update": "اپ ڈیٹ",
   "warning": "انتباہ",
@@ -365,7 +366,7 @@
   "scratchHere": "Scratch Here",
 
   "noRewards": "No Rewards",
-  "questions": "Questions",
+  "questions": "سوالات",
   "badges": "Badges",
   "back": "Back",
 
@@ -373,6 +374,27 @@
 
   "desExam": "Give exam",
   "hint" : "Hint",
+  "seeAll" : "تمام دیکھیں",
+  "liveQuizzes" : "لائیو کوئزز",
+  "takepartLbl" : "دوستوں یا دوسرے کھلاڑیوں کے ساتھ چیلنجوں میں حصہ لیں۔",
+  "findFriendsLbs" : "دوست ڈھونڈیں",
+  "featured": "نمایاں",
+  "points" : "پوائنٹس",
+  "worldRank" : "ورلڈ رینک",
+  "updateUsername" :" صارف نام کو اپ ڈیٹ کریں۔",
+  "changePassword" : "پاس ورڈ تبدیل کریں",
+  "youHaveAnswered" :  "آپ نے مکمل جواب دیا",
+
+
+
+
+
+
+
+
+
+
+
   "tournament" : "Tournament",
   "desTournament" : "Play exiciting tournament",
   "myRank" : "My Rank",

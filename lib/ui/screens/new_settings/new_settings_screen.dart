@@ -150,7 +150,8 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                         children: [
                           WidgetsUtil.verticalSpace24,
                           TitleText(
-                            text: "Account",
+                            text: AppLocalization.of(context)!
+                                .getTranslatedValues("account")!,
                             textColor: Constants.black1.withOpacity(0.5),
                             weight: FontWeight.w500,
                             size: Constants.bodyNormal,
@@ -163,7 +164,8 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                               width: 25,
                               color: Constants.primaryColor,
                             ),
-                            title: "Update Username",
+                            title: AppLocalization.of(context)!
+                                .getTranslatedValues("updateUsername")!,
                             subtitle: state.userProfile.name!,
                             onTap: () {
                               editProfileFieldBottomSheet(
@@ -198,7 +200,8 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                               width: 25,
                               color: Constants.primaryColor,
                             ),
-                            title: "Change Password",
+                            title: AppLocalization.of(context)!
+                                .getTranslatedValues("changePassword")!,
                             subtitle: "last change 1 year ago",
                             onTap: () {
                               editpasswordFieldBottomSheet(
@@ -215,7 +218,8 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                           ),
                           WidgetsUtil.verticalSpace16,
                           _settingsOptionsContainer(
-                            title: "Language",
+                            title: AppLocalization.of(context)!
+                                .getTranslatedValues("language")!,
                             subtitle: "Change Language",
                             onTap: () {
                               Navigator.of(context).pop();
@@ -230,7 +234,8 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                           ),
                           WidgetsUtil.verticalSpace16,
                           _settingsOptionsContainer(
-                              title: "Delete Account",
+                              title: AppLocalization.of(context)!
+                                  .getTranslatedValues("deleteAccount")!,
                               subtitle: "Delete your Account",
                               listTileicon: Icon(
                                 Icons.delete_outline_rounded,
@@ -310,7 +315,8 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               TitleText(
-                                text: "Notification",
+                                text: AppLocalization.of(context)!
+                                    .getTranslatedValues("notificationLbl")!,
                                 textColor: Constants.black1,
                                 weight: FontWeight.w500,
                                 size: Constants.bodyNormal,
@@ -363,7 +369,8 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                           ),
                           WidgetsUtil.verticalSpace16,
                           _settingsOptionsContainer(
-                            title: "Contact Us",
+                            title: AppLocalization.of(context)!
+                                .getTranslatedValues("contactUs")!,
                             listTileicon: Icon(
                               Icons.contacts_outlined,
                               color: Constants.primaryColor,
@@ -378,12 +385,14 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                           ),
                           WidgetsUtil.verticalSpace16,
                           _settingsOptionsContainer(
-                            title: "About Us",
+                            title: AppLocalization.of(context)!
+                                .getTranslatedValues("aboutUs")!,
                             listTileicon: Icon(
                               Icons.info_outline,
                               color: Constants.primaryColor,
                             ),
-                            subtitle: "About Us",
+                            subtitle: AppLocalization.of(context)!
+                                .getTranslatedValues("aboutUs")!,
                             onTap: () {
                               Navigator.push(
                                   context,
@@ -397,8 +406,10 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                               Icons.stars,
                               color: Constants.primaryColor,
                             ),
-                            subtitle: "Rate our App",
-                            title: "Rate Us",
+                            subtitle: AppLocalization.of(context)!
+                                .getTranslatedValues("rateUsLbl")!,
+                            title: AppLocalization.of(context)!
+                                .getTranslatedValues("rateUsLbl")!,
                             onTap: () {
                               /// rate us button
                               Navigator.of(context).pop();
@@ -490,7 +501,8 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                             },
                             child: Center(
                               child: TitleText(
-                                text: "Logout",
+                                text: AppLocalization.of(context)!
+                                    .getTranslatedValues("logoutLbl")!,
                                 textColor: Colors.red,
                                 weight: FontWeight.w500,
                                 size: Constants.bodyNormal,

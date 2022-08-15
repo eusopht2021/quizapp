@@ -258,6 +258,7 @@ class _ProfileState extends State<Profile> {
                 );
               },
               child: bdgs.Badge(
+                  toAnimate: false,
                   badgeColor: Constants.white,
                   elevation: 0,
                   position: bdgs.BadgePosition.bottomStart(
@@ -754,7 +755,7 @@ class _ProfileState extends State<Profile> {
                 ),
                 child: TitleText(
                   text:
-                      'You have answered total ${_totalAnswers(model.answeredQuestions)} questions!',
+                      '${AppLocalization.of(context)!.getTranslatedValues("youHaveAnswered")!} ${_totalAnswers(model.answeredQuestions)} ${AppLocalization.of(context)!.getTranslatedValues("questions")!}!',
                   textColor: Constants.black1,
                   align: TextAlign.center,
                   size: Constants.bodyXLarge,
@@ -1257,7 +1258,7 @@ class _ProfileState extends State<Profile> {
           Expanded(
             child: rowItem(
               Assets.star,
-              'POINTS',
+              AppLocalization.of(context)!.getTranslatedValues("points")!,
               state.userProfile.allTimeScore,
             ),
           ),
@@ -1265,7 +1266,7 @@ class _ProfileState extends State<Profile> {
           Expanded(
             child: rowItem(
               Assets.world,
-              'WORLD RANK',
+              AppLocalization.of(context)!.getTranslatedValues("worldRank")!,
               '#${state.userProfile.allTimeRank}',
             ),
           ),
@@ -1273,7 +1274,7 @@ class _ProfileState extends State<Profile> {
           Expanded(
             child: rowItem(
               Assets.local,
-              'COINS',
+              AppLocalization.of(context)!.getTranslatedValues("coinsLbl")!,
               '#${state.userProfile.coins}',
             ),
           ),
