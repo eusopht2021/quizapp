@@ -127,8 +127,8 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
         return false;
       },
       child: Scaffold(
-        appBar: const PreferredSize(
-          preferredSize: Size.fromHeight(60),
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(60),
           child: CustomAppBar(
             title: "Leaderboard",
             showBackButton: false,

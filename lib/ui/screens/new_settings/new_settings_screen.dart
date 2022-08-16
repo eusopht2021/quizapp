@@ -132,6 +132,7 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                     child: CustomAppBar(
                       title: "Settings",
                       showBackButton: true,
+                      backgroundColor: Constants.white,
                       textColor: Constants.black1,
                       iconColor: Constants.black1,
                       onBackTapped: () {

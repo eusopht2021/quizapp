@@ -250,6 +250,7 @@ class _DiscoverState extends State<Discover> {
 
   Widget _ranker({rankerCard, rankerName, points}) {
     return Badge(
+      toAnimate: false,
       badgeContent: SvgPicture.asset(Assets.crown),
       badgeColor: Colors.transparent,
       position: BadgePosition.topEnd(top: -20, end: 40),

@@ -317,6 +317,7 @@ class _CategoryScreen extends State<CategoryScreen> {
                             .pushNamed(Routes.subcategoryAndLevel, arguments: {
                           "category": categoryList[index].id,
                           "categoryName": categoryList[index].categoryName,
+                          
                         });
                       }
                     } else if (widget.quizType == QuizTypes.audioQuestions) {
@@ -337,6 +338,7 @@ class _CategoryScreen extends State<CategoryScreen> {
                             .pushNamed(Routes.subCategory, arguments: {
                           "categoryId": categoryList[index].id,
                           "quizType": widget.quizType,
+                          "subcategoryTitle": categoryList[index].categoryName
                         });
                       }
                     } else if (widget.quizType == QuizTypes.guessTheWord) {
@@ -353,6 +355,7 @@ class _CategoryScreen extends State<CategoryScreen> {
                             .pushNamed(Routes.subCategory, arguments: {
                           "categoryId": categoryList[index].id,
                           "quizType": widget.quizType,
+                          "subcategoryTitle": categoryList[index].categoryName
                         });
                       }
                     } else if (widget.quizType == QuizTypes.funAndLearn) {
@@ -362,12 +365,14 @@ class _CategoryScreen extends State<CategoryScreen> {
                             .pushNamed(Routes.funAndLearnTitle, arguments: {
                           "type": "category",
                           "typeId": categoryList[index].id,
+                          "categoryTitle": categoryList[index].categoryName,
                         });
                       } else {
                         Navigator.of(context)
                             .pushNamed(Routes.subCategory, arguments: {
                           "categoryId": categoryList[index].id,
                           "quizType": widget.quizType,
+                          "subcategoryTitle": categoryList[index].categoryName
                         });
                       }
                     } else if (widget.quizType == QuizTypes.mathMania) {
@@ -385,6 +390,7 @@ class _CategoryScreen extends State<CategoryScreen> {
                             .pushNamed(Routes.subCategory, arguments: {
                           "categoryId": categoryList[index].id,
                           "quizType": widget.quizType,
+                          "subcategoryTitle": categoryList[index].categoryName
                         });
                       }
                     }

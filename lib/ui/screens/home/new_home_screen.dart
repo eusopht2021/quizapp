@@ -1114,7 +1114,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
     } else if (_quizTypes[quizTypeIndex].quizTypeEnum == QuizTypes.quizZone) {
       Navigator.of(context).pushNamed(Routes.category, arguments: {
         "quizType": QuizTypes.quizZone,
-        "categoryTitle": "Quiz Zone"
+        "categoryTitle": _quizTypes[quizTypeIndex].getTitle(context)
 
         /// ??
       });
@@ -1144,8 +1144,10 @@ class _NewHomeScreenState extends State<NewHomeScreen>
       });
     } else if (_quizTypes[quizTypeIndex].quizTypeEnum ==
         QuizTypes.funAndLearn) {
-      Navigator.of(context).pushNamed(Routes.category,
-          arguments: {"quizType": QuizTypes.funAndLearn});
+      Navigator.of(context).pushNamed(Routes.category, arguments: {
+        "quizType": QuizTypes.funAndLearn,
+        "categoryTitle": _quizTypes[quizTypeIndex].getTitle(context),
+      });
     } else if (_quizTypes[quizTypeIndex].quizTypeEnum == QuizTypes.groupPlay) {
       context
           .read<MultiUserBattleRoomCubit>()
@@ -1173,19 +1175,27 @@ class _NewHomeScreenState extends State<NewHomeScreen>
       }
     } else if (_quizTypes[quizTypeIndex].quizTypeEnum ==
         QuizTypes.guessTheWord) {
-      Navigator.of(context).pushNamed(Routes.category,
-          arguments: {"quizType": QuizTypes.guessTheWord});
+      Navigator.of(context).pushNamed(Routes.category, arguments: {
+        "quizType": QuizTypes.guessTheWord,
+        "categoryTitle": _quizTypes[quizTypeIndex].getTitle(context)
+      });
     } else if (_quizTypes[quizTypeIndex].quizTypeEnum ==
         QuizTypes.audioQuestions) {
-      Navigator.of(context).pushNamed(Routes.category,
-          arguments: {"quizType": QuizTypes.audioQuestions});
+      Navigator.of(context).pushNamed(Routes.category, arguments: {
+        "quizType": QuizTypes.audioQuestions,
+        "categoryTitle": _quizTypes[quizTypeIndex].getTitle(context),
+      });
     } else if (_quizTypes[quizTypeIndex].quizTypeEnum == QuizTypes.exam) {
       //update exam status to exam initial
       context.read<ExamCubit>().updateState(ExamInitial());
-      Navigator.of(context).pushNamed(Routes.exams);
+      Navigator.of(context).pushNamed(Routes.exams, arguments: {
+        "categoryTitle": _quizTypes[quizTypeIndex].getTitle(context),
+      });
     } else if (_quizTypes[quizTypeIndex].quizTypeEnum == QuizTypes.mathMania) {
-      Navigator.of(context).pushNamed(Routes.category,
-          arguments: {"quizType": QuizTypes.mathMania});
+      Navigator.of(context).pushNamed(Routes.category, arguments: {
+        "quizType": QuizTypes.mathMania,
+        "categoryTitle": _quizTypes[quizTypeIndex].getTitle(context)
+      });
     }
   }
 
@@ -1217,34 +1227,41 @@ class _NewHomeScreenState extends State<NewHomeScreen>
         child: Align(
           alignment: Alignment.center,
           child: Stack(
+            clipBehavior: Clip.none,
             children: [
               GestureDetector(
                 onTap: onTap,
                 child: Column(
                   children: [
                     Expanded(
-                      child: SvgPicture.asset(
-                        icon!,
-                        color: iconColor,
-                        width: 50,
-                        height: 50,
+                      child: FittedBox(
+                        fit: BoxFit.fill,
+                        child: SvgPicture.asset(
+                          icon!,
+                          color: iconColor,
+                          height: 60,
+                          width: 60,
+                        ),
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: TitleText(
-                        text: categoryName!,
-                        textColor: textColor ?? Constants.white,
-                        size: Constants.bodyNormal,
-                        weight: FontWeight.w500,
-                        align: TextAlign.center,
+                    WidgetsUtil.verticalSpace10,
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: TitleText(
+                          text: categoryName!,
+                          textColor: textColor ?? Constants.white,
+                          size: Constants.bodyNormal,
+                          weight: FontWeight.w500,
+                          align: TextAlign.center,
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
               Align(
-                alignment: const Alignment(1.45, -1.7),
+                alignment: const Alignment(1.6, -1.9),
                 child: showDesc!
                     ? Card(
                         color: Constants.grey5,
@@ -1260,13 +1277,14 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                         ),
                       )
                     : Badge(
-                        position: BadgePosition.topEnd(),
-                        badgeColor: Colors.transparent,
-                        elevation: 0,
-                        child: Icon(
+                        badgeContent: Icon(
                           Icons.info,
                           color: iconColor,
                         ),
+                        // position: BadgePosition.topEnd(top: 0, end: 0),
+                        badgeColor: Colors.transparent,
+                        elevation: 0,
+                        // stackFit: StackFit.passthroughx,
                       ),
               ),
 

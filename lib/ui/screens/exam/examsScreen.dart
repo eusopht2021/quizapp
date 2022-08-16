@@ -19,18 +19,21 @@ import 'package:flutterquiz/ui/widgets/circularProgressContainner.dart';
 import 'package:flutterquiz/ui/widgets/customBackButton.dart';
 import 'package:flutterquiz/ui/widgets/errorContainer.dart';
 import 'package:flutterquiz/ui/widgets/pageBackgroundGradientContainer.dart';
+import 'package:flutterquiz/ui/widgets/title_text.dart';
 import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
 
 class ExamsScreen extends StatefulWidget {
-  ExamsScreen({Key? key}) : super(key: key);
+  final String? categorytitle;
+  ExamsScreen({Key? key, this.categorytitle}) : super(key: key);
 
   @override
   _ExamsScreenState createState() => _ExamsScreenState();
 
   static Route<dynamic> route(RouteSettings routeSettings) {
+    Map arguments = routeSettings.arguments as Map<String, dynamic>;
     return CupertinoPageRoute(
       builder: (context) => MultiBlocProvider(
         providers: [

@@ -19,8 +19,12 @@ import 'package:flutterquiz/utils/uiUtils.dart';
 class SubCategoryScreen extends StatefulWidget {
   final String categoryId;
   final QuizTypes quizType;
+  final String? subcategoryTitle;
   const SubCategoryScreen(
-      {Key? key, required this.categoryId, required this.quizType})
+      {Key? key,
+      required this.categoryId,
+      required this.quizType,
+      this.subcategoryTitle})
       : super(key: key);
 
   @override
@@ -32,6 +36,7 @@ class SubCategoryScreen extends StatefulWidget {
         builder: (_) => SubCategoryScreen(
               categoryId: arguments['categoryId'],
               quizType: arguments['quizType'],
+              subcategoryTitle: arguments['subcategoryTitle'],
             ));
   }
 }
@@ -184,7 +189,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
-      title: "",
+      title: widget.subcategoryTitle ?? "",
       showBackButton: true,
       titleColor: Constants.white,
       backgroundColor: Constants.primaryColor,
