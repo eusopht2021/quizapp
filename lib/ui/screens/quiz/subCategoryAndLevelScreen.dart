@@ -62,7 +62,7 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
   int currentIndex = 0;
   bool isExpanded = false;
   int? selected;
-  Widget icon = Icon(Icons.arrow_forward_ios_rounded);
+  // Widget icon = Icon(Icons.arrow_forward_ios_rounded);
 
   final expansionBox = [];
   @override
@@ -519,7 +519,7 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
                       size: Constants.bodyNormal,
                       weight: FontWeight.w400,
                     ),
-                    trailing: isExpanded
+                    trailing: expansionBox.contains(index)
                         ? const Icon(
                             Icons.keyboard_arrow_up_rounded,
                             size: 40,
@@ -530,11 +530,11 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
                     iconColor: Constants.primaryColor,
                     collapsedIconColor: Constants.primaryColor,
                     onExpansionChanged: (bool value) {
-                      if (expansionBox.contains(currentIndex)) {
-                        expansionBox.remove(currentIndex);
+                      if (expansionBox.contains(index)) {
+                        expansionBox.remove(index);
                         // expansionBox.remove(widget.subCategoryList);
                       } else {
-                        expansionBox.add(currentIndex);
+                        expansionBox.add(index);
 
                         // expansionBox.add(widget.subCategoryList);
                       }
