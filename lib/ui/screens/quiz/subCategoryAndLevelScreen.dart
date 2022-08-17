@@ -60,7 +60,11 @@ class SubCategoryAndLevelScreen extends StatefulWidget {
 
 class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
   int currentIndex = 0;
+  bool isExpanded = false;
+  int? selected;
+  Widget icon = Icon(Icons.arrow_forward_ios_rounded);
 
+  final expansionBox = [];
   @override
   void initState() {
     context.read<SubCategoryCubit>().fetchSubCategory(
@@ -136,7 +140,6 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
           return GestureDetector(
             onTap: () {
               //index start with 0 so we comparing (index + 1)
-
               if ((index + 1) <= unlockedLevel) {
                 //replacing this page
                 Navigator.of(context)
@@ -185,8 +188,6 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
           );
         });
   }
-
-  bool isExpanded = false;
 
   heightContainer(List items) {
     double itemContainerHeight = 75.0;
@@ -441,80 +442,112 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
 
   Widget levelBoxes() {
     return BlocConsumer<SubCategoryCubit, SubCategoryState>(
-      bloc: context.read<SubCategoryCubit>(),
-      listener: (context, state) {
-        if (state is SubCategoryFetchSuccess) {
-          if (currentIndex == 0) {
-            context.read<UnlockedLevelCubit>().fetchUnlockLevel(
-                context.read<UserDetailsCubit>().getUserId(),
-                widget.category,
-                state.subcategoryList.first.id);
+        bloc: context.read<SubCategoryCubit>(),
+        listener: (context, state) {
+          if (state is SubCategoryFetchSuccess) {
+            if (currentIndex == 0) {
+              context.read<UnlockedLevelCubit>().fetchUnlockLevel(
+                  context.read<UserDetailsCubit>().getUserId(),
+                  widget.category,
+                  state.subcategoryList.first.id);
+            }
+          } else if (state is SubCategoryFetchFailure) {
+            if (state.errorMessage == unauthorizedAccessCode) {
+              //
+              UiUtils.showAlreadyLoggedInDialog(
+                context: context,
+              );
+            }
           }
-        } else if (state is SubCategoryFetchFailure) {
-          if (state.errorMessage == unauthorizedAccessCode) {
-            //
-            UiUtils.showAlreadyLoggedInDialog(
-              context: context,
+        },
+        builder: (context, state) {
+          if (state is SubCategoryFetchInProgress ||
+              state is SubCategoryInitial) {
+            return Center(
+                child: CircularProgressIndicator(
+              color: Constants.white,
+            ));
+          }
+          if (state is SubCategoryFetchFailure) {
+            return ErrorContainer(
+              errorMessageColor: Constants.primaryColor,
+              errorMessage: AppLocalization.of(context)!.getTranslatedValues(
+                  convertErrorCodeToLanguageKey(state.errorMessage)),
+              showErrorImage: true,
+              onTapRetry: () {
+                context.read<SubCategoryCubit>().fetchSubCategory(
+                      widget.category!,
+                      context.read<UserDetailsCubit>().getUserId(),
+                    );
+              },
             );
           }
-        }
-      },
-      builder: (context, state) {
-        if (state is SubCategoryFetchInProgress ||
-            state is SubCategoryInitial) {
-          return Center(
-              child: CircularProgressIndicator(
-            color: Constants.white,
-          ));
-        }
-        if (state is SubCategoryFetchFailure) {
-          return ErrorContainer(
-            errorMessageColor: Constants.primaryColor,
-            errorMessage: AppLocalization.of(context)!.getTranslatedValues(
-                convertErrorCodeToLanguageKey(state.errorMessage)),
-            showErrorImage: true,
-            onTapRetry: () {
-              context.read<SubCategoryCubit>().fetchSubCategory(
-                    widget.category!,
-                    context.read<UserDetailsCubit>().getUserId(),
-                  );
+          final subCategoryList =
+              (state as SubCategoryFetchSuccess).subcategoryList;
+
+          return ListView.separated(
+            separatorBuilder: (context, index) {
+              return const SizedBox(
+                height: 16,
+              );
             },
-          );
-        }
-        final subCategoryList =
-            (state as SubCategoryFetchSuccess).subcategoryList;
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: subCategoryList.length,
+            itemBuilder: (context, index) {
+              return Container(
+                decoration: BoxDecoration(
+                  borderRadius: StyleProperties.cardsRadius,
+                  color: Constants.grey5,
+                ),
+                child: Theme(
+                  data: Theme.of(context)
+                      .copyWith(dividerColor: Colors.transparent),
+                  child: ExpansionTile(
+                    title: TitleText(
+                      text: subCategoryList[index].subcategoryName!,
+                      textColor: Constants.primaryColor,
+                      weight: FontWeight.w500,
+                      size: Constants.bodyLarge,
+                    ),
+                    childrenPadding: const EdgeInsets.all(10),
+                    subtitle: TitleText(
+                      text:
+                          "${AppLocalization.of(context)!.getTranslatedValues(questionsKey)!} : ${subCategoryList[index].noOfQue}",
+                      textColor: Constants.primaryColor,
+                      size: Constants.bodyNormal,
+                      weight: FontWeight.w400,
+                    ),
+                    trailing: isExpanded
+                        ? const Icon(
+                            Icons.keyboard_arrow_up_rounded,
+                            size: 40,
+                          )
+                        : const Icon(
+                            Icons.arrow_forward_ios_rounded,
+                          ),
+                    iconColor: Constants.primaryColor,
+                    collapsedIconColor: Constants.primaryColor,
+                    onExpansionChanged: (bool value) {
+                      if (expansionBox.contains(currentIndex)) {
+                        expansionBox.remove(currentIndex);
+                        // expansionBox.remove(widget.subCategoryList);
+                      } else {
+                        expansionBox.add(currentIndex);
 
-        return ListView.separated(
-          separatorBuilder: (context, index) {
-            return const SizedBox(
-              height: 16,
-            );
-          },
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          //   crossAxisCount: 2,
-          //   mainAxisSpacing: 16,
-          //   mainAxisExtent: height,
-          //   crossAxisSpacing: 16,
-          // ),
-          itemCount: subCategoryList.length,
-          itemBuilder: (context, index) {
-            //  fetch unlocked level for current selected subcategory
-
-            return Container(
-              decoration: BoxDecoration(
-                borderRadius: StyleProperties.cardsRadius,
-                color: Constants.grey5,
-              ),
-              padding: StyleProperties.insets10,
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    SubcategoryContainer(
-                      levels:
-                          BlocConsumer<UnlockedLevelCubit, UnlockedLevelState>(
+                        // expansionBox.add(widget.subCategoryList);
+                      }
+                      isExpanded = value;
+                      context.read<UnlockedLevelCubit>().fetchUnlockLevel(
+                          context.read<UserDetailsCubit>().getUserId(),
+                          widget.category,
+                          subCategoryList[index].id);
+                      log("$isExpanded");
+                      setState(() {});
+                    },
+                    children: [
+                      BlocConsumer<UnlockedLevelCubit, UnlockedLevelState>(
                         listener: (context, state) {
                           if (state is UnlockedLevelFetchFailure) {
                             if (state.errorMessage == unauthorizedAccessCode) {
@@ -529,67 +562,100 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
                           return _buildLevels(state, subCategoryList);
                         },
                       ),
-                      subcategory: subCategoryList[index],
-                      currentIndex: currentIndex,
-                      index: index,
-                      category: widget.category,
-                      subCategoryList: subCategoryList[index].id,
-                    ),
-
-                    // const Divider(),
-                    // Row(
-                    //   children: [
-                    //     TitleText(
-                    //       text: "Levels",
-                    //       textColor: Constants.primaryColor,
-                    //     ),
-                    //     const Spacer(),
-                    //     IconButton(
-                    //       icon: isExpanded
-                    //           ? Icon(Icons.arrow_drop_up)
-                    //           : Icon(Icons.arrow_drop_down),
-                    //       onPressed: () {
-                    //         setState(() {
-                    //           isExpanded = !isExpanded;
-                    //         });
-                    //       },
-                    //     ),
-                    //   ],
-                    // ),
-                    // const Divider(),
-                    // isExpanded
-                    //     ? BlocConsumer<UnlockedLevelCubit,
-                    //         UnlockedLevelState>(
-                    //         listener: (context, state) {
-                    //           if (state is UnlockedLevelFetchFailure) {
-                    //             if (state.errorMessage ==
-                    //                 unauthorizedAccessCode) {
-                    //               //
-                    //               UiUtils.showAlreadyLoggedInDialog(
-                    //                 context: context,
-                    //               );
-                    //             }
-                    //           }
-                    //         },
-                    //         builder: (context, state) {
-                    //           return _buildLevels(state, subCategoryList);
-                    //         },
-                    //       )
-                    //     : SizedBox(),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            );
-          },
-        );
-      },
-    );
+              );
+
+              //  fetch unlocked level for current selected subcategory
+
+              // return Container(
+              //     decoration: BoxDecoration(
+              //       borderRadius: StyleProperties.cardsRadius,
+              //       color: Constants.grey5,
+              //     ),
+              //     padding: StyleProperties.insets10,
+              //     child: SingleChildScrollView(
+              //         child: Column(children: [
+              //       SubcategoryContainer(
+              //         levels:
+              //             BlocConsumer<UnlockedLevelCubit, UnlockedLevelState>(
+              //           listener: (context, state) {
+              //             if (state is UnlockedLevelFetchFailure) {
+              //               if (state.errorMessage == unauthorizedAccessCode) {
+              //                 //
+              //                 UiUtils.showAlreadyLoggedInDialog(
+              //                   context: context,
+              //                 );
+              //               }
+              //             }
+              //           },
+              //           builder: (context, state) {
+              //             return _buildLevels(state, subCategoryList);
+              //           },
+              //         ),
+              //         subcategory: subCategoryList[index],
+              //         currentIndex: currentIndex,
+              //         index: index,
+              //         category: widget.category,
+              //         subCategoryList: subCategoryList[index].id,
+              //       ),
+              //       const Divider()
+              //     ])));
+              // Row(
+              //   children: [
+              //     TitleText(
+              //       text: "Levels",
+              //       textColor: Constants.primaryColor,
+              //     ),
+              //     const Spacer(),
+              //     IconButton(
+              //       icon: isExpanded
+              //           ? Icon(Icons.arrow_drop_up)
+              //           : Icon(Icons.arrow_drop_down),
+              //       onPressed: () {
+              //         setState(() {
+              //           isExpanded = !isExpanded;
+              //         });
+              //       },
+              //     ),
+              //   ],
+              // ),
+              // const Divider(),
+              // isExpanded
+              //     ? BlocConsumer<UnlockedLevelCubit,
+              //         UnlockedLevelState>(
+              //         listener: (context, state) {
+              //           if (state is UnlockedLevelFetchFailure) {
+              //             if (state.errorMessage ==
+              //                 unauthorizedAccessCode) {
+              //               //
+              //               UiUtils.showAlreadyLoggedInDialog(
+              //                 context: context,
+              //               );
+              //             }
+              //           }
+              //         },
+              //         builder: (context, state) {
+              //           return _buildLevels(state, subCategoryList);
+              //         },
+              //       )
+              //     : SizedBox(),
+//                   ],
+//                 ),
+//               ),
+//             );
+//           },
+//         );
+            },
+          );
+        });
   }
 }
 
 class SubcategoryContainer extends StatefulWidget {
   final int index;
-  final int currentIndex;
+  late int currentIndex;
   final Subcategory subcategory;
   final String? category;
   final Widget? levels;
@@ -664,17 +730,20 @@ class _SubcategoryContainerState extends State<SubcategoryContainer>
           collapsedIconColor: Constants.primaryColor,
           onExpansionChanged: ((value) {
             //fetch unlocked level for current selected subcategory
+
+            // widget.index = (value) as int;
+
             context.read<UnlockedLevelCubit>().fetchUnlockLevel(
                   context.read<UserDetailsCubit>().getUserId(),
                   widget.category, // coming from function
                   widget.subCategoryList, // coming from function
                 );
 
-            if (expansionBoxes.contains(widget.currentIndex)) {
-              expansionBoxes.remove(widget.currentIndex);
+            if (expansionBoxes.contains(value)) {
+              expansionBoxes.remove(widget.index);
               expansionBoxes.remove(widget.subCategoryList);
             } else {
-              expansionBoxes.add(widget.currentIndex);
+              expansionBoxes.add(widget.index);
               expansionBoxes.add(widget.subCategoryList);
             }
             isExpanded = value;

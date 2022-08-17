@@ -201,8 +201,7 @@ class _NewQuestionsContainerState extends State<NewQuestionsContainer> {
     }
     return Container(
       child: Text(
-        AppLocalization.of(context)!.getTranslatedValues("levelLbl")! +
-            " : ${widget.level}",
+        "${AppLocalization.of(context)!.getTranslatedValues("levelLbl")!} : ${widget.level}",
         style: TextStyle(color: Theme.of(context).colorScheme.secondary),
       ),
     );
@@ -549,6 +548,9 @@ class _NewQuestionsContainerState extends State<NewQuestionsContainer> {
         child: Stack(
           alignment: Alignment.topCenter,
           children: [
+            //  Align(
+            //           alignment: AlignmentDirectional.topStart,
+            //           child: _buildLevelContainer(),),
             ..._buildQuesitons(context),
           ],
         ),

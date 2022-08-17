@@ -1216,84 +1216,88 @@ class _NewHomeScreenState extends State<NewHomeScreen>
     bool? showDesc,
   }) {
     return GestureDetector(
-      onTap: onTapIcon,
-      child: Container(
-        // width: SizeConfig.screenWidth,
-        margin: EdgeInsets.zero,
-        decoration: BoxDecoration(
-          borderRadius: StyleProperties.cardsRadius,
-          color: backgroundColor,
-        ),
-        padding: StyleProperties.insets18,
-        child: Align(
-          alignment: Alignment.center,
-          child: Stack(
-            clipBehavior: Clip.none,
-            children: [
-              GestureDetector(
-                onTap: onTap,
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: FittedBox(
-                        fit: BoxFit.fill,
-                        child: SvgPicture.asset(
-                          icon!,
-                          color: iconColor,
-                          height: 60,
-                          width: 60,
+      onTap: onTap,
+      child: Stack(
+        children: [
+          Container(
+            // width: SizeConfig.screenWidth,
+            margin: EdgeInsets.zero,
+            decoration: BoxDecoration(
+              borderRadius: StyleProperties.cardsRadius,
+              color: backgroundColor,
+            ),
+            padding: StyleProperties.insets18,
+            child: Align(
+              alignment: Alignment.center,
+              child: Stack(
+                children: [
+                  Column(
+                    children: [
+                      Expanded(
+                        child: FittedBox(
+                          fit: BoxFit.fill,
+                          child: SvgPicture.asset(
+                            icon!,
+                            color: iconColor,
+                            height: 60,
+                            width: 60,
+                          ),
                         ),
                       ),
-                    ),
-                    WidgetsUtil.verticalSpace10,
-                    Expanded(
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: TitleText(
-                          text: categoryName!,
-                          textColor: textColor ?? Constants.white,
-                          size: Constants.bodyNormal,
-                          weight: FontWeight.w500,
-                          align: TextAlign.center,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Align(
-                alignment: const Alignment(1.6, -1.9),
-                child: showDesc!
-                    ? Card(
-                        color: Constants.grey5,
-                        elevation: 10,
-                        shadowColor: Constants.primaryColor.withOpacity(0.5),
-                        margin: EdgeInsets.zero,
-                        child: Center(
+                      WidgetsUtil.verticalSpace10,
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.center,
                           child: TitleText(
-                            text: quizDescription!,
-                            textColor: Constants.primaryColor,
+                            text: categoryName!,
+                            textColor: textColor ?? Constants.white,
+                            size: Constants.bodyNormal,
+                            weight: FontWeight.w500,
                             align: TextAlign.center,
                           ),
                         ),
-                      )
-                    : Badge(
-                        badgeContent: Icon(
-                          Icons.info,
-                          color: iconColor,
-                        ),
-                        // position: BadgePosition.topEnd(top: 0, end: 0),
-                        badgeColor: Colors.transparent,
-                        elevation: 0,
-                        toAnimate: false,
-                        // stackFit: StackFit.passthroughx,
                       ),
-              ),
+                    ],
+                  ),
 
-              // const Spacer(),
-            ],
+                  // Tooltip(
+                  //   verticalOffset: 1.6,
+                  //   decoration: BoxDecoration(color: Constants.black1),
+                  //   message: quizDescription,
+                  //   child: Icon(
+                  //     Icons.info,
+                  //     color: iconColor,
+                  //   ),
+                  // ),
+
+                  // color: Constants.grey5,
+                  // elevation: 10,
+                  // shadowColor: Constants.primaryColor.withOpacity(0.5),
+                  // margin: EdgeInsets.zero,
+                  // child: Center(
+                  //   child: TitleText(
+                  //     text: quizDescription!,
+                  //     textColor: Constants.primaryColor,
+                  //     align: TextAlign.center,
+                  //   ),
+
+                  // const Spacer(),
+                ],
+              ),
+            ),
           ),
-        ),
+          Align(
+            alignment: const Alignment(1.1, -1.1),
+            child: Tooltip(
+              triggerMode: TooltipTriggerMode.tap,
+              message: quizDescription,
+              child: Icon(
+                Icons.info,
+                color: Constants.primaryColor,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
