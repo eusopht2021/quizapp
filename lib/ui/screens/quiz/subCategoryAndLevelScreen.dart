@@ -136,6 +136,7 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
           return GestureDetector(
             onTap: () {
               //index start with 0 so we comparing (index + 1)
+
               if ((index + 1) <= unlockedLevel) {
                 //replacing this page
                 Navigator.of(context)
@@ -424,7 +425,7 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
 //                 WidgetsUtil.verticalSpace4,
 //                 TitleText(
 //                   text:
-//                       "${AppLocalization.of(context)!.getTranslatedValues(questionsKey)!} : ${widget.subcategory.noOfQue!}",
+//                       "${.of(context)!.getTranslatedValues(questionsKey)!} : ${widget.subcategory.noOfQue!}",
 //                   textColor: Constants.white,
 //                   size: 18,
 //                 ),
@@ -500,6 +501,8 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
           // ),
           itemCount: subCategoryList.length,
           itemBuilder: (context, index) {
+            //  fetch unlocked level for current selected subcategory
+
             return Container(
               decoration: BoxDecoration(
                 borderRadius: StyleProperties.cardsRadius,
@@ -612,7 +615,19 @@ class _SubcategoryContainerState extends State<SubcategoryContainer>
   late Animation<double> scaleAnimation;
   final expansionBoxes = [];
   bool? isExpanded = false;
-  int? index;
+  // int? index;
+
+  @override
+  void didUpdateWidget(covariant SubcategoryContainer oldWidget) {
+    if (widget.currentIndex == widget.index) {
+      // animationController.forward();
+    } else {
+      // animationController.reverse();
+    }
+
+    super.didUpdateWidget(oldWidget);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -648,17 +663,21 @@ class _SubcategoryContainerState extends State<SubcategoryContainer>
           iconColor: Constants.primaryColor,
           collapsedIconColor: Constants.primaryColor,
           onExpansionChanged: ((value) {
+            //fetch unlocked level for current selected subcategory
             context.read<UnlockedLevelCubit>().fetchUnlockLevel(
-                context.read<UserDetailsCubit>().getUserId(),
-                widget.category,
-                widget.subCategoryList);
+                  context.read<UserDetailsCubit>().getUserId(),
+                  widget.category, // coming from function
+                  widget.subCategoryList, // coming from function
+                );
 
-            if (expansionBoxes.contains(widget.index)) {
-              expansionBoxes.remove(widget.index);
+            if (expansionBoxes.contains(widget.currentIndex)) {
+              expansionBoxes.remove(widget.currentIndex);
+              expansionBoxes.remove(widget.subCategoryList);
             } else {
-              expansionBoxes.add(widget.index);
+              expansionBoxes.add(widget.currentIndex);
+              expansionBoxes.add(widget.subCategoryList);
             }
-            isExpanded = !isExpanded!;
+            isExpanded = value;
             setState(() {});
 
             // value

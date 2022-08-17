@@ -485,6 +485,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                       WidgetsUtil.verticalSpace16,
 
                       GridView.builder(
+                        clipBehavior: Clip.none,
                         physics: const NeverScrollableScrollPhysics(),
                         padding: const EdgeInsets.only(
                             top: 16, right: 0, left: 0, bottom: kToolbarHeight),
@@ -1284,6 +1285,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                         // position: BadgePosition.topEnd(top: 0, end: 0),
                         badgeColor: Colors.transparent,
                         elevation: 0,
+                        toAnimate: false,
                         // stackFit: StackFit.passthroughx,
                       ),
               ),
