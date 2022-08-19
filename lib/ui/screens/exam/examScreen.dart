@@ -15,9 +15,11 @@ import 'package:flutterquiz/ui/screens/exam/widgets/examTimerContainer.dart';
 import 'package:flutterquiz/ui/screens/quiz/widgets/questionContainer.dart';
 import 'package:flutterquiz/ui/widgets/customBackButton.dart';
 import 'package:flutterquiz/ui/widgets/exitGameDailog.dart';
+import 'package:flutterquiz/ui/widgets/new_option_container.dart';
 import 'package:flutterquiz/ui/widgets/optionContainer.dart';
 import 'package:flutterquiz/ui/widgets/pageBackgroundGradientContainer.dart';
 import 'package:flutterquiz/utils/answerEncryption.dart';
+import 'package:flutterquiz/utils/constants.dart';
 
 import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
@@ -156,7 +158,7 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
         context: context,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
-            topLeft: const Radius.circular(20.0),
+            topLeft: Radius.circular(20.0),
             topRight: Radius.circular(20.0),
           ),
         ),
@@ -231,10 +233,10 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
     return Container(
       decoration: BoxDecoration(
           borderRadius: const BorderRadius.only(
-            topLeft: const Radius.circular(20),
-            topRight: const Radius.circular(20),
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
           ),
-          color: Theme.of(context).backgroundColor),
+          color: Constants.primaryColor),
       padding:
           const EdgeInsets.only(bottom: 8.0, top: 8.0, left: 20, right: 20),
       child: Row(
@@ -251,7 +253,7 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
                 },
                 icon: Icon(
                   Icons.arrow_back_ios,
-                  color: Theme.of(context).primaryColor,
+                  color: Constants.white,
                 )),
           ),
           const Spacer(),
@@ -260,7 +262,7 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
               showExamQuestionStatusBottomSheet();
             },
             child: CircleAvatar(
-              backgroundColor: Theme.of(context).primaryColor,
+              backgroundColor: Constants.primaryColor,
               radius: 20,
               child: Padding(
                 padding: const EdgeInsets.all(5.0),
@@ -286,7 +288,7 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
                 },
                 icon: Icon(
                   Icons.arrow_forward_ios,
-                  color: Theme.of(context).primaryColor,
+                  color: Constants.white,
                 )),
           ),
         ],
@@ -296,6 +298,14 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
 
   Widget _buildAppBar() {
     return Container(
+      height:
+          MediaQuery.of(context).size.height * (UiUtils.appBarHeightPercentage),
+      decoration: BoxDecoration(
+          boxShadow: [UiUtils.buildAppbarShadow()],
+          color: Constants.primaryColor,
+          borderRadius: const BorderRadius.only(
+              bottomLeft: Radius.circular(20.0),
+              bottomRight: Radius.circular(20.0))),
       child: Stack(
         children: [
           Align(
@@ -305,7 +315,7 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
                   const EdgeInsetsDirectional.only(start: 20.0, bottom: 30.0),
               child: CustomBackButton(
                 removeSnackBars: false,
-                iconColor: Theme.of(context).primaryColor,
+                iconColor: Constants.white,
               ),
             ),
           ),
@@ -325,7 +335,7 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                        color: Theme.of(context).primaryColor,
+                        color: Constants.white,
                         fontSize: 17,
                         fontWeight: FontWeight.bold,
                       ),
@@ -337,7 +347,7 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
                   Text(
                     "${context.read<ExamCubit>().getExam().totalMarks} ${AppLocalization.of(context)!.getTranslatedValues(markKey)!}",
                     style: TextStyle(
-                      color: Theme.of(context).primaryColor,
+                      color: Constants.white,
                     ),
                   ),
                 ],
@@ -359,14 +369,6 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
           ),
         ],
       ),
-      height:
-          MediaQuery.of(context).size.height * (UiUtils.appBarHeightPercentage),
-      decoration: BoxDecoration(
-          boxShadow: [UiUtils.buildAppbarShadow()],
-          color: Theme.of(context).backgroundColor,
-          borderRadius: const BorderRadius.only(
-              bottomLeft: Radius.circular(20.0),
-              bottomRight: const Radius.circular(20.0))),
     );
   }
 
@@ -416,19 +418,27 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
             itemCount: state.questions.length,
             itemBuilder: (context, index) {
               return SingleChildScrollView(
+                padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height *
+                          (UiUtils.appBarHeightPercentage) +
+                      25,
+                ),
                 child: Column(
                   children: [
-                    QuestionContainer(
-                      isMathQuestion: false,
-                      questionColor: Theme.of(context).colorScheme.secondary,
-                      questionNumber: index + 1,
-                      question: state.questions[index],
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: QuestionContainer(
+                        isMathQuestion: false,
+                        questionColor: Constants.black1,
+                        questionNumber: index + 1,
+                        question: state.questions[index],
+                      ),
                     ),
                     const SizedBox(
                       height: 25,
                     ),
                     ...state.questions[index].answerOptions!
-                        .map((option) => OptionContainer(
+                        .map((option) => NewOptionContainer(
                             quizType: QuizTypes.exam,
                             showAnswerCorrectness: false,
                             showAudiencePoll: false,
@@ -453,11 +463,6 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
                                 state.questions[index].submittedAnswerId))
                         .toList(),
                   ],
-                ),
-                padding: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height *
-                          (UiUtils.appBarHeightPercentage) +
-                      25,
                 ),
               );
             },
@@ -492,9 +497,10 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
         return Future.value(false);
       },
       child: Scaffold(
+        backgroundColor: Constants.white,
         body: Stack(
           children: [
-            const PageBackgroundGradientContainer(),
+            // const PageBackgroundGradientContainer(),
             _buildAppBar(),
             _buildQuestions(),
             Align(

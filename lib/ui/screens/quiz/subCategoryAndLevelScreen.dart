@@ -505,6 +505,7 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
                   data: Theme.of(context)
                       .copyWith(dividerColor: Colors.transparent),
                   child: ExpansionTile(
+                    key: Key(index.toString()),
                     title: TitleText(
                       text: subCategoryList[index].subcategoryName!,
                       textColor: Constants.primaryColor,
@@ -527,23 +528,25 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
                         : const Icon(
                             Icons.arrow_forward_ios_rounded,
                           ),
+                    initiallyExpanded: index == selected,
                     iconColor: Constants.primaryColor,
                     collapsedIconColor: Constants.primaryColor,
                     onExpansionChanged: (bool value) {
-                      if (expansionBox.contains(index)) {
-                        expansionBox.remove(index);
-                        // expansionBox.remove(widget.subCategoryList);
-                      } else {
-                        expansionBox.add(index);
+                      currentIndex = index;
 
-                        // expansionBox.add(widget.subCategoryList);
-                      }
-                      isExpanded = value;
                       context.read<UnlockedLevelCubit>().fetchUnlockLevel(
                           context.read<UserDetailsCubit>().getUserId(),
                           widget.category,
                           subCategoryList[index].id);
-                      log("$isExpanded");
+
+                      if (expansionBox.contains(index)) {
+                        expansionBox.remove(index);
+                      } else {
+                        expansionBox.add(index);
+                      }
+                      // isExpanded = value;
+
+                      log("$isExpanded  + $index");
                       setState(() {});
                     },
                     children: [
@@ -650,130 +653,5 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
             },
           );
         });
-  }
-}
-
-class SubcategoryContainer extends StatefulWidget {
-  final int index;
-  late int currentIndex;
-  final Subcategory subcategory;
-  final String? category;
-  final Widget? levels;
-  final String? subCategoryList;
-
-  SubcategoryContainer(
-      {Key? key,
-      required this.currentIndex,
-      required this.index,
-      required this.category,
-      required this.levels,
-      required this.subCategoryList,
-      required this.subcategory})
-      : super(key: key);
-
-  @override
-  _SubcategoryContainerState createState() => _SubcategoryContainerState();
-}
-
-class _SubcategoryContainerState extends State<SubcategoryContainer>
-    with SingleTickerProviderStateMixin {
-  late AnimationController animationController;
-  late Animation<double> scaleAnimation;
-  final expansionBoxes = [];
-  bool? isExpanded = false;
-  // int? index;
-
-  @override
-  void didUpdateWidget(covariant SubcategoryContainer oldWidget) {
-    if (widget.currentIndex == widget.index) {
-      // animationController.forward();
-    } else {
-      // animationController.reverse();
-    }
-
-    super.didUpdateWidget(oldWidget);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20.0),
-      ),
-      alignment: Alignment.center,
-      child: Theme(
-        data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-        child: ExpansionTile(
-          childrenPadding: const EdgeInsets.all(10),
-          subtitle: TitleText(
-            text:
-                "${AppLocalization.of(context)!.getTranslatedValues(questionsKey)!} : ${widget.subcategory.noOfQue!}",
-            textColor: Constants.primaryColor,
-            size: Constants.bodyNormal,
-            weight: FontWeight.w400,
-          ),
-          title: TitleText(
-            text: widget.subcategory.subcategoryName!,
-            textColor: Constants.primaryColor,
-            weight: FontWeight.w500,
-            size: Constants.bodyLarge,
-          ),
-          trailing: isExpanded!
-              ? const Icon(
-                  Icons.keyboard_arrow_up_rounded,
-                  size: 40,
-                )
-              : const Icon(
-                  Icons.arrow_forward_ios_rounded,
-                ),
-          iconColor: Constants.primaryColor,
-          collapsedIconColor: Constants.primaryColor,
-          onExpansionChanged: ((value) {
-            //fetch unlocked level for current selected subcategory
-
-            // widget.index = (value) as int;
-
-            context.read<UnlockedLevelCubit>().fetchUnlockLevel(
-                  context.read<UserDetailsCubit>().getUserId(),
-                  widget.category, // coming from function
-                  widget.subCategoryList, // coming from function
-                );
-
-            if (expansionBoxes.contains(value)) {
-              expansionBoxes.remove(widget.index);
-              expansionBoxes.remove(widget.subCategoryList);
-            } else {
-              expansionBoxes.add(widget.index);
-              expansionBoxes.add(widget.subCategoryList);
-            }
-            isExpanded = value;
-            setState(() {});
-
-            // value
-            //     ? height = heightContainer(subCategoryList)
-            //     : height = null;
-          }),
-          children: [
-            widget.levels!,
-          ],
-        ),
-      ),
-
-      // ListTile(
-      //   title: TitleText(
-      //     text: widget.subcategory.subcategoryName!,
-      //     textColor: Constants.primaryColor,
-      //     size: Constants.bodyXLarge,
-      //     weight: FontWeight.w500,
-      //   ),
-      //   subtitle: TitleText(
-      //     text:
-      //         "${AppLocalization.of(context)!.getTranslatedValues(questionsKey)!} : ${widget.subcategory.noOfQue!}",
-      //     textColor: Constants.primaryColor,
-      //     size: Constants.bodyLarge,
-      //     weight: FontWeight.w400,
-      //   ),
-      // ),
-    );
   }
 }

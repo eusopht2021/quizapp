@@ -328,6 +328,17 @@ class _ExamsScreenState extends State<ExamsScreen> {
           ),
           itemCount: (state as ExamsFetchSuccess).exams.length,
           itemBuilder: (context, index) {
+            if ((state).exams.isEmpty) {
+              return Align(
+                alignment: Alignment.center,
+                child: TitleText(
+                  text: "NO EXAMS TODAY",
+                  size: Constants.bodyXLarge,
+                  textColor: Constants.primaryColor.withOpacity(0.5),
+                  weight: FontWeight.w500,
+                ),
+              );
+            }
             return _buildTodayExamContainer(state.exams[index]);
           },
         );
@@ -343,7 +354,7 @@ class _ExamsScreenState extends State<ExamsScreen> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
         decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor,
+            color: Constants.primaryColor,
             borderRadius: BorderRadius.circular(10.0)),
         height: MediaQuery.of(context).size.height * (0.1),
         margin: const EdgeInsets.symmetric(vertical: 10.0),
@@ -359,7 +370,7 @@ class _ExamsScreenState extends State<ExamsScreen> {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                      color: Theme.of(context).backgroundColor,
+                      color: Constants.white,
                       fontSize: 17.25,
                     ),
                   ),
@@ -368,7 +379,7 @@ class _ExamsScreenState extends State<ExamsScreen> {
                 Text(
                   "${exam.totalMarks} ${AppLocalization.of(context)!.getTranslatedValues(markKey)!}",
                   style: TextStyle(
-                    color: Theme.of(context).backgroundColor,
+                    color: Constants.white,
                     fontSize: 17.25,
                   ),
                 ),
@@ -384,7 +395,7 @@ class _ExamsScreenState extends State<ExamsScreen> {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                      color: Theme.of(context).backgroundColor.withOpacity(0.8),
+                      color: Constants.white.withOpacity(0.8),
                     ),
                   ),
                 ),
@@ -392,7 +403,7 @@ class _ExamsScreenState extends State<ExamsScreen> {
                 Text(
                   UiUtils.convertMinuteIntoHHMM(int.parse(exam.duration)),
                   style: TextStyle(
-                    color: Theme.of(context).backgroundColor.withOpacity(0.8),
+                    color: Constants.white.withOpacity(0.8),
                   ),
                 ),
               ],
@@ -436,9 +447,8 @@ class _ExamsScreenState extends State<ExamsScreen> {
             child: Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
-              child: CircularProgressContainer(
-                useWhiteLoader: false,
-                heightAndWidth: 40,
+              child: CircularProgressIndicator(
+                color: Constants.primaryColor,
               ),
             ),
           );
@@ -452,7 +462,7 @@ class _ExamsScreenState extends State<ExamsScreen> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
         decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor,
+            color: Constants.primaryColor,
             borderRadius: BorderRadius.circular(10.0)),
         height: MediaQuery.of(context).size.height * (0.1),
         margin: const EdgeInsets.symmetric(vertical: 10.0),
@@ -464,11 +474,11 @@ class _ExamsScreenState extends State<ExamsScreen> {
                   alignment: Alignment.centerLeft,
                   width: MediaQuery.of(context).size.width * (0.5),
                   child: Text(
-                    "${examResult.title}",
+                    examResult.title,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                      color: Theme.of(context).backgroundColor,
+                      color: Constants.white,
                       fontSize: 17.25,
                     ),
                   ),
@@ -477,11 +487,11 @@ class _ExamsScreenState extends State<ExamsScreen> {
                   alignment: Alignment.centerLeft,
                   width: MediaQuery.of(context).size.width * (0.5),
                   child: Text(
-                    "${examResult.date}",
+                    examResult.date,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                      color: Theme.of(context).backgroundColor.withOpacity(0.8),
+                      color: Constants.white.withOpacity(0.8),
                     ),
                   ),
                 ),
@@ -492,7 +502,7 @@ class _ExamsScreenState extends State<ExamsScreen> {
               child: Text(
                 "${examResult.obtainedMarks()}/${examResult.totalMarks} ${AppLocalization.of(context)!.getTranslatedValues(markKey)!} ",
                 style: TextStyle(
-                  color: Theme.of(context).backgroundColor,
+                  color: Constants.white,
                   fontSize: 15,
                 ),
               ),

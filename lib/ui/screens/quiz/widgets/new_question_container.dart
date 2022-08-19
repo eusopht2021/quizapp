@@ -20,6 +20,7 @@ import 'package:flutterquiz/utils/answerEncryption.dart';
 import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/lifeLineOptions.dart';
 import 'package:flutterquiz/utils/size_config.dart';
+import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/widgets_util.dart';
 
 class NewQuestionsContainer extends StatefulWidget {

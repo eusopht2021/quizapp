@@ -63,20 +63,18 @@ class _ExamKeyBottomSheetContainerState
               height: 20,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: rulesAccepted
-                    ? Theme.of(context).primaryColor
-                    : Colors.transparent,
+                color:
+                    rulesAccepted ? Constants.primaryColor : Colors.transparent,
                 border: Border.all(
                   width: 1.5,
-                  color: rulesAccepted
-                      ? Theme.of(context).primaryColor
-                      : Theme.of(context).colorScheme.secondary,
+                  color:
+                      rulesAccepted ? Constants.primaryColor : Constants.black1,
                 ),
               ),
               child: rulesAccepted
                   ? Icon(
                       Icons.check,
-                      color: Theme.of(context).backgroundColor,
+                      color: Constants.white,
                       size: 15.0,
                     )
                   : const SizedBox(),
@@ -89,7 +87,7 @@ class _ExamKeyBottomSheetContainerState
             AppLocalization.of(context)!
                 .getTranslatedValues(iAgreeWithExamRulesKey)!,
             style: TextStyle(
-              color: Theme.of(context).colorScheme.secondary,
+              color: Constants.white,
             ),
           )
         ],
@@ -108,8 +106,7 @@ class _ExamKeyBottomSheetContainerState
             width: 6,
             height: 6,
             decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.secondary,
-                borderRadius: BorderRadius.circular(3)),
+                color: Constants.white, borderRadius: BorderRadius.circular(3)),
           ),
           const SizedBox(
             width: 10.0,
@@ -118,7 +115,7 @@ class _ExamKeyBottomSheetContainerState
               child: Text(
             rule,
             style: TextStyle(
-              color: Theme.of(context).colorScheme.secondary,
+              color: Constants.white,
               height: 1.2,
             ),
           ))
@@ -133,7 +130,7 @@ class _ExamKeyBottomSheetContainerState
         horizontal: MediaQuery.of(context).size.width * (0.127),
       ),
       child: Divider(
-        color: Theme.of(context).primaryColor,
+        color: Constants.white,
       ),
     );
   }
@@ -175,7 +172,7 @@ class _ExamKeyBottomSheetContainerState
                   .getTranslatedValues(viewAllRulesKey)!,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                color: Theme.of(context).primaryColor,
+                color: Constants.white,
               ),
             ),
           ),
@@ -212,13 +209,10 @@ class _ExamKeyBottomSheetContainerState
           ),
           decoration: BoxDecoration(
               borderRadius: const BorderRadius.only(
-                topLeft: const Radius.circular(20.0),
-                topRight: const Radius.circular(20.0),
+                topLeft: Radius.circular(20.0),
+                topRight: Radius.circular(20.0),
               ),
-              gradient: UiUtils.buildLinerGradient([
-                Theme.of(context).scaffoldBackgroundColor,
-                Theme.of(context).canvasColor
-              ], Alignment.topCenter, Alignment.bottomCenter)),
+              color: Constants.secondaryColor),
           child: Padding(
             padding: MediaQuery.of(context).viewInsets,
             child: SingleChildScrollView(
@@ -241,7 +235,7 @@ class _ExamKeyBottomSheetContainerState
                             icon: Icon(
                               Icons.close,
                               size: 28.0,
-                              color: Theme.of(context).primaryColor,
+                              color: Constants.white,
                             )),
                       ),
                     ],
@@ -258,19 +252,19 @@ class _ExamKeyBottomSheetContainerState
                     height: 60.0,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
-                      color: Theme.of(context).backgroundColor,
+                      color: Constants.white,
                     ),
                     child: TextField(
                       controller: textEditingController,
                       style: TextStyle(
-                        color: Theme.of(context).primaryColor,
+                        color: Constants.primaryColor,
                       ),
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         hintText: AppLocalization.of(context)!
                             .getTranslatedValues(enterExamKey)!,
                         hintStyle: TextStyle(
-                          color: Theme.of(context).primaryColor,
+                          color: Constants.primaryColor,
                         ),
                         border: InputBorder.none,
                       ),
@@ -291,7 +285,7 @@ class _ExamKeyBottomSheetContainerState
                         AppLocalization.of(context)!
                             .getTranslatedValues(examRulesKey)!,
                         style: TextStyle(
-                          color: Theme.of(context).primaryColor,
+                          color: Constants.white,
                           fontSize: 19.0,
                           fontWeight: FontWeight.bold,
                         ),
@@ -319,12 +313,12 @@ class _ExamKeyBottomSheetContainerState
                         ? const SizedBox(
                             height: 20.0,
                           )
-                        : Container(
+                        : SizedBox(
                             height: 20.0,
                             child: Text(
                               errorMessage,
                               style: TextStyle(
-                                color: Theme.of(context).colorScheme.secondary,
+                                color: Constants.white,
                               ),
                             ),
                           ),
@@ -344,7 +338,7 @@ class _ExamKeyBottomSheetContainerState
                         ),
                         child: CustomRoundedButton(
                           widthPercentage: MediaQuery.of(context).size.width,
-                          backgroundColor: Theme.of(context).primaryColor,
+                          backgroundColor: Constants.primaryColor,
                           buttonTitle: state is ExamFetchInProgress
                               ? AppLocalization.of(context)!
                                   .getTranslatedValues(submittingButton)!
@@ -380,7 +374,7 @@ class _ExamKeyBottomSheetContainerState
                                   }
                                 },
                           fontWeight: FontWeight.bold,
-                          titleColor: Theme.of(context).backgroundColor,
+                          titleColor: Constants.white,
                           height: 40.0,
                         ),
                       );

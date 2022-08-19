@@ -28,8 +28,7 @@ class ExamQuestionStatusBottomSheetContainer extends StatelessWidget {
         children: [
           Text(
             "$questionMark ${AppLocalization.of(context)!.getTranslatedValues(markKey)!} (${questions.length})",
-            style: TextStyle(
-                color: Theme.of(context).primaryColor, fontSize: 16.0),
+            style: TextStyle(color: Constants.primaryColor, fontSize: 16.0),
           ),
           Divider(
             color: Constants.white,
@@ -146,7 +145,7 @@ class ExamQuestionStatusBottomSheetContainer extends StatelessWidget {
                   navigateToResultScreen();
                 },
                 widthPercentage: MediaQuery.of(context).size.width,
-                backgroundColor: Theme.of(context).primaryColor,
+                backgroundColor: Constants.primaryColor,
                 buttonTitle: AppLocalization.of(context)!
                     .getTranslatedValues("submitBtn")!,
                 radius: 10,
@@ -202,8 +201,7 @@ class ExamQuestionStatusBottomSheetContainer extends StatelessWidget {
                     AppLocalization.of(context)!
                         .getTranslatedValues("unAttemptedLbl")!,
                     style: TextStyle(
-                        fontSize: 12.5,
-                        color: Constants.secondaryColor),
+                        fontSize: 12.5, color: Constants.secondaryColor),
                   ),
                 ],
               ),

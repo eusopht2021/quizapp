@@ -48,7 +48,7 @@ class HorizontalTimerContainer extends StatelessWidget {
                 radius: 35,
                 mainColor: timerAnimationController.value >= 0.8
                     ? Colors.red
-                    : Constants.pink,
+                    : Constants.lightGreen,
               ),
             );
             return Container(

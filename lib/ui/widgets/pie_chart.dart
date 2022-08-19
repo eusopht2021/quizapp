@@ -37,7 +37,7 @@ class CustomPieChart extends StatelessWidget {
               PieChartSectionData(
                 value: value2,
                 showTitle: false,
-                color: Constants.pink.withOpacity(0.3),
+                color: Constants.lightGreen.withOpacity(0.3),
                 radius: radius,
               ),
             ],

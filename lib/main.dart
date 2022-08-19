@@ -7,5 +7,3 @@ void main() async {
   //
   runApp(await initializeApp());
 }
-
-

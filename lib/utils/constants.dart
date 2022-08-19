@@ -114,7 +114,7 @@ const String uploadProfileUrl = "${baseUrl}upload_profile_image";
 const String updateUserCoinsAndScoreUrl = "${baseUrl}set_user_coin_score";
 const String updateProfileUrl = "${baseUrl}update_profile";
 
-const String getCategoryUrl = "${baseUrl}get_categories"; 
+const String getCategoryUrl = "${baseUrl}get_categories";
 const String getQuestionsByLevelUrl = "${baseUrl}get_questions_by_level";
 const String getQuestionForDailyQuizUrl = "${baseUrl}get_daily_quiz";
 const String getLevelUrl = "${baseUrl}get_level_data";
@@ -359,6 +359,7 @@ class Constants {
 
   static Color tulip = const Color(0xff88E2CE);
   static Color lightGreen = const Color(0xff53DF83);
+  static Color green = const Color(0xFF1B5E20);
   static Color wrongAnswer = const Color(0xffFF6666);
 
   static Color black1 = const Color(0xff49465F);
