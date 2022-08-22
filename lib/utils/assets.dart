@@ -162,14 +162,14 @@ class Assets {
 
   static List<String> navigationBarIcons = [
     homeFilled,
-    search,
+    // search,
     leaderboardFilled,
     personFilled,
   ];
 
   static List<String> outlinedNavigationBarIcons = [
     homeOutlined,
-    search,
+    // search,
     navleaderboardOutlined,
     personOutlined,
   ];

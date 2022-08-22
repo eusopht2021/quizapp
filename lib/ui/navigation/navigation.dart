@@ -31,8 +31,8 @@ class _NavigationState extends State<Navigation> {
   List<BottomNavigationBarItem> bodyWidgets = [
     BottomNavigationBarItem(
         icon: SvgPicture.asset(Assets.homeFilled), label: "home"),
-    BottomNavigationBarItem(
-        icon: SvgPicture.asset(Assets.search), label: "discover"),
+    // BottomNavigationBarItem(
+    //     icon: SvgPicture.asset(Assets.search), label: "discover"),
     BottomNavigationBarItem(
         icon: SvgPicture.asset(Assets.leaderboardFilled), label: "leaderbard"),
     BottomNavigationBarItem(
@@ -92,13 +92,16 @@ class _NavigationState extends State<Navigation> {
               if (index == 0) {
                 BlocProvider.of<NavigationCubit>(context)
                     .getNavBarItem(NavbarItems.newhome);
-              } else if (index == 1) {
-                BlocProvider.of<NavigationCubit>(context)
-                    .getNavBarItem(NavbarItems.discover);
-              } else if (index == 2) {
+              }
+              // else if (index == 1) {
+              //   BlocProvider.of<NavigationCubit>(context)
+              //       .getNavBarItem(NavbarItems.discover);
+
+              // }
+              else if (index == 1) {
                 BlocProvider.of<NavigationCubit>(context)
                     .getNavBarItem(NavbarItems.leaderboard);
-              } else if (index == 3) {
+              } else if (index == 2) {
                 BlocProvider.of<NavigationCubit>(context)
                     .getNavBarItem(NavbarItems.profile);
               }
@@ -112,9 +115,11 @@ class _NavigationState extends State<Navigation> {
 
           if (state.navbarItems == NavbarItems.newhome) {
             return const NewHomeScreen();
-          } else if (state.navbarItems == NavbarItems.discover) {
-            return const Discover();
-          } else if (state.navbarItems == NavbarItems.leaderboard) {
+          }
+          //  else if (state.navbarItems == NavbarItems.discover) {
+          //   return const Discover();
+          // }
+          else if (state.navbarItems == NavbarItems.leaderboard) {
             return const NewLeaderBoardScreen();
           } else if (state.navbarItems == NavbarItems.profile) {
             return const Profile(routefromHomeScreen: false);

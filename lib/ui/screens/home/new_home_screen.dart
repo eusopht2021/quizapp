@@ -1203,9 +1203,10 @@ class _NewHomeScreenState extends State<NewHomeScreen>
 //Greetings Message
   String greetingMessage() {
     var timeNow = DateTime.now().hour;
+    
 
-    if (timeNow < 12) {
-      //11 : 59 am
+    if ((timeNow >= 5) && (timeNow < 12)) {
+      //05 : 00 am to 11:59am
       return 'GOOD MORNING';
     } else if ((timeNow >= 12) && (timeNow < 17)) {
       // 12:00 pm to 4:59pm
@@ -1214,7 +1215,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
       //5:00pm to 4:59am
       return 'GOOD EVENING';
     } else {
-      return 'GOOD MORNING';
+      return 'GOOD EVENING';
     }
   }
 
