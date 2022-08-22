@@ -47,41 +47,30 @@ class NewSettingsScreen extends StatefulWidget {
 
   static Route<NewSettingsScreen> route(RouteSettings routeSettings) {
     return CupertinoPageRoute(
-        builder: ((_) => MultiBlocProvider(
-              providers: [
-                BlocProvider<AppSettingsCubit>(
-                  create: (_) => AppSettingsCubit(
-                    SystemConfigRepository(),
-                  ),
+      builder: ((_) => MultiBlocProvider(
+            providers: [
+              BlocProvider<AppSettingsCubit>(
+                create: (_) => AppSettingsCubit(
+                  SystemConfigRepository(),
                 ),
-                BlocProvider<DeleteAccountCubit>(
-                    create: (_) =>
-                        DeleteAccountCubit(ProfileManagementRepository())),
-                BlocProvider<UploadProfileCubit>(
-                  create: (context) => UploadProfileCubit(
-                    ProfileManagementRepository(),
-                  ),
+              ),
+              BlocProvider<DeleteAccountCubit>(
+                  create: (_) =>
+                      DeleteAccountCubit(ProfileManagementRepository())),
+              BlocProvider<UploadProfileCubit>(
+                create: (context) => UploadProfileCubit(
+                  ProfileManagementRepository(),
                 ),
-                BlocProvider<UpdateUserDetailCubit>(
-                  create: (context) => UpdateUserDetailCubit(
-                    ProfileManagementRepository(),
-                  ),
+              ),
+              BlocProvider<UpdateUserDetailCubit>(
+                create: (context) => UpdateUserDetailCubit(
+                  ProfileManagementRepository(),
                 ),
-                // BlocProvider<UserDetailsCubit>(
-                //   create: (context) => UserDetailsCubit(
-                //     ProfileManagementRepository(),
-                //   ),
-                // ),
-              ],
-              child:
-                  NewSettingsScreen(title: routeSettings.arguments as String),
-            ))
-
-        // builder: (_) => BlocProvider<AppSettingsCubit>(
-        //       create: (_) => AppSettingsCubit(
-        //         SystemConfigRepository(),
-        //       ),
-        );
+              ),
+            ],
+            child: NewSettingsScreen(title: routeSettings.arguments as String),
+          )),
+    );
   }
 
   @override
@@ -264,7 +253,7 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                                                           context,
                                                           Routes
                                                               .onBoardingScreen,
-                                                          (route) => true);
+                                                          (route) => false);
                                                   BlocProvider.of<
                                                               NavigationCubit>(
                                                           context)
@@ -337,23 +326,23 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                             ],
                           ),
                           WidgetsUtil.verticalSpace24,
-                          _settingsOptionsContainer(
-                            listTileicon: SvgPicture.asset(
-                              Assets.puzzleIcon,
-                              height: 25,
-                              width: 25,
-                              color: Constants.primaryColor,
-                            ),
-                            title: "Change Difficulty",
-                            subtitle: "Easy, normal, hard",
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (_) => const VoiceNoteScreen()));
-                            },
-                          ),
-                          WidgetsUtil.verticalSpace16,
+                          // _settingsOptionsContainer(
+                          //   listTileicon: SvgPicture.asset(
+                          //     Assets.puzzleIcon,
+                          //     height: 25,
+                          //     width: 25,
+                          //     color: Constants.primaryColor,
+                          //   ),
+                          //   title: "Change Difficulty",
+                          //   subtitle: "Easy, normal, hard",
+                          //   onTap: () {
+                          //     // Navigator.push(
+                          //     //     context,
+                          //     //     MaterialPageRoute(
+                          //     //         builder: (_) => const VoiceNoteScreen()));
+                          //   },
+                          // ),
+                          // WidgetsUtil.verticalSpace16,
                           _settingsOptionsContainer(
                             listTileicon: Icon(
                               Icons.question_mark,

@@ -1,15 +1,18 @@
 import 'dart:developer';
 import 'package:badges/badges.dart' as bdgs;
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutterquiz/features/badges/badge.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutterquiz/features/badges/cubits/badgesCubit.dart';
 import 'package:flutterquiz/ui/navigation/navbarcubit.dart';
+import 'package:country_picker/country_picker.dart';
 import 'package:flutterquiz/ui/navigation/navbaritems.dart';
 import 'package:flutterquiz/ui/styles/colors.dart';
 import 'package:flutterquiz/ui/widgets/badgesIconContainer.dart';
 import 'package:flutterquiz/ui/widgets/errorContainer.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/userDetailsCubit.dart';
 import 'package:flutterquiz/utils/stringLabels.dart';
+import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -108,6 +111,8 @@ class _ProfileState extends State<Profile> {
     'Details',
   ];
   final statisticsDetailsContainerHeightPercentage = 0.145;
+
+  String countryFlag = '';
 
   @override
   Widget build(BuildContext context) {
@@ -1330,31 +1335,56 @@ class _ProfileState extends State<Profile> {
   }
 
   Widget _avatar(String imageUrl) {
-    return bdgs.Badge(
-      toAnimate: false,
-      badgeContent: Image.asset(
-        Assets.turkey,
-        width: 30,
-        height: 28,
-      ),
-      position: bdgs.BadgePosition.bottomEnd(end: 1),
-      elevation: 0,
-      badgeColor: Colors.transparent,
-      child: ClipOval(
-        clipBehavior: Clip.antiAlias,
-        child: CircleAvatar(
-          radius: 50,
-          backgroundColor: Colors.transparent,
-          child: CachedNetworkImage(
-            imageUrl: imageUrl,
-            width: 100,
-            height: 100,
-            fit: BoxFit.fill,
-            placeholder: (_, __) {
-              return CircularProgressIndicator(
-                color: Constants.primaryColor,
-              );
-            },
+    final box = Hive.box(userdetailsBox);
+    // box.add(countryFlag);
+    if (box.containsKey('user_flag')) {
+      countryFlag = box.get('user_flag');
+    }
+    return GestureDetector(
+      onTap: () {
+        showCountryPicker(
+            context: context,
+            onSelect: (country) {
+              countryFlag = country.flagEmoji;
+              box.put('user_flag', countryFlag);
+              setState(() {});
+            });
+      },
+      child: bdgs.Badge(
+        toAnimate: false,
+        badgeContent: countryFlag.isNotEmpty
+            ? Text(
+                countryFlag,
+                style: TextStyle(fontSize: 20),
+              )
+            : const CircleAvatar(
+                radius: 15,
+                backgroundColor: Colors.black,
+              ),
+        // : Image.asset(
+        //     Assets.turkey,
+        //     width: 30,
+        //     height: 28,
+        //   ),
+        position: bdgs.BadgePosition.bottomEnd(end: 1),
+        elevation: 0,
+        badgeColor: Colors.transparent,
+        child: ClipOval(
+          clipBehavior: Clip.antiAlias,
+          child: CircleAvatar(
+            radius: 50,
+            backgroundColor: Colors.transparent,
+            child: CachedNetworkImage(
+              imageUrl: imageUrl,
+              width: 100,
+              height: 100,
+              fit: BoxFit.fill,
+              placeholder: (_, __) {
+                return CircularProgressIndicator(
+                  color: Constants.primaryColor,
+                );
+              },
+            ),
           ),
         ),
       ),

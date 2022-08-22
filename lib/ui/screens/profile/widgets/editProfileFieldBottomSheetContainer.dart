@@ -381,14 +381,22 @@ class _EditProfileFieldBottomSheetContainerState
                                       .updateState(
                                           AudioQuestionBookmarkInitial());
 
-                                  context.read<AuthCubit>().signOut();
                                   //
 
-                                  BlocProvider.of<NavigationCubit>(context)
-                                      .getNavBarItem(NavbarItems.newhome);
-
-                                  Navigator.of(context).pushNamedAndRemoveUntil(
-                                      Routes.onBoardingScreen, (route) => true);
+                                  if (oldPassword.text.isEmpty ||
+                                      newPassword.text.isEmpty ||
+                                      cnfrmPassword.text.isEmpty) {
+                                    UiUtils.setSnackbar(
+                                        "FILL THE FIELDS", context, true);
+                                  } else {
+                                    Navigator.of(context)
+                                        .pushNamedAndRemoveUntil(
+                                            Routes.onBoardingScreen,
+                                            (route) => true);
+                                    BlocProvider.of<NavigationCubit>(context)
+                                        .getNavBarItem(NavbarItems.newhome);
+                                    context.read<AuthCubit>().signOut();
+                                  }
                                 }
 
                                 widget.updateUserDetailCubit.updateProfile(

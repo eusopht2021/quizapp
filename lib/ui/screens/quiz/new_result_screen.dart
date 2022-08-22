@@ -217,6 +217,8 @@ class _NewResultScreenState extends State<NewResultScreen> {
       _updateScoreAndCoinsDetails();
       _updateStatistics();
     });
+
+    log("IS PLAYED ${widget.isPlayed}");
   }
 
   void _updateStatistics() {

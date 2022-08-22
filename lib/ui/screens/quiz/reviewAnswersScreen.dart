@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tex/flutter_tex.dart';
 import 'package:flutterquiz/app/appLocalization.dart';
+import 'package:flutterquiz/app/routes.dart';
 import 'package:flutterquiz/features/bookmark/bookmarkRepository.dart';
 import 'package:flutterquiz/features/bookmark/cubits/updateBookmarkCubit.dart';
 import 'package:flutterquiz/features/musicPlayer/musicPlayerCubit.dart';
@@ -396,8 +397,11 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
                     child: CustomButton(
                       verticalMargin: 0,
                       onPressed: () {
-                        Navigator.of(context)
-                            .popUntil((route) => route.isFirst);
+                        // Navigator.of(context)
+                        //     .popUntil((route) => route.isFirst);
+
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, Routes.home, (route) => false);
                       },
                       text: "Done",
                     ),

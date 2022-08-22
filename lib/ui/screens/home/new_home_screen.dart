@@ -216,7 +216,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                             WidgetsUtil.horizontalSpace8,
                             Expanded(
                               child: TitleText(
-                                text: 'Good Morning',
+                                text: greetingMessage(),
                                 textColor: Constants.accent1,
                                 size: Constants.bodyXSmall,
                                 weight: FontWeight.w500,
@@ -1200,8 +1200,25 @@ class _NewHomeScreenState extends State<NewHomeScreen>
     }
   }
 
-// categoryCard
+//Greetings Message
+  String greetingMessage() {
+    var timeNow = DateTime.now().hour;
 
+    if (timeNow < 12) {
+      //11 : 59 am
+      return 'GOOD MORNING';
+    } else if ((timeNow >= 12) && (timeNow < 17)) {
+      // 12:00 pm to 4:59pm
+      return 'GOOD AFTERNOON';
+    } else if ((timeNow >= 17) && (timeNow < 5)) {
+      //5:00pm to 4:59am
+      return 'GOOD EVENING';
+    } else {
+      return 'GOOD MORNING';
+    }
+  }
+
+// categoryCard
   Widget categoryCard({
     final String? quizDescription,
     final String? categoryName,
@@ -1259,29 +1276,6 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                       ),
                     ],
                   ),
-
-                  // Tooltip(
-                  //   verticalOffset: 1.6,
-                  //   decoration: BoxDecoration(color: Constants.black1),
-                  //   message: quizDescription,
-                  //   child: Icon(
-                  //     Icons.info,
-                  //     color: iconColor,
-                  //   ),
-                  // ),
-
-                  // color: Constants.grey5,
-                  // elevation: 10,
-                  // shadowColor: Constants.primaryColor.withOpacity(0.5),
-                  // margin: EdgeInsets.zero,
-                  // child: Center(
-                  //   child: TitleText(
-                  //     text: quizDescription!,
-                  //     textColor: Constants.primaryColor,
-                  //     align: TextAlign.center,
-                  //   ),
-
-                  // const Spacer(),
                 ],
               ),
             ),
@@ -1289,8 +1283,8 @@ class _NewHomeScreenState extends State<NewHomeScreen>
           Align(
             alignment: const Alignment(1.1, -1.1),
             child: Tooltip(
-              triggerMode: TooltipTriggerMode.tap,
               message: quizDescription,
+              triggerMode: TooltipTriggerMode.tap,
               child: Icon(
                 Icons.info,
                 color: Constants.primaryColor,

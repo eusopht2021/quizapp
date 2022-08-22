@@ -97,6 +97,7 @@ dependencies:
   permission_handler: ^10.0.0
   flutter_switch: ^0.3.2
   video_player: ^2.4.5
+  country_picker: ^2.0.15
   
 
 dev_dependencies:

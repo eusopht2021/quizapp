@@ -31,21 +31,12 @@ class _NavigationState extends State<Navigation> {
   List<BottomNavigationBarItem> bodyWidgets = [
     BottomNavigationBarItem(
         icon: SvgPicture.asset(Assets.homeFilled), label: "home"),
-
     BottomNavigationBarItem(
         icon: SvgPicture.asset(Assets.search), label: "discover"),
-
     BottomNavigationBarItem(
         icon: SvgPicture.asset(Assets.leaderboardFilled), label: "leaderbard"),
-
     BottomNavigationBarItem(
         icon: SvgPicture.asset(Assets.personFilled), label: "profile"),
-
-    // Discover(),
-    // NewLeaderBoardScreen(),
-    // Container(
-    //   color: Colors.pink,
-    // ),
   ];
 
   @override
@@ -58,20 +49,20 @@ class _NavigationState extends State<Navigation> {
     bool isKeyboardOpen = MediaQuery.of(context).viewInsets.bottom != 0;
 
     return Scaffold(
-      floatingActionButton: Visibility(
-        visible: !isKeyboardOpen,
-        child: FloatingActionButton(
-          backgroundColor: Constants.primaryColor,
-          onPressed: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (_) => CreateQuizScreen()));
-          },
-          child: const Icon(
-            Icons.add,
-          ),
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      // floatingActionButton: Visibility(
+      //   visible: !isKeyboardOpen,
+      //   child: FloatingActionButton(
+      //     backgroundColor: Constants.primaryColor,
+      //     onPressed: () {
+      //       Navigator.push(
+      //           context, MaterialPageRoute(builder: (_) => CreateQuizScreen()));
+      //     },
+      //     child: const Icon(
+      //       Icons.add,
+      //     ),
+      //   ),
+      // ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       extendBody: true,
       bottomNavigationBar: BlocBuilder<NavigationCubit, NavigationbarState>(
         builder: (context, state) {
@@ -79,7 +70,7 @@ class _NavigationState extends State<Navigation> {
             itemCount: bodyWidgets.length,
             backgroundColor: Constants.white,
             height: kBottomNavigationBarHeight,
-            gapLocation: GapLocation.center,
+            gapLocation: GapLocation.none,
             leftCornerRadius: 20.0,
             rightCornerRadius: 20.0,
             notchSmoothness: NotchSmoothness.softEdge,

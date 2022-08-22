@@ -352,7 +352,10 @@ class _NewQuizScreenState extends State<NewQuizScreen>
   void updateTotalSecondsToCompleteQuiz() {
     totalSecondsToCompleteQuiz = totalSecondsToCompleteQuiz +
         UiUtils.timeTakenToSubmitAnswer(
-            animationControllerValue: timerAnimationController.value,
+            animationControllerValue:
+                widget.quizType == QuizTypes.audioQuestions
+                    ? questionContentAnimationController.value
+                    : timerAnimationController.value,
             quizType: widget.quizType);
   }
 
@@ -726,6 +729,7 @@ class _NewQuizScreenState extends State<NewQuizScreen>
       {VoidCallback? onTap,
       String? lifelineTitle,
       String? lifelineIcon,
+      Key? toolTipKey,
       String? toolTipMessage}) {
     return GestureDetector(
       onTap: lifelineTitle == fiftyFifty &&
@@ -741,36 +745,40 @@ class _NewQuizScreenState extends State<NewQuizScreen>
                       .getTranslatedValues("notAvailable")!,
                   context,
                   false);
+              log("gesture detector tapped");
             }
           : onTap,
       child: Tooltip(
+        key: toolTipKey!,
         message: toolTipMessage,
-        triggerMode: TooltipTriggerMode.tap,
+        showDuration: const Duration(seconds: 1),
+        triggerMode: TooltipTriggerMode.manual,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: Constants.primaryColor),
         child: Container(
-            decoration: BoxDecoration(
-                color: lifelineTitle == fiftyFifty &&
-                        context
-                                .read<QuestionsCubit>()
-                                .questions()[currentQuestionIndex]
-                                .answerOptions!
-                                .length ==
-                            2
-                    ? Theme.of(context).backgroundColor.withOpacity(0.7)
-                    : Theme.of(context).backgroundColor,
-                boxShadow: [
-                  UiUtils.buildBoxShadow(),
-                ],
-                borderRadius: BorderRadius.circular(10.0)),
-            width: 45.0,
-            height: 45.0,
-            padding: const EdgeInsets.all(11),
-            child: SvgPicture.asset(
-              UiUtils.getImagePath(lifelineIcon!),
-              color: Theme.of(context).colorScheme.secondary,
-            )),
+          decoration: BoxDecoration(
+              color: lifelineTitle == fiftyFifty &&
+                      context
+                              .read<QuestionsCubit>()
+                              .questions()[currentQuestionIndex]
+                              .answerOptions!
+                              .length ==
+                          2
+                  ? Theme.of(context).backgroundColor.withOpacity(0.7)
+                  : Theme.of(context).backgroundColor,
+              boxShadow: [
+                UiUtils.buildBoxShadow(),
+              ],
+              borderRadius: BorderRadius.circular(10.0)),
+          width: 45.0,
+          height: 45.0,
+          padding: const EdgeInsets.all(11),
+          child: SvgPicture.asset(
+            UiUtils.getImagePath(lifelineIcon!),
+            color: Theme.of(context).colorScheme.secondary,
+          ),
+        ),
       ),
     );
   }
@@ -840,7 +848,11 @@ class _NewQuizScreenState extends State<NewQuizScreen>
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               _buildLifelineContainer(
+                  toolTipKey: key1,
                   onTap: () {
+                    final dynamic toolTip = key1.currentState;
+                    toolTip.ensureTooltipVisible();
+
                     if (lifelines[fiftyFifty] == LifelineStatus.unused) {
                       if (hasEnoughCoinsForLifeline(context)) {
                         if (context
@@ -885,7 +897,11 @@ class _NewQuizScreenState extends State<NewQuizScreen>
                   lifelineIcon: "fiftyfifty icon.svg",
                   toolTipMessage: "50 50"),
               _buildLifelineContainer(
+                  toolTipKey: key2,
                   onTap: () {
+                    final dynamic toolTip = key2.currentState;
+                    toolTip.ensureTooltipVisible();
+
                     if (lifelines[audiencePoll] == LifelineStatus.unused) {
                       if (hasEnoughCoinsForLifeline(context)) {
                         //deduct coins for using lifeline
@@ -916,7 +932,11 @@ class _NewQuizScreenState extends State<NewQuizScreen>
                   lifelineIcon: "audience_poll.svg",
                   toolTipMessage: "AUDIENCE POLL"),
               _buildLifelineContainer(
+                  toolTipKey: key3,
                   onTap: () {
+                    final dynamic toolTip = key3.currentState;
+                    toolTip.ensureTooltipVisible();
+
                     if (lifelines[resetTime] == LifelineStatus.unused) {
                       if (hasEnoughCoinsForLifeline(context)) {
                         //deduct coins for using lifeline
@@ -950,7 +970,11 @@ class _NewQuizScreenState extends State<NewQuizScreen>
                   lifelineIcon: "reset_time.svg",
                   toolTipMessage: "RESET TIME"),
               _buildLifelineContainer(
+                  toolTipKey: key4,
                   onTap: () {
+                    final dynamic toolTip = key4.currentState;
+                    toolTip.ensureTooltipVisible();
+
                     if (lifelines[skip] == LifelineStatus.unused) {
                       if (hasEnoughCoinsForLifeline(context)) {
                         //deduct coins for using lifeline
@@ -1076,6 +1100,11 @@ class _NewQuizScreenState extends State<NewQuizScreen>
     );
   }
 
+  final key1 = GlobalKey();
+  final key2 = GlobalKey();
+  final key3 = GlobalKey();
+  final key4 = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     final quesCubit = context.read<QuestionsCubit>();
@@ -1115,7 +1144,8 @@ class _NewQuizScreenState extends State<NewQuizScreen>
 
                           //
                           // showOptionAnimationController.forward();
-                          questionContentAnimationController.forward();
+
+                          questionContentAnimationController.forward(from: 0);
                           //add audio question container keys
 
                         }
