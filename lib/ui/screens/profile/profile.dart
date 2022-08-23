@@ -108,7 +108,7 @@ class _ProfileState extends State<Profile> {
   List<String> tabsTitle = [
     'Badges',
     'Stats',
-    'Details',
+    // 'Details',
   ];
   final statisticsDetailsContainerHeightPercentage = 0.145;
 
@@ -287,8 +287,8 @@ class _ProfileState extends State<Profile> {
         return _buildBadges(context);
       case 1:
         return _statsTabBloc();
-      case 2:
-        return _detailsTab(profile);
+      // case 2:
+      //   return _detailsTab(profile);
     }
     return const SizedBox();
   }
@@ -815,59 +815,59 @@ class _ProfileState extends State<Profile> {
                     ],
                   ),
                   WidgetsUtil.verticalSpace16,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          CircleAvatar(
-                            radius: 5,
-                            backgroundColor: Constants.accent1,
-                          ),
-                          WidgetsUtil.horizontalSpace8,
-                          TitleText(
-                            text: 'Math',
-                            weight: FontWeight.w500,
-                            textColor: Constants.white,
-                            align: TextAlign.left,
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          CircleAvatar(
-                            radius: 5,
-                            backgroundColor: Constants.accent2,
-                          ),
-                          WidgetsUtil.horizontalSpace8,
-                          TitleText(
-                            text: 'Sports',
-                            weight: FontWeight.w500,
-                            textColor: Constants.white,
-                            align: TextAlign.left,
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          CircleAvatar(
-                            radius: 5,
-                            backgroundColor: Constants.secondaryColor,
-                          ),
-                          WidgetsUtil.horizontalSpace8,
-                          TitleText(
-                            text: 'Music',
-                            weight: FontWeight.w500,
-                            textColor: Constants.white,
-                            align: TextAlign.left,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                    ],
-                  ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     Row(
+                  //       children: [
+                  //         CircleAvatar(
+                  //           radius: 5,
+                  //           backgroundColor: Constants.accent1,
+                  //         ),
+                  //         WidgetsUtil.horizontalSpace8,
+                  //         TitleText(
+                  //           text: 'Math',
+                  //           weight: FontWeight.w500,
+                  //           textColor: Constants.white,
+                  //           align: TextAlign.left,
+                  //         ),
+                  //       ],
+                  //     ),
+                  //     Row(
+                  //       children: [
+                  //         CircleAvatar(
+                  //           radius: 5,
+                  //           backgroundColor: Constants.accent2,
+                  //         ),
+                  //         WidgetsUtil.horizontalSpace8,
+                  //         TitleText(
+                  //           text: 'Sports',
+                  //           weight: FontWeight.w500,
+                  //           textColor: Constants.white,
+                  //           align: TextAlign.left,
+                  //         ),
+                  //       ],
+                  //     ),
+                  //     Row(
+                  //       children: [
+                  //         CircleAvatar(
+                  //           radius: 5,
+                  //           backgroundColor: Constants.secondaryColor,
+                  //         ),
+                  //         WidgetsUtil.horizontalSpace8,
+                  //         TitleText(
+                  //           text: 'Music',
+                  //           weight: FontWeight.w500,
+                  //           textColor: Constants.white,
+                  //           align: TextAlign.left,
+                  //         ),
+                  //       ],
+                  //     ),
+                  //     const SizedBox(
+                  //       width: 20,
+                  //     ),
+                  //   ],
+                  // ),
                   WidgetsUtil.verticalSpace16,
                   _customBarchartBloc(),
                   WidgetsUtil.verticalSpace16,
@@ -899,46 +899,46 @@ class _ProfileState extends State<Profile> {
                             ],
                           ),
                         ),
-                        Expanded(
-                          child: Column(
-                            children: [
-                              TitleText(
-                                text: '8/10',
-                                weight: FontWeight.w500,
-                                textColor: Constants.white,
-                              ),
-                              SizedBox(
-                                width: 100,
-                                child: TitleText(
-                                  text: 'Questions Answered',
-                                  align: TextAlign.center,
-                                  size: Constants.bodyXSmall,
-                                  textColor: Constants.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                          child: Column(
-                            children: [
-                              TitleText(
-                                text: '6/10',
-                                weight: FontWeight.w500,
-                                textColor: Constants.white,
-                              ),
-                              SizedBox(
-                                width: 100,
-                                child: TitleText(
-                                  text: 'Questions Answered',
-                                  align: TextAlign.center,
-                                  size: Constants.bodyXSmall,
-                                  textColor: Constants.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        // Expanded(
+                        //   child: Column(
+                        //     children: [
+                        //       TitleText(
+                        //         text: '8/10',
+                        //         weight: FontWeight.w500,
+                        //         textColor: Constants.white,
+                        //       ),
+                        //       SizedBox(
+                        //         width: 100,
+                        //         child: TitleText(
+                        //           text: 'Questions Answered',
+                        //           align: TextAlign.center,
+                        //           size: Constants.bodyXSmall,
+                        //           textColor: Constants.white,
+                        //         ),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
+                        // Expanded(
+                        //   child: Column(
+                        //     children: [
+                        //       TitleText(
+                        //         text: '6/10',
+                        //         weight: FontWeight.w500,
+                        //         textColor: Constants.white,
+                        //       ),
+                        //       SizedBox(
+                        //         width: 100,
+                        //         child: TitleText(
+                        //           text: 'Questions Answered',
+                        //           align: TextAlign.center,
+                        //           size: Constants.bodyXSmall,
+                        //           textColor: Constants.white,
+                        //         ),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
                       ],
                     ),
                   )
@@ -1137,18 +1137,18 @@ class _ProfileState extends State<Profile> {
                     width: 35,
                     borderRadius: BorderRadius.circular(8),
                     color: Constants.accent1),
-                BarChartRodData(
-                    toY: 80,
-                    fromY: 0,
-                    width: 36,
-                    borderRadius: BorderRadius.circular(8),
-                    color: Constants.accent2),
-                BarChartRodData(
-                    toY: 54,
-                    fromY: 0,
-                    width: 36,
-                    borderRadius: BorderRadius.circular(8),
-                    color: Constants.secondaryColor),
+                // BarChartRodData(
+                //     toY: 80,
+                //     fromY: 0,
+                //     width: 36,
+                //     borderRadius: BorderRadius.circular(8),
+                //     color: Constants.accent2),
+                // BarChartRodData(
+                //     toY: 54,
+                //     fromY: 0,
+                //     width: 36,
+                //     borderRadius: BorderRadius.circular(8),
+                //     color: Constants.secondaryColor),
               ]),
             ]),
       ),
@@ -1201,7 +1201,7 @@ class _ProfileState extends State<Profile> {
         //tabs
         Row(
           children: List.generate(
-            3,
+            tabsTitle.length,
             (index) {
               return Expanded(
                 child: GestureDetector(
@@ -1355,11 +1355,22 @@ class _ProfileState extends State<Profile> {
         badgeContent: countryFlag.isNotEmpty
             ? Text(
                 countryFlag,
-                style: TextStyle(fontSize: 20),
+                style: const TextStyle(fontSize: 20),
               )
-            : const CircleAvatar(
-                radius: 15,
-                backgroundColor: Colors.black,
+            : Container(
+                height: 25,
+                width: 30,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Constants.primaryColor.withOpacity(0.5),
+                  ),
+                  color: Constants.primaryColor.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Icon(
+                  Icons.flag_circle,
+                  color: Constants.white,
+                ),
               ),
         // : Image.asset(
         //     Assets.turkey,

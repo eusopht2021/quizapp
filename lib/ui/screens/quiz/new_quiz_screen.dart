@@ -189,7 +189,7 @@ class _NewQuizScreenState extends State<NewQuizScreen>
         vsync: this, duration: const Duration(milliseconds: 100));
     //
     if (widget.quizType != QuizTypes.audioQuestions) {
-      timerAnimationController.forward(from: 0.0);
+      timerAnimationController.forward(from: 0);
     }
 
 //  if (!showOptionAnimationController.isAnimating) {
@@ -330,6 +330,7 @@ class _NewQuizScreenState extends State<NewQuizScreen>
       });
       //load content(options, image etc) of question
       questionContentAnimationController.forward();
+      log("change questions");
     });
   }
 
@@ -352,11 +353,9 @@ class _NewQuizScreenState extends State<NewQuizScreen>
   void updateTotalSecondsToCompleteQuiz() {
     totalSecondsToCompleteQuiz = totalSecondsToCompleteQuiz +
         UiUtils.timeTakenToSubmitAnswer(
-            animationControllerValue:
-                widget.quizType == QuizTypes.audioQuestions
-                    ? questionContentAnimationController.value
-                    : timerAnimationController.value,
-            quizType: widget.quizType);
+          animationControllerValue: timerAnimationController.value,
+          quizType: widget.quizType,
+        );
   }
 
   //update answer locally and on cloud

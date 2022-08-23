@@ -51,18 +51,18 @@ class HorizontalTimerContainer extends StatelessWidget {
                     : Constants.lightGreen,
               ),
             );
-            return Container(
-              decoration: BoxDecoration(
-                  color: timerAnimationController.value >= 0.8
-                      ? hurryUpTimerColor
-                      : Theme.of(context).colorScheme.secondary,
-                  borderRadius: const BorderRadius.all(Radius.circular(10))),
-              alignment: Alignment.topRight,
-              height: 10.0,
-              width: MediaQuery.of(context).size.width *
-                  (UiUtils.quesitonContainerWidthPercentage - 0.1) *
-                  (1.0 - timerAnimationController.value),
-            );
+            // return Container(
+            //   decoration: BoxDecoration(
+            //       color: timerAnimationController.value >= 0.8
+            //           ? hurryUpTimerColor
+            //           : Theme.of(context).colorScheme.secondary,
+            //       borderRadius: const BorderRadius.all(Radius.circular(10))),
+            //   alignment: Alignment.topRight,
+            //   height: 10.0,
+            //   width: MediaQuery.of(context).size.width *
+            //       (UiUtils.quesitonContainerWidthPercentage - 0.1) *
+            //       (1.0 - timerAnimationController.value),
+            // );
           },
         ),
       ],
@@ -79,8 +79,6 @@ class HorizontalTimerContainer extends StatelessWidget {
       totalSeconds = latexQuestionDurationInSeconds;
     } else if (quizTypes == QuizTypes.guessTheWord) {
       totalSeconds = guessTheWordQuestionDurationInSeconds;
-    } else if (quizTypes == QuizTypes.audioQuestions) {
-      totalSeconds = duration!;
     } else {
       totalSeconds = questionDurationInSeconds;
     }

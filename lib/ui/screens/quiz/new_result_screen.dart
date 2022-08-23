@@ -1178,9 +1178,9 @@ class _NewResultScreenState extends State<NewResultScreen> {
     return Screenshot(
       controller: screenshotController,
       child: Container(
-        height: widget.quizType == QuizTypes.exam
-            ? SizeConfig.screenHeight * 0.4
-            : SizeConfig.screenHeight * 0.53,
+        // height: widget.quizType == QuizTypes.exam
+        //     ? SizeConfig.screenHeight * 0.4
+        //     : SizeConfig.screenHeight * 0.53,
         width: SizeConfig.screenWidth,
         margin: const EdgeInsets.all(
           24,

@@ -58,11 +58,11 @@ class AuthRemoteDataSource {
 
       final response = await http.post(Uri.parse(addUserUrl), body: body);
 
-      print("that is the response" + response.body.toString());
+      log("that is the response" + response.body.toString());
 
       final responseJson = jsonDecode(response.body);
 
-      log(responseJson.toString() + " response");
+      log("$responseJson response");
 
       if (responseJson['error']) {
         throw AuthException(errorMessageCode: responseJson['message']);
@@ -116,8 +116,11 @@ class AuthRemoteDataSource {
         accessValueKey: accessValue,
         firebaseIdKey: firebaseId,
       };
+      log(body.toString() + "   body");
       final response =
           await http.post(Uri.parse(checkUserExistUrl), body: body);
+
+      log(checkUserExistUrl + "sss");
       final responseJson = jsonDecode(response.body);
 
       if (responseJson['error']) {

@@ -141,7 +141,6 @@ class AudioQuestionContainerState extends State<AudioQuestionContainer>
   //           )),
   //         ));
   //   }
-
   //   if (_hasCompleted) {
   //     return IconButton(
   //         onPressed: () {
@@ -234,10 +233,9 @@ class AudioQuestionContainerState extends State<AudioQuestionContainer>
           height: 17.5,
         ),
         HorizontalTimerContainer(
-          quizTypes: QuizTypes.audioQuestions,
-          timerAnimationController: widget.timerAnimationController,
-          duration: _audioDuration.inSeconds,
-        ),
+            quizTypes: QuizTypes.audioQuestions,
+            timerAnimationController: widget.timerAnimationController,
+            duration: _audioDuration.inSeconds),
         const SizedBox(
           height: 12.5,
         ),

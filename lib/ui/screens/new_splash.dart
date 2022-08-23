@@ -24,7 +24,7 @@ class _SplashState extends State<Splash> {
   bool isUserLoggedIn = AuthLocalDataSource.checkIsAuth();
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 10), () {
+    Future.delayed(const Duration(seconds: 4), () {
       setState(() {});
       debugPrint('Splash');
       if (!isUserLoggedIn) {

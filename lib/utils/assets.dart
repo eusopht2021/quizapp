@@ -6,6 +6,10 @@ class Assets {
   static String background = 'assets/images/background.png';
   static String background1 = 'assets/images/background1.png';
   static String personQuiz = 'assets/images/person_quiz.png';
+
+  static String path = 'assets/images/path.png';
+  static String manWalking = 'assets/images/manWalking.png';
+
   static String personWalkingMobile = 'assets/images/person_walking_mobile.png';
   static String personsNetwork = 'assets/images/persons_network.png';
   static String personsMeeting = 'assets/images/persons_meeting.png';
@@ -156,20 +160,21 @@ class Assets {
 
   static List<String> onBoarding = [
     Assets.personQuiz,
-    Assets.personWalkingMobile,
+    Assets.personsMeeting,
+    Assets.manWalking,
     Assets.personsNetwork,
   ];
 
   static List<String> navigationBarIcons = [
     homeFilled,
-    // search,
+    search,
     leaderboardFilled,
     personFilled,
   ];
 
   static List<String> outlinedNavigationBarIcons = [
     homeOutlined,
-    // search,
+    search,
     navleaderboardOutlined,
     personOutlined,
   ];

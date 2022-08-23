@@ -456,8 +456,10 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                                                     .signOut();
 
                                                 Navigator.of(context)
-                                                    .pushReplacementNamed(Routes
-                                                        .onBoardingScreen);
+                                                  .pushNamedAndRemoveUntil(
+                                                    Routes.onBoardingScreen,
+                                                    (route) => false,
+                                                  );
                                                 BlocProvider.of<
                                                             NavigationCubit>(
                                                         context)

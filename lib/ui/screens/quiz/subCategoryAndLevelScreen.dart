@@ -4,6 +4,7 @@ import 'package:badges/badges.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutterquiz/app/appLocalization.dart';
 import 'package:flutterquiz/app/routes.dart';
@@ -137,54 +138,96 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
         padding: EdgeInsets.zero,
         itemCount: int.parse(subcategoryList[currentIndex].maxLevel!),
         itemBuilder: (context, index) {
-          return GestureDetector(
-            onTap: () {
-              //index start with 0 so we comparing (index + 1)
-              if ((index + 1) <= unlockedLevel) {
-                //replacing this page
-                Navigator.of(context)
-                    .pushReplacementNamed(Routes.quiz, arguments: {
-                  "numberOfPlayer": 1,
-                  "quizType": QuizTypes.quizZone,
-                  "categoryId": "",
-                  "subcategoryId": subcategoryList[currentIndex].id,
-                  "level": (index + 1).toString(),
-                  "subcategoryMaxLevel": subcategoryList[currentIndex].maxLevel,
-                  "unlockedLevel": unlockedLevel,
-                  "contestId": "",
-                  "comprehensionId": "",
-                  "quizName": "Quiz Zone"
-                });
-              } else {
-                UiUtils.setSnackbar(
-                    AppLocalization.of(context)!.getTranslatedValues(
-                        convertErrorCodeToLanguageKey(levelLockedCode))!,
-                    context,
-                    false);
-              }
-            },
-            child: Opacity(
-              opacity: (index + 1) <= unlockedLevel ? 1.0 : 0.55,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20.0),
-                  color: Constants.secondaryColor,
-                ),
-                alignment: Alignment.center,
-                height: 40.0,
-                margin: const EdgeInsets.symmetric(
-                  horizontal: 20.0,
-                  vertical: 10.0,
-                ),
-                child: TitleText(
-                  text:
-                      "${AppLocalization.of(context)!.getTranslatedValues("levelLbl")!} ${index + 1}",
-                  size: 20,
-                  weight: FontWeight.bold,
-                  textColor: Constants.white,
+          // return GestureDetector(
+          //   onTap: () {
+          //     //index start with 0 so we comparing (index + 1)
+          //     if ((index + 1) <= unlockedLevel) {
+          //       //replacing this page
+          //       Navigator.of(context)
+          //           .pushReplacementNamed(Routes.quiz, arguments: {
+          //         "numberOfPlayer": 1,
+          //         "quizType": QuizTypes.quizZone,
+          //         "categoryId": "",
+          //         "subcategoryId": subcategoryList[currentIndex].id,
+          //         "level": (index + 1).toString(),
+          //         "subcategoryMaxLevel": subcategoryList[currentIndex].maxLevel,
+          //         "unlockedLevel": unlockedLevel,
+          //         "contestId": "",
+          //         "comprehensionId": "",
+          //         "quizName": "Quiz Zone"
+          //       });
+          //     } else {
+          //       UiUtils.setSnackbar(
+          //           AppLocalization.of(context)!.getTranslatedValues(
+          //               convertErrorCodeToLanguageKey(levelLockedCode))!,
+          //           context,
+          //           false);
+          //     }
+          //   },
+          //   child:
+          return Opacity(
+            opacity: (index + 1) <= unlockedLevel ? 1.0 : 0.55,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20.0),
+                color: Constants.secondaryColor,
+              ),
+              alignment: Alignment.center,
+              height: 60.0,
+              margin: const EdgeInsets.symmetric(
+                horizontal: 20.0,
+                vertical: 10.0,
+              ),
+              child: ListTile(
+                onTap: () {
+                  //index start with 0 so we comparing (index + 1)
+                  if ((index + 1) <= unlockedLevel) {
+                    //replacing this page
+                    Navigator.of(context)
+                        .pushReplacementNamed(Routes.quiz, arguments: {
+                      "numberOfPlayer": 1,
+                      "quizType": QuizTypes.quizZone,
+                      "categoryId": "",
+                      "subcategoryId": subcategoryList[currentIndex].id,
+                      "level": (index + 1).toString(),
+                      "subcategoryMaxLevel":
+                          subcategoryList[currentIndex].maxLevel,
+                      "unlockedLevel": unlockedLevel,
+                      "contestId": "",
+                      "comprehensionId": "",
+                      "quizName": "Quiz Zone"
+                    });
+                  } else {
+                    UiUtils.setSnackbar(
+                        AppLocalization.of(context)!.getTranslatedValues(
+                            convertErrorCodeToLanguageKey(levelLockedCode))!,
+                        context,
+                        false);
+                  }
+                },
+                leading: TitleText(
+                    text:
+                        "${AppLocalization.of(context)!.getTranslatedValues("levelLbl")!} ${index + 1}",
+                    size: 20,
+                    weight: FontWeight.bold,
+                    textColor: Constants.white),
+                // title:
+                //     TitleText(text: "${subcategoryList[currentIndex].maxLevel}"),
+                trailing: Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  color: Constants.white,
                 ),
               ),
+
+              //  TitleText(
+              //   text:
+              //       "${AppLocalization.of(context)!.getTranslatedValues("levelLbl")!} ${index + 1}",
+              //   size: 20,
+              //   weight: FontWeight.bold,
+              //   textColor: Constants.white,
+              // ),
             ),
+            // ),
           );
         });
   }
@@ -218,135 +261,137 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
       title: widget.categoryName ?? "",
       showBackButton: true,
       titleColor: Constants.white,
-      child: Column(
-        children: [
-          // _buildBackAndLanguageButton(),
-          const SizedBox(
-            height: 35.0,
-          ),
-          levelBoxes(),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            // _buildBackAndLanguageButton(),
+            const SizedBox(
+              height: 35.0,
+            ),
+            levelBoxes(),
 
-          //     Column(
-          //       children: <Widget>[
-          //         _buildBackAndLanguageButton(),
-          //         const SizedBox(
-          //           height: 35.0,
-          //         ),
-          //         Flexible(
-          //           child: BlocConsumer<SubCategoryCubit, SubCategoryState>(
-          //               bloc: context.read<SubCategoryCubit>(),
-          //               listener: (context, state) {
-          //                 if (state is SubCategoryFetchSuccess) {
-          //                   if (currentIndex == 0) {
-          //                     context.read<UnlockedLevelCubit>().fetchUnlockLevel(
-          //                         context.read<UserDetailsCubit>().getUserId(),
-          //                         widget.category,
-          //                         state.subcategoryList.first.id);
-          //                   }
-          //                 } else if (state is SubCategoryFetchFailure) {
-          //                   if (state.errorMessage == unauthorizedAccessCode) {
-          //                     //
-          //                     UiUtils.showAlreadyLoggedInDialog(
-          //                       context: context,
-          //                     );
-          //                   }
-          //                 }
-          //               },
-          //               builder: (context, state) {
-          //                 if (state is SubCategoryFetchInProgress ||
-          //                     state is SubCategoryInitial) {
-          //                   return Center(
-          //                       child: CircularProgressIndicator(
-          //                     color: Constants.white,
-          //                   ));
-          //                 }
-          //                 if (state is SubCategoryFetchFailure) {
-          //                   return ErrorContainer(
-          //                     errorMessageColor: Constants.primaryColor,
-          //                     errorMessage: AppLocalization.of(context)!
-          //                         .getTranslatedValues(
-          //                             convertErrorCodeToLanguageKey(
-          //                                 state.errorMessage)),
-          //                     showErrorImage: true,
-          //                     onTapRetry: () {
-          //                       context.read<SubCategoryCubit>().fetchSubCategory(
-          //                             widget.category!,
-          //                             context.read<UserDetailsCubit>().getUserId(),
-          //                           );
-          //                     },
-          //                   );
-          //                 }
-          //                 final subCategoryList =
-          //                     (state as SubCategoryFetchSuccess).subcategoryList;
+            //     Column(
+            //       children: <Widget>[
+            //         _buildBackAndLanguageButton(),
+            //         const SizedBox(
+            //           height: 35.0,
+            //         ),
+            //         Flexible(
+            //           child: BlocConsumer<SubCategoryCubit, SubCategoryState>(
+            //               bloc: context.read<SubCategoryCubit>(),
+            //               listener: (context, state) {
+            //                 if (state is SubCategoryFetchSuccess) {
+            //                   if (currentIndex == 0) {
+            //                     context.read<UnlockedLevelCubit>().fetchUnlockLevel(
+            //                         context.read<UserDetailsCubit>().getUserId(),
+            //                         widget.category,
+            //                         state.subcategoryList.first.id);
+            //                   }
+            //                 } else if (state is SubCategoryFetchFailure) {
+            //                   if (state.errorMessage == unauthorizedAccessCode) {
+            //                     //
+            //                     UiUtils.showAlreadyLoggedInDialog(
+            //                       context: context,
+            //                     );
+            //                   }
+            //                 }
+            //               },
+            //               builder: (context, state) {
+            //                 if (state is SubCategoryFetchInProgress ||
+            //                     state is SubCategoryInitial) {
+            //                   return Center(
+            //                       child: CircularProgressIndicator(
+            //                     color: Constants.white,
+            //                   ));
+            //                 }
+            //                 if (state is SubCategoryFetchFailure) {
+            //                   return ErrorContainer(
+            //                     errorMessageColor: Constants.primaryColor,
+            //                     errorMessage: AppLocalization.of(context)!
+            //                         .getTranslatedValues(
+            //                             convertErrorCodeToLanguageKey(
+            //                                 state.errorMessage)),
+            //                     showErrorImage: true,
+            //                     onTapRetry: () {
+            //                       context.read<SubCategoryCubit>().fetchSubCategory(
+            //                             widget.category!,
+            //                             context.read<UserDetailsCubit>().getUserId(),
+            //                           );
+            //                     },
+            //                   );
+            //                 }
+            //                 final subCategoryList =
+            //                     (state as SubCategoryFetchSuccess).subcategoryList;
 
-          //                 return Column(
-          //                   children: [
-          //                     SizedBox(
-          //                       height: MediaQuery.of(context).size.height * (0.2),
-          //                       child: PageView.builder(
-          //                           itemCount: subCategoryList.length,
-          //                           onPageChanged: (index) {
-          //                             setState(() {
-          //                               currentIndex = index;
-          //                             });
-          //                             //fetch unlocked level for current selected subcategory
-          //                             context
-          //                                 .read<UnlockedLevelCubit>()
-          //                                 .fetchUnlockLevel(
-          //                                     context
-          //                                         .read<UserDetailsCubit>()
-          //                                         .getUserId(),
-          //                                     widget.category,
-          //                                     subCategoryList[index].id);
-          //                           },
-          //                           controller: pageController,
-          //                           itemBuilder: (context, index) {
-          //                             return SubcategoryContainer(
-          //                               subcategory: subCategoryList[index],
-          //                               currentIndex: currentIndex,
-          //                               index: index,
-          //                             );
-          //                           }),
-          //                     ),
-          //                     const SizedBox(
-          //                       height: 25.0,
-          //                     ),
-          //                     Flexible(
-          //                         child: ClipRRect(
-          //                       borderRadius: BorderRadius.circular(25.0),
-          //                       child: BlocConsumer<UnlockedLevelCubit,
-          //                           UnlockedLevelState>(
-          //                         listener: (context, state) {
-          //                           if (state is UnlockedLevelFetchFailure) {
-          //                             if (state.errorMessage ==
-          //                                 unauthorizedAccessCode) {
-          //                               //
-          //                               UiUtils.showAlreadyLoggedInDialog(
-          //                                 context: context,
-          //                               );
-          //                             }
-          //                           }
-          //                         },
-          //                         builder: (context, state) {
-          //                           return AnimatedSwitcher(
-          //                             duration: const Duration(milliseconds: 500),
-          //                             child: _buildLevels(state, subCategoryList),
-          //                           );
-          //                         },
-          //                       ),
-          //                     )),
-          //                   ],
-          //                 );
-          //               }),
-          //         ),
-          //       ],
-          //     ),
+            //                 return Column(
+            //                   children: [
+            //                     SizedBox(
+            //                       height: MediaQuery.of(context).size.height * (0.2),
+            //                       child: PageView.builder(
+            //                           itemCount: subCategoryList.length,
+            //                           onPageChanged: (index) {
+            //                             setState(() {
+            //                               currentIndex = index;
+            //                             });
+            //                             //fetch unlocked level for current selected subcategory
+            //                             context
+            //                                 .read<UnlockedLevelCubit>()
+            //                                 .fetchUnlockLevel(
+            //                                     context
+            //                                         .read<UserDetailsCubit>()
+            //                                         .getUserId(),
+            //                                     widget.category,
+            //                                     subCategoryList[index].id);
+            //                           },
+            //                           controller: pageController,
+            //                           itemBuilder: (context, index) {
+            //                             return SubcategoryContainer(
+            //                               subcategory: subCategoryList[index],
+            //                               currentIndex: currentIndex,
+            //                               index: index,
+            //                             );
+            //                           }),
+            //                     ),
+            //                     const SizedBox(
+            //                       height: 25.0,
+            //                     ),
+            //                     Flexible(
+            //                         child: ClipRRect(
+            //                       borderRadius: BorderRadius.circular(25.0),
+            //                       child: BlocConsumer<UnlockedLevelCubit,
+            //                           UnlockedLevelState>(
+            //                         listener: (context, state) {
+            //                           if (state is UnlockedLevelFetchFailure) {
+            //                             if (state.errorMessage ==
+            //                                 unauthorizedAccessCode) {
+            //                               //
+            //                               UiUtils.showAlreadyLoggedInDialog(
+            //                                 context: context,
+            //                               );
+            //                             }
+            //                           }
+            //                         },
+            //                         builder: (context, state) {
+            //                           return AnimatedSwitcher(
+            //                             duration: const Duration(milliseconds: 500),
+            //                             child: _buildLevels(state, subCategoryList),
+            //                           );
+            //                         },
+            //                       ),
+            //                     )),
+            //                   ],
+            //                 );
+            //               }),
+            //         ),
+            //       ],
+            //     ),
 
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: BannerAdContainer(),
-          )
-        ],
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: BannerAdContainer(),
+            )
+          ],
+        ),
       ),
     );
 

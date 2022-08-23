@@ -5,10 +5,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutterquiz/app/routes.dart';
+import 'package:flutterquiz/features/battleRoom/cubits/battleRoomCubit.dart';
+import 'package:flutterquiz/features/profileManagement/cubits/updateScoreAndCoinsCubit.dart';
+import 'package:flutterquiz/features/profileManagement/profileManagementRepository.dart';
+import 'package:flutterquiz/features/quiz/cubits/quizCategoryCubit.dart';
+import 'package:flutterquiz/features/quiz/models/quizType.dart';
+import 'package:flutterquiz/features/quiz/quizRepository.dart';
 import 'package:flutterquiz/ui/navigation/navbarcubit.dart';
 import 'package:flutterquiz/ui/navigation/navbaritems.dart';
 import 'package:flutterquiz/ui/navigation/navigation_bar_state.dart';
 import 'package:flutterquiz/ui/screens/Discover%20Screen/discover.dart';
+import 'package:flutterquiz/ui/screens/battle/widgets/randomOrPlayFrdDialog.dart';
+import 'package:flutterquiz/ui/screens/battle/widgets/roomDialog.dart';
 import 'package:flutterquiz/ui/screens/createQuizScreens/createQuizScreen.dart';
 import 'package:flutterquiz/ui/screens/home/homeScreen.dart';
 import 'package:flutterquiz/ui/screens/home/new_home_screen.dart';
@@ -31,8 +39,8 @@ class _NavigationState extends State<Navigation> {
   List<BottomNavigationBarItem> bodyWidgets = [
     BottomNavigationBarItem(
         icon: SvgPicture.asset(Assets.homeFilled), label: "home"),
-    // BottomNavigationBarItem(
-    //     icon: SvgPicture.asset(Assets.search), label: "discover"),
+    BottomNavigationBarItem(
+        icon: SvgPicture.asset(Assets.search), label: "discover"),
     BottomNavigationBarItem(
         icon: SvgPicture.asset(Assets.leaderboardFilled), label: "leaderbard"),
     BottomNavigationBarItem(
@@ -49,20 +57,36 @@ class _NavigationState extends State<Navigation> {
     bool isKeyboardOpen = MediaQuery.of(context).viewInsets.bottom != 0;
 
     return Scaffold(
-      // floatingActionButton: Visibility(
-      //   visible: !isKeyboardOpen,
-      //   child: FloatingActionButton(
-      //     backgroundColor: Constants.primaryColor,
-      //     onPressed: () {
-      //       Navigator.push(
-      //           context, MaterialPageRoute(builder: (_) => CreateQuizScreen()));
-      //     },
-      //     child: const Icon(
-      //       Icons.add,
-      //     ),
-      //   ),
-      // ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Visibility(
+        visible: !isKeyboardOpen,
+        child: FloatingActionButton(
+          backgroundColor: Constants.primaryColor,
+          onPressed: () {
+            // Navigator.push(
+            //     context, MaterialPageRoute(builder: (_) => CreateQuizScreen()));
+
+            context.read<BattleRoomCubit>().updateState(BattleRoomInitial());
+            context
+                .read<QuizCategoryCubit>()
+                .updateState(QuizCategoryInitial());
+
+            showDialog(
+              context: context,
+              builder: (context) => MultiBlocProvider(providers: [
+                BlocProvider<QuizCategoryCubit>(
+                    create: (_) => QuizCategoryCubit(QuizRepository())),
+                BlocProvider<UpdateScoreAndCoinsCubit>(
+                    create: (_) => UpdateScoreAndCoinsCubit(
+                        ProfileManagementRepository())),
+              ], child: RoomDialog(quizType: QuizTypes.battle)),
+            );
+          },
+          child: const Icon(
+            Icons.add,
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       extendBody: true,
       bottomNavigationBar: BlocBuilder<NavigationCubit, NavigationbarState>(
         builder: (context, state) {
@@ -70,7 +94,7 @@ class _NavigationState extends State<Navigation> {
             itemCount: bodyWidgets.length,
             backgroundColor: Constants.white,
             height: kBottomNavigationBarHeight,
-            gapLocation: GapLocation.none,
+            gapLocation: GapLocation.center,
             leftCornerRadius: 20.0,
             rightCornerRadius: 20.0,
             notchSmoothness: NotchSmoothness.softEdge,
@@ -92,16 +116,13 @@ class _NavigationState extends State<Navigation> {
               if (index == 0) {
                 BlocProvider.of<NavigationCubit>(context)
                     .getNavBarItem(NavbarItems.newhome);
-              }
-              // else if (index == 1) {
-              //   BlocProvider.of<NavigationCubit>(context)
-              //       .getNavBarItem(NavbarItems.discover);
-
-              // }
-              else if (index == 1) {
+              } else if (index == 1) {
+                BlocProvider.of<NavigationCubit>(context)
+                    .getNavBarItem(NavbarItems.discover);
+              } else if (index == 2) {
                 BlocProvider.of<NavigationCubit>(context)
                     .getNavBarItem(NavbarItems.leaderboard);
-              } else if (index == 2) {
+              } else if (index == 3) {
                 BlocProvider.of<NavigationCubit>(context)
                     .getNavBarItem(NavbarItems.profile);
               }
@@ -115,11 +136,9 @@ class _NavigationState extends State<Navigation> {
 
           if (state.navbarItems == NavbarItems.newhome) {
             return const NewHomeScreen();
-          }
-          //  else if (state.navbarItems == NavbarItems.discover) {
-          //   return const Discover();
-          // }
-          else if (state.navbarItems == NavbarItems.leaderboard) {
+          } else if (state.navbarItems == NavbarItems.discover) {
+            return const Discover();
+          } else if (state.navbarItems == NavbarItems.leaderboard) {
             return const NewLeaderBoardScreen();
           } else if (state.navbarItems == NavbarItems.profile) {
             return const Profile(routefromHomeScreen: false);
