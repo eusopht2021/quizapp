@@ -358,6 +358,8 @@ class QuizRemoteDataSource {
       };
       final response = await http.post(Uri.parse(getSubCategoryUrl),
           body: body, headers: await ApiUtils.getHeaders());
+
+      log("${response.body} sub category response");
       final responseJson = jsonDecode(response.body);
       if (responseJson['error']) {
         throw QuizException(errorMessageCode: responseJson['message']);

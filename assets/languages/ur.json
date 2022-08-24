@@ -26,6 +26,7 @@
 
   "createAccountLbl" : "اکاؤنٹ بنائیں",
   "laterLbl" : "بعد میں",
+  "NEXT" : "اگلے",
 
   "userLoginLbl": "صارف لاگ ان",
   "loginWithGooleLbl" : "گوگل کے ساتھ لاگ ان کریں",
@@ -43,7 +44,7 @@
 "onBoardingIndex0":"کوئز کا جواب دیں اور دلچسپ انعامات جیتنے کا موقع حاصل کریں!!!",
 "onBoardingIndex1":"اپنے علم کی جانچ کریں وہاں منتخب کرنے کے لیے سو مختلف علاقے ہیں۔",
 "onBoardingIndex2":"انعام جیتنے کے لیے تمام سوالات کے درست جوابات کا انتخاب کریں۔",
-
+"onBoardingIndex3" : "دوستوں کے ساتھ چیلنجوں میں حصہ لیں۔",
 
 
 "signUpProcessIndex0":"آپ کا ای میل کیا ہے؟",
@@ -375,7 +376,7 @@
   "desExam": "Give exam",
   "hint" : "Hint",
   "seeAll" : "تمام دیکھیں",
-  "liveQuizzes" : "لائیو کوئزز",
+  "liveQuizzes" : "کوئزز",
   "takepartLbl" : "دوستوں یا دوسرے کھلاڑیوں کے ساتھ چیلنجوں میں حصہ لیں۔",
   "findFriendsLbs" : "دوست ڈھونڈیں",
   "featured": "نمایاں",

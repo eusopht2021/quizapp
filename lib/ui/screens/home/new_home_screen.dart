@@ -246,7 +246,8 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                       child: CircleAvatar(
                         backgroundColor: Constants.pink,
                         backgroundImage: CachedNetworkImageProvider(
-                            state.userProfile.profileUrl!),
+                          state.userProfile.profileUrl!,
+                        ),
                       ),
                     ),
                   ),
@@ -260,87 +261,87 @@ class _NewHomeScreenState extends State<NewHomeScreen>
               controller: scrollController,
               padding: EdgeInsets.zero,
               children: [
-                GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    height: 84,
-                    width: SizeConfig.screenWidth,
-                    margin: const EdgeInsets.only(
-                      left: 24,
-                      right: 24,
-                    ),
-                    clipBehavior: Clip.antiAlias,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(
-                          Assets.swivels,
-                        ),
-                      ),
-                      borderRadius: BorderRadius.circular(20),
-                      color: Constants.secondaryAccent,
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          flex: 10,
-                          child: Container(
-                            margin: const EdgeInsets.only(
-                              left: 24,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                WidgetsUtil.verticalSpace16,
-                                TitleText(
-                                  text: 'Recent Quiz'.toUpperCase(),
-                                  size: Constants.bodySmall,
-                                  weight: FontWeight.w500,
-                                  textColor: Constants.secondaryTextColor,
-                                ),
-                                WidgetsUtil.verticalSpace8,
-                                Expanded(
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      Expanded(
-                                        flex: 0,
-                                        child: Icon(
-                                          Icons.headphones,
-                                          color: Constants.secondaryTextColor,
-                                        ),
-                                      ),
-                                      WidgetsUtil.horizontalSpace8,
-                                      Expanded(
-                                        flex: 14,
-                                        child: TitleText(
-                                          text: 'A Basic Music Quiz',
-                                          size: Constants.bodyLarge,
-                                          weight: FontWeight.w500,
-                                          textColor:
-                                              Constants.secondaryTextColor,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        const Expanded(
-                          flex: 3,
-                          child: CustomPieChart(
-                            value1: 88,
-                            value2: 12,
-                            radius: 24,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                WidgetsUtil.verticalSpace24,
+                // GestureDetector(
+                //   onTap: () {},
+                //   child: Container(
+                //     height: 84,
+                //     width: SizeConfig.screenWidth,
+                //     margin: const EdgeInsets.only(
+                //       left: 24,
+                //       right: 24,
+                //     ),
+                //     clipBehavior: Clip.antiAlias,
+                //     decoration: BoxDecoration(
+                //       image: DecorationImage(
+                //         image: AssetImage(
+                //           Assets.swivels,
+                //         ),
+                //       ),
+                //       borderRadius: BorderRadius.circular(20),
+                //       color: Constants.secondaryAccent,
+                //     ),
+                //     child: Row(
+                //       children: [
+                //         Expanded(
+                //           flex: 10,
+                //           child: Container(
+                //             margin: const EdgeInsets.only(
+                //               left: 24,
+                //             ),
+                //             child: Column(
+                //               crossAxisAlignment: CrossAxisAlignment.start,
+                //               children: [
+                //                 WidgetsUtil.verticalSpace16,
+                //                 TitleText(
+                //                   text: 'Recent Quiz'.toUpperCase(),
+                //                   size: Constants.bodySmall,
+                //                   weight: FontWeight.w500,
+                //                   textColor: Constants.secondaryTextColor,
+                //                 ),
+                //                 WidgetsUtil.verticalSpace8,
+                //                 Expanded(
+                //                   child: Row(
+                //                     mainAxisAlignment:
+                //                         MainAxisAlignment.spaceAround,
+                //                     children: [
+                //                       Expanded(
+                //                         flex: 0,
+                //                         child: Icon(
+                //                           Icons.headphones,
+                //                           color: Constants.secondaryTextColor,
+                //                         ),
+                //                       ),
+                //                       WidgetsUtil.horizontalSpace8,
+                //                       Expanded(
+                //                         flex: 14,
+                //                         child: TitleText(
+                //                           text: 'A Basic Music Quiz',
+                //                           size: Constants.bodyLarge,
+                //                           weight: FontWeight.w500,
+                //                           textColor:
+                //                               Constants.secondaryTextColor,
+                //                         ),
+                //                       ),
+                //                     ],
+                //                   ),
+                //                 ),
+                //               ],
+                //             ),
+                //           ),
+                //         ),
+                //         const Expanded(
+                //           flex: 3,
+                //           child: CustomPieChart(
+                //             value1: 88,
+                //             value2: 12,
+                //             radius: 24,
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
+                WidgetsUtil.verticalSpace8,
                 _buildSelfChallenge(),
 
                 // Container(
@@ -449,40 +450,24 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                 //     ],
                 //   ),
                 // ),
-                WidgetsUtil.verticalSpace24,
+                WidgetsUtil.verticalSpace16,
                 Container(
                   margin: EdgeInsets.zero,
                   decoration: StyleProperties.sheetBorder,
                   padding: StyleProperties.insets18,
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      WidgetsUtil.verticalSpace24,
-                      Row(
-                        children: [
-                          TitleText(
-                            text: AppLocalization.of(context)!
-                                .getTranslatedValues("liveQuizzes")!,
-                            size: Constants.bodyXLarge,
-                            textColor: Constants.black1,
-                            weight: FontWeight.w500,
-                          ),
-                          const Spacer(),
-                          // InkWell(
-                          //   onTap: () {
-                          //     _scrollController();
-                          //     log('See All');
-                          //   },
-                          //   child: TitleText(
-                          //     text: AppLocalization.of(context)!
-                          //         .getTranslatedValues("seeAll")!,
-                          //     textColor: Constants.primaryColor,
-                          //     size: Constants.bodySmall,
-                          //     weight: FontWeight.w500,
-                          //   ),
-                          // ),
-                        ],
+                      // WidgetsUtil.verticalSpace8,
+                      TitleText(
+                        text: AppLocalization.of(context)!
+                            .getTranslatedValues("liveQuizzes")!,
+                        size: Constants.bodyXLarge,
+                        textColor: Constants.black1,
+                        weight: FontWeight.w500,
                       ),
-                      WidgetsUtil.verticalSpace16,
+
+                      // WidgetsUtil.verticalSpace16,
 
                       GridView.builder(
                         clipBehavior: Clip.none,
@@ -494,7 +479,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
                           // childAspectRatio: 1,
-                          mainAxisExtent: 135,
+                          mainAxisExtent: 125,
                           crossAxisSpacing: 16,
                           mainAxisSpacing: 16,
                           crossAxisCount: 2,
@@ -1203,7 +1188,6 @@ class _NewHomeScreenState extends State<NewHomeScreen>
 //Greetings Message
   String greetingMessage() {
     var timeNow = DateTime.now().hour;
-    
 
     if ((timeNow >= 5) && (timeNow < 12)) {
       //05 : 00 am to 11:59am
@@ -1236,6 +1220,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
     return GestureDetector(
       onTap: onTap,
       child: Stack(
+        fit: StackFit.expand,
         children: [
           Container(
             // width: SizeConfig.screenWidth,
@@ -1244,41 +1229,36 @@ class _NewHomeScreenState extends State<NewHomeScreen>
               borderRadius: StyleProperties.cardsRadius,
               color: backgroundColor,
             ),
-            padding: StyleProperties.insets18,
-            child: Align(
-              alignment: Alignment.center,
-              child: Stack(
-                children: [
-                  Column(
-                    children: [
-                      Expanded(
-                        child: FittedBox(
-                          fit: BoxFit.fill,
-                          child: SvgPicture.asset(
-                            icon!,
-                            color: iconColor,
-                            height: 60,
-                            width: 60,
-                          ),
-                        ),
-                      ),
-                      WidgetsUtil.verticalSpace10,
-                      Expanded(
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: TitleText(
-                            text: categoryName!,
-                            textColor: textColor ?? Constants.white,
-                            size: Constants.bodyNormal,
-                            weight: FontWeight.w500,
-                            align: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                    ],
+            padding: StyleProperties.insets10,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                FittedBox(
+                  fit: BoxFit.fill,
+                  child: SvgPicture.asset(
+                    icon!,
+                    color: iconColor,
+                    height: 60,
+                    width: 60,
                   ),
-                ],
-              ),
+                ),
+                WidgetsUtil.verticalSpace16,
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: FittedBox(
+                      fit: BoxFit.cover,
+                      child: TitleText(
+                        text: categoryName!,
+                        textColor: textColor ?? Constants.white,
+                        size: Constants.bodyNormal,
+                        weight: FontWeight.w500,
+                        align: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           Align(

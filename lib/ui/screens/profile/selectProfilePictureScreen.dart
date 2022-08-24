@@ -200,6 +200,7 @@ class _SelectProfilePictureScreen extends State<SelectProfilePictureScreen> {
                   borderRadius: BorderRadius.circular(100),
                 ),
                 child: CircleAvatar(
+                  
                     radius: constraints.maxHeight *
                         (profileRadiusPercentage - 0.0535),
                     backgroundImage:

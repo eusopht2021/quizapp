@@ -138,7 +138,7 @@ class UiUtils {
   }
 
   static String getprofileImagePath(String imageName) {
-    return "assets/images/profile/$imageName";
+    return "assets/profileAvatars/$imageName";
   }
 
   static String getEmojiPath(String emojiName) {

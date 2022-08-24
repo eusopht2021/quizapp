@@ -24,7 +24,7 @@ class QuizCategoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.only(
-        top: 12,
+        top: 6,
         left: horizontalMargin ?? 0,
         right: horizontalMargin ?? 0,
         bottom: 0,
@@ -39,14 +39,14 @@ class QuizCategoryCard extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: ListTile(
         onTap: onTap,
-        contentPadding: const EdgeInsets.all(14),
+        contentPadding: const EdgeInsets.all(5),
         leading: Padding(
-          padding: const EdgeInsets.only(left: 8),
+          padding: const EdgeInsets.only(left: 4),
           child: asset.contains('.svg')
               ? SvgPicture.asset(
                   asset,
-                  height: 50,
-                  width: 50,
+                  height: 35,
+                  width: 35,
                   color: Constants.primaryColor,
                   placeholderBuilder: ((context) {
                     return const Icon(Icons.error);
@@ -54,8 +54,8 @@ class QuizCategoryCard extends StatelessWidget {
                 )
               : Image.asset(
                   asset,
-                  height: 50,
-                  width: 50,
+                  height: 35,
+                  width: 35,
                   errorBuilder: ((context, error, stackTrace) {
                     return const Icon(Icons.error);
                   }),

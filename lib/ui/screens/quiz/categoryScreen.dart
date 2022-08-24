@@ -266,7 +266,7 @@ class _CategoryScreen extends State<CategoryScreen> {
 
           return ListView.builder(
               padding: const EdgeInsets.only(
-                bottom: 50,
+                bottom: 0,
               ),
               controller: scrollController,
               shrinkWrap: true,
@@ -317,7 +317,6 @@ class _CategoryScreen extends State<CategoryScreen> {
                             .pushNamed(Routes.subcategoryAndLevel, arguments: {
                           "category": categoryList[index].id,
                           "categoryName": categoryList[index].categoryName,
-                          
                         });
                       }
                     } else if (widget.quizType == QuizTypes.audioQuestions) {

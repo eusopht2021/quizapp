@@ -13,7 +13,7 @@
 
    <application
         android:label="Queezy"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/light_icon"
         android:usesCleartextTraffic="true"
         
        >

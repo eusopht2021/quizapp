@@ -32,6 +32,7 @@ import 'package:flutterquiz/ui/screens/quiz/funAndLearnScreen.dart';
 import 'package:flutterquiz/ui/screens/quiz/funAndLearnTitleScreen.dart';
 import 'package:flutterquiz/ui/screens/quiz/guessTheWordQuizScreen.dart';
 import 'package:flutterquiz/ui/screens/quiz/levelsScreen.dart';
+import 'package:flutterquiz/ui/screens/quiz/new_levels_screen.dart';
 import 'package:flutterquiz/ui/screens/quiz/new_quiz_screen.dart';
 import 'package:flutterquiz/ui/screens/quiz/new_result_screen.dart';
 import 'package:flutterquiz/ui/screens/quiz/reviewAnswersScreen.dart';
@@ -73,6 +74,7 @@ class Routes {
   static const quiz = "/quiz";
   static const subcategoryAndLevel = "/subcategoryAndLevel";
   static const subCategory = "/subCategory";
+  static const newLevelsScreen = "/new_levels_screen";
 
   static const referAndEarn = "/referAndEarn";
   static const notification = "/notification";
@@ -236,6 +238,10 @@ class Routes {
 
       case subCategory:
         return SubCategoryScreen.route(routeSettings);
+
+      case newLevelsScreen:
+        return NewLevelsScreen.route(routeSettings);
+
       case badges:
         return BadgesScreen.route(routeSettings);
 

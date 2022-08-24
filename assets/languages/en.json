@@ -25,6 +25,7 @@
 
   "createAccountLbl" : "Create Account",
   "laterLbl" : "Later",
+  "NEXT": "NEXT",
 
 
   "userLoginLbl": "User Login",
@@ -54,6 +55,7 @@
 "onBoardingIndex0" :"Answer a quiz & get a chance to win exciting prizes!!!",
 "onBoardingIndex1":"Test your knowledge there are hundred of different Area to choose",
 "onBoardingIndex2":"Pick the correct all answer of questions to win the prize",
+"onBoardingIndex3" : "Take part in challenges with friends",
 
 
 "signUpProcessIndex0":"What’s your email?",
@@ -381,7 +383,7 @@
   "desExam": "Give exam",
   "hint" : "Hint",
   "seeAll" : "See All",
-  "liveQuizzes" : "Live Quizzes",
+  "liveQuizzes" : "Quizzes",
   "takepartLbl" : "Take part in challenges with friends or other players",
   "findFriendsLbs" : "Find Friends",
   "featured": "Featured",

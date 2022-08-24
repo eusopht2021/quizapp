@@ -265,9 +265,9 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
         child: Column(
           children: [
             // _buildBackAndLanguageButton(),
-            const SizedBox(
-              height: 35.0,
-            ),
+            // const SizedBox(
+            //   height: 35.0,
+            // ),
             levelBoxes(),
 
             //     Column(
@@ -532,11 +532,9 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
 
           return ListView.separated(
             separatorBuilder: (context, index) {
-              return const SizedBox(
-                height: 16,
-              );
+              return const SizedBox(height: 5);
             },
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.all(5),
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemCount: subCategoryList.length,
@@ -549,7 +547,26 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
                 child: Theme(
                   data: Theme.of(context)
                       .copyWith(dividerColor: Colors.transparent),
-                  child: ExpansionTile(
+                  child: ListTile(
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 5),
+                    onTap: () {
+                      currentIndex = index;
+
+                      // context.read<UnlockedLevelCubit>().fetchUnlockLevel(
+                      //     context.read<UserDetailsCubit>().getUserId(),
+                      //     widget.category,
+                      //     subCategoryList[index].id);
+
+                      Navigator.pushReplacementNamed(
+                          context, Routes.newLevelsScreen,
+                          arguments: {
+                            "categoryName":
+                                subCategoryList[currentIndex].subcategoryName,
+                            "category": subCategoryList[index].id,
+                            "levels": subCategoryList[index].maxLevel,
+                            "subcategory": subCategoryList
+                          });
+                    },
                     key: Key(index.toString()),
                     title: TitleText(
                       text: subCategoryList[index].subcategoryName!,
@@ -557,7 +574,7 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
                       weight: FontWeight.w500,
                       size: Constants.bodyLarge,
                     ),
-                    childrenPadding: const EdgeInsets.all(10),
+                    // childrenPadding: const EdgeInsets.all(10),
                     subtitle: TitleText(
                       text:
                           "${AppLocalization.of(context)!.getTranslatedValues(questionsKey)!} : ${subCategoryList[index].noOfQue}",
@@ -565,52 +582,50 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
                       size: Constants.bodyNormal,
                       weight: FontWeight.w400,
                     ),
-                    trailing: expansionBox.contains(index)
-                        ? const Icon(
-                            Icons.keyboard_arrow_up_rounded,
-                            size: 40,
-                          )
-                        : const Icon(
-                            Icons.arrow_forward_ios_rounded,
-                          ),
-                    initiallyExpanded: index == selected,
+
+                    trailing: const Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      size: 30,
+                    ),
+
+                    // initiallyExpanded: index == selected,
                     iconColor: Constants.primaryColor,
-                    collapsedIconColor: Constants.primaryColor,
-                    onExpansionChanged: (bool value) {
-                      currentIndex = index;
+                    // collapsedIconColor: Constants.primaryColor,
+                    // onExpansionChanged: (bool value) {
+                    // currentIndex = index;
 
-                      context.read<UnlockedLevelCubit>().fetchUnlockLevel(
-                          context.read<UserDetailsCubit>().getUserId(),
-                          widget.category,
-                          subCategoryList[index].id);
+                    //   context.read<UnlockedLevelCubit>().fetchUnlockLevel(
+                    //       context.read<UserDetailsCubit>().getUserId(),
+                    //       widget.category,
+                    //       subCategoryList[index].id);
 
-                      if (expansionBox.contains(index)) {
-                        expansionBox.remove(index);
-                      } else {
-                        expansionBox.add(index);
-                      }
-                      // isExpanded = value;
+                    //   if (expansionBox.contains(index)) {
+                    //     expansionBox.remove(index);
+                    //   } else {
+                    //     expansionBox.add(index);
+                    //   }
+                    //   // isExpanded = value;
 
-                      log("$isExpanded  + $index");
-                      setState(() {});
-                    },
-                    children: [
-                      BlocConsumer<UnlockedLevelCubit, UnlockedLevelState>(
-                        listener: (context, state) {
-                          if (state is UnlockedLevelFetchFailure) {
-                            if (state.errorMessage == unauthorizedAccessCode) {
-                              //
-                              UiUtils.showAlreadyLoggedInDialog(
-                                context: context,
-                              );
-                            }
-                          }
-                        },
-                        builder: (context, state) {
-                          return _buildLevels(state, subCategoryList);
-                        },
-                      ),
-                    ],
+                    //   log("$isExpanded  + $index");
+                    //   setState(() {});
+                    // },
+                    // children: [
+                    //   BlocConsumer<UnlockedLevelCubit, UnlockedLevelState>(
+                    //     listener: (context, state) {
+                    //       if (state is UnlockedLevelFetchFailure) {
+                    //         if (state.errorMessage == unauthorizedAccessCode) {
+                    //           //
+                    //           UiUtils.showAlreadyLoggedInDialog(
+                    //             context: context,
+                    //           );
+                    //         }
+                    //       }
+                    //     },
+                    //     builder: (context, state) {
+                    //       return _buildLevels(state, subCategoryList);
+                    //     },
+                    //   ),
+                    // ],
                   ),
                 ),
               );

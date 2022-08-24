@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutterquiz/features/profileManagement/profileManagementException.dart';
@@ -58,6 +59,7 @@ class ProfileManagementRemoteDataSource {
       var response = await postApiFile(
           Uri.parse(uploadProfileUrl), fileList, body, userId);
       final res = json.decode(response);
+
       if (res['error']) {
         throw ProfileManagementException(errorMessageCode: res['message']);
       }
@@ -256,8 +258,8 @@ class ProfileManagementRemoteDataSource {
 
       final response = await http.post(Uri.parse(updateProfileUrl),
           body: body, headers: await ApiUtils.getHeaders());
-
       final responseJson = jsonDecode(response.body);
+
       if (responseJson['error']) {
         throw ProfileManagementException(
             errorMessageCode: responseJson['message']);

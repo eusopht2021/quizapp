@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutterquiz/app/appLocalization.dart';
+import 'package:flutterquiz/utils/size_config.dart';
 
 import '../../../../app/routes.dart';
 import '../../../../utils/assets.dart';
@@ -20,7 +21,7 @@ class OnBoarding extends StatefulWidget {
 class _OnBoardingState extends State<OnBoarding> {
   int selectedIndex = 0;
   List<String> onBoarding = [];
-
+  PageController _pageController = PageController();
   @override
   void dispose() {
     // TODO: implement dispose
@@ -33,7 +34,7 @@ class _OnBoardingState extends State<OnBoarding> {
       AppLocalization.of(context)!.getTranslatedValues('onBoardingIndex0')!,
       AppLocalization.of(context)!.getTranslatedValues('onBoardingIndex1')!,
       AppLocalization.of(context)!.getTranslatedValues('onBoardingIndex2')!,
-      AppLocalization.of(context)!.getTranslatedValues('onBoardingIndex2')!,
+      AppLocalization.of(context)!.getTranslatedValues('onBoardingIndex3')!,
     ];
     return Scaffold(
       body: DefaultBackground(
@@ -48,6 +49,7 @@ class _OnBoardingState extends State<OnBoarding> {
                   Expanded(
                     flex: 9,
                     child: PageView.builder(
+                      controller: _pageController,
                       onPageChanged: (value) {
                         setState(() {
                           selectedIndex = value;
@@ -104,50 +106,69 @@ class _OnBoardingState extends State<OnBoarding> {
                 ],
               ),
             ),
-            const Spacer(),
+            // const Spacer(),
             Expanded(
-              flex: 3,
-              child: selectedIndex == 3
-                  ? CustomCard(
-                      // height: double.infinity,
-                      child: Column(
-                        children: [
-                          const SizedBox(),
+              flex: 5,
+              child: CustomCard(
+                // height: double.infinity,
+                child: Column(
+                  children: [
+                    const SizedBox(),
+                    FittedBox(
+                      fit: BoxFit.cover,
+                      child: Container(
+                        margin: const EdgeInsets.only(
+                          top: 16,
+                          left: 14,
+                          right: 14,
+                          bottom: 0,
+                        ),
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        height: SizeConfig.screenHeight * 0.125,
+                        width: SizeConfig.screenWidth,
+                        child: TitleText(
+                          text: onBoarding[selectedIndex],
+                          textColor: Colors.black,
+                          weight: FontWeight.w500,
+                          size: Constants.heading3,
+                          align: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                    // const Spacer(),
+                    CustomButton(
+                      verticalMargin: 50,
+                      text: selectedIndex == 3
+                          ? AppLocalization.of(context)!
+                              .getTranslatedValues('signUpLbl')!
+                          : AppLocalization.of(context)!
+                              .getTranslatedValues('NEXT')!,
+                      onPressed: () {
+                        if (selectedIndex == 3) {
+                          Navigator.of(context).pushNamed(Routes.signupoptions);
+                        } else {
+                          setState(() {
+                            selectedIndex++;
 
-                          // Container(
-                          //   margin: const EdgeInsets.only(
-                          //     top: 16,
-                          //     left: 14,
-                          //     right: 14,
-                          //   ),
-                          //   child: TitleText(
-                          //     text: onBoarding[selectedIndex],
-                          //     textColor: Colors.black,
-                          //     weight: FontWeight.w500,
-                          //     size: Constants.heading3,
-                          //     align: TextAlign.center,
-                          //   ),
-                          // ),
-                          // // const Spacer(),
-                          // WidgetsUtil.verticalSpace10,
-                          CustomButton(
-                            text: AppLocalization.of(context)!
-                                .getTranslatedValues('signUpLbl')!,
-                            onPressed: () {
-                              Navigator.of(context)
-                                  .pushNamed(Routes.signupoptions);
-                              // Get.to(() => const SignUpOptions());
-                            },
-                          ),
+                            _pageController.animateToPage(selectedIndex,
+                                duration: const Duration(milliseconds: 700),
+                                curve: Curves.easeInOut);
+                          });
+                        }
 
-                          const Spacer(),
+                        // Get.to(() => const SignUpOptions());
+                      },
+                    ),
 
-                          // WidgetsUtil.verticalSpace16,
+                    selectedIndex == 3 ? const Spacer() : const SizedBox(),
 
-                          Container(
+                    // WidgetsUtil.verticalSpace16,
+
+                    selectedIndex == 3
+                        ? Container(
                             margin: const EdgeInsets.only(
-                              top: 16,
-                              bottom: 16,
+                              top: 0,
+                              bottom: 10,
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -163,10 +184,6 @@ class _OnBoardingState extends State<OnBoarding> {
                                 InkWell(
                                   onTap: () {
                                     log('Login');
-                                    // Get.to(
-                                    //   () => const Login(),
-                                    // );
-
                                     Navigator.of(context)
                                         .pushNamed(Routes.loginScreen);
                                   },
@@ -181,23 +198,10 @@ class _OnBoardingState extends State<OnBoarding> {
                               ],
                             ),
                           )
-                        ],
-                      ),
-                    )
-                  : Container(
-                      margin: const EdgeInsets.only(
-                        top: 16,
-                        left: 14,
-                        right: 14,
-                      ),
-                      child: TitleText(
-                        text: onBoarding[selectedIndex],
-                        textColor: Constants.white,
-                        weight: FontWeight.w500,
-                        size: Constants.heading3,
-                        align: TextAlign.center,
-                      ),
-                    ),
+                        : const SizedBox()
+                  ],
+                ),
+              ),
             ),
           ],
         ),
