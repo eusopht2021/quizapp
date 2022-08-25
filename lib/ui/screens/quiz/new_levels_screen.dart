@@ -23,6 +23,7 @@ class NewLevelsScreen extends StatefulWidget {
   final String? categoryName;
   final String? category;
   final String? levels;
+  final int? index;
   final List<Subcategory>? subcategory;
 
   const NewLevelsScreen(
@@ -30,6 +31,7 @@ class NewLevelsScreen extends StatefulWidget {
       this.categoryName,
       this.category,
       this.levels,
+      this.index,
       this.subcategory})
       : super(key: key);
 
@@ -53,6 +55,7 @@ class NewLevelsScreen extends StatefulWidget {
                 category: arguments['category'],
                 levels: arguments['levels'],
                 subcategory: arguments['subcategory'],
+                index: arguments['index'],
               ),
             ));
   }
@@ -99,7 +102,8 @@ class _NewLevelsScreenState extends State<NewLevelsScreen> {
             color: Constants.grey5,
           ),
           child: ExpansionTile(
-              tilePadding: const EdgeInsets.all(8),
+              tilePadding:
+                  const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
               childrenPadding: const EdgeInsets.all(8),
               iconColor: Constants.primaryColor,
               textColor: Constants.primaryColor,
@@ -181,7 +185,7 @@ class _NewLevelsScreenState extends State<NewLevelsScreen> {
         padding: const EdgeInsets.all(10),
         itemCount: int.parse(widget.levels!),
         itemBuilder: (context, index) {
-          currentIndex = index - 1; //levels
+          currentIndex = widget.index!; //levels
           return GestureDetector(
             onTap: () {
               //index start with 0 so we comparing (index + 1)

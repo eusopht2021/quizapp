@@ -116,6 +116,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
   int selectTab = 0;
   List<String> tabItems = ['Daily', 'Monthly', 'All Time'];
   bool isExpand = false;
+  Color? _dotColor;
 
   @override
   Widget build(BuildContext context) {
@@ -124,14 +125,15 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
         BlocProvider.of<NavigationCubit>(context)
             .getNavBarItem(NavbarItems.newhome);
 
-        return false;
+        return true;
       },
       child: Scaffold(
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(60),
           child: CustomAppBar(
             title: "Leaderboard",
-            showBackButton: false,
+            showBackButton: true,
+            onBackTapped: () => Navigator.pop(context),
           ),
         ),
         backgroundColor: Constants.primaryColor,
@@ -342,10 +344,10 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                                           )
                                         : const SizedBox(),
                                     position:
-                                        BadgePosition.topEnd(end: 5, top: -20),
+                                        BadgePosition.topEnd(end: 15, top: -20),
                                     badgeColor: Colors.transparent,
                                     child: CircleAvatar(
-                                      radius: 25,
+                                      radius: 35,
                                       backgroundColor: Colors.transparent,
                                       backgroundImage:
                                           CachedNetworkImageProvider(
@@ -359,7 +361,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                                       ),
                                     )),
                               ),
-                              WidgetsUtil.verticalSpace20,
+                              WidgetsUtil.verticalSpace16,
                               SizedBox(
                                 width: 100,
                                 height: 20,
@@ -389,23 +391,8 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                                   ? _qpContainer(
                                       Center(
                                         child: TitleText(
-                                          text: index == 0
-                                              ? podiumList[0]['score']!
-                                                      .isNotEmpty
-                                                  ? podiumList[0]['score']!
-                                                  : ""
-                                              : index == 1
-                                                  ? podiumList[1]['score']!
-                                                          .isNotEmpty
-                                                      ? podiumList[1]['score']!
-                                                      : ""
-                                                  : index == 2
-                                                      ? podiumList[2]['score']!
-                                                              .isNotEmpty
-                                                          ? podiumList[2]
-                                                              ['score']!
-                                                          : ""
-                                                      : "",
+                                          text:
+                                              "${index == 0 ? podiumList[0]['score']!.isNotEmpty ? podiumList[0]['score']! : "" : index == 1 ? podiumList[1]['score']!.isNotEmpty ? podiumList[1]['score']! : "" : index == 2 ? podiumList[2]['score']!.isNotEmpty ? podiumList[2]['score']! : "" : ""} pts",
                                           size: Constants.bodyXSmall,
                                           textColor: Constants.white,
                                         ),
@@ -549,10 +536,10 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                                       )
                                     : const SizedBox(),
                                 position:
-                                    BadgePosition.topEnd(end: 5, top: -20),
+                                    BadgePosition.topEnd(end: 15, top: -20),
                                 badgeColor: Colors.transparent,
                                 child: CircleAvatar(
-                                  radius: 25,
+                                  radius: 35,
                                   backgroundColor: Colors.transparent,
                                   backgroundImage: CachedNetworkImageProvider(
                                     index == 0
@@ -565,7 +552,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                                   ),
                                 )),
                           ),
-                          WidgetsUtil.verticalSpace20,
+                          WidgetsUtil.verticalSpace16,
                           SizedBox(
                             width: 100,
                             height: 20,
@@ -594,21 +581,8 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                               ? _qpContainer(
                                   Center(
                                     child: TitleText(
-                                      text: index == 0
-                                          ? podiumList[0]['score']!.isNotEmpty
-                                              ? podiumList[0]['score']!
-                                              : ""
-                                          : index == 1
-                                              ? podiumList[1]['score']!
-                                                      .isNotEmpty
-                                                  ? podiumList[1]['score']!
-                                                  : ""
-                                              : index == 2
-                                                  ? podiumList[2]['score']!
-                                                          .isNotEmpty
-                                                      ? podiumList[2]['score']!
-                                                      : ""
-                                                  : "",
+                                      text:
+                                          "${index == 0 ? podiumList[0]['score']!.isNotEmpty ? podiumList[0]['score']! : "" : index == 1 ? podiumList[1]['score']!.isNotEmpty ? podiumList[1]['score']! : "" : index == 2 ? podiumList[2]['score']!.isNotEmpty ? podiumList[2]['score']! : "" : ""} pts",
                                       size: Constants.bodyXSmall,
                                       textColor: Constants.white,
                                     ),
@@ -756,10 +730,10 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                                         )
                                       : const SizedBox(),
                                   position:
-                                      BadgePosition.topEnd(end: 5, top: -20),
+                                      BadgePosition.topEnd(end: 15, top: -20),
                                   badgeColor: Colors.transparent,
                                   child: CircleAvatar(
-                                    radius: 25,
+                                    radius: 35,
                                     backgroundColor: Colors.transparent,
                                     backgroundImage: CachedNetworkImageProvider(
                                       index == 0
@@ -772,7 +746,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                                     ),
                                   )),
                             ),
-                            WidgetsUtil.verticalSpace20,
+                            WidgetsUtil.verticalSpace16,
                             SizedBox(
                               width: 100,
                               height: 20,
@@ -801,22 +775,8 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                                 ? _qpContainer(
                                     Center(
                                       child: TitleText(
-                                        text: index == 0
-                                            ? podiumList[0]['score']!.isNotEmpty
-                                                ? podiumList[0]['score']!
-                                                : ""
-                                            : index == 1
-                                                ? podiumList[1]['score']!
-                                                        .isNotEmpty
-                                                    ? podiumList[1]['score']!
-                                                    : ""
-                                                : index == 2
-                                                    ? podiumList[2]['score']!
-                                                            .isNotEmpty
-                                                        ? podiumList[2]
-                                                            ['score']!
-                                                        : ""
-                                                    : "",
+                                        text:
+                                            "${index == 0 ? podiumList[0]['score']!.isNotEmpty ? podiumList[0]['score']! : "" : index == 1 ? podiumList[1]['score']!.isNotEmpty ? podiumList[1]['score']! : "" : index == 2 ? podiumList[2]['score']!.isNotEmpty ? podiumList[2]['score']! : "" : ""} pts",
                                         size: Constants.bodyXSmall,
                                         textColor: Constants.white,
                                       ),
@@ -889,7 +849,8 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
     List startsFromThree = [];
     List startsFromZero = [];
     List users = [];
-    int index = 0;
+
+    // int index = 0;
     int counterIndex = 0;
 
     for (int i = 0; i < leaderBoardList.length; i++) {
@@ -912,15 +873,17 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
     return NotificationListener(
       onNotification: (DraggableScrollableNotification dSnotification) {
         log("counte======r :$counterIndex");
-        if (dSnotification.extent >= 1) {
+        if (dSnotification.extent >= 0.97) {
           setState(() {
             isExpand = true;
+
             log('IsExpand false running');
           });
         } else if (dSnotification.extent <= 0.45) {
           setState(
             () {
               isExpand = false;
+
               log('IsExpand true running');
             },
           );
@@ -931,13 +894,16 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
         snap: true,
         initialChildSize: 0.45,
         minChildSize: 0.45,
-        maxChildSize: 1,
+        maxChildSize: 0.97,
         builder: (context, controller) {
           controller.addListener(() {
             scrollListener(controller);
           });
           return NotchedCard(
             circleColor: Constants.grey5,
+            dotColor: isExpand
+                ? _dotColor = Constants.primaryColor
+                : Constants.primaryColor.withOpacity(0.3),
             child: Container(
               height: SizeConfig.screenHeight,
               padding: const EdgeInsets.only(top: 10, right: 16, left: 16),
@@ -999,7 +965,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
 
                         log("$index  index");
                         return SizedBox(
-                          height: 100,
+                          height: 85,
                           child: Card(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
@@ -1007,80 +973,88 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                             elevation: 0,
                             child: Padding(
                               padding: const EdgeInsets.only(
-                                right: 16,
-                                left: 16,
+                                right: 10,
+                                left: 10,
                               ),
                               child: Row(
                                 children: [
                                   Expanded(
-                                    flex: 1,
-                                    child: CircleAvatar(
-                                      backgroundColor: Constants.black1,
-                                      radius: 60,
-                                      child: CircleAvatar(
-                                        radius: 40,
-                                        foregroundColor: Constants.grey2,
-                                        backgroundColor: Constants.white,
-                                        child: TitleText(
-                                          text: isExpand
-                                              ? "$index"
-                                              : "${index + 3}",
-                                        ),
+                                      child: Container(
+                                    width: 25,
+                                    height: 25,
+                                    decoration: BoxDecoration(
+                                        border:
+                                            Border.all(color: Constants.grey4),
+                                        shape: BoxShape.circle),
+                                    child: Center(
+                                      child: TitleText(
+                                        text: isExpand
+                                            ? "$index"
+                                            : "${index + 3}",
+                                        size: Constants.bodyXSmall,
+                                        textColor: Constants.grey2,
                                       ),
                                     ),
-                                  ),
+                                  )),
                                   Expanded(
                                     flex: 8,
                                     child: ListTile(
+                                        horizontalTitleGap: 16,
+                                        minVerticalPadding: 4,
                                         leading: Badge(
-                                            toAnimate: false,
-                                            badgeContent: Image.asset(
-                                              index % 3 == 0
-                                                  ? Assets.portugal
-                                                  : index % 2 == 0
-                                                      ? Assets.turkey
-                                                      : Assets.france,
-                                              width: 20,
-                                              height: 20,
-                                            ),
-                                            position: BadgePosition.bottomEnd(),
-                                            badgeColor: Colors.transparent,
-                                            elevation: 0,
-                                            child: ClipOval(
-                                              clipBehavior: Clip.antiAlias,
-                                              child: CircleAvatar(
-                                                backgroundColor:
-                                                    Colors.transparent,
-                                                radius: 25,
-                                                child: CachedNetworkImage(
-                                                  imageUrl: users[index]
-                                                          ['profile'] ??
-                                                      "",
-                                                  placeholder: (url, string) {
-                                                    return CircularProgressIndicator(
-                                                      color: Constants
-                                                          .primaryColor,
-                                                    );
-                                                  },
-                                                  errorWidget: (_, __, ___) {
-                                                    return Image.asset(
-                                                      Assets.person,
-                                                      width: 30,
-                                                      height: 30,
-                                                    );
-                                                  },
-                                                  // placeholder: Image.asset(Assets.person),
-                                                ),
+                                          toAnimate: false,
+                                          badgeContent: Image.asset(
+                                            index % 3 == 0
+                                                ? Assets.portugal
+                                                : index % 2 == 0
+                                                    ? Assets.turkey
+                                                    : Assets.france,
+                                            width: 20,
+                                            height: 20,
+                                          ),
+                                          position: BadgePosition.bottomEnd(),
+                                          badgeColor: Colors.transparent,
+                                          elevation: 0,
+                                          child: ClipOval(
+                                            clipBehavior: Clip.antiAlias,
+                                            child: CircleAvatar(
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                              radius: 25,
+                                              child: CachedNetworkImage(
+                                                imageUrl: users[index]
+                                                        ['profile'] ??
+                                                    "",
+                                                placeholder: (url, string) {
+                                                  return CircularProgressIndicator(
+                                                    color:
+                                                        Constants.primaryColor,
+                                                  );
+                                                },
+                                                errorWidget: (_, __, ___) {
+                                                  return Image.asset(
+                                                    Assets.person,
+                                                    width: 30,
+                                                    height: 30,
+                                                  );
+                                                },
+                                                // placeholder: Image.asset(Assets.person),
                                               ),
-                                            )),
+                                            ),
+                                          ),
+                                        ),
                                         title: TitleText(
-                                          maxlines: 2,
+                                          maxlines: 1,
                                           text:
                                               users[index]['name'] ?? "Player",
+                                          size: Constants.bodyNormal,
+                                          align: TextAlign.left,
+                                          weight: FontWeight.w500,
                                         ),
                                         subtitle: TitleText(
                                           text:
-                                              '${users[index]['score'] ?? "0"} ${AppLocalization.of(context)!.getTranslatedValues("points")!}',
+                                              '${users[index]['score'] ?? "0"} pts',
+                                          // ${AppLocalization.of(context)!.getTranslatedValues("points")!}',
                                         ),
                                         trailing: isExpand
                                             ? index == 1

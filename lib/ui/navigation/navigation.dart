@@ -22,6 +22,7 @@ import 'package:flutterquiz/ui/screens/home/homeScreen.dart';
 import 'package:flutterquiz/ui/screens/home/new_home_screen.dart';
 import 'package:flutterquiz/ui/screens/new_leaderBoard.dart';
 import 'package:flutterquiz/ui/screens/profile/profile.dart';
+import 'package:flutterquiz/ui/screens/quiz/battle_quiz_screen.dart';
 import 'package:flutterquiz/utils/assets.dart';
 import 'package:flutterquiz/utils/constants.dart';
 
@@ -62,24 +63,28 @@ class _NavigationState extends State<Navigation> {
         child: FloatingActionButton(
           backgroundColor: Constants.primaryColor,
           onPressed: () {
-            // Navigator.push(
-            //     context, MaterialPageRoute(builder: (_) => CreateQuizScreen()));
-
-            context.read<BattleRoomCubit>().updateState(BattleRoomInitial());
+                  context.read<BattleRoomCubit>().updateState(BattleRoomInitial());
             context
                 .read<QuizCategoryCubit>()
                 .updateState(QuizCategoryInitial());
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (_) =>
+                        BattleQuizScreen(quizType: QuizTypes.battle)));
 
-            showDialog(
-              context: context,
-              builder: (context) => MultiBlocProvider(providers: [
-                BlocProvider<QuizCategoryCubit>(
-                    create: (_) => QuizCategoryCubit(QuizRepository())),
-                BlocProvider<UpdateScoreAndCoinsCubit>(
-                    create: (_) => UpdateScoreAndCoinsCubit(
-                        ProfileManagementRepository())),
-              ], child: RoomDialog(quizType: QuizTypes.battle)),
-            );
+      
+
+            // showDialog(
+            //   context: context,
+            //   builder: (context) => MultiBlocProvider(providers: [
+            //     BlocProvider<QuizCategoryCubit>(
+            //         create: (_) => QuizCategoryCubit(QuizRepository())),
+            //     BlocProvider<UpdateScoreAndCoinsCubit>(
+            //         create: (_) => UpdateScoreAndCoinsCubit(
+            //             ProfileManagementRepository())),
+            //   ], child: RoomDialog(quizType: QuizTypes.battle)),
+            // );
           },
           child: const Icon(
             Icons.add,
@@ -120,8 +125,9 @@ class _NavigationState extends State<Navigation> {
                 BlocProvider.of<NavigationCubit>(context)
                     .getNavBarItem(NavbarItems.discover);
               } else if (index == 2) {
-                BlocProvider.of<NavigationCubit>(context)
-                    .getNavBarItem(NavbarItems.leaderboard);
+                Navigator.pushNamed(context, Routes.leaderBoard);
+                // BlocProvider.of<NavigationCubit>(context)
+                //     .getNavBarItem(NavbarItems.leaderboard);
               } else if (index == 3) {
                 BlocProvider.of<NavigationCubit>(context)
                     .getNavBarItem(NavbarItems.profile);

@@ -26,6 +26,7 @@ import 'package:flutterquiz/features/leaderBoard/cubit/leaderBoardAllTimeCubit.d
 import 'package:flutterquiz/features/leaderBoard/cubit/leaderBoardDailyCubit.dart';
 import 'package:flutterquiz/features/leaderBoard/cubit/leaderBoardMonthlyCubit.dart';
 import 'package:flutterquiz/features/localization/appLocalizationCubit.dart';
+import 'package:flutterquiz/features/profileManagement/cubits/updateScoreAndCoinsCubit.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/uploadProfileCubit.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/userDetailsCubit.dart';
 import 'package:flutterquiz/features/profileManagement/profileManagementRepository.dart';
@@ -171,6 +172,12 @@ class MyApp extends StatelessWidget {
         ),
 
         /// New Navigation Cubit
+        ///
+        BlocProvider<QuizCategoryCubit>(
+            create: (_) => QuizCategoryCubit(QuizRepository())),
+        BlocProvider<UpdateScoreAndCoinsCubit>(
+            create: (_) =>
+                UpdateScoreAndCoinsCubit(ProfileManagementRepository())),
 
         BlocProvider<NavigationCubit>(
             create: (_) => NavigationCubit(Navigation())),

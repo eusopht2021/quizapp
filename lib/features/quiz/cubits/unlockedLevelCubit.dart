@@ -30,13 +30,12 @@ class UnlockedLevelCubit extends Cubit<UnlockedLevelState> {
   void fetchUnlockLevel(
       String? userId, String? category, String? subCategory) async {
     emit(UnlockedLevelFetchInProgress());
-    _quizRepository
-        .getUnlockedLevel(userId, category, subCategory)
-        .then(
-          (val) =>
-              emit((UnlockedLevelFetchSuccess(category, subCategory, val))),
-        )
-        .catchError((e) {
+
+    _quizRepository.getUnlockedLevel(userId, category, subCategory).then(
+      (val) {
+        emit((UnlockedLevelFetchSuccess(category, subCategory, val)));
+      },
+    ).catchError((e) {
       emit(UnlockedLevelFetchFailure(e.toString()));
     });
   }

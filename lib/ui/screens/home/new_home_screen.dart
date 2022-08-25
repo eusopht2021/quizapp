@@ -1242,7 +1242,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                     width: 60,
                   ),
                 ),
-                WidgetsUtil.verticalSpace16,
+                WidgetsUtil.verticalSpace4,
                 Expanded(
                   child: Align(
                     alignment: Alignment.center,
