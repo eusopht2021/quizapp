@@ -21,7 +21,7 @@ class OnBoarding extends StatefulWidget {
 class _OnBoardingState extends State<OnBoarding> {
   int selectedIndex = 0;
   List<String> onBoarding = [];
-  PageController _pageController = PageController();
+  final PageController _pageController = PageController();
   @override
   void dispose() {
     // TODO: implement dispose
@@ -143,17 +143,15 @@ class _OnBoardingState extends State<OnBoarding> {
                               .getTranslatedValues('signUpLbl')!
                           : AppLocalization.of(context)!
                               .getTranslatedValues('NEXT')!,
-                      onPressed: () {
+                      onPressed: () async {
                         if (selectedIndex == 3) {
                           Navigator.of(context).pushNamed(Routes.signupoptions);
                         } else {
-                          setState(() {
-                            selectedIndex++;
+                          selectedIndex++;
 
-                            _pageController.animateToPage(selectedIndex,
-                                duration: const Duration(milliseconds: 700),
-                                curve: Curves.easeInOut);
-                          });
+                          await _pageController.animateToPage(selectedIndex,
+                              duration: const Duration(milliseconds: 700),
+                              curve: Curves.easeInOut);
                         }
 
                         // Get.to(() => const SignUpOptions());

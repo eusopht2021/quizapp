@@ -189,6 +189,7 @@
   "winnerLbl": "Winner",
   "youLossLbl": "You Loss",
   "matchDrawLbl": "MATCH DRAW",
+  "drawLbl" : "Draw",
   "looserLbl": "Looser",
   "playAgainBtn": "PLAY AGAIN",
   "nextLevelBtn": "NEXT LEVEL",

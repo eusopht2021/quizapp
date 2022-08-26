@@ -325,7 +325,7 @@ class _GuessTheWordQuizScreenState extends State<GuessTheWordQuizScreen>
                   bottom: MediaQuery.of(context).size.height * (0.025)),
               child: CustomButton(
                 // widthPercentage: 0.5,
-                backgroundColor: Constants.primaryColor,
+                backgroundColor: Theme.of(context).primaryColor,
                 text: AppLocalization.of(context)!
                     .getTranslatedValues("submitBtn")!,
                 // elevation: 5.0,
@@ -561,7 +561,7 @@ class _GuessTheWordQuizScreenState extends State<GuessTheWordQuizScreen>
           ),
         ],
         // child: Scaffold(
-        //   backgroundColor: Constants.primaryColor,
+        //   backgroundColor: Theme.of(context).primaryColor,
         //   body: Stack(
         //     children: [
         //       // Align(
@@ -607,7 +607,7 @@ class _GuessTheWordQuizScreenState extends State<GuessTheWordQuizScreen>
                 ),
               ),
             ),
-            backgroundColor: Constants.primaryColor,
+            backgroundColor: Theme.of(context).primaryColor,
             title: "",
             child: SizedBox(
               height: SizeConfig.screenHeight,

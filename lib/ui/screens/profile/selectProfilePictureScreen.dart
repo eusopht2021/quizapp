@@ -137,7 +137,7 @@ class _SelectProfilePictureScreen extends State<SelectProfilePictureScreen> {
                       width: constraints.maxWidth * (0.3),
                       child: Icon(
                         Icons.add_a_photo,
-                        color: Constants.primaryColor,
+                        color: Theme.of(context).primaryColor,
                         size: 20.0,
                       ),
                     ),
@@ -537,7 +537,7 @@ class _SelectProfilePictureScreen extends State<SelectProfilePictureScreen> {
         }
       },
       child: Scaffold(
-        backgroundColor: Constants.primaryColor,
+        backgroundColor: Theme.of(context).primaryColor,
         body: Stack(
           children: <Widget>[
             BlocConsumer<UserDetailsCubit, UserDetailsState>(

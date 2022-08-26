@@ -731,7 +731,7 @@ class _NewResultScreenState extends State<NewResultScreen> {
                               border: Border.all(color: Colors.transparent)),
                           child: Icon(
                             Icons.arrow_back_ios,
-                            color: Constants.primaryColor,
+                            color: Theme.of(context).primaryColor,
                           ),
                         ),
                       ),
@@ -1178,9 +1178,11 @@ class _NewResultScreenState extends State<NewResultScreen> {
     return Screenshot(
       controller: screenshotController,
       child: Container(
-        // height: widget.quizType == QuizTypes.exam
-        //     ? SizeConfig.screenHeight * 0.4
-        //     : SizeConfig.screenHeight * 0.53,
+        height: widget.quizType == QuizTypes.exam
+            ? SizeConfig.screenHeight * 0.4
+            : widget.quizType == QuizTypes.battle
+                ? SizeConfig.screenHeight * 0.45
+                : SizeConfig.screenHeight * 0.55,
         width: SizeConfig.screenWidth,
         margin: const EdgeInsets.all(
           24,
@@ -1422,7 +1424,8 @@ class _NewResultScreenState extends State<NewResultScreen> {
                               child: Text(
                                 AppLocalization.of(context)!
                                     .getTranslatedValues(continueLbl)!,
-                                style: TextStyle(color: Constants.primaryColor),
+                                style: TextStyle(
+                                    color: Theme.of(context).primaryColor),
                               )),
                           TextButton(
                               onPressed: () {
@@ -1431,7 +1434,8 @@ class _NewResultScreenState extends State<NewResultScreen> {
                               child: Text(
                                 AppLocalization.of(context)!
                                     .getTranslatedValues(cancelButtonKey)!,
-                                style: TextStyle(color: Constants.primaryColor),
+                                style: TextStyle(
+                                    color: Theme.of(context).primaryColor),
                               )),
                         ],
                         content: Text(
@@ -1760,13 +1764,13 @@ class _NewResultScreenState extends State<NewResultScreen> {
                 width: 56,
                 decoration: BoxDecoration(
                   border: Border.all(
-                    color: Constants.primaryColor.withOpacity(0.2),
+                    color: Theme.of(context).primaryColor.withOpacity(0.2),
                   ),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Icon(
                   Icons.share_outlined,
-                  color: Constants.primaryColor,
+                  color: Theme.of(context).primaryColor,
                 ),
               ),
             ),
@@ -2037,9 +2041,10 @@ class _NewResultScreenState extends State<NewResultScreen> {
                                     LineChartBarData(
                                       belowBarData: BarAreaData(
                                           show: true,
-                                          color: Constants.primaryColor
+                                          color: Theme.of(context)
+                                              .primaryColor
                                               .withOpacity(0.2)),
-                                      color: Constants.primaryColor,
+                                      color: Theme.of(context).primaryColor,
                                       dotData: FlDotData(show: false),
                                       spots: List.generate(
                                         widget.quizType ==
@@ -2194,14 +2199,18 @@ class _NewResultScreenState extends State<NewResultScreen> {
                                 ),
                                 WidgetsUtil.verticalSpace16,
                                 TitleText(
-                                  text: "Time Taken",
+                                  text: widget.quizType == QuizTypes.battle
+                                      ? ""
+                                      : "Time Taken",
                                   weight: FontWeight.w500,
                                   size: Constants.bodyXSmall,
                                   textColor: Constants.grey2,
                                 ),
                                 WidgetsUtil.verticalSpace8,
                                 TitleText(
-                                  text: getTime(),
+                                  text: widget.quizType == QuizTypes.battle
+                                      ? ""
+                                      : getTime(),
                                   weight: FontWeight.w500,
                                   size: Constants.bodyXLarge,
                                   textColor: Constants.black1,

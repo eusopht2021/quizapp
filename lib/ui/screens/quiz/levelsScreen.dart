@@ -180,7 +180,7 @@ class _LevelsScreenState extends State<LevelsScreen> {
   Widget build(BuildContext context) {
     return DefaultLayout(
       title: widget.categoryName ?? "",
-      backgroundColor: Constants.primaryColor,
+      backgroundColor: Theme.of(context).primaryColor,
       titleColor: Constants.white,
       child: Stack(
         children: <Widget>[

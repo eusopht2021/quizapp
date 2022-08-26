@@ -430,7 +430,7 @@ class _NewQuizScreenState extends State<NewQuizScreen>
   //           ),
   //           child: CustomRoundedButton(
   //             widthPercentage: MediaQuery.of(context).size.width * (0.5),
-  //             backgroundColor: Constants.primaryColor,
+  //             backgroundColor: Theme.of(context).primaryColor,
   //             buttonTitle: AppLocalization.of(context)!
   //                 .getTranslatedValues(showOptionsKey)!,
   //             radius: 5,
@@ -459,7 +459,7 @@ class _NewQuizScreenState extends State<NewQuizScreen>
   // Widget _showOption() {
   //   return CustomRoundedButton(
   //     widthPercentage: MediaQuery.of(context).size.width * (0.5),
-  //     backgroundColor: Constants.primaryColor,
+  //     backgroundColor: Theme.of(context).primaryColor,
   //     buttonTitle:
   //         AppLocalization.of(context)!.getTranslatedValues(showOptionsKey)!,
   //     radius: 5,
@@ -751,7 +751,7 @@ class _NewQuizScreenState extends State<NewQuizScreen>
         triggerMode: TooltipTriggerMode.manual,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: Constants.primaryColor),
+            color: Theme.of(context).primaryColor),
         child: Container(
           decoration: BoxDecoration(
               color: lifelineTitle == fiftyFifty &&
@@ -1119,7 +1119,7 @@ class _NewQuizScreenState extends State<NewQuizScreen>
           }
         },
         child: Scaffold(
-          backgroundColor: Constants.primaryColor,
+          backgroundColor: Theme.of(context).primaryColor,
           body: Stack(
             children: [
               BlocConsumer<QuestionsCubit, QuestionsState>(
@@ -1175,7 +1175,7 @@ class _NewQuizScreenState extends State<NewQuizScreen>
                   if (state is QuestionsFetchFailure) {
                     return Center(
                       child: ErrorContainer(
-                        errorMessageColor: Constants.primaryColor,
+                        errorMessageColor: Theme.of(context).primaryColor,
                         showBackButton: true,
                         errorMessage: AppLocalization.of(context)!
                             .getTranslatedValues(convertErrorCodeToLanguageKey(

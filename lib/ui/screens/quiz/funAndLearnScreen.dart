@@ -134,7 +134,7 @@ class _FunAndLearnScreen extends State<FunAndLearnScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Constants.primaryColor,
+        backgroundColor: Theme.of(context).primaryColor,
         body: Padding(
           padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
           child: Stack(

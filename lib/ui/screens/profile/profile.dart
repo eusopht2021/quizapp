@@ -10,6 +10,7 @@ import 'package:flutterquiz/ui/styles/colors.dart';
 import 'package:flutterquiz/ui/widgets/badgesIconContainer.dart';
 import 'package:flutterquiz/ui/widgets/errorContainer.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/userDetailsCubit.dart';
+import 'package:flutterquiz/utils/apiBodyParameterLabels.dart';
 import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
@@ -286,7 +287,7 @@ class _ProfileState extends State<Profile> {
       case 1:
         return _statsTabBloc();
       // case 2:
-      //   return _detailsTab(profile);
+      // return _battle(profile);
     }
     return const SizedBox();
   }
@@ -538,166 +539,166 @@ class _ProfileState extends State<Profile> {
         });
   }
 
-  Widget _detailsTab(String profile) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              width: double.infinity,
-              height: SizeConfig.screenWidth * 0.8,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Constants.indigoWithOpacity02,
-              ),
-              child: Column(
-                children: [
-                  WidgetsUtil.verticalSpace16,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      TitleText(
-                        text: "Recent matches",
-                        size: Constants.bodyXLarge,
-                        weight: FontWeight.w500,
-                      ),
-                    ],
-                  ),
-                  WidgetsUtil.verticalSpace32,
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        bdgs.Badge(
-                          toAnimate: false,
-                          elevation: 0,
-                          showBadge: true,
-                          badgeContent: Image.asset(Assets.portugal),
-                          badgeColor: Colors.transparent,
-                          position: bdgs.BadgePosition.bottomEnd(),
-                          child: bdgs.Badge(
-                            toAnimate: false,
-                            elevation: 0,
-                            showBadge: true,
-                            badgeContent: SvgPicture.asset(
-                              Assets.crown,
-                              height: 30,
-                            ),
-                            position: bdgs.BadgePosition.topStart(
-                                start: 15, top: -20),
-                            badgeColor: Colors.transparent,
-                            child: CircleAvatar(
-                              radius: 35,
-                              backgroundColor: Colors.transparent,
-                              child: CachedNetworkImage(
-                                imageUrl: profile,
-                                width: 100,
-                                height: 100,
-                                fit: BoxFit.fill,
-                                placeholder: (_, __) {
-                                  return CircularProgressIndicator(
-                                    color: Constants.primaryColor,
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                        ),
-                        TitleText(
-                          text: "VS",
-                          size: Constants.bodyXLarge,
-                          weight: FontWeight.w500,
-                        ),
-                        CircleAvatar(
-                          radius: 35,
-                          backgroundColor: Colors.transparent,
-                          backgroundImage: svg.Svg(Assets.man4),
-                        ),
-                        Container(
-                          width: 100,
-                          height: 50,
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 12, horizontal: 12),
-                          decoration: BoxDecoration(
-                            color: Constants.lightGreen,
-                            borderRadius: BorderRadius.circular(9),
-                          ),
-                          child: TitleText(
-                            text: "+100 QP",
-                            size: Constants.bodyXLarge,
-                            weight: FontWeight.w500,
-                            textColor: Constants.white,
-                          ),
-                        )
-                      ]),
-                  WidgetsUtil.verticalSpace24,
-                  Divider(
-                    color: Constants.grey3,
-                    thickness: 2,
-                  ),
-                  WidgetsUtil.verticalSpace32,
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        bdgs.Badge(
-                          toAnimate: false,
-                          elevation: 0,
-                          showBadge: true,
-                          badgeContent: Image.asset(Assets.portugal),
-                          badgeColor: Colors.transparent,
-                          position: bdgs.BadgePosition.bottomEnd(),
-                          child: bdgs.Badge(
-                            toAnimate: false,
-                            elevation: 0,
-                            showBadge: true,
-                            badgeContent: SvgPicture.asset(
-                              Assets.crown,
-                              height: 30,
-                            ),
-                            position: bdgs.BadgePosition.topStart(
-                                start: 15, top: -20),
-                            badgeColor: Colors.transparent,
-                            child: CircleAvatar(
-                              radius: 35,
-                              backgroundColor: Colors.transparent,
-                              backgroundImage: NetworkImage(profile),
-                            ),
-                          ),
-                        ),
-                        TitleText(
-                          text: "VS",
-                          size: Constants.bodyXLarge,
-                          weight: FontWeight.w500,
-                        ),
-                        CircleAvatar(
-                          radius: 35,
-                          backgroundColor: Colors.transparent,
-                          backgroundImage: svg.Svg(Assets.man5),
-                        ),
-                        Container(
-                          width: 100,
-                          height: 50,
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 12, horizontal: 12),
-                          decoration: BoxDecoration(
-                            color: Constants.lightGreen,
-                            borderRadius: BorderRadius.circular(9),
-                          ),
-                          child: TitleText(
-                            text: "+100 QP",
-                            size: Constants.bodyXLarge,
-                            weight: FontWeight.w500,
-                            textColor: Constants.white,
-                          ),
-                        )
-                      ]),
-                ],
-              )),
-        ),
-      ],
-    );
-  }
+  // Widget _detailsTab(String profile) {
+  //   return Column(
+  //     crossAxisAlignment: CrossAxisAlignment.start,
+  //     children: [
+  //       Padding(
+  //         padding: const EdgeInsets.symmetric(horizontal: 16),
+  //         child: Container(
+  //             padding: const EdgeInsets.symmetric(horizontal: 16),
+  //             width: double.infinity,
+  //             height: SizeConfig.screenWidth * 0.8,
+  //             decoration: BoxDecoration(
+  //               borderRadius: BorderRadius.circular(20),
+  //               color: Constants.indigoWithOpacity02,
+  //             ),
+  //             child: Column(
+  //               children: [
+  //                 WidgetsUtil.verticalSpace16,
+  //                 Row(
+  //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                   children: [
+  //                     TitleText(
+  //                       text: "Recent matches",
+  //                       size: Constants.bodyXLarge,
+  //                       weight: FontWeight.w500,
+  //                     ),
+  //                   ],
+  //                 ),
+  //                 WidgetsUtil.verticalSpace32,
+  //                 Row(
+  //                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                     children: [
+  //                       bdgs.Badge(
+  //                         toAnimate: false,
+  //                         elevation: 0,
+  //                         showBadge: true,
+  //                         badgeContent: Image.asset(Assets.portugal),
+  //                         badgeColor: Colors.transparent,
+  //                         position: bdgs.BadgePosition.bottomEnd(),
+  //                         child: bdgs.Badge(
+  //                           toAnimate: false,
+  //                           elevation: 0,
+  //                           showBadge: true,
+  //                           badgeContent: SvgPicture.asset(
+  //                             Assets.crown,
+  //                             height: 30,
+  //                           ),
+  //                           position: bdgs.BadgePosition.topStart(
+  //                               start: 15, top: -20),
+  //                           badgeColor: Colors.transparent,
+  //                           child: CircleAvatar(
+  //                             radius: 35,
+  //                             backgroundColor: Colors.transparent,
+  //                             child: CachedNetworkImage(
+  //                               imageUrl: profile,
+  //                               width: 100,
+  //                               height: 100,
+  //                               fit: BoxFit.fill,
+  //                               placeholder: (_, __) {
+  //                                 return CircularProgressIndicator(
+  //                                   color: Constants.primaryColor,
+  //                                 );
+  //                               },
+  //                             ),
+  //                           ),
+  //                         ),
+  //                       ),
+  //                       TitleText(
+  //                         text: "VS",
+  //                         size: Constants.bodyXLarge,
+  //                         weight: FontWeight.w500,
+  //                       ),
+  //                       CircleAvatar(
+  //                         radius: 35,
+  //                         backgroundColor: Colors.transparent,
+  //                         backgroundImage: svg.Svg(Assets.man4),
+  //                       ),
+  //                       Container(
+  //                         width: 100,
+  //                         height: 50,
+  //                         padding: const EdgeInsets.symmetric(
+  //                             vertical: 12, horizontal: 12),
+  //                         decoration: BoxDecoration(
+  //                           color: Constants.lightGreen,
+  //                           borderRadius: BorderRadius.circular(9),
+  //                         ),
+  //                         child: TitleText(
+  //                           text: "+100 QP",
+  //                           size: Constants.bodyXLarge,
+  //                           weight: FontWeight.w500,
+  //                           textColor: Constants.white,
+  //                         ),
+  //                       )
+  //                     ]),
+  //                 WidgetsUtil.verticalSpace24,
+  //                 Divider(
+  //                   color: Constants.grey3,
+  //                   thickness: 2,
+  //                 ),
+  //                 WidgetsUtil.verticalSpace32,
+  //                 Row(
+  //                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                     children: [
+  //                       bdgs.Badge(
+  //                         toAnimate: false,
+  //                         elevation: 0,
+  //                         showBadge: true,
+  //                         badgeContent: Image.asset(Assets.portugal),
+  //                         badgeColor: Colors.transparent,
+  //                         position: bdgs.BadgePosition.bottomEnd(),
+  //                         child: bdgs.Badge(
+  //                           toAnimate: false,
+  //                           elevation: 0,
+  //                           showBadge: true,
+  //                           badgeContent: SvgPicture.asset(
+  //                             Assets.crown,
+  //                             height: 30,
+  //                           ),
+  //                           position: bdgs.BadgePosition.topStart(
+  //                               start: 15, top: -20),
+  //                           badgeColor: Colors.transparent,
+  //                           child: CircleAvatar(
+  //                             radius: 35,
+  //                             backgroundColor: Colors.transparent,
+  //                             backgroundImage: NetworkImage(profile),
+  //                           ),
+  //                         ),
+  //                       ),
+  //                       TitleText(
+  //                         text: "VS",
+  //                         size: Constants.bodyXLarge,
+  //                         weight: FontWeight.w500,
+  //                       ),
+  //                       CircleAvatar(
+  //                         radius: 35,
+  //                         backgroundColor: Colors.transparent,
+  //                         backgroundImage: svg.Svg(Assets.man5),
+  //                       ),
+  //                       Container(
+  //                         width: 100,
+  //                         height: 50,
+  //                         padding: const EdgeInsets.symmetric(
+  //                             vertical: 12, horizontal: 12),
+  //                         decoration: BoxDecoration(
+  //                           color: Constants.lightGreen,
+  //                           borderRadius: BorderRadius.circular(9),
+  //                         ),
+  //                         child: TitleText(
+  //                           text: "+100 QP",
+  //                           size: Constants.bodyXLarge,
+  //                           weight: FontWeight.w500,
+  //                           textColor: Constants.white,
+  //                         ),
+  //                       )
+  //                     ]),
+  //               ],
+  //             )),
+  //       ),
+  //     ],
+  //   );
+  // }
 
   Widget _statsTabBloc() {
     return BlocConsumer<StatisticCubit, StatisticState>(
@@ -709,7 +710,7 @@ class _ProfileState extends State<Profile> {
       }
     }, builder: (context, state) {
       if (state is StatisticFetchSuccess) {
-        return _statsTabItem();
+        return _statsTabItem(state);
       }
       if (state is StatisticFetchInProgress) {
         return SizedBox(
@@ -724,7 +725,7 @@ class _ProfileState extends State<Profile> {
     });
   }
 
-  Column _statsTabItem() {
+  Column _statsTabItem(state) {
     StatisticModel model =
         context.read<StatisticCubit>().getStatisticsDetails();
     return Column(
@@ -771,6 +772,124 @@ class _ProfileState extends State<Profile> {
             ],
           ),
         ),
+        WidgetsUtil.verticalSpace16,
+        Padding(
+          padding: const EdgeInsets.only(
+            left: 16,
+            right: 16,
+          ),
+          child: Container(
+            decoration: BoxDecoration(
+              color: const Color(0xffE8E5FA),
+              borderRadius: BorderRadius.circular(
+                Constants.cardsRadius,
+              ),
+            ),
+            height: SizeConfig.screenHeight * 0.155,
+            width: SizeConfig.screenWidth,
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  TitleText(
+                    text: AppLocalization.of(context)!
+                        .getTranslatedValues(battleStatisticsKey)!,
+                    align: TextAlign.center,
+                    size: Constants.bodyXLarge,
+                    weight: FontWeight.w500,
+                  ),
+                  // WidgetsUtil.verticalSpace24,
+                  const Spacer(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Column(
+                        children: [
+                          TitleText(
+                            text: model.calculatePlayedBattles().toString(),
+                            textColor: Theme.of(context).primaryColor,
+                            weight: FontWeight.w500,
+                            size: Constants.bodyLarge,
+                          ),
+                          TitleText(
+                            text: AppLocalization.of(context)!
+                                .getTranslatedValues(playedKey)!,
+                            textColor: Theme.of(context).primaryColor,
+                            weight: FontWeight.w500,
+                            size: Constants.bodyLarge,
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 50,
+                        child: VerticalDivider(color: Constants.black1),
+                      ),
+                      Column(
+                        children: [
+                          TitleText(
+                            text: model.battleVictories,
+                            textColor: Theme.of(context).primaryColor,
+                            weight: FontWeight.w500,
+                            size: Constants.bodyLarge,
+                          ),
+                          TitleText(
+                            text: AppLocalization.of(context)!
+                                .getTranslatedValues(wonKey)!,
+                            textColor: Theme.of(context).primaryColor,
+                            weight: FontWeight.w500,
+                            size: Constants.bodyLarge,
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 50,
+                        child: VerticalDivider(color: Constants.black1),
+                      ),
+                      Column(
+                        children: [
+                          TitleText(
+                            text: model.battleLoose,
+                            textColor: Theme.of(context).primaryColor,
+                            weight: FontWeight.w500,
+                            size: Constants.bodyLarge,
+                          ),
+                          TitleText(
+                            text: AppLocalization.of(context)!
+                                .getTranslatedValues(lostKey)!,
+                            textColor: Theme.of(context).primaryColor,
+                            weight: FontWeight.w500,
+                            size: Constants.bodyLarge,
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 50,
+                        child: VerticalDivider(color: Constants.black1),
+                      ),
+                      Column(
+                        children: [
+                          TitleText(
+                            text: model.battleDrawn,
+                            textColor: Theme.of(context).primaryColor,
+                            weight: FontWeight.w500,
+                            size: Constants.bodyLarge,
+                          ),
+                          TitleText(
+                            text: AppLocalization.of(context)!
+                                .getTranslatedValues(drawLbl)!,
+                            textColor: Theme.of(context).primaryColor,
+                            weight: FontWeight.w500,
+                            size: Constants.bodyLarge,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
         WidgetsUtil.verticalSpace32,
         Padding(
           padding: EdgeInsets.only(
@@ -792,11 +911,11 @@ class _ProfileState extends State<Profile> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Expanded(
                         child: TitleText(
-                          text: "Top performance by category",
+                          text: "TOP PERFORMANCE",
                           size: Constants.bodyXLarge,
                           textColor: Constants.white,
                           weight: FontWeight.w500,
@@ -866,6 +985,7 @@ class _ProfileState extends State<Profile> {
                   //     ),
                   //   ],
                   // ),
+
                   WidgetsUtil.verticalSpace16,
                   _customBarchartBloc(),
                   WidgetsUtil.verticalSpace16,

@@ -238,7 +238,7 @@ class _SelfChallengeQuestionsScreenState
       child: Container(
         alignment: Alignment.center,
         margin: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
-        color: attempted ? Constants.primaryColor : Constants.secondaryColor,
+        color: attempted ? Theme.of(context).primaryColor : Constants.secondaryColor,
         height: 30.0,
         width: 30.0,
         child: Text(
@@ -283,7 +283,7 @@ class _SelfChallengeQuestionsScreenState
                       Navigator.of(context).pop();
                     },
                     icon: const Icon(Icons.close),
-                    color: Constants.primaryColor,
+                    color: Theme.of(context).primaryColor,
                   ),
                 ),
                 Wrap(
@@ -308,7 +308,7 @@ class _SelfChallengeQuestionsScreenState
                       navigateToResult();
                     },
                     widthPercentage: MediaQuery.of(context).size.width,
-                    backgroundColor: Constants.primaryColor,
+                    backgroundColor: Theme.of(context).primaryColor,
                     buttonTitle: AppLocalization.of(context)!
                         .getTranslatedValues("submitBtn")!,
                     radius: 10,
@@ -326,7 +326,7 @@ class _SelfChallengeQuestionsScreenState
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CircleAvatar(
-                        backgroundColor: Constants.primaryColor,
+                        backgroundColor: Theme.of(context).primaryColor,
                         radius: 15,
                         child: Center(
                           child: Icon(
@@ -343,7 +343,7 @@ class _SelfChallengeQuestionsScreenState
                         AppLocalization.of(context)!
                             .getTranslatedValues("attemptedLbl")!,
                         style: TextStyle(
-                            fontSize: 12.5, color: Constants.primaryColor),
+                            fontSize: 12.5, color: Theme.of(context).primaryColor),
                       ),
                       const Spacer(),
                       CircleAvatar(
@@ -445,7 +445,7 @@ class _SelfChallengeQuestionsScreenState
                     openBottomSheet(state.questions);
                   },
                   child: CircleAvatar(
-                    backgroundColor: Constants.primaryColor,
+                    backgroundColor: Theme.of(context).primaryColor,
                     radius: 20,
                     child: Padding(
                       padding: const EdgeInsets.all(5.0),
@@ -501,7 +501,7 @@ class _SelfChallengeQuestionsScreenState
         return Future.value(false);
       },
       child: Scaffold(
-        backgroundColor: Constants.primaryColor,
+        backgroundColor: Theme.of(context).primaryColor,
         body: SizedBox(
           height: SizeConfig.screenHeight,
           child: Stack(

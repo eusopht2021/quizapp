@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -820,103 +819,102 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
           },
           child: LayoutBuilder(builder: (context, constraints) {
             return DefaultLayout(
+              resizeToAvoidBottomInset: false,
               backgroundColor: Constants.primaryColor,
               titleColor: Constants.white,
-              title: "",
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Container(
-                      height: SizeConfig.screenHeight * 0.07,
-                      width: SizeConfig.screenWidth,
-                      margin: const EdgeInsets.symmetric(horizontal: 50),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Constants.black1.withOpacity(0.3),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: List.generate(
-                          tabItems.length,
-                          (index) {
-                            return GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  selectTab = index;
-                                });
-                              },
-                              child: AnimatedContainer(
-                                decoration: BoxDecoration(
-                                  color: selectTab == index
-                                      ? Constants.secondaryColor
-                                      : Colors.transparent,
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                duration: const Duration(
-                                  milliseconds: 200,
-                                ),
-                                height: 40,
-                                width: 140,
-                                child: Center(
-                                  child: TitleText(
-                                    text: tabItems[index],
-                                    textColor: Constants.white,
-                                    weight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
+              title: "GROUP BATTLE",
+              child: Column(
+                children: [
+                  // WidgetsUtil.verticalSpace24,
+                  Container(
+                    height: SizeConfig.screenHeight * 0.07,
+                    width: SizeConfig.screenWidth,
+                    margin: const EdgeInsets.symmetric(horizontal: 50),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Constants.black1.withOpacity(0.3),
                     ),
-                    WidgetsUtil.verticalSpace24,
-                    SizedBox(
-                      height: SizeConfig.screenHeight * 0.8,
-                      child: Stack(
-                        children: [
-                          Container(
-                            height: SizeConfig.screenHeight * 0.2,
-                            width: SizeConfig.screenWidth * 0.9,
-                            padding: const EdgeInsets.symmetric(horizontal: 28),
-                            decoration: BoxDecoration(
-                                color: Constants.secondaryColor,
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(20),
-                                  topRight: Radius.circular(20),
-                                ),
-                                image: DecorationImage(
-                                    image:
-                                        AssetImage(Assets.backgroundCircle))),
-                          ),
-                          Positioned(
-                            top: SizeConfig.screenHeight * 0.17,
-                            child: Container(
-                              height: SizeConfig.screenHeight * 0.47,
-                              width: SizeConfig.screenWidth * 0.9,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: List.generate(
+                        tabItems.length,
+                        (index) {
+                          return GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                selectTab = index;
+                              });
+                            },
+                            child: AnimatedContainer(
                               decoration: BoxDecoration(
-                                // color: Colors.red,
-                                image: DecorationImage(
-                                  fit: BoxFit.fill,
-                                  image: AssetImage(Assets.whiteBox),
-                                ),
+                                color: selectTab == index
+                                    ? Constants.secondaryColor
+                                    : Colors.transparent,
+                                borderRadius: BorderRadius.circular(20),
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 0,
-                                  vertical: 20,
+                              duration: const Duration(
+                                milliseconds: 200,
+                              ),
+                              height: 40,
+                              width: 140,
+                              child: Center(
+                                child: TitleText(
+                                  text: tabItems[index],
+                                  textColor: Constants.white,
+                                  weight: FontWeight.w500,
                                 ),
-                                child: selectTab == 0
-                                    ? _buildCreateRoomTab(constraints)
-                                    : _buildJoinRoomTab(constraints),
                               ),
                             ),
-                          ),
-                        ],
+                          );
+                        },
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                  WidgetsUtil.verticalSpace24,
+                  SizedBox(
+                    height: SizeConfig.screenHeight * 0.7,
+                    child: Stack(
+                      children: [
+                        Container(
+                          height: SizeConfig.screenHeight * 0.2,
+                          width: SizeConfig.screenWidth * 0.9,
+                          padding: const EdgeInsets.symmetric(horizontal: 28),
+                          decoration: BoxDecoration(
+                              color: Constants.secondaryColor,
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20),
+                              ),
+                              image: DecorationImage(
+                                  image: AssetImage(Assets.backgroundCircle))),
+                        ),
+                        Positioned(
+                          top: SizeConfig.screenHeight * 0.17,
+                          child: Container(
+                            height: SizeConfig.screenHeight * 0.47,
+                            width: SizeConfig.screenWidth * 0.9,
+                            decoration: BoxDecoration(
+                              // color: Colors.red,
+                              image: DecorationImage(
+                                fit: BoxFit.fill,
+                                image: AssetImage(Assets.whiteBox),
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 0,
+                                vertical: 20,
+                              ),
+                              child: selectTab == 0
+                                  ? _buildCreateRoomTab(constraints)
+                                  : _buildJoinRoomTab(constraints),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             );
           }),

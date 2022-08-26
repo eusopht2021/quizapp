@@ -133,7 +133,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-      color: Constants.primaryColor,
+      color: Theme.of(context).primaryColor,
       child: BlocConsumer<UserDetailsCubit, UserDetailsState>(
         bloc: context.read<UserDetailsCubit>(),
         builder: (context, state) {
@@ -412,8 +412,8 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                 //       //         flex: 3,
                 //       //         child: SocialButton(
                 //       //           horizontalMargin: 10,
-                //       //           textColor: Constants.primaryColor,
-                //       //           iconColor: Constants.primaryColor,
+                //       //           textColor: Theme.of(context).primaryColor,
+                //       //           iconColor: Theme.of(context).primaryColor,
                 //       //           background: Constants.white,
                 //       //           icon: Assets.findFriendsIcon,
                 //       //           itemSpace: 12,
@@ -484,7 +484,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
 
                           return categoryCard(
                             mainIconColor: checked
-                                ? Constants.primaryColor
+                                ? Theme.of(context).primaryColor
                                 : Constants.white,
                             showDesc: descriptions.contains(index),
                             onTap: () {
@@ -504,7 +504,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                             },
                             iconColor: checked
                                 ? Constants.white
-                                : Constants.primaryColor,
+                                : Theme.of(context).primaryColor,
                             iconShadowOpacity: checked ? 0.2 : 1,
                             quizDescription: AppLocalization.of(context)!
                                 .getTranslatedValues(
@@ -515,7 +515,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                             categoryName: _quizTypes[index].getTitle(context),
                             textColor: checked
                                 ? Constants.white
-                                : Constants.primaryColor,
+                                : Theme.of(context).primaryColor,
                           );
                         }),
                       ),
@@ -605,7 +605,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                                 .getTranslatedValues(selfChallengeLbl)!,
                             size: Constants.bodyLarge,
                             weight: FontWeight.w500,
-                            textColor: Constants.primaryColor,
+                            textColor: Theme.of(context).primaryColor,
                           ),
                           const SizedBox(
                             height: 1.0,
@@ -614,7 +614,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                             text: AppLocalization.of(context)!
                                 .getTranslatedValues(challengeYourselfLbl)!,
                             size: 14.0,
-                            textColor: Constants.primaryColor,
+                            textColor: Theme.of(context).primaryColor,
                           ),
                         ],
                       ),
@@ -626,7 +626,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                         scale: 0.55,
                         child: SvgPicture.asset(
                           "assets/images/selfchallenge_icon.svg",
-                          color: Constants.primaryColor,
+                          color: Theme.of(context).primaryColor,
                         )),
                   ),
                 ],
@@ -1262,7 +1262,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
               triggerMode: TooltipTriggerMode.tap,
               child: Icon(
                 Icons.info,
-                color: Constants.primaryColor,
+                color: Theme.of(context).primaryColor,
               ),
             ),
           ),

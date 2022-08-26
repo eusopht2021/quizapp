@@ -25,6 +25,7 @@ import 'package:flutterquiz/ui/screens/new_settings/FAQ%20Screens/about.dart';
 import 'package:flutterquiz/ui/screens/new_settings/FAQ%20Screens/contactUs.dart';
 import 'package:flutterquiz/ui/screens/new_settings/FAQ%20Screens/faq_screen.dart';
 import 'package:flutterquiz/ui/screens/profile/widgets/editProfileFieldBottomSheetContainer.dart';
+import 'package:flutterquiz/ui/screens/profile/widgets/themeDialog.dart';
 import 'package:flutterquiz/ui/widgets/title_text.dart';
 import 'package:flutterquiz/utils/assets.dart';
 import 'package:flutterquiz/utils/constants.dart';
@@ -37,6 +38,7 @@ import 'package:flutterquiz/utils/widgets_util.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:launch_review/launch_review.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class NewSettingsScreen extends StatefulWidget {
   final String title;
@@ -145,12 +147,13 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                             size: Constants.bodyNormal,
                           ),
                           WidgetsUtil.verticalSpace16,
+                          
                           _settingsOptionsContainer(
                             listTileicon: Image.asset(
                               Assets.person,
                               height: 25,
                               width: 25,
-                              color: Constants.primaryColor,
+                              color: Theme.of(context).primaryColor,
                             ),
                             title: AppLocalization.of(context)!
                                 .getTranslatedValues("updateUsername")!,
@@ -168,12 +171,14 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                             },
                           ),
                           WidgetsUtil.verticalSpace16,
+
                           _settingsOptionsContainer(
+                            showIcon: false,
                             listTileicon: Image.asset(
                               Assets.mail,
                               height: 25,
                               width: 25,
-                              color: Constants.primaryColor,
+                              color: Theme.of(context).primaryColor,
                             ),
                             title: "Change Email Address",
                             subtitle: state.userProfile.email!.isEmpty
@@ -181,12 +186,13 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                                 : state.userProfile.email!,
                           ),
                           WidgetsUtil.verticalSpace16,
+
                           _settingsOptionsContainer(
                             listTileicon: Image.asset(
                               Assets.password,
                               height: 25,
                               width: 25,
-                              color: Constants.primaryColor,
+                              color: Theme.of(context).primaryColor,
                             ),
                             title: AppLocalization.of(context)!
                                 .getTranslatedValues("changePassword")!,
@@ -205,6 +211,7 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                             },
                           ),
                           WidgetsUtil.verticalSpace16,
+
                           _settingsOptionsContainer(
                             title: AppLocalization.of(context)!
                                 .getTranslatedValues("language")!,
@@ -217,17 +224,88 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                             },
                             listTileicon: Icon(
                               Icons.language,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          ),
+                          WidgetsUtil.verticalSpace16,
+
+                          // _settingsOptionsContainer(
+                          //   listTileicon: Icon(
+                          //     Icons.brightness_7,
+                          //     color: Theme.of(context).primaryColor,
+                          //   ),
+                          //   onTap: () {
+                          //     Navigator.of(context).pop();
+                          //     showDialog(
+                          //         context: context,
+                          //         builder: (_) => const ThemeDialog());
+                          //   },
+                          //   title: "Theme",
+                          //   subtitle: "Change App Theme",
+                          // ),
+                          // WidgetsUtil.verticalSpace16,
+                          _settingsOptionsContainer(
+                            title: AppLocalization.of(context)!
+                                .getTranslatedValues(coinStoreKey)!,
+                            subtitle: "View Coin Store",
+                            onTap: () {
+                              Navigator.of(context).pushNamed(Routes.coinStore);
+                            },
+                            listTileicon: FaIcon(
+                              FontAwesomeIcons.coins,
                               color: Constants.primaryColor,
                             ),
                           ),
                           WidgetsUtil.verticalSpace16,
+
+                          _settingsOptionsContainer(
+                            title: AppLocalization.of(context)!
+                                .getTranslatedValues(rewardsLbl)!,
+                            subtitle: "View Rewards",
+                            onTap: () {
+                              Navigator.of(context).pushNamed(Routes.rewards);
+                            },
+                            listTileicon: Icon(
+                              Icons.redeem,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          ),
+                          WidgetsUtil.verticalSpace16,
+
+                          _settingsOptionsContainer(
+                            listTileicon: Icon(
+                              Icons.brightness_7,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            onTap: () {
+                              Navigator.of(context).pushNamed(Routes.wallet);
+                            },
+                            title: AppLocalization.of(context)!
+                                .getTranslatedValues(walletKey)!,
+                            subtitle: "Wallet",
+                          ),
+                          WidgetsUtil.verticalSpace16,
+
+                          _settingsOptionsContainer(
+                              listTileicon: Icon(
+                                Icons.toll,
+                                color: Constants.primaryColor,
+                              ),
+                              title: "Coin History",
+                              subtitle: "View Coin History",
+                              onTap: () {
+                                Navigator.of(context)
+                                    .pushNamed(Routes.coinHistory);
+                              }),
+                          WidgetsUtil.verticalSpace16,
+
                           _settingsOptionsContainer(
                               title: AppLocalization.of(context)!
                                   .getTranslatedValues("deleteAccount")!,
                               subtitle: "Delete your Account",
                               listTileicon: Icon(
                                 Icons.delete_outline_rounded,
-                                color: Constants.primaryColor,
+                                color: Theme.of(context).primaryColor,
                               ),
                               onTap: () {
                                 showDialog<bool>(
@@ -238,7 +316,8 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                                                 .getTranslatedValues(
                                                     deleteAccountConfirmationKey)!,
                                             style: TextStyle(
-                                              color: Constants.primaryColor,
+                                              color: Theme.of(context)
+                                                  .primaryColor,
                                             ),
                                           ),
                                           actions: [
@@ -291,6 +370,7 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                                   }
                                 });
                               }),
+
                           WidgetsUtil.verticalSpace24,
                           TitleText(
                             text: "OTHER",
@@ -319,7 +399,7 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                                     _isOn = value;
                                   });
                                 },
-                                activeColor: Constants.primaryColor,
+                                activeColor: Theme.of(context).primaryColor,
                               )
                             ],
                           ),
@@ -329,7 +409,7 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                           //     Assets.puzzleIcon,
                           //     height: 25,
                           //     width: 25,
-                          //     color: Constants.primaryColor,
+                          //     color: Theme.of(context).primaryColor,
                           //   ),
                           //   title: "Change Difficulty",
                           //   subtitle: "Easy, normal, hard",
@@ -344,7 +424,7 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                           _settingsOptionsContainer(
                             listTileicon: Icon(
                               Icons.question_mark,
-                              color: Constants.primaryColor,
+                              color: Theme.of(context).primaryColor,
                             ),
                             title: "FAQ",
                             subtitle: "Most frequently asked questions",
@@ -361,7 +441,7 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                                 .getTranslatedValues("contactUs")!,
                             listTileicon: Icon(
                               Icons.contacts_outlined,
-                              color: Constants.primaryColor,
+                              color: Theme.of(context).primaryColor,
                             ),
                             subtitle: "for any Enquiry",
                             onTap: () {
@@ -377,7 +457,7 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                                 .getTranslatedValues("aboutUs")!,
                             listTileicon: Icon(
                               Icons.info_outline,
-                              color: Constants.primaryColor,
+                              color: Theme.of(context).primaryColor,
                             ),
                             subtitle: AppLocalization.of(context)!
                                 .getTranslatedValues("aboutUs")!,
@@ -392,7 +472,7 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                           _settingsOptionsContainer(
                             listTileicon: Icon(
                               Icons.stars,
-                              color: Constants.primaryColor,
+                              color: Theme.of(context).primaryColor,
                             ),
                             subtitle: AppLocalization.of(context)!
                                 .getTranslatedValues("rateUsLbl")!,
@@ -454,10 +534,10 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                                                     .signOut();
 
                                                 Navigator.of(context)
-                                                  .pushNamedAndRemoveUntil(
-                                                    Routes.onBoardingScreen,
-                                                    (route) => false,
-                                                  );
+                                                    .pushNamedAndRemoveUntil(
+                                                  Routes.onBoardingScreen,
+                                                  (route) => false,
+                                                );
                                                 BlocProvider.of<
                                                             NavigationCubit>(
                                                         context)
@@ -469,8 +549,8 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                                                     .getTranslatedValues(
                                                         "yesBtn")!,
                                                 style: TextStyle(
-                                                    color:
-                                                        Constants.primaryColor),
+                                                    color: Theme.of(context)
+                                                        .primaryColor),
                                               )),
                                           TextButton(
                                               onPressed: () {
@@ -481,8 +561,8 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                                                     .getTranslatedValues(
                                                         "noBtn")!,
                                                 style: TextStyle(
-                                                    color:
-                                                        Constants.primaryColor),
+                                                    color: Theme.of(context)
+                                                        .primaryColor),
                                               )),
                                         ],
                                       ));
@@ -513,10 +593,11 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
 }
 
 Widget _settingsOptionsContainer({
-  Widget? listTileicon,
-  String? title,
-  String? subtitle,
-  Function()? onTap,
+  final Widget? listTileicon,
+  final String? title,
+  final String? subtitle,
+  final bool? showIcon = true,
+  final Function()? onTap,
 }) {
   return InkWell(
     onTap: onTap,
@@ -547,10 +628,12 @@ Widget _settingsOptionsContainer({
             weight: FontWeight.w400,
             maxlines: 1,
           ),
-          trailing: Icon(
-            Icons.arrow_forward_ios,
-            color: Constants.black1,
-          ),
+          trailing: showIcon!
+              ? Icon(
+                  Icons.arrow_forward_ios,
+                  color: Constants.black1,
+                )
+              : const SizedBox(),
         ),
       ),
     ),

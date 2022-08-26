@@ -1102,7 +1102,7 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
       backgroundColor: Constants.white,
       body: DefaultLayout(
         showBackButton: false,
-        backgroundColor: Constants.primaryColor,
+        backgroundColor: Theme.of(context).primaryColor,
         title: "Answers Explanation",
         size: Constants.bodyXLarge,
         action: IconButton(

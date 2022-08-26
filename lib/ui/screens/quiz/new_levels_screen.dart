@@ -71,7 +71,7 @@ class _NewLevelsScreenState extends State<NewLevelsScreen> {
   Widget build(BuildContext context) {
     return DefaultLayout(
       titleColor: Constants.white,
-      backgroundColor: Constants.primaryColor,
+      backgroundColor: Theme.of(context).primaryColor,
       title: widget.categoryName ?? "",
       child: BlocConsumer<UnlockedLevelCubit, UnlockedLevelState>(
           listener: (context, state) {
@@ -103,14 +103,14 @@ class _NewLevelsScreenState extends State<NewLevelsScreen> {
               tilePadding:
                   const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
               childrenPadding: const EdgeInsets.all(8),
-              iconColor: Constants.primaryColor,
-              textColor: Constants.primaryColor,
-              collapsedTextColor: Constants.primaryColor,
-              collapsedIconColor: Constants.primaryColor,
+              iconColor: Theme.of(context).primaryColor,
+              textColor: Theme.of(context).primaryColor,
+              collapsedTextColor: Theme.of(context).primaryColor,
+              collapsedIconColor: Theme.of(context).primaryColor,
               title: TitleText(
                 text:
                     "${AppLocalization.of(context)!.getTranslatedValues("levelLbl")!} ",
-                textColor: Constants.primaryColor,
+                textColor: Theme.of(context).primaryColor,
                 size: Constants.bodyXLarge,
                 weight: FontWeight.w500,
               ),
@@ -150,7 +150,7 @@ class _NewLevelsScreenState extends State<NewLevelsScreen> {
     if (state is UnlockedLevelFetchInProgress) {
       return Center(
           child: CircularProgressIndicator(
-        color: Constants.primaryColor,
+        color: Theme.of(context).primaryColor,
       ));
     }
     if (state is UnlockedLevelFetchFailure) {
@@ -213,7 +213,7 @@ class _NewLevelsScreenState extends State<NewLevelsScreen> {
             child: Opacity(
               opacity: (index + 1) <= unlockedLevel ? 1.0 : 0.55,
               child: CircleAvatar(
-                  backgroundColor: Constants.primaryColor,
+                  backgroundColor: Theme.of(context).primaryColor,
                   child: Center(
                     child: TitleText(
                       text: "${index + 1}",

@@ -54,9 +54,9 @@ class _NavigationState extends State<Navigation> {
       floatingActionButton: Visibility(
         visible: !isKeyboardOpen,
         child: FloatingActionButton(
-          backgroundColor: Constants.primaryColor,
+          backgroundColor: Theme.of(context).primaryColor,
           onPressed: () {
-                  context.read<BattleRoomCubit>().updateState(BattleRoomInitial());
+            context.read<BattleRoomCubit>().updateState(BattleRoomInitial());
             context
                 .read<QuizCategoryCubit>()
                 .updateState(QuizCategoryInitial());
@@ -65,8 +65,6 @@ class _NavigationState extends State<Navigation> {
                 MaterialPageRoute(
                     builder: (_) =>
                         BattleQuizScreen(quizType: QuizTypes.battle)));
-
-      
 
             // showDialog(
             //   context: context,
