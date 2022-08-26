@@ -176,7 +176,7 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 5.0),
         width: boxConstraints.maxWidth * (0.14),
-        height: boxConstraints.maxHeight * (0.2),
+        height: boxConstraints.maxHeight * (0.10),
         alignment: Alignment.center,
         padding:
             useManualValue ? const EdgeInsets.symmetric(horizontal: 5.0) : null,
