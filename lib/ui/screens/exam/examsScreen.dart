@@ -15,10 +15,8 @@ import 'package:flutterquiz/ui/screens/exam/widgets/examKeyBottomSheetContainer.
 import 'package:flutterquiz/ui/screens/exam/widgets/examResultBottomSheetContainer.dart';
 
 import 'package:flutterquiz/ui/widgets/bannerAdContainer.dart';
-import 'package:flutterquiz/ui/widgets/circularProgressContainner.dart';
 import 'package:flutterquiz/ui/widgets/customBackButton.dart';
 import 'package:flutterquiz/ui/widgets/errorContainer.dart';
-import 'package:flutterquiz/ui/widgets/pageBackgroundGradientContainer.dart';
 import 'package:flutterquiz/ui/widgets/title_text.dart';
 import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';

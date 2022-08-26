@@ -11,8 +11,6 @@ import 'package:flutterquiz/features/quiz/models/quizType.dart';
 import 'dart:math' as math;
 
 import 'package:flutterquiz/ui/widgets/customRoundedButton.dart';
-import 'package:flutterquiz/ui/widgets/default_layout.dart';
-import 'package:flutterquiz/ui/widgets/pageBackgroundGradientContainer.dart';
 import 'package:flutterquiz/ui/widgets/roundedAppbar.dart';
 import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';

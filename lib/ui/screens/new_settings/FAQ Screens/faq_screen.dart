@@ -9,7 +9,6 @@ import 'package:flutterquiz/utils/assets.dart';
 import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/custom_appbar.dart';
 import 'package:flutterquiz/utils/custom_text_field.dart';
-import 'package:flutterquiz/utils/size_config.dart';
 import 'package:flutterquiz/utils/widgets_util.dart';
 
 class FaqScreen extends StatelessWidget {

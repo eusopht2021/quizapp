@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'package:badges/badges.dart' as bdgs;
-import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutterquiz/features/badges/badge.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutterquiz/features/badges/cubits/badgesCubit.dart';
@@ -24,7 +23,6 @@ import 'package:flutterquiz/app/routes.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/deleteAccountCubit.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/updateUserDetailsCubit.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/uploadProfileCubit.dart';
-import 'package:flutterquiz/features/profileManagement/cubits/userDetailsCubit.dart';
 import 'package:flutterquiz/features/profileManagement/profileManagementRepository.dart';
 import 'package:flutterquiz/features/statistic/cubits/statisticsCubit.dart';
 import 'package:flutterquiz/features/statistic/models/statisticModel.dart';

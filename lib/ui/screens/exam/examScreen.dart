@@ -16,8 +16,6 @@ import 'package:flutterquiz/ui/screens/quiz/widgets/questionContainer.dart';
 import 'package:flutterquiz/ui/widgets/customBackButton.dart';
 import 'package:flutterquiz/ui/widgets/exitGameDailog.dart';
 import 'package:flutterquiz/ui/widgets/new_option_container.dart';
-import 'package:flutterquiz/ui/widgets/optionContainer.dart';
-import 'package:flutterquiz/ui/widgets/pageBackgroundGradientContainer.dart';
 import 'package:flutterquiz/utils/answerEncryption.dart';
 import 'package:flutterquiz/utils/constants.dart';
 

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutterquiz/ui/widgets/social_button.dart';
-import 'package:flutterquiz/utils/size_config.dart';
 
 import '../../../app/appLocalization.dart';
 import '../../../app/routes.dart';

@@ -3,8 +3,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterquiz/features/auth/authRepository.dart';
-import 'package:flutterquiz/ui/screens/auth/widgets/termsAndCondition.dart';
-import 'package:flutterquiz/ui/screens/new_settings/FAQ%20Screens/terms.dart';
 import 'package:flutterquiz/ui/widgets/social_button.dart';
 
 import '../../../app/appLocalization.dart';

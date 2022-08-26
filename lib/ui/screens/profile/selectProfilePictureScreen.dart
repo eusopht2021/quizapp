@@ -1,6 +1,4 @@
-import 'dart:developer';
 import 'dart:io';
-import 'dart:math';
 import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,10 +15,7 @@ import 'package:flutterquiz/features/profileManagement/models/userProfile.dart';
 import 'package:flutterquiz/features/profileManagement/profileManagementRepository.dart';
 import 'package:flutterquiz/features/systemConfig/cubits/systemConfigCubit.dart';
 import 'package:flutterquiz/ui/screens/profile/widgets/chooseProfileDialog.dart';
-import 'package:flutterquiz/ui/widgets/circularProgressContainner.dart';
 import 'package:flutterquiz/ui/widgets/errorContainer.dart';
-
-import 'package:flutterquiz/ui/widgets/pageBackgroundGradientContainer.dart';
 import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/stringLabels.dart';
@@ -200,7 +195,6 @@ class _SelectProfilePictureScreen extends State<SelectProfilePictureScreen> {
                   borderRadius: BorderRadius.circular(100),
                 ),
                 child: CircleAvatar(
-                  
                     radius: constraints.maxHeight *
                         (profileRadiusPercentage - 0.0535),
                     backgroundImage:

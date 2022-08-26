@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -28,8 +27,6 @@ import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/title_text.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
 import 'package:flutterquiz/utils/widgets_util.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart' as svg_provider;
-import 'package:hive/hive.dart';
 
 class BattleQuizScreen extends StatefulWidget {
   final QuizTypes quizType;
@@ -299,7 +296,7 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
               hintStyle: TextStyle(
                 color: Constants.secondaryColor,
               ),
-              contentPadding: EdgeInsets.symmetric(horizontal: 20),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 20),
             ),
             controller: roomCodeEditingController,
           ),
@@ -832,7 +829,7 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
                     Container(
                       height: SizeConfig.screenHeight * 0.07,
                       width: SizeConfig.screenWidth,
-                      margin: const EdgeInsets.symmetric(horizontal: 60),
+                      margin: const EdgeInsets.symmetric(horizontal: 50),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         color: Constants.black1.withOpacity(0.3),
@@ -849,27 +846,22 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
                                 });
                               },
                               child: AnimatedContainer(
+                                decoration: BoxDecoration(
+                                  color: selectTab == index
+                                      ? Constants.secondaryColor
+                                      : Colors.transparent,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
                                 duration: const Duration(
-                                  milliseconds: 300,
+                                  milliseconds: 200,
                                 ),
                                 height: 40,
-                                width: 100,
-                                child: Container(
-                                  padding: const EdgeInsets.only(
-                                    top: 8,
-                                    bottom: 8,
-                                  ),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(16),
-                                      color: selectTab == index
-                                          ? Constants.secondaryColor
-                                          : Colors.transparent),
-                                  child: Center(
-                                    child: TitleText(
-                                      text: tabItems[index],
-                                      textColor: Constants.white,
-                                      weight: FontWeight.w500,
-                                    ),
+                                width: 140,
+                                child: Center(
+                                  child: TitleText(
+                                    text: tabItems[index],
+                                    textColor: Constants.white,
+                                    weight: FontWeight.w500,
                                   ),
                                 ),
                               ),

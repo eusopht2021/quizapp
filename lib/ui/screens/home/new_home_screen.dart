@@ -1,14 +1,12 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_svg/flutter_svg.dart' as svg;
 import 'package:flutterquiz/app/appLocalization.dart';
 import 'package:flutterquiz/app/routes.dart';
 import 'package:flutterquiz/features/ads/interstitialAdCubit.dart';
@@ -24,8 +22,6 @@ import 'package:flutterquiz/features/profileManagement/profileManagementReposito
 import 'package:flutterquiz/features/quiz/cubits/quizCategoryCubit.dart';
 import 'package:flutterquiz/features/quiz/cubits/subCategoryCubit.dart';
 import 'package:flutterquiz/features/systemConfig/cubits/systemConfigCubit.dart';
-import 'package:flutterquiz/ui/navigation/navbarcubit.dart';
-import 'package:flutterquiz/ui/navigation/navbaritems.dart';
 import 'package:flutterquiz/ui/screens/battle/widgets/randomOrPlayFrdDialog.dart';
 import 'package:flutterquiz/ui/screens/battle/widgets/roomDialog.dart';
 import 'package:flutterquiz/ui/screens/home/widgets/appUnderMaintenanceDialog.dart';
@@ -46,8 +42,6 @@ import '../../../utils/assets.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/style_properties.dart';
 import '../../../utils/widgets_util.dart';
-import '../../widgets/pie_chart.dart';
-import '../../widgets/social_button.dart';
 import '../../widgets/title_text.dart';
 
 class NewHomeScreen extends StatefulWidget {

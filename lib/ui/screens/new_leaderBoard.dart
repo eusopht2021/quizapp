@@ -7,14 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutterquiz/app/appLocalization.dart';
-import 'package:flutterquiz/app/routes.dart';
 import 'package:flutterquiz/features/leaderBoard/cubit/leaderBoardAllTimeCubit.dart';
 import 'package:flutterquiz/features/leaderBoard/cubit/leaderBoardDailyCubit.dart';
 import 'package:flutterquiz/features/leaderBoard/cubit/leaderBoardMonthlyCubit.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/userDetailsCubit.dart';
 import 'package:flutterquiz/ui/navigation/navbarcubit.dart';
 import 'package:flutterquiz/ui/navigation/navbaritems.dart';
-import 'package:flutterquiz/ui/navigation/navigation.dart';
 import 'package:flutterquiz/ui/widgets/errorContainer.dart';
 import 'package:flutterquiz/ui/widgets/notched_card.dart';
 import 'package:flutterquiz/ui/widgets/title_text.dart';
@@ -185,26 +183,20 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
             }),
             child: AnimatedContainer(
               duration: const Duration(
-                milliseconds: 300,
+                milliseconds: 200,
               ),
               height: 40,
               width: 100,
-              child: Container(
-                padding: const EdgeInsets.only(
-                  top: 8,
-                  bottom: 8,
-                ),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    color: selectTab == index
-                        ? Constants.secondaryColor
-                        : Colors.transparent),
-                child: Center(
-                  child: TitleText(
-                    text: tabItems[index],
-                    textColor: Constants.white,
-                    weight: FontWeight.w500,
-                  ),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  color: selectTab == index
+                      ? Constants.secondaryColor
+                      : Colors.transparent),
+              child: Center(
+                child: TitleText(
+                  text: tabItems[index],
+                  textColor: Constants.white,
+                  weight: FontWeight.w500,
                 ),
               ),
             ),

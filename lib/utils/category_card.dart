@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutterquiz/ui/widgets/title_text.dart';
 import 'package:flutterquiz/utils/constants.dart';
-import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/style_properties.dart';
 
 import 'package:flutterquiz/utils/widgets_util.dart';

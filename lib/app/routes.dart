@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterquiz/ui/navigation/navigation.dart';
-import 'package:flutterquiz/ui/screens/Discover%20Screen/discover.dart';
 import 'package:flutterquiz/ui/screens/aboutAppScreen.dart';
 import 'package:flutterquiz/ui/screens/auth/new_login_screen.dart';
 import 'package:flutterquiz/ui/screens/auth/otpScreen.dart';
