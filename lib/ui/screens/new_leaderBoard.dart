@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
 import 'package:flutterquiz/app/appLocalization.dart';
 import 'package:flutterquiz/features/leaderBoard/cubit/leaderBoardAllTimeCubit.dart';
 import 'package:flutterquiz/features/leaderBoard/cubit/leaderBoardDailyCubit.dart';
@@ -15,6 +16,7 @@ import 'package:flutterquiz/ui/navigation/navbarcubit.dart';
 import 'package:flutterquiz/ui/navigation/navbaritems.dart';
 import 'package:flutterquiz/ui/widgets/errorContainer.dart';
 import 'package:flutterquiz/ui/widgets/notched_card.dart';
+import 'package:scrollable_panel/scrollable_panel.dart';
 import 'package:flutterquiz/ui/widgets/title_text.dart';
 import 'package:flutterquiz/utils/assets.dart';
 import 'package:flutterquiz/utils/constants.dart';
@@ -23,6 +25,7 @@ import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/size_config.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
 import 'package:flutterquiz/utils/widgets_util.dart';
+import 'package:recase/recase.dart';
 
 class NewLeaderBoardScreen extends StatefulWidget {
   const NewLeaderBoardScreen({Key? key}) : super(key: key);
@@ -358,20 +361,9 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                                 width: 100,
                                 height: 20,
                                 child: TitleText(
-                                  text: index == 0
-                                      ? podiumList[0]['name']!.isNotEmpty
-                                          ? podiumList[0]['name']!
-                                          : ""
-                                      : index == 1
-                                          ? podiumList[1]['name']!.isNotEmpty
-                                              ? podiumList[1]['name']!
-                                              : ""
-                                          : index == 2
-                                              ? podiumList[2]['name']!
-                                                      .isNotEmpty
-                                                  ? podiumList[2]['name']!
-                                                  : ""
-                                              : "",
+                                  text:
+                                      "${index == 0 ? podiumList[0]['name']!.isNotEmpty ? podiumList[0]['name']! : "" : index == 1 ? podiumList[1]['name']!.isNotEmpty ? podiumList[1]['name']! : "" : index == 2 ? podiumList[2]['name']!.isNotEmpty ? podiumList[2]['name']! : "" : ""}"
+                                          .titleCase,
                                   textColor: Constants.white,
                                   size: Constants.bodySmall,
                                   align: TextAlign.center,
@@ -384,7 +376,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                                       Center(
                                         child: TitleText(
                                           text:
-                                              "${index == 0 ? podiumList[0]['score']!.isNotEmpty ? podiumList[0]['score']! : "" : index == 1 ? podiumList[1]['score']!.isNotEmpty ? podiumList[1]['score']! : "" : index == 2 ? podiumList[2]['score']!.isNotEmpty ? podiumList[2]['score']! : "" : ""} pts",
+                                              "${index == 0 ? podiumList[0]['score']!.isNotEmpty ? podiumList[0]['score']! : "" : index == 1 ? podiumList[1]['score']!.isNotEmpty ? podiumList[1]['score']! : "" : index == 2 ? podiumList[2]['score']!.isNotEmpty ? podiumList[2]['score']! : "" : ""} PTS",
                                           size: Constants.bodyXSmall,
                                           textColor: Constants.white,
                                         ),
@@ -414,7 +406,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                           flex: 5,
                           child: Image.asset(
                             Assets.rank2,
-                            fit: BoxFit.fill,
+                            fit: BoxFit.cover,
                             height: SizeConfig.screenHeight * 0.29,
                           ),
                         ),
@@ -422,7 +414,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                           flex: 5,
                           child: Image.asset(
                             Assets.rank1,
-                            fit: BoxFit.fill,
+                            fit: BoxFit.cover,
                             height: SizeConfig.screenHeight * 0.35,
                           ),
                         ),
@@ -432,7 +424,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                             padding: const EdgeInsets.only(top: 80),
                             child: Image.asset(
                               Assets.rank3,
-                              fit: BoxFit.fill,
+                              fit: BoxFit.cover,
                               height: SizeConfig.screenHeight * 0.3,
                             ),
                           ),
@@ -549,19 +541,9 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                             width: 100,
                             height: 20,
                             child: TitleText(
-                              text: index == 0
-                                  ? podiumList[0]['name']!.isNotEmpty
-                                      ? podiumList[0]['name']!
-                                      : ""
-                                  : index == 1
-                                      ? podiumList[1]['name']!.isNotEmpty
-                                          ? podiumList[1]['name']!
-                                          : ""
-                                      : index == 2
-                                          ? podiumList[2]['name']!.isNotEmpty
-                                              ? podiumList[2]['name']!
-                                              : ""
-                                          : "",
+                              text:
+                                  "${index == 0 ? podiumList[0]['name']!.isNotEmpty ? podiumList[0]['name']! : "" : index == 1 ? podiumList[1]['name']!.isNotEmpty ? podiumList[1]['name']! : "" : index == 2 ? podiumList[2]['name']!.isNotEmpty ? podiumList[2]['name']! : "" : ""}"
+                                      .titleCase,
                               textColor: Constants.white,
                               size: Constants.bodySmall,
                               align: TextAlign.center,
@@ -574,7 +556,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                                   Center(
                                     child: TitleText(
                                       text:
-                                          "${index == 0 ? podiumList[0]['score']!.isNotEmpty ? podiumList[0]['score']! : "" : index == 1 ? podiumList[1]['score']!.isNotEmpty ? podiumList[1]['score']! : "" : index == 2 ? podiumList[2]['score']!.isNotEmpty ? podiumList[2]['score']! : "" : ""} pts",
+                                          "${index == 0 ? podiumList[0]['score']!.isNotEmpty ? podiumList[0]['score']! : "" : index == 1 ? podiumList[1]['score']!.isNotEmpty ? podiumList[1]['score']! : "" : index == 2 ? podiumList[2]['score']!.isNotEmpty ? podiumList[2]['score']! : "" : ""} PTS",
                                       size: Constants.bodyXSmall,
                                       textColor: Constants.white,
                                     ),
@@ -602,7 +584,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                           flex: 5,
                           child: Image.asset(
                             Assets.rank2,
-                            fit: BoxFit.fill,
+                            fit: BoxFit.cover,
                             height: SizeConfig.screenHeight * 0.29,
                           ),
                         ),
@@ -610,7 +592,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                           flex: 5,
                           child: Image.asset(
                             Assets.rank1,
-                            fit: BoxFit.fill,
+                            fit: BoxFit.cover,
                             height: SizeConfig.screenHeight * 0.35,
                           ),
                         ),
@@ -620,7 +602,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                             padding: const EdgeInsets.only(top: 80),
                             child: Image.asset(
                               Assets.rank3,
-                              fit: BoxFit.fill,
+                              fit: BoxFit.cover,
                               height: SizeConfig.screenHeight * 0.3,
                             ),
                           ),
@@ -695,6 +677,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
         return SizedBox(
           height: SizeConfig.screenHeight,
           child: Stack(
+            clipBehavior: Clip.antiAlias,
             children: [
               ...List.generate(podiumList.length, (index) {
                 return Positioned(
@@ -743,19 +726,9 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                               width: 100,
                               height: 20,
                               child: TitleText(
-                                text: index == 0
-                                    ? podiumList[0]['name']!.isNotEmpty
-                                        ? podiumList[0]['name']!
-                                        : ""
-                                    : index == 1
-                                        ? podiumList[1]['name']!.isNotEmpty
-                                            ? podiumList[1]['name']!
-                                            : ""
-                                        : index == 2
-                                            ? podiumList[2]['name']!.isNotEmpty
-                                                ? podiumList[2]['name']!
-                                                : ""
-                                            : "",
+                                text:
+                                    "${index == 0 ? podiumList[0]['name']!.isNotEmpty ? podiumList[0]['name']! : "" : index == 1 ? podiumList[1]['name']!.isNotEmpty ? podiumList[1]['name']! : "" : index == 2 ? podiumList[2]['name']!.isNotEmpty ? podiumList[2]['name']! : "" : ""}"
+                                        .titleCase,
                                 textColor: Constants.white,
                                 size: Constants.bodySmall,
                                 align: TextAlign.center,
@@ -768,7 +741,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                                     Center(
                                       child: TitleText(
                                         text:
-                                            "${index == 0 ? podiumList[0]['score']!.isNotEmpty ? podiumList[0]['score']! : "" : index == 1 ? podiumList[1]['score']!.isNotEmpty ? podiumList[1]['score']! : "" : index == 2 ? podiumList[2]['score']!.isNotEmpty ? podiumList[2]['score']! : "" : ""} pts",
+                                            "${index == 0 ? podiumList[0]['score']!.isNotEmpty ? podiumList[0]['score']! : "" : index == 1 ? podiumList[1]['score']!.isNotEmpty ? podiumList[1]['score']! : "" : index == 2 ? podiumList[2]['score']!.isNotEmpty ? podiumList[2]['score']! : "" : ""} PTS",
                                         size: Constants.bodyXSmall,
                                         textColor: Constants.white,
                                       ),
@@ -797,7 +770,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                           flex: 5,
                           child: Image.asset(
                             Assets.rank2,
-                            fit: BoxFit.fill,
+                            fit: BoxFit.cover,
                             height: SizeConfig.screenHeight * 0.29,
                           ),
                         ),
@@ -805,7 +778,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                           flex: 5,
                           child: Image.asset(
                             Assets.rank1,
-                            fit: BoxFit.fill,
+                            fit: BoxFit.cover,
                             height: SizeConfig.screenHeight * 0.35,
                           ),
                         ),
@@ -815,7 +788,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                             padding: const EdgeInsets.only(top: 80),
                             child: Image.asset(
                               Assets.rank3,
-                              fit: BoxFit.fill,
+                              fit: BoxFit.cover,
                               height: SizeConfig.screenHeight * 0.3,
                             ),
                           ),
@@ -837,6 +810,242 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
     );
   }
 
+  final PanelController _panelController = PanelController();
+
+  // Widget leaderBoardList(List leaderBoardList, bool hasMore, {state}) {
+  //   List startsFromThree = [];
+  //   List startsFromZero = [];
+  //   List users = [];
+
+  //   // int index = 0;
+  //   int counterIndex = 0;
+
+  //   for (int i = 0; i < leaderBoardList.length; i++) {
+  //     startsFromZero.add(leaderBoardList[i]);
+
+  //     if (i >= 3) {
+  //       startsFromThree.add(leaderBoardList[i]);
+  //     }
+  //   }
+
+  //   if (isExpand) {
+  //     users = startsFromZero;
+  //   } else {
+  //     users = startsFromThree;
+  //   }
+
+  //   log(startsFromThree.length.toString());
+  //   // print("${users[3]}");
+  //   // log(draggable[""].toString());
+  //   // log('Draggable: ${draggable.length}   leaderboard : ${leaderBoardList.length}   ');
+  //   return ScrollablePanel(
+  //     onExpand: () {
+  //       setState(() {
+  //         isExpand = true;
+  //       });
+  //       // _panelController
+  //     },
+  //     controller: _panelController,
+  //     maxPanelSize: 0.5,
+  //     defaultPanelSize: 0.45,
+  //     minPanelSize: 0.45,
+  //     builder: (context, controller) {
+  //       controller.addListener(() {
+  //         scrollListener(controller);
+  //       });
+  //       // return SingleChildScrollView(
+  //       //   controller: controller,
+  //       //   child: Container(
+  //       //     color: Colors.pink,
+  //       //     height: SizeConfig.screenHeight,
+  //       //   ),
+  //       // );
+  //       return NotchedCard(
+  //         circleColor: Constants.grey5,
+  //         dotColor: isExpand
+  //             ? _dotColor = Constants.primaryColor
+  //             : Constants.primaryColor.withOpacity(0.3),
+  //         child: Container(
+  //           height: SizeConfig.screenHeight,
+  //           padding: const EdgeInsets.only(top: 10, right: 16, left: 16),
+  //           decoration: BoxDecoration(
+  //             color: Constants.grey5,
+  //             borderRadius: const BorderRadius.only(
+  //               topLeft: Radius.circular(20),
+  //               topRight: Radius.circular(20),
+  //             ),
+  //           ),
+  //           child: SingleChildScrollView(
+  //             controller: controller,
+  //             // physics: NeverScrollableScrollPhysics(),
+  //             child: Column(
+  //               // controller: controller,
+  //               // padding: EdgeInsets.zero,
+  //               // shrinkWrap: true,
+  //               children: [
+  //                 if (users.length < 2)
+  //                   Padding(
+  //                     padding: const EdgeInsets.only(
+  //                       top: 50,
+  //                     ),
+  //                     child: SizedBox(
+  //                       width: double.infinity,
+  //                       child: Center(
+  //                         child: TitleText(
+  //                           text: "No Users".toUpperCase(),
+  //                           weight: FontWeight.w500,
+  //                           size: Constants.heading2,
+  //                           textColor: Constants.grey1.withOpacity(0.2),
+  //                         ),
+  //                       ),
+  //                     ),
+  //                   )
+  //                 else
+  //                   ...List.generate(users.length, (index) {
+  //                     // (index % 21 == 0) ?   : index;
+  //                     if (hasMore && index == (leaderBoardList.length - 1)) {
+  //                       return Center(
+  //                         child: Padding(
+  //                           padding: const EdgeInsets.all(15),
+  //                           child: CircularProgressIndicator(
+  //                             color: Constants.primaryColor,
+  //                           ),
+  //                         ),
+  //                       );
+  //                     }
+  //                     // else if (!users[index].containsKey("name")) {
+  //                     //   return SizedBox();
+  //                     // }
+
+  //                     else if (index % 21 == 0) {
+  //                       // log(index.toString());
+
+  //                       return const SizedBox();
+  //                     }
+
+  //                     log("$index  index");
+  //                     return SizedBox(
+  //                       height: 85,
+  //                       child: Card(
+  //                         shape: RoundedRectangleBorder(
+  //                           borderRadius: BorderRadius.circular(20),
+  //                         ),
+  //                         elevation: 0,
+  //                         child: Padding(
+  //                           padding: const EdgeInsets.only(
+  //                             right: 10,
+  //                             left: 10,
+  //                           ),
+  //                           child: Row(
+  //                             children: [
+  //                               Expanded(
+  //                                   child: Container(
+  //                                 width: 25,
+  //                                 height: 25,
+  //                                 decoration: BoxDecoration(
+  //                                     border:
+  //                                         Border.all(color: Constants.grey4),
+  //                                     shape: BoxShape.circle),
+  //                                 child: Center(
+  //                                   child: TitleText(
+  //                                     text:
+  //                                         isExpand ? "$index" : "${index + 3}",
+  //                                     size: Constants.bodyXSmall,
+  //                                     textColor: Constants.grey2,
+  //                                   ),
+  //                                 ),
+  //                               )),
+  //                               Expanded(
+  //                                 flex: 8,
+  //                                 child: ListTile(
+  //                                     horizontalTitleGap: 16,
+  //                                     minVerticalPadding: 4,
+  //                                     leading: Badge(
+  //                                       toAnimate: false,
+  //                                       badgeContent: Image.asset(
+  //                                         index % 3 == 0
+  //                                             ? Assets.portugal
+  //                                             : index % 2 == 0
+  //                                                 ? Assets.turkey
+  //                                                 : Assets.france,
+  //                                         width: 20,
+  //                                         height: 20,
+  //                                       ),
+  //                                       position: BadgePosition.bottomEnd(),
+  //                                       badgeColor: Colors.transparent,
+  //                                       elevation: 0,
+  //                                       child: ClipOval(
+  //                                         clipBehavior: Clip.antiAlias,
+  //                                         child: CircleAvatar(
+  //                                           backgroundColor: Colors.transparent,
+  //                                           radius: 25,
+  //                                           child: CachedNetworkImage(
+  //                                             imageUrl:
+  //                                                 users[index]['profile'] ?? "",
+  //                                             placeholder: (url, string) {
+  //                                               return CircularProgressIndicator(
+  //                                                 color: Constants.primaryColor,
+  //                                               );
+  //                                             },
+  //                                             errorWidget: (_, __, ___) {
+  //                                               return Image.asset(
+  //                                                 Assets.person,
+  //                                                 width: 30,
+  //                                                 height: 30,
+  //                                               );
+  //                                             },
+  //                                             // placeholder: Image.asset(Assets.person),
+  //                                           ),
+  //                                         ),
+  //                                       ),
+  //                                     ),
+  //                                     title: TitleText(
+  //                                       maxlines: 1,
+  //                                       text: users[index]['name'] ?? "Player",
+  //                                       size: Constants.bodyNormal,
+  //                                       align: TextAlign.left,
+  //                                       weight: FontWeight.w500,
+  //                                     ),
+  //                                     subtitle: TitleText(
+  //                                       text:
+  //                                           '${users[index]['score'] ?? "0"} pts',
+  //                                       // ${AppLocalization.of(context)!.getTranslatedValues("points")!}',
+  //                                     ),
+  //                                     trailing: isExpand
+  //                                         ? index == 1
+  //                                             ? SvgPicture.asset(Assets.crown)
+  //                                             : index == 2
+  //                                                 ? SvgPicture.asset(
+  //                                                     Assets.silverCrown)
+  //                                                 : index == 3
+  //                                                     ? SvgPicture.asset(
+  //                                                         Assets.bronzeCrown)
+  //                                                     : const SizedBox()
+  //                                         : const SizedBox()),
+  //                               )
+  //                             ],
+  //                           ),
+  //                         ),
+  //                       ),
+  //                     );
+  //                   }),
+  //                 // ListView.builder(
+  //                 //   physics: const NeverScrollableScrollPhysics(),
+  //                 //   shrinkWrap: true,
+  //                 //   itemCount: users.length,
+  //                 //   itemBuilder: (context, index) {
+
+  //                 //   },
+  //                 // ),
+  //               ],
+  //             ),
+  //           ),
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
+
   Widget leaderBoardList(List leaderBoardList, bool hasMore, {state}) {
     List startsFromThree = [];
     List startsFromZero = [];
@@ -845,52 +1054,52 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
     // int index = 0;
     int counterIndex = 0;
 
-    for (int i = 0; i < leaderBoardList.length; i++) {
-      startsFromZero.add(leaderBoardList[i]);
-
-      if (i >= 3) {
-        startsFromThree.add(leaderBoardList[i]);
-      }
-    }
-
-    if (isExpand) {
-      users = startsFromZero;
-    } else {
-      users = startsFromThree;
-    }
-    log(startsFromThree.length.toString());
     // print("${users[3]}");
     // log(draggable[""].toString());
     // log('Draggable: ${draggable.length}   leaderboard : ${leaderBoardList.length}   ');
     return NotificationListener(
       onNotification: (DraggableScrollableNotification dSnotification) {
-        log("counte======r :$counterIndex");
-        if (dSnotification.extent >= 0.97) {
-          setState(() {
-            isExpand = true;
+        double extent = dSnotification.extent;
+        String temp = extent.toStringAsFixed(2);
+        extent = double.parse(temp);
+        log("counte======r :${extent} ${dSnotification.extent}");
 
-            log('IsExpand false running');
-          });
-        } else if (dSnotification.extent <= 0.45) {
-          setState(
-            () {
-              isExpand = false;
-
-              log('IsExpand true running');
-            },
-          );
+        if (dSnotification.extent >= 0.95) {
+          isExpand = true;
+        } else if (dSnotification.extent <= 0.47) {
+          isExpand = false;
         }
-        return false;
+        // setState(() {});
+        return true;
       },
       child: DraggableScrollableSheet(
         snap: true,
-        initialChildSize: 0.45,
-        minChildSize: 0.45,
+        initialChildSize: 0.46,
+        minChildSize: 0.46,
         maxChildSize: 0.97,
+
+        // controller: controller,
         builder: (context, controller) {
           controller.addListener(() {
             scrollListener(controller);
           });
+          for (int i = 0; i < leaderBoardList.length; i++) {
+            if (!startsFromZero.contains(leaderBoardList[i])) {
+              startsFromZero.add(leaderBoardList[i]);
+            }
+
+            if (i >= 3 && !startsFromThree.contains(leaderBoardList[i])) {
+              startsFromThree.add(leaderBoardList[i]);
+            }
+          }
+
+          if (isExpand) {
+            users = startsFromZero;
+          } else {
+            users = startsFromThree;
+          }
+
+          log(startsFromThree.length.toString());
           return NotchedCard(
             circleColor: Constants.grey5,
             dotColor: isExpand
@@ -907,9 +1116,10 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                 ),
               ),
               child: ListView(
-                padding: EdgeInsets.zero,
                 controller: controller,
+                padding: EdgeInsets.zero,
                 shrinkWrap: true,
+                // physics: NeverScrollableScrollPhysics(),
                 children: [
                   if (users.length < 2)
                     Padding(
@@ -929,144 +1139,144 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                       ),
                     )
                   else
-                    ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: users.length,
-                      itemBuilder: (context, index) {
-                        // (index % 21 == 0) ?   : index;
-                        if (hasMore && index == (leaderBoardList.length - 1)) {
-                          return Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(15),
-                              child: CircularProgressIndicator(
-                                color: Constants.primaryColor,
-                              ),
-                            ),
-                          );
-                        }
-                        // else if (!users[index].containsKey("name")) {
-                        //   return SizedBox();
-                        // }
-
-                        else if (index % 21 == 0) {
-                          // log(index.toString());
-
-                          return const SizedBox();
-                        }
-
-                        log("$index  index");
-                        return SizedBox(
-                          height: 85,
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            elevation: 0,
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                right: 10,
-                                left: 10,
-                              ),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                      child: Container(
-                                    width: 25,
-                                    height: 25,
-                                    decoration: BoxDecoration(
-                                        border:
-                                            Border.all(color: Constants.grey4),
-                                        shape: BoxShape.circle),
-                                    child: Center(
-                                      child: TitleText(
-                                        text: isExpand
-                                            ? "$index"
-                                            : "${index + 3}",
-                                        size: Constants.bodyXSmall,
-                                        textColor: Constants.grey2,
-                                      ),
-                                    ),
-                                  )),
-                                  Expanded(
-                                    flex: 8,
-                                    child: ListTile(
-                                        horizontalTitleGap: 16,
-                                        minVerticalPadding: 4,
-                                        leading: Badge(
-                                          toAnimate: false,
-                                          badgeContent: Image.asset(
-                                            index % 3 == 0
-                                                ? Assets.portugal
-                                                : index % 2 == 0
-                                                    ? Assets.turkey
-                                                    : Assets.france,
-                                            width: 20,
-                                            height: 20,
-                                          ),
-                                          position: BadgePosition.bottomEnd(),
-                                          badgeColor: Colors.transparent,
-                                          elevation: 0,
-                                          child: ClipOval(
-                                            clipBehavior: Clip.antiAlias,
-                                            child: CircleAvatar(
-                                              backgroundColor:
-                                                  Colors.transparent,
-                                              radius: 25,
-                                              child: CachedNetworkImage(
-                                                imageUrl: users[index]
-                                                        ['profile'] ??
-                                                    "",
-                                                placeholder: (url, string) {
-                                                  return CircularProgressIndicator(
-                                                    color:
-                                                        Constants.primaryColor,
-                                                  );
-                                                },
-                                                errorWidget: (_, __, ___) {
-                                                  return Image.asset(
-                                                    Assets.person,
-                                                    width: 30,
-                                                    height: 30,
-                                                  );
-                                                },
-                                                // placeholder: Image.asset(Assets.person),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        title: TitleText(
-                                          maxlines: 1,
-                                          text:
-                                              users[index]['name'] ?? "Player",
-                                          size: Constants.bodyNormal,
-                                          align: TextAlign.left,
-                                          weight: FontWeight.w500,
-                                        ),
-                                        subtitle: TitleText(
-                                          text:
-                                              '${users[index]['score'] ?? "0"} pts',
-                                          // ${AppLocalization.of(context)!.getTranslatedValues("points")!}',
-                                        ),
-                                        trailing: isExpand
-                                            ? index == 1
-                                                ? SvgPicture.asset(Assets.crown)
-                                                : index == 2
-                                                    ? SvgPicture.asset(
-                                                        Assets.silverCrown)
-                                                    : index == 3
-                                                        ? SvgPicture.asset(
-                                                            Assets.bronzeCrown)
-                                                        : const SizedBox()
-                                            : const SizedBox()),
-                                  )
-                                ],
-                              ),
+                    ...List.generate(users.length, (index) {
+                      // (index % 21 == 0) ?   : index;
+                      if (hasMore && index == (leaderBoardList.length - 1)) {
+                        return Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(15),
+                            child: CircularProgressIndicator(
+                              color: Constants.primaryColor,
                             ),
                           ),
                         );
-                      },
-                    ),
+                      }
+                      // else if (!users[index].containsKey("name")) {
+                      //   return SizedBox();
+                      // }
+
+                      else if (index % 21 == 0) {
+                        // log(index.toString());
+
+                        return const SizedBox();
+                      }
+
+                      log("$index  index");
+                      return SizedBox(
+                        height: 85,
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          elevation: 0,
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              right: 10,
+                              left: 10,
+                            ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                    child: Container(
+                                  width: 25,
+                                  height: 25,
+                                  decoration: BoxDecoration(
+                                      border:
+                                          Border.all(color: Constants.grey4),
+                                      shape: BoxShape.circle),
+                                  child: Center(
+                                    child: TitleText(
+                                      text:
+                                          isExpand ? "$index" : "${index + 3}",
+                                      size: Constants.bodyXSmall,
+                                      textColor: Constants.grey2,
+                                    ),
+                                  ),
+                                )),
+                                Expanded(
+                                  flex: 8,
+                                  child: ListTile(
+                                      horizontalTitleGap: 16,
+                                      minVerticalPadding: 4,
+                                      leading: Badge(
+                                        toAnimate: false,
+                                        badgeContent: Image.asset(
+                                          index % 3 == 0
+                                              ? Assets.portugal
+                                              : index % 2 == 0
+                                                  ? Assets.turkey
+                                                  : Assets.france,
+                                          width: 20,
+                                          height: 20,
+                                        ),
+                                        position: BadgePosition.bottomEnd(),
+                                        badgeColor: Colors.transparent,
+                                        elevation: 0,
+                                        child: ClipOval(
+                                          clipBehavior: Clip.antiAlias,
+                                          child: CircleAvatar(
+                                            backgroundColor: Colors.transparent,
+                                            radius: 25,
+                                            child: CachedNetworkImage(
+                                              imageUrl:
+                                                  users[index]['profile'] ?? "",
+                                              placeholder: (url, string) {
+                                                return CircularProgressIndicator(
+                                                  color: Constants.primaryColor,
+                                                );
+                                              },
+                                              errorWidget: (_, __, ___) {
+                                                return Image.asset(
+                                                  Assets.person,
+                                                  width: 30,
+                                                  height: 30,
+                                                );
+                                              },
+                                              // placeholder: Image.asset(Assets.person),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      title: TitleText(
+                                        maxlines: 1,
+                                        text:
+                                            "${users[index]['name'] ?? "Player"}"
+                                                .titleCase,
+                                        size: Constants.bodyNormal,
+                                        align: TextAlign.left,
+                                        weight: FontWeight.w500,
+                                      ),
+                                      subtitle: TitleText(
+                                        text:
+                                            '${users[index]['score'] ?? "0"} PTS',
+                                        // ${AppLocalization.of(context)!.getTranslatedValues("points")!}',
+                                      ),
+                                      trailing: isExpand
+                                          ? index == 1
+                                              ? SvgPicture.asset(Assets.crown)
+                                              : index == 2
+                                                  ? SvgPicture.asset(
+                                                      Assets.silverCrown)
+                                                  : index == 3
+                                                      ? SvgPicture.asset(
+                                                          Assets.bronzeCrown)
+                                                      : const SizedBox()
+                                          : const SizedBox()),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
+                  // ListView.builder(
+                  //   physics: const NeverScrollableScrollPhysics(),
+                  //   shrinkWrap: true,
+                  //   itemCount: users.length,
+                  //   itemBuilder: (context, index) {
+
+                  //   },
+                  // ),
                 ],
               ),
             ),

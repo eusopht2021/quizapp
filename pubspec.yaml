@@ -103,6 +103,9 @@ dependencies:
   country_picker: ^2.0.15
   flutter_expanded_tile: ^0.3.6
   font_awesome_flutter: ^10.1.0
+  sliding_up_panel: ^2.0.0+1
+  scrollable_panel: ^0.4.1
+  recase: ^4.0.0
 
  
 

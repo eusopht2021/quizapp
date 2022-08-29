@@ -17,13 +17,13 @@ import 'package:flutterquiz/features/systemConfig/cubits/systemConfigCubit.dart'
 import 'package:flutterquiz/ui/screens/battle/widgets/waitingForPlayersDialog.dart';
 import 'package:flutterquiz/ui/widgets/customRoundedButton.dart';
 import 'package:flutterquiz/ui/widgets/default_layout.dart';
+import 'package:flutterquiz/ui/widgets/title_text.dart';
 import 'package:flutterquiz/ui/widgets/watchRewardAdDialog.dart';
 import 'package:flutterquiz/utils/assets.dart';
 import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/size_config.dart';
 import 'package:flutterquiz/utils/stringLabels.dart';
-import 'package:flutterquiz/utils/title_text.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
 import 'package:flutterquiz/utils/widgets_util.dart';
 
@@ -522,11 +522,19 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
                                       {"name": e.categoryName, "id": e.id})
                                   .toList(),
                               keyValue: "selectCategorySuccess")
-                          : Opacity(
-                              opacity: 0.65,
-                              child: _buildDropdown(values: [
-                                {"name": selectCategoryKey, "id": "0"}
-                              ], keyValue: "selectCategory"),
+                          // : Opacity(
+                          //     opacity: 0.65,
+                          //     child: _buildDropdown(values: [
+                          //       {"name": selectCategoryKey, "id": "0"}
+                          //     ], keyValue: "selectCategory"),
+                          //   ),
+                          : SizedBox(
+                              width: SizeConfig.screenWidth,
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                  color: Constants.white,
+                                ),
+                              ),
                             ),
                     );
                   },

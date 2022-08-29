@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,6 +19,7 @@ import 'package:flutterquiz/ui/widgets/title_text.dart';
 import 'package:flutterquiz/utils/assets.dart';
 import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
+import 'package:flutterquiz/utils/size_config.dart';
 import 'package:flutterquiz/utils/style_properties.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
 import 'package:flutterquiz/utils/widgets_util.dart';
@@ -127,7 +129,7 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
 
     return GridView.builder(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          mainAxisExtent: 80,
+          // mainAxisExtent: 60,
           crossAxisCount: 4,
           mainAxisSpacing: 0,
           crossAxisSpacing: 0,
@@ -193,71 +195,114 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
             },
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  // borderRadius: BorderRadius.circular(20.0),
-                  color: (index + 1) <= unlockedLevel
-                      ? Constants.primaryColor
-                      : Constants.primaryColor.withOpacity(0.5),
+              child: Badge(
+                badgeColor: Colors.transparent,
+                toAnimate: false,
+                elevation: 0,
+                position: BadgePosition.center(),
+                badgeContent: (index + 1) <= unlockedLevel
+                    ? null
+                    : const Icon(
+                        Icons.lock,
+                        size: 35,
+                      ),
+                child: Stack(
+                  children: [
+                    Image.asset(
+                      Assets.levelsIcon,
+                      height: 150,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(
+                        15,
+                      ),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            width: 3,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                          color: Constants.secondaryColor,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Center(
+                          child: TitleText(
+                            text: "${index + 1}",
+                            textColor: Constants.white,
+                            size: Constants.heading3,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                alignment: Alignment.center,
-                // height: 60.0,
-                // margin: const EdgeInsets.symmetric(
-                //   horizontal: 20.0,
-                //   vertical: 10.0,
-                // ),
-                child: TitleText(
-                  text: "${index + 1}",
-                  textColor: Constants.white,
-                  size: 30,
-                ),
-                // child: ListTile(
-                //   onTap: () {
-                //     //index start with 0 so we comparing (index + 1)
-                //     if ((index + 1) <= unlockedLevel) {
-                //       //replacing this page
-                //       Navigator.of(context)
-                //           .pushReplacementNamed(Routes.quiz, arguments: {
-                //         "numberOfPlayer": 1,
-                //         "quizType": QuizTypes.quizZone,
-                //         "categoryId": "",
-                //         "subcategoryId": subcategoryList[currentIndex].id,
-                //         "level": (index + 1).toString(),
-                //         "subcategoryMaxLevel":
-                //             subcategoryList[currentIndex].maxLevel,
-                //         "unlockedLevel": unlockedLevel,
-                //         "contestId": "",
-                //         "comprehensionId": "",
-                //         "quizName": "Quiz Zone"
-                //       });
-                //     } else {
-                //       UiUtils.setSnackbar(
-                //           AppLocalization.of(context)!.getTranslatedValues(
-                //               convertErrorCodeToLanguageKey(levelLockedCode))!,
-                //           context,
-                //           false);
-                //     }
-                //   },
-                //   leading: TitleText(
-                //       text:
-                //           "${AppLocalization.of(context)!.getTranslatedValues("levelLbl")!} ${index + 1}",
-                //       size: 20,
-                //       weight: FontWeight.bold,
-                //       textColor: Constants.white),
-                //   // title:
-                //   //     TitleText(text: "${subcategoryList[currentIndex].maxLevel}"),
-                //   trailing: Icon(
-                //     Icons.arrow_forward_ios_rounded,
-                //     color: Constants.white,
+                // child: Container(
+                //   height: SizeConfig.screenWidth * 0.13,
+                //   decoration: BoxDecoration(
+                //     shape: BoxShape.circle,
+                //     // borderRadius: BorderRadius.circular(20.0),
+                //     color: (index + 1) <= unlockedLevel
+                //         ? Constants.primaryColor
+                //         : Constants.primaryColor.withOpacity(0.5),
                 //   ),
-                // ),
-                //  TitleText(
-                //   text:
-                //       "${AppLocalization.of(context)!.getTranslatedValues("levelLbl")!} ${index + 1}",
-                //   size: 20,
-                //   weight: FontWeight.bold,
-                //   textColor: Constants.white,
+                //   alignment: Alignment.center,
+                //   // height: 60.0,
+                //   // margin: const EdgeInsets.symmetric(
+                //   //   horizontal: 20.0,
+                //   //   vertical: 10.0,
+                //   // ),
+                //   child: TitleText(
+                //     text: "${index + 1}",
+                //     textColor: Constants.white,
+                //     size: 20,
+                //   ),
+                //   // child: ListTile(
+                //   //   onTap: () {
+                //   //     //index start with 0 so we comparing (index + 1)
+                //   //     if ((index + 1) <= unlockedLevel) {
+                //   //       //replacing this page
+                //   //       Navigator.of(context)
+                //   //           .pushReplacementNamed(Routes.quiz, arguments: {
+                //   //         "numberOfPlayer": 1,
+                //   //         "quizType": QuizTypes.quizZone,
+                //   //         "categoryId": "",
+                //   //         "subcategoryId": subcategoryList[currentIndex].id,
+                //   //         "level": (index + 1).toString(),
+                //   //         "subcategoryMaxLevel":
+                //   //             subcategoryList[currentIndex].maxLevel,
+                //   //         "unlockedLevel": unlockedLevel,
+                //   //         "contestId": "",
+                //   //         "comprehensionId": "",
+                //   //         "quizName": "Quiz Zone"
+                //   //       });
+                //   //     } else {
+                //   //       UiUtils.setSnackbar(
+                //   //           AppLocalization.of(context)!.getTranslatedValues(
+                //   //               convertErrorCodeToLanguageKey(levelLockedCode))!,
+                //   //           context,
+                //   //           false);
+                //   //     }
+                //   //   },
+                //   //   leading: TitleText(
+                //   //       text:
+                //   //           "${AppLocalization.of(context)!.getTranslatedValues("levelLbl")!} ${index + 1}",
+                //   //       size: 20,
+                //   //       weight: FontWeight.bold,
+                //   //       textColor: Constants.white),
+                //   //   // title:
+                //   //   //     TitleText(text: "${subcategoryList[currentIndex].maxLevel}"),
+                //   //   trailing: Icon(
+                //   //     Icons.arrow_forward_ios_rounded,
+                //   //     color: Constants.white,
+                //   //   ),
+                //   // ),
+                //   //  TitleText(
+                //   //   text:
+                //   //       "${AppLocalization.of(context)!.getTranslatedValues("levelLbl")!} ${index + 1}",
+                //   //   size: 20,
+                //   //   weight: FontWeight.bold,
+                //   //   textColor: Constants.white,
+                //   // ),
                 // ),
               ),
             ),
@@ -585,20 +630,23 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
                       onTap: () {
                         currentIndex = index;
                       },
-                      theme: const ExpandedTileThemeData(
+                      theme: ExpandedTileThemeData(
                         headerRadius: 24.0,
-                        headerPadding: EdgeInsets.all(16.0),
-                        contentPadding: EdgeInsets.symmetric(horizontal: 18),
+                        headerPadding: const EdgeInsets.all(16.0),
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 8),
                         contentRadius: 12.0,
+                        contentBackgroundColor: Constants.white,
                       ),
                       title: TitleText(
                         text: subCategoryList[index].subcategoryName!,
+                        weight: FontWeight.w500,
                       ),
                       controller: controllers,
                       content: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          WidgetsUtil.verticalSpace16,
+                          // WidgetsUtil.verticalSpace16,
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 15),
                             child: TitleText(
@@ -606,7 +654,7 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
                               textColor: Constants.primaryColor,
                               size: Constants.bodyLarge,
                               weight: FontWeight.w500,
-                              align: TextAlign.justify,
+                              align: TextAlign.center,
                             ),
                           ),
                           WidgetsUtil.verticalSpace16,

@@ -3,9 +3,9 @@ import 'package:flutterquiz/app/appLocalization.dart';
 import 'package:flutterquiz/ui/widgets/custom_button.dart';
 import 'package:flutterquiz/ui/widgets/custom_text_field.dart';
 import 'package:flutterquiz/ui/widgets/default_layout.dart';
+import 'package:flutterquiz/ui/widgets/title_text.dart';
 import 'package:flutterquiz/utils/assets.dart';
 import 'package:flutterquiz/utils/constants.dart';
-import 'package:flutterquiz/utils/title_text.dart';
 
 import 'package:flutterquiz/utils/widgets_util.dart';
 

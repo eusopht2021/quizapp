@@ -46,6 +46,7 @@ class Assets {
   static String sunIcon = "assets/icons/sunIcon.svg";
   static String addImage = "assets/icons/addImage.svg";
   static String whiteBox = "assets/images/whiteBox.png";
+  static String levelsIcon = "assets/images/levelsBg.png";
 
   static String smallDot = 'assets/images/smalldot.png';
   static String leftCircle = 'assets/images/leftCircle.png';

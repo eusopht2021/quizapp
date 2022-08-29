@@ -64,7 +64,7 @@ class _NavigationState extends State<Navigation> {
                 context,
                 MaterialPageRoute(
                     builder: (_) =>
-                        BattleQuizScreen(quizType: QuizTypes.battle)));
+                      const  BattleQuizScreen(quizType: QuizTypes.battle)));
 
             // showDialog(
             //   context: context,
@@ -120,8 +120,10 @@ class _NavigationState extends State<Navigation> {
                 // BlocProvider.of<NavigationCubit>(context)
                 //     .getNavBarItem(NavbarItems.leaderboard);
               } else if (index == 3) {
-                BlocProvider.of<NavigationCubit>(context)
-                    .getNavBarItem(NavbarItems.profile);
+                // BlocProvider.of<NavigationCubit>(context)
+                //     .getNavBarItem(NavbarItems.profile);
+                Navigator.pushNamed(context, Routes.profile, arguments: {"routefromHomeScreen" : true});
+
               }
             },
           );

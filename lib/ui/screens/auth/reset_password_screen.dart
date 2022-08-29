@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutterquiz/ui/screens/auth/newPasswordScreen.dart';
 
 import '../../../app/appLocalization.dart';
-import '../../../app/routes.dart';
 import '../../../features/auth/authRemoteDataSource.dart';
 import '../../../utils/assets.dart';
 import '../../../utils/constants.dart';
@@ -46,6 +45,7 @@ class ResetPassword extends StatelessWidget {
                       .getTranslatedValues('enterEmlTextLbl')!,
                   size: Constants.bodyNormal,
                   weight: FontWeight.w400,
+                  textColor: Constants.grey2,
                 ),
               ),
             ),

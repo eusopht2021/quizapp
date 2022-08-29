@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutterquiz/app/appLocalization.dart';
 import 'package:flutterquiz/utils/size_config.dart';
+import 'package:flutterquiz/utils/widgets_util.dart';
 
 import '../../../../app/routes.dart';
 import '../../../../utils/assets.dart';
@@ -108,36 +109,32 @@ class _OnBoardingState extends State<OnBoarding> {
             ),
             // const Spacer(),
             Expanded(
-              flex: 5,
+              flex: 4,
               child: CustomCard(
                 // height: double.infinity,
                 child: Column(
                   children: [
-                    const SizedBox(),
+                    WidgetsUtil.verticalSpace16,
                     FittedBox(
-                      fit: BoxFit.cover,
-                      child: Container(
-                        margin: const EdgeInsets.only(
-                          top: 16,
-                          left: 14,
-                          right: 14,
-                          bottom: 0,
-                        ),
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        height: SizeConfig.screenHeight * 0.125,
-                        width: SizeConfig.screenWidth,
-                        child: TitleText(
-                          text: onBoarding[selectedIndex],
-                          textColor: Colors.black,
-                          weight: FontWeight.w500,
-                          size: Constants.heading3,
-                          align: TextAlign.center,
+                      fit: BoxFit.fitHeight,
+                      clipBehavior: Clip.hardEdge,
+                      child: SizedBox(
+                        height: SizeConfig.screenHeight * 0.12,
+                        width: SizeConfig.screenWidth * 0.85,
+                        child: Center(
+                          child: TitleText(
+                            text: onBoarding[selectedIndex],
+                            textColor: Colors.black,
+                            weight: FontWeight.w500,
+                            size: Constants.bodyXLarge,
+                            align: TextAlign.center,
+                          ),
                         ),
                       ),
                     ),
                     // const Spacer(),
                     CustomButton(
-                      verticalMargin: 50,
+                      verticalMargin: 0,
                       text: selectedIndex == 3
                           ? AppLocalization.of(context)!
                               .getTranslatedValues('signUpLbl')!
@@ -158,45 +155,54 @@ class _OnBoardingState extends State<OnBoarding> {
                       },
                     ),
 
-                    selectedIndex == 3 ? const Spacer() : const SizedBox(),
-
-                    // WidgetsUtil.verticalSpace16,
+                    WidgetsUtil.verticalSpace8, // WidgetsUtil.verticalSpace16,
 
                     selectedIndex == 3
-                        ? Container(
-                            margin: const EdgeInsets.only(
-                              top: 0,
-                              bottom: 10,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                TitleText(
-                                  text: AppLocalization.of(context)!
-                                      .getTranslatedValues(
-                                          'alreadyAccountLbl')!,
-                                  size: Constants.bodyNormal,
-                                  textColor: Colors.grey,
-                                  weight: FontWeight.w400,
+                        ? Expanded(
+                            child: Container(
+                              width: double.infinity,
+                              margin: const EdgeInsets.only(
+                                top: 0,
+                                bottom: 10,
+                                right: 50,
+                                left: 50,
+                              ),
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    TitleText(
+                                      text: AppLocalization.of(context)!
+                                          .getTranslatedValues(
+                                              'alreadyAccountLbl')!,
+                                      size: Constants.bodyNormal,
+                                      textColor: Colors.grey,
+                                      weight: FontWeight.w400,
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        log('Login');
+                                        Navigator.of(context)
+                                            .pushNamed(Routes.loginScreen);
+                                      },
+                                      child: TitleText(
+                                        text:
+                                            " ${AppLocalization.of(context)!.getTranslatedValues('loginLbl')!}",
+                                        size: Constants.bodyNormal,
+                                        textColor: Constants.primaryColor,
+                                        weight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                InkWell(
-                                  onTap: () {
-                                    log('Login');
-                                    Navigator.of(context)
-                                        .pushNamed(Routes.loginScreen);
-                                  },
-                                  child: TitleText(
-                                    text:
-                                        " ${AppLocalization.of(context)!.getTranslatedValues('loginLbl')!}",
-                                    size: Constants.bodyNormal,
-                                    textColor: Constants.primaryColor,
-                                    weight: FontWeight.w500,
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
                           )
-                        : const SizedBox()
+                        : const SizedBox(
+                            height: 10,
+                            width: double.infinity,
+                          )
                   ],
                 ),
               ),

@@ -1136,6 +1136,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.0"
+  recase:
+    dependency: "direct main"
+    description:
+      name: recase
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.0.0"
   rxdart:
     dependency: transitive
     description:
@@ -1157,6 +1164,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.3"
+  scrollable_panel:
+    dependency: "direct main"
+    description:
+      name: scrollable_panel
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.4.1"
   share_plus:
     dependency: "direct main"
     description:
@@ -1260,6 +1274,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  sliding_up_panel:
+    dependency: "direct main"
+    description:
+      name: sliding_up_panel
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0+1"
   sms_autofill:
     dependency: "direct main"
     description:

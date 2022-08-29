@@ -473,7 +473,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
                           // childAspectRatio: 1,
-                          mainAxisExtent: 125,
+                          mainAxisExtent: 115,
                           crossAxisSpacing: 16,
                           mainAxisSpacing: 16,
                           crossAxisCount: 2,
@@ -1232,23 +1232,21 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                   child: SvgPicture.asset(
                     icon!,
                     color: iconColor,
-                    height: 60,
-                    width: 60,
+                    height: 40,
+                    width: 40,
                   ),
                 ),
-                WidgetsUtil.verticalSpace4,
-                Expanded(
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: FittedBox(
-                      fit: BoxFit.cover,
-                      child: TitleText(
-                        text: categoryName!,
-                        textColor: textColor ?? Constants.white,
-                        size: Constants.bodyNormal,
-                        weight: FontWeight.w500,
-                        align: TextAlign.center,
-                      ),
+                WidgetsUtil.verticalSpace8,
+                Align(
+                  alignment: Alignment.center,
+                  child: FittedBox(
+                    fit: BoxFit.cover,
+                    child: TitleText(
+                      text: categoryName!,
+                      textColor: textColor ?? Constants.white,
+                      size: Constants.bodyNormal,
+                      weight: FontWeight.w500,
+                      align: TextAlign.center,
                     ),
                   ),
                 ),

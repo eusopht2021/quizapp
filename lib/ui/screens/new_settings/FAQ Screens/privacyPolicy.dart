@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutterquiz/ui/widgets/notched_card.dart';
+import 'package:flutterquiz/ui/widgets/title_text.dart';
 import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/custom_appbar.dart';
 import 'package:flutterquiz/utils/size_config.dart';
-import 'package:flutterquiz/utils/title_text.dart';
 import 'package:flutterquiz/utils/widgets_util.dart';
 
 class PrivacyPolicyScreen extends StatelessWidget {

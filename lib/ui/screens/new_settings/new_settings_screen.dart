@@ -147,7 +147,7 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                             size: Constants.bodyNormal,
                           ),
                           WidgetsUtil.verticalSpace16,
-                          
+
                           _settingsOptionsContainer(
                             listTileicon: Image.asset(
                               Assets.person,

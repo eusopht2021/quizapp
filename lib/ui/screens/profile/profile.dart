@@ -107,6 +107,7 @@ class _ProfileState extends State<Profile> {
   List<String> tabsTitle = [
     'Badges',
     'Stats',
+    'Settings'
     // 'Details',
   ];
   final statisticsDetailsContainerHeightPercentage = 0.145;
@@ -288,6 +289,8 @@ class _ProfileState extends State<Profile> {
         return _statsTabBloc();
       // case 2:
       // return _battle(profile);
+      case 2:
+        return const SizedBox();
     }
     return const SizedBox();
   }
@@ -725,347 +728,437 @@ class _ProfileState extends State<Profile> {
     });
   }
 
-  Column _statsTabItem(state) {
+  Widget _statsTabItem(state) {
     StatisticModel model =
         context.read<StatisticCubit>().getStatisticsDetails();
-    return Column(
-      children: [
-        Container(
-          width: SizeConfig.screenWidth,
-          margin: const EdgeInsets.only(
-            left: 16,
-            right: 16,
-          ),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(
-              Constants.cardsRadius,
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Container(
+            width: SizeConfig.screenWidth,
+            margin: const EdgeInsets.only(
+              left: 16,
+              right: 16,
             ),
-            image: DecorationImage(
-              image: AssetImage(
-                Assets.swivels1,
-              ),
-              alignment: Alignment.topLeft,
-            ),
-            color: const Color(0xffE8E5FA),
-          ),
-          child: Column(
-            children: [
-              WidgetsUtil.verticalSpace16,
-              WidgetsUtil.verticalSpace24,
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 16,
-                  right: 16,
-                ),
-                child: TitleText(
-                  text:
-                      '${AppLocalization.of(context)!.getTranslatedValues("youHaveAnswered")!} ${_totalAnswers(model.answeredQuestions)} ${AppLocalization.of(context)!.getTranslatedValues("questions")!}!',
-                  textColor: Constants.black1,
-                  align: TextAlign.center,
-                  size: Constants.bodyXLarge,
-                  weight: FontWeight.w500,
-                ),
-              ),
-              WidgetsUtil.verticalSpace16,
-              _customDonutchartBloc(),
-              WidgetsUtil.verticalSpace16,
-            ],
-          ),
-        ),
-        WidgetsUtil.verticalSpace16,
-        Padding(
-          padding: const EdgeInsets.only(
-            left: 16,
-            right: 16,
-          ),
-          child: Container(
             decoration: BoxDecoration(
-              color: const Color(0xffE8E5FA),
               borderRadius: BorderRadius.circular(
                 Constants.cardsRadius,
               ),
+              image: DecorationImage(
+                image: AssetImage(
+                  Assets.swivels1,
+                ),
+                alignment: Alignment.topLeft,
+              ),
+              color: const Color(0xffE8E5FA),
             ),
-            height: SizeConfig.screenHeight * 0.155,
-            width: SizeConfig.screenWidth,
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  TitleText(
-                    text: AppLocalization.of(context)!
-                        .getTranslatedValues(battleStatisticsKey)!,
+            child: Column(
+              children: [
+                WidgetsUtil.verticalSpace16,
+                WidgetsUtil.verticalSpace24,
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: 16,
+                    right: 16,
+                  ),
+                  child: TitleText(
+                    text:
+                        '${AppLocalization.of(context)!.getTranslatedValues("youHaveAnswered")!} ${_totalAnswers(model.answeredQuestions)} ${AppLocalization.of(context)!.getTranslatedValues("questions")!}!',
+                    textColor: Constants.black1,
                     align: TextAlign.center,
                     size: Constants.bodyXLarge,
                     weight: FontWeight.w500,
                   ),
-                  // WidgetsUtil.verticalSpace24,
-                  const Spacer(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Column(
-                        children: [
-                          TitleText(
-                            text: model.calculatePlayedBattles().toString(),
-                            textColor: Theme.of(context).primaryColor,
-                            weight: FontWeight.w500,
-                            size: Constants.bodyLarge,
-                          ),
-                          TitleText(
-                            text: AppLocalization.of(context)!
-                                .getTranslatedValues(playedKey)!,
-                            textColor: Theme.of(context).primaryColor,
-                            weight: FontWeight.w500,
-                            size: Constants.bodyLarge,
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 50,
-                        child: VerticalDivider(color: Constants.black1),
-                      ),
-                      Column(
-                        children: [
-                          TitleText(
-                            text: model.battleVictories,
-                            textColor: Theme.of(context).primaryColor,
-                            weight: FontWeight.w500,
-                            size: Constants.bodyLarge,
-                          ),
-                          TitleText(
-                            text: AppLocalization.of(context)!
-                                .getTranslatedValues(wonKey)!,
-                            textColor: Theme.of(context).primaryColor,
-                            weight: FontWeight.w500,
-                            size: Constants.bodyLarge,
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 50,
-                        child: VerticalDivider(color: Constants.black1),
-                      ),
-                      Column(
-                        children: [
-                          TitleText(
-                            text: model.battleLoose,
-                            textColor: Theme.of(context).primaryColor,
-                            weight: FontWeight.w500,
-                            size: Constants.bodyLarge,
-                          ),
-                          TitleText(
-                            text: AppLocalization.of(context)!
-                                .getTranslatedValues(lostKey)!,
-                            textColor: Theme.of(context).primaryColor,
-                            weight: FontWeight.w500,
-                            size: Constants.bodyLarge,
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 50,
-                        child: VerticalDivider(color: Constants.black1),
-                      ),
-                      Column(
-                        children: [
-                          TitleText(
-                            text: model.battleDrawn,
-                            textColor: Theme.of(context).primaryColor,
-                            weight: FontWeight.w500,
-                            size: Constants.bodyLarge,
-                          ),
-                          TitleText(
-                            text: AppLocalization.of(context)!
-                                .getTranslatedValues(drawLbl)!,
-                            textColor: Theme.of(context).primaryColor,
-                            weight: FontWeight.w500,
-                            size: Constants.bodyLarge,
-                          ),
-                        ],
-                      ),
-                    ],
+                ),
+                WidgetsUtil.verticalSpace16,
+                _customDonutchartBloc(),
+                WidgetsUtil.verticalSpace16,
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
                   ),
-                ],
-              ),
-            ),
-          ),
-        ),
-        WidgetsUtil.verticalSpace32,
-        Padding(
-          padding: EdgeInsets.only(
-            left: 16,
-            right: 16,
-            bottom: widget.routefromHomeScreen
-                ? kBottomNavigationBarHeight
-                : kBottomNavigationBarHeight * 2,
-          ),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: Constants.primaryColor,
-            ),
-            height: 500,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 16, right: 16, top: 24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(
-                        child: TitleText(
-                          text: "TOP PERFORMANCE",
-                          size: Constants.bodyXLarge,
-                          textColor: Constants.white,
-                          weight: FontWeight.w500,
-                        ),
-                      ),
                       Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                            color: Constants.white.withOpacity(0.2),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Image.asset(Assets.leaderBoardOutlined)),
-                    ],
-                  ),
-                  WidgetsUtil.verticalSpace16,
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //   children: [
-                  //     Row(
-                  //       children: [
-                  //         CircleAvatar(
-                  //           radius: 5,
-                  //           backgroundColor: Constants.accent1,
-                  //         ),
-                  //         WidgetsUtil.horizontalSpace8,
-                  //         TitleText(
-                  //           text: 'Math',
-                  //           weight: FontWeight.w500,
-                  //           textColor: Constants.white,
-                  //           align: TextAlign.left,
-                  //         ),
-                  //       ],
-                  //     ),
-                  //     Row(
-                  //       children: [
-                  //         CircleAvatar(
-                  //           radius: 5,
-                  //           backgroundColor: Constants.accent2,
-                  //         ),
-                  //         WidgetsUtil.horizontalSpace8,
-                  //         TitleText(
-                  //           text: 'Sports',
-                  //           weight: FontWeight.w500,
-                  //           textColor: Constants.white,
-                  //           align: TextAlign.left,
-                  //         ),
-                  //       ],
-                  //     ),
-                  //     Row(
-                  //       children: [
-                  //         CircleAvatar(
-                  //           radius: 5,
-                  //           backgroundColor: Constants.secondaryColor,
-                  //         ),
-                  //         WidgetsUtil.horizontalSpace8,
-                  //         TitleText(
-                  //           text: 'Music',
-                  //           weight: FontWeight.w500,
-                  //           textColor: Constants.white,
-                  //           align: TextAlign.left,
-                  //         ),
-                  //       ],
-                  //     ),
-                  //     const SizedBox(
-                  //       width: 20,
-                  //     ),
-                  //   ],
-                  // ),
+                        height: 100,
+                        width: 140,
 
-                  WidgetsUtil.verticalSpace16,
-                  _customBarchartBloc(),
-                  WidgetsUtil.verticalSpace16,
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const SizedBox(
-                          width: 50,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Constants.white,
                         ),
-                        Expanded(
+                        //             Padding(
+                        //   padding: const EdgeInsets.only(
+                        //     left: 16,
+                        //     right: 16,
+                        //   ),
+                        //   child: Container(
+                        //     decoration: BoxDecoration(
+                        //       color: const Color(0xffE8E5FA),
+                        //       borderRadius: BorderRadius.circular(
+                        //         Constants.cardsRadius,
+                        //       ),
+                        //     ),
+                        //     height: SizeConfig.screenHeight * 0.155,
+                        //     width: SizeConfig.screenWidth,
+                        //     child: Padding(
+                        //       padding: const EdgeInsets.all(16),
+                        //       child: Column(
+                        //         children: [
+                        //           TitleText(
+                        //             text: AppLocalization.of(context)!
+                        //                 .getTranslatedValues(battleStatisticsKey)!,
+                        //             align: TextAlign.center,
+                        //             size: Constants.bodyXLarge,
+                        //             weight: FontWeight.w500,
+                        //           ),
+                        //           // WidgetsUtil.verticalSpace24,
+                        //           const Spacer(),
+                        //           Row(
+                        //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        //             children: [
+                        //               Column(
+                        //                 children: [
+                        //                   TitleText(
+                        //                     text: model.calculatePlayedBattles().toString(),
+                        //                     textColor: Theme.of(context).primaryColor,
+                        //                     weight: FontWeight.w500,
+                        //                     size: Constants.bodyLarge,
+                        //                   ),
+                        //                   TitleText(
+                        //                     text: AppLocalization.of(context)!
+                        //                         .getTranslatedValues(playedKey)!,
+                        //                     textColor: Theme.of(context).primaryColor,
+                        //                     weight: FontWeight.w500,
+                        //                     size: Constants.bodyLarge,
+                        //                   ),
+                        //                 ],
+                        //               ),
+                        //               SizedBox(
+                        //                 height: 50,
+                        //                 child: VerticalDivider(color: Constants.black1),
+                        //               ),
+                        //               Column(
+                        //                 children: [
+                        //                   TitleText(
+                        //                     text: model.battleVictories,
+                        //                     textColor: Theme.of(context).primaryColor,
+                        //                     weight: FontWeight.w500,
+                        //                     size: Constants.bodyLarge,
+                        //                   ),
+                        //                   TitleText(
+                        //                     text: AppLocalization.of(context)!
+                        //                         .getTranslatedValues(wonKey)!,
+                        //                     textColor: Theme.of(context).primaryColor,
+                        //                     weight: FontWeight.w500,
+                        //                     size: Constants.bodyLarge,
+                        //                   ),
+                        //                 ],
+                        //               ),
+                        //               SizedBox(
+                        //                 height: 50,
+                        //                 child: VerticalDivider(color: Constants.black1),
+                        //               ),
+                        //               Column(
+                        //                 children: [
+                        //                   TitleText(
+                        //                     text: model.battleLoose,
+                        //                     textColor: Theme.of(context).primaryColor,
+                        //                     weight: FontWeight.w500,
+                        //                     size: Constants.bodyLarge,
+                        //                   ),
+                        //                   TitleText(
+                        //                     text: AppLocalization.of(context)!
+                        //                         .getTranslatedValues(lostKey)!,
+                        //                     textColor: Theme.of(context).primaryColor,
+                        //                     weight: FontWeight.w500,
+                        //                     size: Constants.bodyLarge,
+                        //                   ),
+                        //                 ],
+                        //               ),
+                        //               SizedBox(
+                        //                 height: 50,
+                        //                 child: VerticalDivider(color: Constants.black1),
+                        //               ),
+                        //               Column(
+                        //                 children: [
+                        //                   TitleText(
+                        //                     text: model.battleDrawn,
+                        //                     textColor: Theme.of(context).primaryColor,
+                        //                     weight: FontWeight.w500,
+                        //                     size: Constants.bodyLarge,
+                        //                   ),
+                        //                   TitleText(
+                        //                     text: AppLocalization.of(context)!
+                        //                         .getTranslatedValues(drawLbl)!,
+                        //                     textColor: Theme.of(context).primaryColor,
+                        //                     weight: FontWeight.w500,
+                        //                     size: Constants.bodyLarge,
+                        //                   ),
+                        //                 ],
+                        //               ),
+                        //             ],
+                        //           ),
+                        //         ],
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 12,
+                          ),
                           child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              TitleText(
-                                text:
-                                    '${model.correctAnswers} / ${model.answeredQuestions}',
-                                weight: FontWeight.w500,
-                                textColor: Constants.white,
-                              ),
-                              SizedBox(
-                                width: 100,
+                              Expanded(
+                                flex: 2,
                                 child: TitleText(
-                                  text: 'Questions Answered',
-                                  align: TextAlign.center,
-                                  textColor: Constants.white,
-                                  size: Constants.bodyXSmall,
+                                  text:
+                                      model.calculatePlayedBattles().toString(),
+                                  size: Constants.heading1,
+                                  weight: FontWeight.w700,
+                                ),
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: TitleText(
+                                  text: AppLocalization.of(context)!
+                                      .getTranslatedValues(playedKey)!,
+                                  size: Constants.bodySmall,
+                                  weight: FontWeight.w400,
                                 ),
                               ),
                             ],
                           ),
                         ),
-                        // Expanded(
-                        //   child: Column(
-                        //     children: [
-                        //       TitleText(
-                        //         text: '8/10',
-                        //         weight: FontWeight.w500,
-                        //         textColor: Constants.white,
-                        //       ),
-                        //       SizedBox(
-                        //         width: 100,
-                        //         child: TitleText(
-                        //           text: 'Questions Answered',
-                        //           align: TextAlign.center,
-                        //           size: Constants.bodyXSmall,
-                        //           textColor: Constants.white,
-                        //         ),
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
-                        // Expanded(
-                        //   child: Column(
-                        //     children: [
-                        //       TitleText(
-                        //         text: '6/10',
-                        //         weight: FontWeight.w500,
-                        //         textColor: Constants.white,
-                        //       ),
-                        //       SizedBox(
-                        //         width: 100,
-                        //         child: TitleText(
-                        //           text: 'Questions Answered',
-                        //           align: TextAlign.center,
-                        //           size: Constants.bodyXSmall,
-                        //           textColor: Constants.white,
-                        //         ),
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
+                      ),
+                      Container(
+                        height: 100,
+                        width: 140,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Constants.white,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 12,
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                flex: 2,
+                                child: TitleText(
+                                  text: model.battleVictories,
+                                  size: Constants.heading1,
+                                  weight: FontWeight.w700,
+                                ),
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: TitleText(
+                                  text: AppLocalization.of(context)!
+                                      .getTranslatedValues(wonKey)!,
+                                  size: Constants.bodySmall,
+                                  weight: FontWeight.w400,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                WidgetsUtil.verticalSpace16,
+              ],
             ),
           ),
-        ),
-      ],
+          WidgetsUtil.verticalSpace16,
+
+          WidgetsUtil.verticalSpace32,
+          // Padding(
+          //   padding: EdgeInsets.only(
+          //     left: 16,
+          //     right: 16,
+          //     bottom: widget.routefromHomeScreen
+          //         ? kBottomNavigationBarHeight
+          //         : kBottomNavigationBarHeight * 2,
+          //   ),
+          //   child: Container(
+          //     decoration: BoxDecoration(
+          //       borderRadius: BorderRadius.circular(20),
+          //       color: Constants.primaryColor,
+          //     ),
+          //     height: 500,
+          //     child: Padding(
+          //       padding: const EdgeInsets.only(left: 16, right: 16, top: 24),
+          //       child: Column(
+          //         crossAxisAlignment: CrossAxisAlignment.start,
+          //         children: [
+          //           Row(
+          //             crossAxisAlignment: CrossAxisAlignment.center,
+          //             children: [
+          //               Expanded(
+          //                 child: TitleText(
+          //                   text: "TOP PERFORMANCE",
+          //                   size: Constants.bodyXLarge,
+          //                   textColor: Constants.white,
+          //                   weight: FontWeight.w500,
+          //                 ),
+          //               ),
+          //               Container(
+          //                   height: 40,
+          //                   width: 40,
+          //                   decoration: BoxDecoration(
+          //                     color: Constants.white.withOpacity(0.2),
+          //                     borderRadius: BorderRadius.circular(12),
+          //                   ),
+          //                   child: Image.asset(Assets.leaderBoardOutlined)),
+          //             ],
+          //           ),
+          //           WidgetsUtil.verticalSpace16,
+          //           // Row(
+          //           //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //           //   children: [
+          //           //     Row(
+          //           //       children: [
+          //           //         CircleAvatar(
+          //           //           radius: 5,
+          //           //           backgroundColor: Constants.accent1,
+          //           //         ),
+          //           //         WidgetsUtil.horizontalSpace8,
+          //           //         TitleText(
+          //           //           text: 'Math',
+          //           //           weight: FontWeight.w500,
+          //           //           textColor: Constants.white,
+          //           //           align: TextAlign.left,
+          //           //         ),
+          //           //       ],
+          //           //     ),
+          //           //     Row(
+          //           //       children: [
+          //           //         CircleAvatar(
+          //           //           radius: 5,
+          //           //           backgroundColor: Constants.accent2,
+          //           //         ),
+          //           //         WidgetsUtil.horizontalSpace8,
+          //           //         TitleText(
+          //           //           text: 'Sports',
+          //           //           weight: FontWeight.w500,
+          //           //           textColor: Constants.white,
+          //           //           align: TextAlign.left,
+          //           //         ),
+          //           //       ],
+          //           //     ),
+          //           //     Row(
+          //           //       children: [
+          //           //         CircleAvatar(
+          //           //           radius: 5,
+          //           //           backgroundColor: Constants.secondaryColor,
+          //           //         ),
+          //           //         WidgetsUtil.horizontalSpace8,
+          //           //         TitleText(
+          //           //           text: 'Music',
+          //           //           weight: FontWeight.w500,
+          //           //           textColor: Constants.white,
+          //           //           align: TextAlign.left,
+          //           //         ),
+          //           //       ],
+          //           //     ),
+          //           //     const SizedBox(
+          //           //       width: 20,
+          //           //     ),
+          //           //   ],
+          //           // ),
+
+          //           WidgetsUtil.verticalSpace16,
+          //           _customBarchartBloc(),
+          //           WidgetsUtil.verticalSpace16,
+          //           Expanded(
+          //             child: Row(
+          //               mainAxisAlignment: MainAxisAlignment.center,
+          //               children: [
+          //                 const SizedBox(
+          //                   width: 50,
+          //                 ),
+          //                 Expanded(
+          //                   child: Column(
+          //                     children: [
+          //                       TitleText(
+          //                         text:
+          //                             '${model.correctAnswers} / ${model.answeredQuestions}',
+          //                         weight: FontWeight.w500,
+          //                         textColor: Constants.white,
+          //                       ),
+          //                       SizedBox(
+          //                         width: 100,
+          //                         child: TitleText(
+          //                           text: 'Questions Answered',
+          //                           align: TextAlign.center,
+          //                           textColor: Constants.white,
+          //                           size: Constants.bodyXSmall,
+          //                         ),
+          //                       ),
+          //                     ],
+          //                   ),
+          //                 ),
+          // Expanded(
+          //   child: Column(
+          //     children: [
+          //       TitleText(
+          //         text: '8/10',
+          //         weight: FontWeight.w500,
+          //         textColor: Constants.white,
+          //       ),
+          //       SizedBox(
+          //         width: 100,
+          //         child: TitleText(
+          //           text: 'Questions Answered',
+          //           align: TextAlign.center,
+          //           size: Constants.bodyXSmall,
+          //           textColor: Constants.white,
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          // Expanded(
+          //   child: Column(
+          //     children: [
+          //       TitleText(
+          //         text: '6/10',
+          //         weight: FontWeight.w500,
+          //         textColor: Constants.white,
+          //       ),
+          //       SizedBox(
+          //         width: 100,
+          //         child: TitleText(
+          //           text: 'Questions Answered',
+          //           align: TextAlign.center,
+          //           size: Constants.bodyXSmall,
+          //           textColor: Constants.white,
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          //   ],
+          // ),
+          //     )
+          //   ],
+          // ),
+          //       ),
+          //     ),
+          //   ),
+        ],
+      ),
     );
   }
 
@@ -1324,9 +1417,17 @@ class _ProfileState extends State<Profile> {
               return Expanded(
                 child: GestureDetector(
                   onTap: () {
-                    setState(() {
-                      selectedIndex = index;
-                    });
+                    if (index == 2) {
+                      Navigator.pushNamed(
+                        context,
+                        Routes.appSettings,
+                        arguments: "newsettingssceeen",
+                      ;);
+                    } else {
+                      setState(() {
+                        selectedIndex = index;
+                      });
+                    }
                   },
                   child: Column(
                     children: [
@@ -1386,25 +1487,28 @@ class _ProfileState extends State<Profile> {
         children: [
           Expanded(
             child: rowItem(
-              Assets.star,
-              AppLocalization.of(context)!.getTranslatedValues("points")!,
-              state.userProfile.allTimeScore,
+              asset: Assets.star,
+              title:
+                  AppLocalization.of(context)!.getTranslatedValues("points")!,
+              value: state.userProfile.allTimeScore,
             ),
           ),
           _verticalDivider(),
           Expanded(
             child: rowItem(
-              Assets.world,
-              AppLocalization.of(context)!.getTranslatedValues("worldRank")!,
-              '#${state.userProfile.allTimeRank}',
+              asset: Assets.world,
+              title: AppLocalization.of(context)!
+                  .getTranslatedValues("worldRank")!,
+              value: '#${state.userProfile.allTimeRank}',
             ),
           ),
           _verticalDivider(),
           Expanded(
             child: rowItem(
-              Assets.local,
-              AppLocalization.of(context)!.getTranslatedValues("coinsLbl")!,
-              '#${state.userProfile.coins}',
+              asset: Assets.local,
+              title:
+                  AppLocalization.of(context)!.getTranslatedValues("coinsLbl")!,
+              value: '#${state.userProfile.coins}',
             ),
           ),
         ],
@@ -1412,26 +1516,28 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  Column rowItem(String asset, String title, String value) {
+  Column rowItem({String? asset, String? title, String? value, String? icon}) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Image.asset(
-          asset,
-          width: 24,
-          height: 24,
-        ),
+        asset!.contains('png')
+            ? Image.asset(
+                asset,
+                width: 24,
+                height: 24,
+              )
+            : SvgPicture.asset(asset),
         Container(
           margin: const EdgeInsets.only(top: 6),
           child: TitleText(
-            text: title,
+            text: title!,
             size: Constants.bodyXSmall,
             weight: FontWeight.w500,
             textColor: Constants.white.withOpacity(0.5),
           ),
         ),
         TitleText(
-          text: value,
+          text: value!,
           size: Constants.bodyNormal,
           weight: FontWeight.w700,
           textColor: Constants.white,
