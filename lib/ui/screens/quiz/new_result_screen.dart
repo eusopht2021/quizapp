@@ -183,6 +183,7 @@ class _NewResultScreenState extends State<NewResultScreen> {
   double accuracy = 0;
   int correctAnswers = 0;
   bool _displayedAlreadyLoggedInDailog = false;
+  List exams = [];
 
   @override
   void initState() {
@@ -810,7 +811,7 @@ class _NewResultScreenState extends State<NewResultScreen> {
             ? const SizedBox()
             : TitleText(
                 text: _isWinner
-                    ? "You got +${widget.myPoints} Points"
+                    ? "You got  +${widget.myPoints} Quiz Points"
                     : "You did not get Points",
                 textColor: Constants.white,
                 size: 16,
@@ -2127,6 +2128,20 @@ class _NewResultScreenState extends State<NewResultScreen> {
                                 ),
                                 WidgetsUtil.verticalSpace16,
                                 TitleText(
+                                  text: "CORRECT ANSWERS",
+                                  weight: FontWeight.w500,
+                                  size: Constants.bodyXSmall,
+                                  textColor: Constants.grey2,
+                                ),
+                                WidgetsUtil.verticalSpace8,
+                                TitleText(
+                                  text: widget.correctExamAnswers.toString(),
+                                  weight: FontWeight.w500,
+                                  size: Constants.bodyXLarge,
+                                  textColor: Constants.black1,
+                                ),
+                                WidgetsUtil.verticalSpace16,
+                                TitleText(
                                   text: "TIME TAKEN",
                                   weight: FontWeight.w500,
                                   size: Constants.bodyXSmall,
@@ -2167,6 +2182,21 @@ class _NewResultScreenState extends State<NewResultScreen> {
                                 WidgetsUtil.verticalSpace8,
                                 TitleText(
                                   text: "${widget.incorrectExamAnswers}",
+                                  weight: FontWeight.w500,
+                                  size: Constants.bodyXLarge,
+                                  textColor: Constants.black1,
+                                ),
+                                WidgetsUtil.verticalSpace16,
+                                TitleText(
+                                  text: "QUESTIONS ATTEMPTED",
+                                  weight: FontWeight.w500,
+                                  size: Constants.bodyXSmall,
+                                  textColor: Constants.grey2,
+                                ),
+                                WidgetsUtil.verticalSpace8,
+                                TitleText(
+                                  text:
+                                      "${(widget.incorrectExamAnswers! + widget.correctExamAnswers!)}",
                                   weight: FontWeight.w500,
                                   size: Constants.bodyXLarge,
                                   textColor: Constants.black1,
@@ -2275,10 +2305,10 @@ class _NewResultScreenState extends State<NewResultScreen> {
 
   String getExamTime() {
     Duration duration =
-        Duration(seconds: widget.examCompletedInMinutes!.toInt());
+        Duration(minutes: widget.examCompletedInMinutes!.toInt());
     String time = '';
     time = '$time${duration.inMinutes}';
-    time = '$time:${duration.inSeconds % 60}';
+    time = '$time:${duration.inSeconds % 60} ';
     return time;
   }
 

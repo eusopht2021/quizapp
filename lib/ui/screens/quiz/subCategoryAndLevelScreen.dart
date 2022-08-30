@@ -195,115 +195,37 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
             },
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Badge(
-                badgeColor: Colors.transparent,
-                toAnimate: false,
-                elevation: 0,
-                position: BadgePosition.center(),
-                badgeContent: (index + 1) <= unlockedLevel
-                    ? null
-                    : const Icon(
-                        Icons.lock,
-                        size: 35,
-                      ),
-                child: Stack(
-                  children: [
-                    Image.asset(
-                      Assets.levelsIcon,
-                      height: 150,
+              child: Stack(
+                children: [
+                  Image.asset(
+                    (index + 1) <= unlockedLevel
+                        ? Assets.levelsIcon
+                        : Assets.badge1,
+                    height: 150,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(
+                      15,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(
-                        15,
-                      ),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            width: 3,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                          color: Constants.secondaryColor,
-                          shape: BoxShape.circle,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 3,
+                          color: Theme.of(context).primaryColor,
                         ),
-                        child: Center(
-                          child: TitleText(
-                            text: "${index + 1}",
-                            textColor: Constants.white,
-                            size: Constants.heading3,
-                          ),
+                        color: Constants.secondaryColor,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Center(
+                        child: TitleText(
+                          text: "${index + 1}",
+                          textColor: Constants.white,
+                          size: Constants.heading3,
                         ),
                       ),
                     ),
-                  ],
-                ),
-                // child: Container(
-                //   height: SizeConfig.screenWidth * 0.13,
-                //   decoration: BoxDecoration(
-                //     shape: BoxShape.circle,
-                //     // borderRadius: BorderRadius.circular(20.0),
-                //     color: (index + 1) <= unlockedLevel
-                //         ? Constants.primaryColor
-                //         : Constants.primaryColor.withOpacity(0.5),
-                //   ),
-                //   alignment: Alignment.center,
-                //   // height: 60.0,
-                //   // margin: const EdgeInsets.symmetric(
-                //   //   horizontal: 20.0,
-                //   //   vertical: 10.0,
-                //   // ),
-                //   child: TitleText(
-                //     text: "${index + 1}",
-                //     textColor: Constants.white,
-                //     size: 20,
-                //   ),
-                //   // child: ListTile(
-                //   //   onTap: () {
-                //   //     //index start with 0 so we comparing (index + 1)
-                //   //     if ((index + 1) <= unlockedLevel) {
-                //   //       //replacing this page
-                //   //       Navigator.of(context)
-                //   //           .pushReplacementNamed(Routes.quiz, arguments: {
-                //   //         "numberOfPlayer": 1,
-                //   //         "quizType": QuizTypes.quizZone,
-                //   //         "categoryId": "",
-                //   //         "subcategoryId": subcategoryList[currentIndex].id,
-                //   //         "level": (index + 1).toString(),
-                //   //         "subcategoryMaxLevel":
-                //   //             subcategoryList[currentIndex].maxLevel,
-                //   //         "unlockedLevel": unlockedLevel,
-                //   //         "contestId": "",
-                //   //         "comprehensionId": "",
-                //   //         "quizName": "Quiz Zone"
-                //   //       });
-                //   //     } else {
-                //   //       UiUtils.setSnackbar(
-                //   //           AppLocalization.of(context)!.getTranslatedValues(
-                //   //               convertErrorCodeToLanguageKey(levelLockedCode))!,
-                //   //           context,
-                //   //           false);
-                //   //     }
-                //   //   },
-                //   //   leading: TitleText(
-                //   //       text:
-                //   //           "${AppLocalization.of(context)!.getTranslatedValues("levelLbl")!} ${index + 1}",
-                //   //       size: 20,
-                //   //       weight: FontWeight.bold,
-                //   //       textColor: Constants.white),
-                //   //   // title:
-                //   //   //     TitleText(text: "${subcategoryList[currentIndex].maxLevel}"),
-                //   //   trailing: Icon(
-                //   //     Icons.arrow_forward_ios_rounded,
-                //   //     color: Constants.white,
-                //   //   ),
-                //   // ),
-                //   //  TitleText(
-                //   //   text:
-                //   //       "${AppLocalization.of(context)!.getTranslatedValues("levelLbl")!} ${index + 1}",
-                //   //   size: 20,
-                //   //   weight: FontWeight.bold,
-                //   //   textColor: Constants.white,
-                //   // ),
-                // ),
+                  ),
+                ],
               ),
             ),
           );
@@ -617,6 +539,7 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
             itemCount: subCategoryList.length,
             itemBuilder: (context, index) {
               ExpandedTileController controllers = ExpandedTileController();
+
               return Container(
                 decoration: BoxDecoration(
                   borderRadius: StyleProperties.cardsRadius,
@@ -629,6 +552,10 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
                   child: ExpandedTile(
                       onTap: () {
                         currentIndex = index;
+                        // context.read<UnlockedLevelCubit>().fetchUnlockLevel(
+                        //     context.read<UserDetailsCubit>().getUserId(),
+                        //     widget.category,
+                        //     subCategoryList[currentIndex].id);
                       },
                       theme: ExpandedTileThemeData(
                         headerRadius: 24.0,

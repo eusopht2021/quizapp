@@ -21,6 +21,7 @@ import 'package:flutterquiz/ui/widgets/watchRewardAdDialog.dart';
 import 'package:flutterquiz/utils/constants.dart';
 
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
+import 'package:flutterquiz/utils/size_config.dart';
 import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
 
@@ -195,7 +196,8 @@ class _RandomOrPlayFrdDialogState extends State<RandomOrPlayFrdDialog> {
                 builder: (context, state) {
                   return AnimatedSwitcher(
                     duration: const Duration(milliseconds: 500),
-                    child: state is QuizCategorySuccess
+                    child: 
+                    state is QuizCategorySuccess
                         ? _buildDropdown(
                             values: state.categories
                                 .map(

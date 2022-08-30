@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:badges/badges.dart' as bdgs;
+import 'package:flutter_svg_provider/flutter_svg_provider.dart' as svg;
 import 'package:flutterquiz/features/badges/badge.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutterquiz/features/badges/cubits/badgesCubit.dart';
@@ -10,7 +11,6 @@ import 'package:flutterquiz/ui/styles/colors.dart';
 import 'package:flutterquiz/ui/widgets/badgesIconContainer.dart';
 import 'package:flutterquiz/ui/widgets/errorContainer.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/userDetailsCubit.dart';
-import 'package:flutterquiz/utils/apiBodyParameterLabels.dart';
 import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
@@ -18,7 +18,6 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart' as svg;
 import 'package:flutterquiz/app/appLocalization.dart';
 import 'package:flutterquiz/app/routes.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/deleteAccountCubit.dart';
@@ -38,6 +37,7 @@ import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/size_config.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
 import 'package:flutterquiz/utils/widgets_util.dart';
+import 'package:recase/recase.dart';
 
 class Profile extends StatefulWidget {
   final bool routefromHomeScreen;
@@ -231,9 +231,9 @@ class _ProfileState extends State<Profile> {
                   WidgetsUtil.verticalSpace24,
                   WidgetsUtil.verticalSpace24,
                   TitleText(
-                    text: state.userProfile.name!.isEmpty
-                        ? ""
-                        : state.userProfile.name!,
+                    text:
+                        "${state.userProfile.name!.isEmpty ? "" : state.userProfile.name!}"
+                            .titleCase,
                     size: Constants.heading3,
                     weight: FontWeight.w500,
                     textColor: Constants.black1,
@@ -286,7 +286,7 @@ class _ProfileState extends State<Profile> {
       case 0:
         return _buildBadges(context);
       case 1:
-        return _statsTabBloc();
+        return _statsTabBloc(profile);
       // case 2:
       // return _battle(profile);
       case 2:
@@ -703,7 +703,7 @@ class _ProfileState extends State<Profile> {
   //   );
   // }
 
-  Widget _statsTabBloc() {
+  Widget _statsTabBloc(profile) {
     return BlocConsumer<StatisticCubit, StatisticState>(
         listener: (context, state) {
       if (state is StatisticFetchFailure) {
@@ -713,7 +713,7 @@ class _ProfileState extends State<Profile> {
       }
     }, builder: (context, state) {
       if (state is StatisticFetchSuccess) {
-        return _statsTabItem(state);
+        return _statsTabItem(state, profile);
       }
       if (state is StatisticFetchInProgress) {
         return SizedBox(
@@ -728,7 +728,7 @@ class _ProfileState extends State<Profile> {
     });
   }
 
-  Widget _statsTabItem(state) {
+  Widget _statsTabItem(state, profile) {
     StatisticModel model =
         context.read<StatisticCubit>().getStatisticsDetails();
     return SingleChildScrollView(
@@ -774,204 +774,54 @@ class _ProfileState extends State<Profile> {
                 _customDonutchartBloc(),
                 WidgetsUtil.verticalSpace16,
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
+                  padding: const EdgeInsets.only(
+                    left: 16,
+                    right: 16,
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  child: Column(
                     children: [
-                      Container(
-                        height: 100,
-                        width: 140,
-
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Constants.white,
-                        ),
-                        //             Padding(
-                        //   padding: const EdgeInsets.only(
-                        //     left: 16,
-                        //     right: 16,
-                        //   ),
-                        //   child: Container(
-                        //     decoration: BoxDecoration(
-                        //       color: const Color(0xffE8E5FA),
-                        //       borderRadius: BorderRadius.circular(
-                        //         Constants.cardsRadius,
-                        //       ),
-                        //     ),
-                        //     height: SizeConfig.screenHeight * 0.155,
-                        //     width: SizeConfig.screenWidth,
-                        //     child: Padding(
-                        //       padding: const EdgeInsets.all(16),
-                        //       child: Column(
-                        //         children: [
-                        //           TitleText(
-                        //             text: AppLocalization.of(context)!
-                        //                 .getTranslatedValues(battleStatisticsKey)!,
-                        //             align: TextAlign.center,
-                        //             size: Constants.bodyXLarge,
-                        //             weight: FontWeight.w500,
-                        //           ),
-                        //           // WidgetsUtil.verticalSpace24,
-                        //           const Spacer(),
-                        //           Row(
-                        //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        //             children: [
-                        //               Column(
-                        //                 children: [
-                        //                   TitleText(
-                        //                     text: model.calculatePlayedBattles().toString(),
-                        //                     textColor: Theme.of(context).primaryColor,
-                        //                     weight: FontWeight.w500,
-                        //                     size: Constants.bodyLarge,
-                        //                   ),
-                        //                   TitleText(
-                        //                     text: AppLocalization.of(context)!
-                        //                         .getTranslatedValues(playedKey)!,
-                        //                     textColor: Theme.of(context).primaryColor,
-                        //                     weight: FontWeight.w500,
-                        //                     size: Constants.bodyLarge,
-                        //                   ),
-                        //                 ],
-                        //               ),
-                        //               SizedBox(
-                        //                 height: 50,
-                        //                 child: VerticalDivider(color: Constants.black1),
-                        //               ),
-                        //               Column(
-                        //                 children: [
-                        //                   TitleText(
-                        //                     text: model.battleVictories,
-                        //                     textColor: Theme.of(context).primaryColor,
-                        //                     weight: FontWeight.w500,
-                        //                     size: Constants.bodyLarge,
-                        //                   ),
-                        //                   TitleText(
-                        //                     text: AppLocalization.of(context)!
-                        //                         .getTranslatedValues(wonKey)!,
-                        //                     textColor: Theme.of(context).primaryColor,
-                        //                     weight: FontWeight.w500,
-                        //                     size: Constants.bodyLarge,
-                        //                   ),
-                        //                 ],
-                        //               ),
-                        //               SizedBox(
-                        //                 height: 50,
-                        //                 child: VerticalDivider(color: Constants.black1),
-                        //               ),
-                        //               Column(
-                        //                 children: [
-                        //                   TitleText(
-                        //                     text: model.battleLoose,
-                        //                     textColor: Theme.of(context).primaryColor,
-                        //                     weight: FontWeight.w500,
-                        //                     size: Constants.bodyLarge,
-                        //                   ),
-                        //                   TitleText(
-                        //                     text: AppLocalization.of(context)!
-                        //                         .getTranslatedValues(lostKey)!,
-                        //                     textColor: Theme.of(context).primaryColor,
-                        //                     weight: FontWeight.w500,
-                        //                     size: Constants.bodyLarge,
-                        //                   ),
-                        //                 ],
-                        //               ),
-                        //               SizedBox(
-                        //                 height: 50,
-                        //                 child: VerticalDivider(color: Constants.black1),
-                        //               ),
-                        //               Column(
-                        //                 children: [
-                        //                   TitleText(
-                        //                     text: model.battleDrawn,
-                        //                     textColor: Theme.of(context).primaryColor,
-                        //                     weight: FontWeight.w500,
-                        //                     size: Constants.bodyLarge,
-                        //                   ),
-                        //                   TitleText(
-                        //                     text: AppLocalization.of(context)!
-                        //                         .getTranslatedValues(drawLbl)!,
-                        //                     textColor: Theme.of(context).primaryColor,
-                        //                     weight: FontWeight.w500,
-                        //                     size: Constants.bodyLarge,
-                        //                   ),
-                        //                 ],
-                        //               ),
-                        //             ],
-                        //           ),
-                        //         ],
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 12,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          _battleContainer(
+                            badge: Assets.battle,
+                            color: Constants.white,
+                            count: model.calculatePlayedBattles().toString(),
+                            title: AppLocalization.of(context)!
+                                .getTranslatedValues(playedKey)!,
+                            badgeColor: Constants.black1,
                           ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                flex: 2,
-                                child: TitleText(
-                                  text:
-                                      model.calculatePlayedBattles().toString(),
-                                  size: Constants.heading1,
-                                  weight: FontWeight.w700,
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: TitleText(
-                                  text: AppLocalization.of(context)!
-                                      .getTranslatedValues(playedKey)!,
-                                  size: Constants.bodySmall,
-                                  weight: FontWeight.w400,
-                                ),
-                              ),
-                            ],
+                          _battleContainer(
+                            badge: Assets.medal,
+                            color: Constants.primaryColor,
+                            count: model.battleVictories,
+                            title: AppLocalization.of(context)!
+                                .getTranslatedValues(wonKey)!,
+                            badgeColor: Constants.white,
                           ),
-                        ),
+                        ],
                       ),
-                      Container(
-                        height: 100,
-                        width: 140,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Constants.white,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 12,
+                      WidgetsUtil.verticalSpace10,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          _battleContainer(
+                            badge: Assets.lost,
+                            color: Constants.white,
+                            count: model.battleLoose,
+                            title: AppLocalization.of(context)!
+                                .getTranslatedValues(lostKey)!,
+                            badgeColor: Constants.black1,
                           ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                flex: 2,
-                                child: TitleText(
-                                  text: model.battleVictories,
-                                  size: Constants.heading1,
-                                  weight: FontWeight.w700,
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: TitleText(
-                                  text: AppLocalization.of(context)!
-                                      .getTranslatedValues(wonKey)!,
-                                  size: Constants.bodySmall,
-                                  weight: FontWeight.w400,
-                                ),
-                              ),
-                            ],
+                          _battleContainer(
+                            badge: Assets.drawn,
+                            color: Constants.primaryColor,
+                            count: model.battleDrawn,
+                            title: AppLocalization.of(context)!
+                                .getTranslatedValues(drawLbl)!,
+                            badgeColor: Constants.white,
                           ),
-                        ),
+                        ],
                       ),
                     ],
                   ),
@@ -981,7 +831,159 @@ class _ProfileState extends State<Profile> {
             ),
           ),
           WidgetsUtil.verticalSpace16,
-
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                width: double.infinity,
+                height: SizeConfig.screenWidth * 0.8,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Constants.indigoWithOpacity02,
+                ),
+                child: Column(
+                  children: [
+                    WidgetsUtil.verticalSpace16,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        TitleText(
+                          text: "Recent matches",
+                          size: Constants.bodyXLarge,
+                          weight: FontWeight.w500,
+                        ),
+                      ],
+                    ),
+                    WidgetsUtil.verticalSpace32,
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          bdgs.Badge(
+                            toAnimate: false,
+                            elevation: 0,
+                            showBadge: true,
+                            badgeContent: Image.asset(Assets.portugal),
+                            badgeColor: Colors.transparent,
+                            position: bdgs.BadgePosition.bottomEnd(),
+                            child: bdgs.Badge(
+                              toAnimate: false,
+                              elevation: 0,
+                              showBadge: true,
+                              badgeContent: SvgPicture.asset(
+                                Assets.crown,
+                                height: 30,
+                              ),
+                              position: bdgs.BadgePosition.topStart(
+                                  start: 15, top: -20),
+                              badgeColor: Colors.transparent,
+                              child: CircleAvatar(
+                                radius: 35,
+                                backgroundColor: Colors.transparent,
+                                child: CachedNetworkImage(
+                                  imageUrl: profile,
+                                  width: 100,
+                                  height: 100,
+                                  fit: BoxFit.fill,
+                                  placeholder: (_, __) {
+                                    return CircularProgressIndicator(
+                                      color: Constants.primaryColor,
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                          TitleText(
+                            text: "VS",
+                            size: Constants.bodyXLarge,
+                            weight: FontWeight.w500,
+                          ),
+                          CircleAvatar(
+                            radius: 35,
+                            backgroundColor: Colors.transparent,
+                            backgroundImage: svg.Svg(Assets.man4),
+                          ),
+                          Container(
+                            width: 100,
+                            height: 50,
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 12, horizontal: 12),
+                            decoration: BoxDecoration(
+                              color: Constants.lightGreen,
+                              borderRadius: BorderRadius.circular(9),
+                            ),
+                            child: TitleText(
+                              text: "+100 QP",
+                              size: Constants.bodyXLarge,
+                              weight: FontWeight.w500,
+                              textColor: Constants.white,
+                            ),
+                          )
+                        ]),
+                    WidgetsUtil.verticalSpace24,
+                    Divider(
+                      color: Constants.grey3,
+                      thickness: 2,
+                    ),
+                    WidgetsUtil.verticalSpace32,
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          bdgs.Badge(
+                            toAnimate: false,
+                            elevation: 0,
+                            showBadge: true,
+                            badgeContent: Image.asset(Assets.portugal),
+                            badgeColor: Colors.transparent,
+                            position: bdgs.BadgePosition.bottomEnd(),
+                            child: bdgs.Badge(
+                              toAnimate: false,
+                              elevation: 0,
+                              showBadge: true,
+                              badgeContent: SvgPicture.asset(
+                                Assets.crown,
+                                height: 30,
+                              ),
+                              position: bdgs.BadgePosition.topStart(
+                                  start: 15, top: -20),
+                              badgeColor: Colors.transparent,
+                              child: CircleAvatar(
+                                radius: 35,
+                                backgroundColor: Colors.transparent,
+                                backgroundImage: NetworkImage(profile),
+                              ),
+                            ),
+                          ),
+                          TitleText(
+                            text: "VS",
+                            size: Constants.bodyXLarge,
+                            weight: FontWeight.w500,
+                          ),
+                          CircleAvatar(
+                            radius: 35,
+                            backgroundColor: Colors.transparent,
+                            backgroundImage: svg.Svg(Assets.man5),
+                          ),
+                          Container(
+                            width: 100,
+                            height: 50,
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 12, horizontal: 12),
+                            decoration: BoxDecoration(
+                              color: Constants.lightGreen,
+                              borderRadius: BorderRadius.circular(9),
+                            ),
+                            child: TitleText(
+                              text: "+100 QP",
+                              size: Constants.bodyXLarge,
+                              weight: FontWeight.w500,
+                              textColor: Constants.white,
+                            ),
+                          )
+                        ]),
+                  ],
+                )),
+          ),
           WidgetsUtil.verticalSpace32,
           // Padding(
           //   padding: EdgeInsets.only(
@@ -1158,6 +1160,66 @@ class _ProfileState extends State<Profile> {
           //     ),
           //   ),
         ],
+      ),
+    );
+  }
+
+  Widget _battleContainer({
+    String? count,
+    String? title,
+    Color? color,
+    String? badge,
+    Color? badgeColor,
+  }) {
+    return bdgs.Badge(
+      toAnimate: false,
+      elevation: 0,
+      badgeColor: Colors.transparent,
+      position: bdgs.BadgePosition.topEnd(end: 10, top: 10),
+      badgeContent: FittedBox(
+        child: Image.asset(
+          badge!,
+          height: 30,
+          width: 30,
+          color: badgeColor,
+        ),
+      ),
+      child: Container(
+        height: SizeConfig.screenHeight * 0.11,
+        width: SizeConfig.screenWidth * 0.37,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: color!,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(
+            right: 16, left: 16, bottom: 16, top: 16,
+            // top: 12,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                flex: 2,
+                child: TitleText(
+                    text: count!,
+                    size: Constants.heading1,
+                    weight: FontWeight.w700,
+                    textColor: badgeColor),
+              ),
+              // WidgetsUtil.verticalSpace16,
+              Expanded(
+                child: TitleText(
+                  text: title!,
+                  size: Constants.bodySmall,
+                  weight: FontWeight.w400,
+                  textColor: badgeColor,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -1388,14 +1450,12 @@ class _ProfileState extends State<Profile> {
   //                                     addTopPadding: false,
   //                                   ))
   //                               .toList()
-
   //                           // children: List.generate(
   //                           //   Assets.badges.length,
   //                           //   (index) {
   //                           //     return Image.asset(
   //                           //       Assets.badges[index],
   //                           //     );
-
   //                           ),
   //                     ),
   //                   )
@@ -1422,7 +1482,7 @@ class _ProfileState extends State<Profile> {
                         context,
                         Routes.appSettings,
                         arguments: "newsettingssceeen",
-                      ;);
+                      );
                     } else {
                       setState(() {
                         selectedIndex = index;
@@ -1505,7 +1565,7 @@ class _ProfileState extends State<Profile> {
           _verticalDivider(),
           Expanded(
             child: rowItem(
-              asset: Assets.local,
+              asset: Assets.coinIcon, //local
               title:
                   AppLocalization.of(context)!.getTranslatedValues("coinsLbl")!,
               value: '#${state.userProfile.coins}',
@@ -1525,6 +1585,7 @@ class _ProfileState extends State<Profile> {
                 asset,
                 width: 24,
                 height: 24,
+                color: Constants.white,
               )
             : SvgPicture.asset(asset),
         Container(
@@ -1577,9 +1638,13 @@ class _ProfileState extends State<Profile> {
       child: bdgs.Badge(
         toAnimate: false,
         badgeContent: countryFlag.isNotEmpty
-            ? Text(
-                countryFlag,
-                style: const TextStyle(fontSize: 20),
+            ? CircleAvatar(
+                backgroundColor: Constants.white,
+                radius: 16,
+                child: Text(
+                  countryFlag,
+                  style: const TextStyle(fontSize: 20),
+                ),
               )
             : Container(
                 height: 25,
@@ -1596,12 +1661,7 @@ class _ProfileState extends State<Profile> {
                   color: Constants.white,
                 ),
               ),
-        // : Image.asset(
-        //     Assets.turkey,
-        //     width: 30,
-        //     height: 28,
-        //   ),
-        position: bdgs.BadgePosition.bottomEnd(end: 1),
+        position: bdgs.BadgePosition.bottomEnd(end: 0, bottom: -12),
         elevation: 0,
         badgeColor: Colors.transparent,
         child: ClipOval(

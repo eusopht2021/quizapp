@@ -8,12 +8,14 @@ class CustomPieChart extends StatelessWidget {
   final double value1, value2, radius;
   final String? text;
   final Color? mainColor;
+  final Color? value2Color;
 
   const CustomPieChart({
     Key? key,
     required this.value1,
     required this.value2,
     required this.radius,
+    this.value2Color,
     this.text,
     this.mainColor,
   }) : super(key: key);
@@ -37,7 +39,7 @@ class CustomPieChart extends StatelessWidget {
               PieChartSectionData(
                 value: value2,
                 showTitle: false,
-                color: Constants.lightGreen.withOpacity(0.3),
+                color: value2Color ?? Constants.lightGreen.withOpacity(0.3),
                 radius: radius,
               ),
             ],

@@ -154,7 +154,6 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
   Widget topDesign() {
     return Column(
       children: [
-        // WidgetsUtil.verticalSpace24,
         Container(
           height: SizeConfig.screenHeight * 0.07,
           width: SizeConfig.screenWidth,
@@ -165,6 +164,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
           ),
           child: _tabBar(),
         ),
+        WidgetsUtil.verticalSpace16,
         Expanded(
           child: _tabItem(),
         ),
@@ -327,7 +327,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                                 showBadge: true,
                                 badgeContent: Image.asset(Assets.portugal),
                                 badgeColor: Colors.transparent,
-                                position: BadgePosition.bottomEnd(),
+                                position: BadgePosition.bottomEnd(end: 2),
                                 child: Badge(
                                     toAnimate: false,
                                     elevation: 0,
@@ -335,11 +335,11 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                                     badgeContent: index == 0
                                         ? SvgPicture.asset(
                                             Assets.crown,
-                                            height: 30,
+                                            height: 35,
                                           )
                                         : const SizedBox(),
                                     position:
-                                        BadgePosition.topEnd(end: 15, top: -20),
+                                        BadgePosition.topEnd(end: 12, top: -35),
                                     badgeColor: Colors.transparent,
                                     child: CircleAvatar(
                                       radius: 35,
@@ -399,7 +399,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Expanded(
-                          flex: 2,
+                          flex: 1,
                           child: SizedBox(),
                         ),
                         Expanded(
@@ -430,7 +430,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                           ),
                         ),
                         const Expanded(
-                          flex: 2,
+                          flex: 1,
                           child: SizedBox(),
                         ),
                       ],
@@ -508,7 +508,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                             showBadge: true,
                             badgeContent: Image.asset(Assets.portugal),
                             badgeColor: Colors.transparent,
-                            position: BadgePosition.bottomEnd(),
+                            position: BadgePosition.bottomEnd(end: 2),
                             child: Badge(
                                 toAnimate: false,
                                 elevation: 0,
@@ -516,11 +516,11 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                                 badgeContent: index == 0
                                     ? SvgPicture.asset(
                                         Assets.crown,
-                                        height: 30,
+                                        height: 35,
                                       )
                                     : const SizedBox(),
                                 position:
-                                    BadgePosition.topEnd(end: 15, top: -20),
+                                    BadgePosition.topEnd(end: 12, top: -35),
                                 badgeColor: Colors.transparent,
                                 child: CircleAvatar(
                                   radius: 35,
@@ -577,7 +577,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Expanded(
-                          flex: 2,
+                          flex: 1,
                           child: SizedBox(),
                         ),
                         Expanded(
@@ -608,7 +608,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                           ),
                         ),
                         const Expanded(
-                          flex: 2,
+                          flex: 1,
                           child: SizedBox(),
                         ),
                       ],
@@ -693,7 +693,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                               showBadge: true,
                               badgeContent: Image.asset(Assets.portugal),
                               badgeColor: Colors.transparent,
-                              position: BadgePosition.bottomEnd(),
+                              position: BadgePosition.bottomEnd(end: 2),
                               child: Badge(
                                   toAnimate: false,
                                   elevation: 0,
@@ -701,11 +701,11 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                                   badgeContent: index == 0
                                       ? SvgPicture.asset(
                                           Assets.crown,
-                                          height: 30,
+                                          height: 35,
                                         )
                                       : const SizedBox(),
                                   position:
-                                      BadgePosition.topEnd(end: 15, top: -20),
+                                      BadgePosition.topEnd(end: 12, top: -35),
                                   badgeColor: Colors.transparent,
                                   child: CircleAvatar(
                                     radius: 35,
@@ -763,7 +763,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Expanded(
-                          flex: 2,
+                          flex: 1,
                           child: SizedBox(),
                         ),
                         Expanded(
@@ -794,7 +794,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                           ),
                         ),
                         const Expanded(
-                          flex: 2,
+                          flex: 1,
                           child: SizedBox(),
                         ),
                       ],
@@ -810,7 +810,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
     );
   }
 
-  final PanelController _panelController = PanelController();
+  // final PanelController _panelController = PanelController();
 
   // Widget leaderBoardList(List leaderBoardList, bool hasMore, {state}) {
   //   List startsFromThree = [];

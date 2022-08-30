@@ -25,7 +25,8 @@ import 'package:flutterquiz/ui/screens/new_settings/FAQ%20Screens/about.dart';
 import 'package:flutterquiz/ui/screens/new_settings/FAQ%20Screens/contactUs.dart';
 import 'package:flutterquiz/ui/screens/new_settings/FAQ%20Screens/faq_screen.dart';
 import 'package:flutterquiz/ui/screens/profile/widgets/editProfileFieldBottomSheetContainer.dart';
-import 'package:flutterquiz/ui/screens/profile/widgets/themeDialog.dart';
+import 'package:recase/recase.dart';
+
 import 'package:flutterquiz/ui/widgets/title_text.dart';
 import 'package:flutterquiz/utils/assets.dart';
 import 'package:flutterquiz/utils/constants.dart';
@@ -157,7 +158,7 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                             ),
                             title: AppLocalization.of(context)!
                                 .getTranslatedValues("updateUsername")!,
-                            subtitle: state.userProfile.name!,
+                            subtitle: state.userProfile.name!.titleCase,
                             onTap: () {
                               editProfileFieldBottomSheet(
                                 nameLbl,

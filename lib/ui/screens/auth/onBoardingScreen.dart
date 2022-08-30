@@ -117,10 +117,10 @@ class _OnBoardingState extends State<OnBoarding> {
                     WidgetsUtil.verticalSpace16,
                     FittedBox(
                       fit: BoxFit.fitHeight,
-                      clipBehavior: Clip.hardEdge,
+                      clipBehavior: Clip.antiAlias,
                       child: SizedBox(
-                        height: SizeConfig.screenHeight * 0.12,
-                        width: SizeConfig.screenWidth * 0.85,
+                        height: SizeConfig.screenHeight * 0.13,
+                        width: SizeConfig.screenWidth * 0.80,
                         child: Center(
                           child: TitleText(
                             text: onBoarding[selectedIndex],
@@ -155,47 +155,45 @@ class _OnBoardingState extends State<OnBoarding> {
                       },
                     ),
 
-                    WidgetsUtil.verticalSpace8, // WidgetsUtil.verticalSpace16,
+                    WidgetsUtil.verticalSpace4, // WidgetsUtil.verticalSpace16,
 
                     selectedIndex == 3
-                        ? Expanded(
-                            child: Container(
-                              width: double.infinity,
-                              margin: const EdgeInsets.only(
-                                top: 0,
-                                bottom: 10,
-                                right: 50,
-                                left: 50,
-                              ),
-                              child: FittedBox(
-                                fit: BoxFit.scaleDown,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    TitleText(
-                                      text: AppLocalization.of(context)!
-                                          .getTranslatedValues(
-                                              'alreadyAccountLbl')!,
+                        ? Container(
+                            width: double.infinity,
+                            margin: const EdgeInsets.only(
+                              top: 0,
+                              bottom: 10,
+                              right: 50,
+                              left: 50,
+                            ),
+                            child: FittedBox(
+                              fit: BoxFit.cover,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  TitleText(
+                                    text: AppLocalization.of(context)!
+                                        .getTranslatedValues(
+                                            'alreadyAccountLbl')!,
+                                    size: Constants.bodyNormal,
+                                    textColor: Colors.grey,
+                                    weight: FontWeight.w400,
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      log('Login');
+                                      Navigator.of(context)
+                                          .pushNamed(Routes.loginScreen);
+                                    },
+                                    child: TitleText(
+                                      text:
+                                          " ${AppLocalization.of(context)!.getTranslatedValues('loginLbl')!}",
                                       size: Constants.bodyNormal,
-                                      textColor: Colors.grey,
-                                      weight: FontWeight.w400,
+                                      textColor: Constants.primaryColor,
+                                      weight: FontWeight.w500,
                                     ),
-                                    InkWell(
-                                      onTap: () {
-                                        log('Login');
-                                        Navigator.of(context)
-                                            .pushNamed(Routes.loginScreen);
-                                      },
-                                      child: TitleText(
-                                        text:
-                                            " ${AppLocalization.of(context)!.getTranslatedValues('loginLbl')!}",
-                                        size: Constants.bodyNormal,
-                                        textColor: Constants.primaryColor,
-                                        weight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
                           )

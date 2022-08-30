@@ -544,7 +544,7 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
         // SizedBox(
         //   height: constraints.maxHeight * (isCategoryEnabled() ? 0.05 : 0),
         // ),
-        WidgetsUtil.verticalSpace10,
+        WidgetsUtil.verticalSpace24,
         Padding(
           padding:
               EdgeInsets.symmetric(horizontal: constraints.maxWidth * (0.03)),
@@ -561,6 +561,7 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
         //   height: constraints.maxHeight * (0.075),
         // ),
         WidgetsUtil.verticalSpace8,
+        const Spacer(),
         Container(
           margin:
               EdgeInsets.symmetric(horizontal: constraints.maxWidth * (0.1)),
@@ -602,7 +603,8 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
         // SizedBox(
         //   height: constraints.maxHeight * (0.05),
         // ),
-        WidgetsUtil.verticalSpace8,
+        // WidgetsUtil.verticalSpace8,
+        const Spacer(),
         widget.quizType == QuizTypes.battle
             ? BlocConsumer<BattleRoomCubit, BattleRoomState>(
                 bloc: context.read<BattleRoomCubit>(),
@@ -684,7 +686,7 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
                     titleColor: Constants.white,
                     shadowColor: Constants.primaryColor,
                     showBorder: false,
-                    height: 50,
+                    height: constraints.maxHeight * (0.1),
                     fontWeight: FontWeight.bold,
                   );
                 },
@@ -771,7 +773,8 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
                     shadowColor:
                         Theme.of(context).primaryColor.withOpacity(0.3),
                     showBorder: false,
-                    height: constraints.maxHeight * (0.115),
+                    // height: constraints.maxHeight * (0.115),
+                    height: constraints.maxHeight * (0.1),
                     fontWeight: FontWeight.bold,
                   );
                 },
@@ -835,9 +838,9 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
                 children: [
                   // WidgetsUtil.verticalSpace24,
                   Container(
-                    height: SizeConfig.screenHeight * 0.07,
+                    height: SizeConfig.screenHeight * 0.045,
                     width: SizeConfig.screenWidth,
-                    margin: const EdgeInsets.symmetric(horizontal: 50),
+                    margin: const EdgeInsets.symmetric(horizontal: 24),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       color: Constants.black1.withOpacity(0.3),
@@ -864,7 +867,7 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
                                 milliseconds: 200,
                               ),
                               height: 40,
-                              width: 140,
+                              width: 160,
                               child: Center(
                                 child: TitleText(
                                   text: tabItems[index],
@@ -886,7 +889,7 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
                         Container(
                           height: SizeConfig.screenHeight * 0.2,
                           width: SizeConfig.screenWidth * 0.9,
-                          padding: const EdgeInsets.symmetric(horizontal: 28),
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
                           decoration: BoxDecoration(
                               color: Constants.secondaryColor,
                               borderRadius: const BorderRadius.only(
@@ -911,7 +914,7 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 0,
-                                vertical: 20,
+                                vertical: 30,
                               ),
                               child: selectTab == 0
                                   ? _buildCreateRoomTab(constraints)

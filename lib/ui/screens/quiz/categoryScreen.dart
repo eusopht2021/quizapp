@@ -11,6 +11,7 @@ import 'package:flutterquiz/features/quiz/models/quizType.dart';
 import 'package:flutterquiz/ui/screens/home/widgets/new_quiz_category_card.dart';
 import 'package:flutterquiz/ui/widgets/bannerAdContainer.dart';
 import 'package:flutterquiz/ui/widgets/customBackButton.dart';
+import 'package:flutterquiz/ui/widgets/custom_card.dart';
 import 'package:flutterquiz/ui/widgets/default_layout.dart';
 import 'package:flutterquiz/ui/widgets/errorContainer.dart';
 import 'package:flutterquiz/utils/assets.dart';
@@ -57,16 +58,26 @@ class _CategoryScreen extends State<CategoryScreen> {
       backgroundColor: Constants.primaryColor,
       title: widget.categoryTitle ?? "",
       titleColor: Constants.white,
-      child: Stack(
-        children: <Widget>[
-          Column(children: <Widget>[
-            Expanded(flex: 15, child: showCategory()),
-          ]),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: BannerAdContainer(),
+      child: CustomCard(
+        padding: const EdgeInsets.only(
+          bottom: 0,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(
+            top: 16,
           ),
-        ],
+          child: Stack(
+            children: <Widget>[
+              Column(children: <Widget>[
+                Expanded(flex: 15, child: showCategory()),
+              ]),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: BannerAdContainer(),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -101,7 +112,7 @@ class _CategoryScreen extends State<CategoryScreen> {
           if (state is QuizCategoryProgress || state is QuizCategoryInitial) {
             return Center(
               child: CircularProgressIndicator(
-                color: Constants.white,
+                color: Constants.primaryColor,
               ),
             );
           }

@@ -39,27 +39,46 @@ class QuizCategoryCard extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: ListTile(
         onTap: onTap,
-        contentPadding: const EdgeInsets.all(5),
+        contentPadding: const EdgeInsets.only(
+          left: 8,
+          right: 16,
+          top: 8,
+          bottom: 8,
+        ),
         leading: Padding(
           padding: const EdgeInsets.only(left: 4),
-          child: asset.contains('.svg')
-              ? SvgPicture.asset(
-                  asset,
-                  height: 35,
-                  width: 35,
-                  color: Constants.primaryColor,
-                  placeholderBuilder: ((context) {
-                    return const Icon(Icons.error);
-                  }),
-                )
-              : Image.asset(
-                  asset,
-                  height: 35,
-                  width: 35,
-                  errorBuilder: ((context, error, stackTrace) {
-                    return const Icon(Icons.error);
-                  }),
-                ),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(
+                20,
+              ),
+              color: Constants.accent2,
+            ),
+            height: 80,
+            width: 50,
+            child: Card(
+              margin: const EdgeInsets.all(8),
+              color: Constants.white,
+              child: asset.contains('.svg')
+                  ? SvgPicture.asset(
+                      asset,
+                      height: 25,
+                      width: 25,
+                      color: Constants.primaryColor,
+                      placeholderBuilder: ((context) {
+                        return const Icon(Icons.error);
+                      }),
+                    )
+                  : Image.asset(
+                      asset,
+                      height: 25,
+                      width: 25,
+                      errorBuilder: ((context, error, stackTrace) {
+                        return const Icon(Icons.error);
+                      }),
+                    ),
+            ),
+          ),
         ),
         title: TitleText(
           text: name,

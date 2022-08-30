@@ -33,6 +33,7 @@ import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
+import 'package:recase/recase.dart';
 
 import '../../../features/auth/authRepository.dart';
 import '../../../features/auth/cubits/referAndEarnCubit.dart';
@@ -219,7 +220,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                           ],
                         ),
                         TitleText(
-                          text: state.userProfile.name!,
+                          text: state.userProfile.name!.titleCase,
                           textColor: Constants.white,
                           size: Constants.heading3,
                           weight: FontWeight.w500,

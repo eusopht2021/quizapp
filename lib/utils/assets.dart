@@ -47,6 +47,11 @@ class Assets {
   static String addImage = "assets/icons/addImage.svg";
   static String whiteBox = "assets/images/whiteBox.png";
   static String levelsIcon = "assets/images/levelsBg.png";
+  static String coinIcon = "assets/images/coins/coinicon.png";
+  static String medal = "assets/icons/medal.png";
+  static String drawn = "assets/icons/draw.png";
+  static String lost = "assets/icons/lost.png";
+  static String battle = "assets/icons/battle.png";
 
   static String smallDot = 'assets/images/smalldot.png';
   static String leftCircle = 'assets/images/leftCircle.png';
