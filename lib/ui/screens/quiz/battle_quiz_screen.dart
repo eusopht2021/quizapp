@@ -14,6 +14,7 @@ import 'package:flutterquiz/features/quiz/cubits/quizCategoryCubit.dart';
 import 'package:flutterquiz/features/quiz/models/quizType.dart';
 import 'package:flutterquiz/features/quiz/quizRepository.dart';
 import 'package:flutterquiz/features/systemConfig/cubits/systemConfigCubit.dart';
+import 'package:flutterquiz/ui/screens/battle/widgets/new_waiting_for_players_dialog.dart';
 import 'package:flutterquiz/ui/screens/battle/widgets/waitingForPlayersDialog.dart';
 import 'package:flutterquiz/ui/widgets/customRoundedButton.dart';
 import 'package:flutterquiz/ui/widgets/default_layout.dart';
@@ -174,12 +175,12 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
               });
             },
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 5.0),
-        width: boxConstraints.maxWidth * (0.14),
+        margin: const EdgeInsets.symmetric(horizontal: 4),
+        width: boxConstraints.maxWidth * (0.137),
         height: boxConstraints.maxHeight * (0.10),
         alignment: Alignment.center,
         padding:
-            useManualValue ? const EdgeInsets.symmetric(horizontal: 5.0) : null,
+            useManualValue ? const EdgeInsets.symmetric(horizontal: 2.0) : null,
         decoration: BoxDecoration(
             boxShadow: entryFeeValue == entryFee
                 ? [
@@ -301,7 +302,7 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
           ),
         ),
         SizedBox(
-          height: constraints.maxHeight * (0.15),
+          height: constraints.maxHeight * (0.12),
         ),
         widget.quizType == QuizTypes.battle
             ? BlocConsumer<BattleRoomCubit, BattleRoomState>(
@@ -310,8 +311,8 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
                     Navigator.of(context).pop();
                     showDialog(
                         context: context,
-                        builder: (context) =>
-                            WaitingForPlayesDialog(quizType: QuizTypes.battle));
+                        builder: (context) => WaitingForPlayesDialog(
+                            quizType: QuizTypes.battle));
                   } else if (state is BattleRoomFailure) {
                     if (state.errorMessageCode == unauthorizedAccessCode) {
                       UiUtils.showAlreadyLoggedInDialog(
@@ -446,6 +447,8 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
 
   Widget _buildCreateRoomTab(BoxConstraints constraints) {
     return Column(
+      // crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
       key: const Key("createTab"),
       children: [
         isCategoryEnabled()
@@ -454,7 +457,7 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
                   horizontal: 20.0,
                 ),
                 margin: EdgeInsets.symmetric(
-                    horizontal: constraints.maxWidth * (0.05)),
+                    horizontal: constraints.maxWidth * (0.02)),
                 decoration: BoxDecoration(
                     color: Constants.primaryColor,
                     borderRadius: BorderRadius.circular(25.0)),
@@ -530,6 +533,7 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
                           //   ),
                           : SizedBox(
                               width: SizeConfig.screenWidth,
+                              height: SizeConfig.screenWidth * 0.123,
                               child: Center(
                                 child: CircularProgressIndicator(
                                   color: Constants.white,
@@ -546,8 +550,9 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
         // ),
         WidgetsUtil.verticalSpace24,
         Padding(
-          padding:
-              EdgeInsets.symmetric(horizontal: constraints.maxWidth * (0.03)),
+          padding: const EdgeInsets.symmetric(
+              horizontal: 0 //constraints.maxWidth * (0.0)
+              ),
           child: Row(
             children: [
               ...entryFees
@@ -561,15 +566,15 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
         //   height: constraints.maxHeight * (0.075),
         // ),
         WidgetsUtil.verticalSpace8,
-        const Spacer(),
+        // const Spacer(),
         Container(
           margin:
-              EdgeInsets.symmetric(horizontal: constraints.maxWidth * (0.1)),
+              EdgeInsets.symmetric(horizontal: constraints.maxWidth * (0.02)),
           decoration: BoxDecoration(
               color: Constants.primaryColor.withOpacity(0.6),
               borderRadius: BorderRadius.circular(25.0)),
           // height: constraints.maxHeight * (0.115),
-          height: 50,
+          height: 56,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -603,8 +608,8 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
         // SizedBox(
         //   height: constraints.maxHeight * (0.05),
         // ),
-        // WidgetsUtil.verticalSpace8,
-        const Spacer(),
+        WidgetsUtil.verticalSpace8,
+        // const Spacer(),
         widget.quizType == QuizTypes.battle
             ? BlocConsumer<BattleRoomCubit, BattleRoomState>(
                 bloc: context.read<BattleRoomCubit>(),
@@ -686,7 +691,8 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
                     titleColor: Constants.white,
                     shadowColor: Constants.primaryColor,
                     showBorder: false,
-                    height: constraints.maxHeight * (0.1),
+                    // height: constraints.maxHeight * (0.1),
+                    height: 56,
                     fontWeight: FontWeight.bold,
                   );
                 },
@@ -774,11 +780,13 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
                         Theme.of(context).primaryColor.withOpacity(0.3),
                     showBorder: false,
                     // height: constraints.maxHeight * (0.115),
-                    height: constraints.maxHeight * (0.1),
+                    // height: constraints.maxHeight * (0.1),
+                    height: 56,
                     fontWeight: FontWeight.bold,
                   );
                 },
-              )
+              ),
+        const Spacer(),
       ],
     );
   }
@@ -837,47 +845,49 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
               child: Column(
                 children: [
                   // WidgetsUtil.verticalSpace24,
-                  Container(
-                    height: SizeConfig.screenHeight * 0.045,
-                    width: SizeConfig.screenWidth,
-                    margin: const EdgeInsets.symmetric(horizontal: 24),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Constants.black1.withOpacity(0.3),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: List.generate(
-                        tabItems.length,
-                        (index) {
-                          return GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                selectTab = index;
-                              });
-                            },
-                            child: AnimatedContainer(
-                              decoration: BoxDecoration(
-                                color: selectTab == index
-                                    ? Constants.secondaryColor
-                                    : Colors.transparent,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              duration: const Duration(
-                                milliseconds: 200,
-                              ),
-                              height: 40,
-                              width: 160,
-                              child: Center(
-                                child: TitleText(
-                                  text: tabItems[index],
-                                  textColor: Constants.white,
-                                  weight: FontWeight.w500,
+                  FittedBox(
+                    child: Container(
+                      height: SizeConfig.screenHeight * 0.06,
+                      width: SizeConfig.screenWidth,
+                      margin: const EdgeInsets.symmetric(horizontal: 35),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Constants.black1.withOpacity(0.3),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: List.generate(
+                          tabItems.length,
+                          (index) {
+                            return GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  selectTab = index;
+                                });
+                              },
+                              child: AnimatedContainer(
+                                decoration: BoxDecoration(
+                                  color: selectTab == index
+                                      ? Constants.secondaryColor
+                                      : Colors.transparent,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                duration: const Duration(
+                                  milliseconds: 200,
+                                ),
+                                // height: SizeConfig.screenHeight * 0.1,
+                                width: SizeConfig.screenWidth * 0.5,
+                                child: Center(
+                                  child: TitleText(
+                                    text: tabItems[index],
+                                    textColor: Constants.white,
+                                    weight: FontWeight.w500,
+                                  ),
                                 ),
                               ),
-                            ),
-                          );
-                        },
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ),
@@ -887,8 +897,8 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
                     child: Stack(
                       children: [
                         Container(
-                          height: SizeConfig.screenHeight * 0.2,
-                          width: SizeConfig.screenWidth * 0.9,
+                          height: SizeConfig.screenHeight * 0.15,
+                          width: SizeConfig.screenWidth * 0.85,
                           padding: const EdgeInsets.symmetric(horizontal: 24),
                           decoration: BoxDecoration(
                               color: Constants.secondaryColor,
@@ -899,23 +909,51 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
                               image: DecorationImage(
                                   image: AssetImage(Assets.backgroundCircle))),
                         ),
+                        // Positioned(
+                        //   top: SizeConfig.screenHeight * 0.14,
+                        //   child: Container(
+                        //     height: SizeConfig.screenHeight * 0.42,
+                        //     width: SizeConfig.screenWidth * 0.9,
+                        //     decoration: BoxDecoration(
+                        //       // color: Colors.red,
+                        //       image: DecorationImage(
+                        //         fit: BoxFit.fill,
+                        //         image: AssetImage(Assets.whiteBox),
+                        //       ),
+                        //     ),
+                        //     child: Padding(
+                        //       padding: const EdgeInsets.symmetric(
+                        //         horizontal: 12,
+                        //         vertical: 16,
+                        //       ),
+                        //       child: selectTab == 0
+                        //           ? _buildCreateRoomTab(constraints)
+                        //           : _buildJoinRoomTab(constraints),
+                        //     ),
+                        //   ),
+                        // ),
+
                         Positioned(
-                          top: SizeConfig.screenHeight * 0.17,
-                          child: Container(
-                            height: SizeConfig.screenHeight * 0.47,
-                            width: SizeConfig.screenWidth * 0.9,
-                            decoration: BoxDecoration(
-                              // color: Colors.red,
-                              image: DecorationImage(
-                                fit: BoxFit.fill,
-                                image: AssetImage(Assets.whiteBox),
-                              ),
+                          top: SizeConfig.screenHeight * 0.14,
+                          child: SizedBox(
+                            height: SizeConfig.screenHeight * 0.45,
+                            width: SizeConfig.screenWidth * 0.85,
+                            child: Image.asset(
+                              Assets.whiteBox,
+                              fit: BoxFit.fill,
                             ),
+                          ),
+                        ),
+                        Positioned(
+                          top: SizeConfig.screenHeight * 0.18,
+                          right: 0,
+                          left: 0,
+                          child: SizedBox(
+                            height: SizeConfig.screenHeight * 0.66,
+                            // width: SizeConfig.screenWidth * 0.5,
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 0,
-                                vertical: 30,
-                              ),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 12),
                               child: selectTab == 0
                                   ? _buildCreateRoomTab(constraints)
                                   : _buildJoinRoomTab(constraints),

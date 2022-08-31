@@ -59,9 +59,14 @@ class _CategoryScreen extends State<CategoryScreen> {
       title: widget.categoryTitle ?? "",
       titleColor: Constants.white,
       child: CustomCard(
-        padding: const EdgeInsets.only(
-          bottom: 0,
-        ),
+        padding: const EdgeInsets.all(8),
+        // borderRadius: const BorderRadius.only(
+        //     topLeft: Radius.circular(
+        //       20,
+        //     ),
+        //     topRight: Radius.circular(
+        //       20,
+        //     )),
         child: Padding(
           padding: const EdgeInsets.only(
             top: 16,

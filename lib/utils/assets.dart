@@ -112,14 +112,23 @@ class Assets {
   static String womanWave = 'assets/avatars/womanWave.svg';
 
   // BADGES
-  static String badge1 = 'assets/badges/badge1.png';
+  static String badgeLocked = 'assets/badges/badge1.png';
   static String badge2 = 'assets/badges/badge2.png';
   static String badge3 = 'assets/badges/badge3.png';
   static String badge4 = 'assets/badges/badge4.png';
   static String badge5 = 'assets/badges/badge5.png';
   static String badge6 = 'assets/badges/badge6.png';
   static List<String> badges = [
-    badge1,
+    badge2,
+    badge3,
+    badge4,
+    badge5,
+    badge6,
+    badge2,
+    badge3,
+    badge4,
+    badge5,
+    badge6,
     badge2,
     badge3,
     badge4,

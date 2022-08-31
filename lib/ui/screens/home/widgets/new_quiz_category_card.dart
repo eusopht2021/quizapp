@@ -49,35 +49,34 @@ class QuizCategoryCard extends StatelessWidget {
           padding: const EdgeInsets.only(left: 4),
           child: Container(
             decoration: BoxDecoration(
+              border: Border.all(
+                color: Constants.accent2,
+              ),
               borderRadius: BorderRadius.circular(
                 20,
               ),
-              color: Constants.accent2,
+              // color: Constants.black1,
             ),
             height: 80,
             width: 50,
-            child: Card(
-              margin: const EdgeInsets.all(8),
-              color: Constants.white,
-              child: asset.contains('.svg')
-                  ? SvgPicture.asset(
-                      asset,
-                      height: 25,
-                      width: 25,
-                      color: Constants.primaryColor,
-                      placeholderBuilder: ((context) {
-                        return const Icon(Icons.error);
-                      }),
-                    )
-                  : Image.asset(
-                      asset,
-                      height: 25,
-                      width: 25,
-                      errorBuilder: ((context, error, stackTrace) {
-                        return const Icon(Icons.error);
-                      }),
-                    ),
-            ),
+            child: asset.contains('.svg')
+                ? SvgPicture.asset(
+                    asset,
+                    height: 25,
+                    width: 25,
+                    color: Constants.primaryColor,
+                    placeholderBuilder: ((context) {
+                      return const Icon(Icons.error);
+                    }),
+                  )
+                : Image.asset(
+                    asset,
+                    height: 25,
+                    width: 25,
+                    errorBuilder: ((context, error, stackTrace) {
+                      return const Icon(Icons.error);
+                    }),
+                  ),
           ),
         ),
         title: TitleText(

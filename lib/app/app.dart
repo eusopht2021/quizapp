@@ -236,11 +236,11 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             builder: (context, widget) {
               SizeConfig.init(context);
-
-              return ScrollConfiguration(
-                behavior: GlobalScrollBehavior(),
-                child: widget!,
-              );
+              return widget!;
+              // return ScrollConfiguration(
+              //   behavior: GlobalScrollBehavior(),
+              //   child: widget!,
+              // );
             },
             locale: currentLanguage,
             theme: appThemeData[currentTheme]!.copyWith(

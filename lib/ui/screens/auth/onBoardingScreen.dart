@@ -114,7 +114,7 @@ class _OnBoardingState extends State<OnBoarding> {
                 // height: double.infinity,
                 child: Column(
                   children: [
-                    WidgetsUtil.verticalSpace16,
+                    // WidgetsUtil.verticalSpace16,
                     FittedBox(
                       fit: BoxFit.fitHeight,
                       clipBehavior: Clip.antiAlias,
@@ -155,8 +155,9 @@ class _OnBoardingState extends State<OnBoarding> {
                       },
                     ),
 
-                    WidgetsUtil.verticalSpace4, // WidgetsUtil.verticalSpace16,
+                    // WidgetsUtil.verticalSpace4, // WidgetsUtil.verticalSpace16,
 
+                    selectedIndex == 3 ? const Spacer() : const SizedBox(),
                     selectedIndex == 3
                         ? Container(
                             width: double.infinity,
@@ -167,7 +168,7 @@ class _OnBoardingState extends State<OnBoarding> {
                               left: 50,
                             ),
                             child: FittedBox(
-                              fit: BoxFit.cover,
+                              fit: BoxFit.scaleDown,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [

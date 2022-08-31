@@ -215,16 +215,17 @@ class _ProfileState extends State<Profile> {
   Widget _body(state) {
     return Stack(
       children: [
-        CustomCard(
-          padding: const EdgeInsets.only(
-            left: 8,
-            right: 8,
-            top: 70,
-            bottom: 16,
-          ),
-          child: SizedBox(
-            width: SizeConfig.screenWidth,
-            height: SizeConfig.screenHeight,
+        SizedBox(
+          width: SizeConfig.screenWidth,
+          height: SizeConfig.screenHeight - 80,
+          child: CustomCard(
+            // borderRadius: BorderRadius.all(Radius.circular(20)),
+            padding: const EdgeInsets.only(
+              left: 8,
+              right: 8,
+              top: 70,
+              bottom: 8,
+            ),
             child: SingleChildScrollView(
               child: Column(
                 children: [
@@ -339,79 +340,88 @@ class _ProfileState extends State<Profile> {
         }
         final List<Badge> badges =
             _organizedBadges((state as BadgesFetchSuccess).badges);
-        return SizedBox(
-          // height: SizeConfig.screenHeight * 0.7,
-          child: GridView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              padding: EdgeInsets.only(
-                  bottom: widget.routefromHomeScreen
-                      ? kBottomNavigationBarHeight
-                      : kBottomNavigationBarHeight * 2),
-              itemCount: badges.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                crossAxisSpacing: 7.5,
-                mainAxisSpacing: 10.0,
-                childAspectRatio: 0.575,
-              ),
-              itemBuilder: (context, index) {
-                return LayoutBuilder(
-                  builder: (context, constraints) {
-                    return GestureDetector(
-                      onTap: () {
-                        showBadgeDetails(context, badges[index]);
-                      },
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Stack(
-                          // crossAxisAlignment: CrossAxisAlignment.center,
-                          // mainAxisAlignment: MainAxisAlignment.start,
-                          // mainAxisSize: MainAxisSize.min,
-                          children: [
-                            BadgesIconContainer(
-                              badge: badges[index],
-                              constraints: constraints,
-                              addTopPadding: true,
+        return GridView.builder(
+            clipBehavior: Clip.none,
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            padding: EdgeInsets.zero,
+            itemCount: badges.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 30,
+              childAspectRatio: 1,
+            ),
+            itemBuilder: (context, index) {
+              return LayoutBuilder(
+                builder: (context, constraints) {
+                  return GestureDetector(
+                    onTap: () {
+                      showBadgeDetails(context, badges[index]);
+                    },
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Stack(
+                        clipBehavior: Clip.none,
+                        // crossAxisAlignment: CrossAxisAlignment.center,
+                        // mainAxisAlignment: MainAxisAlignment.start,
+                        // mainAxisSize: MainAxisSize.min,
+                        children: [
+                          // BadgesIconContainer(
+                          //   badge: badges[index],
+                          //   constraints: constraints,
+                          //   addTopPadding: true,
+                          // ),
+                          Positioned(
+                            top: 0,
+                            right: 10,
+                            left: 10,
+                            // bottom: 20,
+                            child: Image.asset(
+                              badges[index].status == "0"
+                                  ? Assets.badgeLocked
+                                  : Assets.badges[index],
+                              fit: BoxFit.fill,
                             ),
+                          ),
 
-                            Align(
-                              alignment: Alignment.bottomCenter,
-                              child: Text(
-                                badges[index].badgeLabel,
-                                textAlign: TextAlign.center,
-                                maxLines: 3,
-                                style: TextStyle(
-                                  color: badges[index].status == "0"
-                                      ? badgeLockedColor
-                                      : Constants.black1, //
-                                  fontSize: 14,
-                                  height: 1.25,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
+                          Positioned(
+                            top: SizeConfig.screenWidth * 0.25,
+                            // bottom: 0,
+                            left: 4,
+                            right: 4,
+                            child: TitleText(
+                              text: badges[index].badgeLabel,
+                              align: TextAlign.center,
+                              maxlines: 3,
+                              textColor: badges[index].status == "0"
+                                  ? badgeLockedColor
+                                  : Constants.black1, //
+                              size: Constants.bodySmall,
+                              // height: 1.25,
+                              weight: FontWeight.w500,
                             ),
+                          ),
 
-                            // badges[index].status == "0"
-                            //     ? Positioned(
-                            //         top: 50,
-                            //         left: 30,
-                            //         child: Image.asset(
-                            //           Assets.password,
-                            //           color: Constants.black1,
-                            //           height: 60,
-                            //           width: 60,
-                            //         ),
-                            //       )
-                            //     : const SizedBox(),
-                          ],
-                        ),
+                          // badges[index].status == "0"
+                          //     ? Positioned(
+                          //         top: 50,
+                          //         left: 30,
+                          //         child: Image.asset(
+                          //           Assets.password,
+                          //           color: Constants.black1,
+                          //           height: 60,
+                          //           width: 60,
+                          //         ),
+                          //       )
+                          //     : const SizedBox(),
+                        ],
                       ),
-                    );
-                  },
-                );
-              }),
-        );
+                    ),
+                  );
+                },
+              );
+            });
       },
     );
   }
@@ -754,7 +764,7 @@ class _ProfileState extends State<Profile> {
             ),
             child: Column(
               children: [
-                WidgetsUtil.verticalSpace16,
+                // WidgetsUtil.verticalSpace16,
                 WidgetsUtil.verticalSpace24,
                 Padding(
                   padding: const EdgeInsets.only(
@@ -774,10 +784,7 @@ class _ProfileState extends State<Profile> {
                 _customDonutchartBloc(),
                 WidgetsUtil.verticalSpace16,
                 Padding(
-                  padding: const EdgeInsets.only(
-                    left: 16,
-                    right: 16,
-                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Column(
                     children: [
                       Row(
@@ -791,6 +798,8 @@ class _ProfileState extends State<Profile> {
                                 .getTranslatedValues(playedKey)!,
                             badgeColor: Constants.black1,
                           ),
+                          WidgetsUtil.horizontalSpace10,
+                          // const Spacer(),
                           _battleContainer(
                             badge: Assets.medal,
                             color: Constants.primaryColor,
@@ -813,6 +822,8 @@ class _ProfileState extends State<Profile> {
                                 .getTranslatedValues(lostKey)!,
                             badgeColor: Constants.black1,
                           ),
+                          WidgetsUtil.horizontalSpace10,
+                          // const Spacer(),
                           _battleContainer(
                             badge: Assets.drawn,
                             color: Constants.primaryColor,
@@ -879,17 +890,18 @@ class _ProfileState extends State<Profile> {
                               child: CircleAvatar(
                                 radius: 35,
                                 backgroundColor: Colors.transparent,
-                                child: CachedNetworkImage(
-                                  imageUrl: profile,
-                                  width: 100,
-                                  height: 100,
-                                  fit: BoxFit.fill,
-                                  placeholder: (_, __) {
-                                    return CircularProgressIndicator(
-                                      color: Constants.primaryColor,
-                                    );
-                                  },
-                                ),
+                                // child: CachedNetworkImage(
+                                //   imageUrl: profile,
+                                //   width: 100,
+                                //   height: 100,
+                                //   fit: BoxFit.fill,
+                                //   placeholder: (_, __) {
+                                //     return CircularProgressIndicator(
+                                //       color: Constants.primaryColor,
+                                //     );
+                                //   },
+                                // ),
+                                backgroundImage: NetworkImage(profile),
                               ),
                             ),
                           ),
@@ -1185,8 +1197,8 @@ class _ProfileState extends State<Profile> {
         ),
       ),
       child: Container(
-        height: SizeConfig.screenHeight * 0.11,
-        width: SizeConfig.screenWidth * 0.37,
+        height: SizeConfig.screenHeight * 0.13,
+        width: SizeConfig.screenWidth * 0.38,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           color: color!,
@@ -1548,8 +1560,9 @@ class _ProfileState extends State<Profile> {
           Expanded(
             child: rowItem(
               asset: Assets.star,
-              title:
-                  AppLocalization.of(context)!.getTranslatedValues("points")!,
+              title: AppLocalization.of(context)!
+                  .getTranslatedValues("points")!
+                  .toUpperCase(),
               value: state.userProfile.allTimeScore,
             ),
           ),
@@ -1558,7 +1571,8 @@ class _ProfileState extends State<Profile> {
             child: rowItem(
               asset: Assets.world,
               title: AppLocalization.of(context)!
-                  .getTranslatedValues("worldRank")!,
+                  .getTranslatedValues("rankLbl")!
+                  .toUpperCase(),
               value: '#${state.userProfile.allTimeRank}',
             ),
           ),
@@ -1566,9 +1580,10 @@ class _ProfileState extends State<Profile> {
           Expanded(
             child: rowItem(
               asset: Assets.coinIcon, //local
-              title:
-                  AppLocalization.of(context)!.getTranslatedValues("coinsLbl")!,
-              value: '#${state.userProfile.coins}',
+              title: AppLocalization.of(context)!
+                  .getTranslatedValues("coinsLbl")!
+                  .toUpperCase(),
+              value: '${state.userProfile.coins}',
             ),
           ),
         ],

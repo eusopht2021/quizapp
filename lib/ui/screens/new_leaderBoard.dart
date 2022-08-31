@@ -155,7 +155,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
     return Column(
       children: [
         Container(
-          height: SizeConfig.screenHeight * 0.07,
+          height: SizeConfig.screenHeight * 0.06,
           width: SizeConfig.screenWidth,
           margin: const EdgeInsets.symmetric(horizontal: 24),
           decoration: BoxDecoration(
@@ -188,8 +188,8 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
               duration: const Duration(
                 milliseconds: 200,
               ),
-              height: 40,
-              width: 100,
+              height: SizeConfig.screenHeight * 0.05,
+              width: SizeConfig.screenWidth * 0.27,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
                   color: selectTab == index
@@ -224,11 +224,11 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
   double _topPosition(index) {
     double position = 0;
     index == 0
-        ? position = SizeConfig.screenHeight * (0.030)
+        ? position = SizeConfig.screenHeight * (0.012)
         : index == 1
-            ? position = SizeConfig.screenHeight * (0.055)
+            ? position = SizeConfig.screenHeight * (0.045)
             : index == 2
-                ? position = SizeConfig.screenHeight * (0.100)
+                ? position = SizeConfig.screenHeight * (0.07)
                 : null;
 
     return position;
@@ -255,7 +255,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
         : index == 1
             ? position = null
             : index == 2
-                ? position = SizeConfig.screenHeight * (0.050)
+                ? position = SizeConfig.screenHeight * (0.045)
                 : null;
     return position;
   }
@@ -310,6 +310,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
         return SizedBox(
           height: SizeConfig.screenHeight,
           child: Stack(
+            clipBehavior: Clip.none,
             children: [
               ...List.generate(
                 podiumList.length,
@@ -319,121 +320,134 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                     left: _leftPosition(index),
                     right: _rightPosition(index),
                     child: index < 3
-                        ? Column(
-                            children: [
-                              Badge(
-                                toAnimate: false,
-                                elevation: 0,
-                                showBadge: true,
-                                badgeContent: Image.asset(Assets.portugal),
-                                badgeColor: Colors.transparent,
-                                position: BadgePosition.bottomEnd(end: 2),
-                                child: Badge(
+                        ? FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: SizedBox(
+                              height: 150,
+                              child: Column(
+                                children: [
+                                  Badge(
                                     toAnimate: false,
                                     elevation: 0,
                                     showBadge: true,
-                                    badgeContent: index == 0
-                                        ? SvgPicture.asset(
-                                            Assets.crown,
-                                            height: 35,
-                                          )
-                                        : const SizedBox(),
-                                    position:
-                                        BadgePosition.topEnd(end: 12, top: -35),
+                                    badgeContent: Image.asset(Assets.portugal),
                                     badgeColor: Colors.transparent,
-                                    child: CircleAvatar(
-                                      radius: 35,
-                                      backgroundColor: Colors.transparent,
-                                      backgroundImage:
-                                          CachedNetworkImageProvider(
-                                        index == 0
-                                            ? podiumList[0]['profile']
-                                            : index == 1
-                                                ? podiumList[1]['profile']
-                                                : index == 2
-                                                    ? podiumList[2]['profile']
-                                                    : "",
-                                      ),
-                                    )),
+                                    position: BadgePosition.bottomEnd(end: 2),
+                                    child: Badge(
+                                        toAnimate: false,
+                                        elevation: 0,
+                                        showBadge: true,
+                                        badgeContent: index == 0
+                                            ? SvgPicture.asset(
+                                                Assets.crown,
+                                                height: 28,
+                                              )
+                                            : const SizedBox(),
+                                        position: BadgePosition.topEnd(
+                                            end: 12, top: -25),
+                                        badgeColor: Colors.transparent,
+                                        child: CircleAvatar(
+                                          radius: 32,
+                                          backgroundColor: Colors.transparent,
+                                          backgroundImage:
+                                              CachedNetworkImageProvider(
+                                            index == 0
+                                                ? podiumList[0]['profile']
+                                                : index == 1
+                                                    ? podiumList[1]['profile']
+                                                    : index == 2
+                                                        ? podiumList[2]
+                                                            ['profile']
+                                                        : "",
+                                          ),
+                                        )),
+                                  ),
+                                  WidgetsUtil.verticalSpace10,
+                                  SizedBox(
+                                    width: 100,
+                                    height: 20,
+                                    child: TitleText(
+                                      text:
+                                          "${index == 0 ? podiumList[0]['name']!.isNotEmpty ? podiumList[0]['name']! : "" : index == 1 ? podiumList[1]['name']!.isNotEmpty ? podiumList[1]['name']! : "" : index == 2 ? podiumList[2]['name']!.isNotEmpty ? podiumList[2]['name']! : "" : ""}"
+                                              .titleCase,
+                                      textColor: Constants.white,
+                                      size: Constants.bodySmall,
+                                      align: TextAlign.center,
+                                      maxlines: 1,
+                                    ),
+                                  ),
+                                  WidgetsUtil.verticalSpace8,
+                                  index < 3
+                                      ? _qpContainer(
+                                          Center(
+                                            child: TitleText(
+                                              text:
+                                                  "${index == 0 ? podiumList[0]['score']!.isNotEmpty ? podiumList[0]['score']! : "" : index == 1 ? podiumList[1]['score']!.isNotEmpty ? podiumList[1]['score']! : "" : index == 2 ? podiumList[2]['score']!.isNotEmpty ? podiumList[2]['score']! : "" : ""} PTS",
+                                              size: Constants.bodyXSmall,
+                                              textColor: Constants.white,
+                                            ),
+                                          ),
+                                        )
+                                      : const SizedBox(),
+                                ],
                               ),
-                              WidgetsUtil.verticalSpace16,
-                              SizedBox(
-                                width: 100,
-                                height: 20,
-                                child: TitleText(
-                                  text:
-                                      "${index == 0 ? podiumList[0]['name']!.isNotEmpty ? podiumList[0]['name']! : "" : index == 1 ? podiumList[1]['name']!.isNotEmpty ? podiumList[1]['name']! : "" : index == 2 ? podiumList[2]['name']!.isNotEmpty ? podiumList[2]['name']! : "" : ""}"
-                                          .titleCase,
-                                  textColor: Constants.white,
-                                  size: Constants.bodySmall,
-                                  align: TextAlign.center,
-                                  maxlines: 1,
-                                ),
-                              ),
-                              WidgetsUtil.verticalSpace4,
-                              index < 3
-                                  ? _qpContainer(
-                                      Center(
-                                        child: TitleText(
-                                          text:
-                                              "${index == 0 ? podiumList[0]['score']!.isNotEmpty ? podiumList[0]['score']! : "" : index == 1 ? podiumList[1]['score']!.isNotEmpty ? podiumList[1]['score']! : "" : index == 2 ? podiumList[2]['score']!.isNotEmpty ? podiumList[2]['score']! : "" : ""} PTS",
-                                          size: Constants.bodyXSmall,
-                                          textColor: Constants.white,
-                                        ),
-                                      ),
-                                    )
-                                  : const SizedBox(),
-                            ],
+                            ),
                           )
                         : const SizedBox(),
                   );
                 },
               ),
               Positioned(
-                top: SizeConfig.screenHeight * 0.2,
+                top: SizeConfig.screenHeight * 0.156,
                 child: Align(
                   alignment: Alignment.topCenter,
                   child: SizedBox(
                     width: SizeConfig.screenWidth,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Expanded(
-                          flex: 1,
-                          child: SizedBox(),
-                        ),
-                        Expanded(
-                          flex: 5,
-                          child: Image.asset(
-                            Assets.rank2,
-                            fit: BoxFit.cover,
-                            height: SizeConfig.screenHeight * 0.29,
-                          ),
-                        ),
-                        Expanded(
-                          flex: 5,
-                          child: Image.asset(
-                            Assets.rank1,
-                            fit: BoxFit.cover,
-                            height: SizeConfig.screenHeight * 0.35,
-                          ),
-                        ),
-                        Expanded(
-                          flex: 5,
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 80),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 22),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // const Expanded(
+                          //   flex: 1,
+                          //   child: SizedBox(),
+                          // ),
+                          Expanded(
+                            flex: 5,
                             child: Image.asset(
-                              Assets.rank3,
-                              fit: BoxFit.cover,
-                              height: SizeConfig.screenHeight * 0.3,
+                              Assets.rank2,
+                              fit: BoxFit.fill,
+                              width: SizeConfig.screenWidth * 0.15,
+                              height: SizeConfig.screenHeight * 0.29,
                             ),
                           ),
-                        ),
-                        const Expanded(
-                          flex: 1,
-                          child: SizedBox(),
-                        ),
-                      ],
+                          Expanded(
+                            flex: 5,
+                            child: Image.asset(
+                              Assets.rank1,
+                              fit: BoxFit.fill,
+                              width: SizeConfig.screenWidth * 0.2,
+                              height: SizeConfig.screenHeight * 0.37,
+                            ),
+                          ),
+                          Expanded(
+                            flex: 5,
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 80),
+                              child: Image.asset(
+                                Assets.rank3,
+                                fit: BoxFit.fill,
+                                width: SizeConfig.screenWidth * 0.15,
+                                height: SizeConfig.screenHeight * 0.35,
+                              ),
+                            ),
+                          ),
+                          // const Expanded(
+                          //   flex: 1,
+                          //   child: SizedBox(),
+                          // ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -495,123 +509,142 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
           height: SizeConfig.screenHeight,
           child: Stack(
             children: [
-              ...List.generate(podiumList.length, (index) {
-                return Positioned(
-                  top: _topPosition(index),
-                  left: _leftPosition(index),
-                  right: _rightPosition(index),
-                  child: index < 3
-                      ? Column(children: [
-                          Badge(
-                            toAnimate: false,
-                            elevation: 0,
-                            showBadge: true,
-                            badgeContent: Image.asset(Assets.portugal),
-                            badgeColor: Colors.transparent,
-                            position: BadgePosition.bottomEnd(end: 2),
-                            child: Badge(
-                                toAnimate: false,
-                                elevation: 0,
-                                showBadge: true,
-                                badgeContent: index == 0
-                                    ? SvgPicture.asset(
-                                        Assets.crown,
-                                        height: 35,
-                                      )
-                                    : const SizedBox(),
-                                position:
-                                    BadgePosition.topEnd(end: 12, top: -35),
-                                badgeColor: Colors.transparent,
-                                child: CircleAvatar(
-                                  radius: 35,
-                                  backgroundColor: Colors.transparent,
-                                  backgroundImage: CachedNetworkImageProvider(
-                                    index == 0
-                                        ? podiumList[0]['profile']
-                                        : index == 1
-                                            ? podiumList[1]['profile']
-                                            : index == 2
-                                                ? podiumList[2]['profile']
-                                                : "",
+              ...List.generate(
+                podiumList.length,
+                (index) {
+                  return Positioned(
+                    top: _topPosition(index),
+                    left: _leftPosition(index),
+                    right: _rightPosition(index),
+                    child: index < 3
+                        ? FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: SizedBox(
+                              height: 150,
+                              child: Column(
+                                children: [
+                                  Badge(
+                                    toAnimate: false,
+                                    elevation: 0,
+                                    showBadge: true,
+                                    badgeContent: Image.asset(Assets.portugal),
+                                    badgeColor: Colors.transparent,
+                                    position: BadgePosition.bottomEnd(end: 2),
+                                    child: Badge(
+                                        toAnimate: false,
+                                        elevation: 0,
+                                        showBadge: true,
+                                        badgeContent: index == 0
+                                            ? SvgPicture.asset(
+                                                Assets.crown,
+                                                height: 28,
+                                              )
+                                            : const SizedBox(),
+                                        position: BadgePosition.topEnd(
+                                            end: 12, top: -25),
+                                        badgeColor: Colors.transparent,
+                                        child: CircleAvatar(
+                                          radius: 32,
+                                          backgroundColor: Colors.transparent,
+                                          backgroundImage:
+                                              CachedNetworkImageProvider(
+                                            index == 0
+                                                ? podiumList[0]['profile']
+                                                : index == 1
+                                                    ? podiumList[1]['profile']
+                                                    : index == 2
+                                                        ? podiumList[2]
+                                                            ['profile']
+                                                        : "",
+                                          ),
+                                        )),
                                   ),
-                                )),
-                          ),
-                          WidgetsUtil.verticalSpace16,
-                          SizedBox(
-                            width: 100,
-                            height: 20,
-                            child: TitleText(
-                              text:
-                                  "${index == 0 ? podiumList[0]['name']!.isNotEmpty ? podiumList[0]['name']! : "" : index == 1 ? podiumList[1]['name']!.isNotEmpty ? podiumList[1]['name']! : "" : index == 2 ? podiumList[2]['name']!.isNotEmpty ? podiumList[2]['name']! : "" : ""}"
-                                      .titleCase,
-                              textColor: Constants.white,
-                              size: Constants.bodySmall,
-                              align: TextAlign.center,
-                              maxlines: 1,
-                            ),
-                          ),
-                          WidgetsUtil.verticalSpace4,
-                          index < 3
-                              ? _qpContainer(
-                                  Center(
+                                  WidgetsUtil.verticalSpace10,
+                                  SizedBox(
+                                    width: 100,
+                                    height: 20,
                                     child: TitleText(
                                       text:
-                                          "${index == 0 ? podiumList[0]['score']!.isNotEmpty ? podiumList[0]['score']! : "" : index == 1 ? podiumList[1]['score']!.isNotEmpty ? podiumList[1]['score']! : "" : index == 2 ? podiumList[2]['score']!.isNotEmpty ? podiumList[2]['score']! : "" : ""} PTS",
-                                      size: Constants.bodyXSmall,
+                                          "${index == 0 ? podiumList[0]['name']!.isNotEmpty ? podiumList[0]['name']! : "" : index == 1 ? podiumList[1]['name']!.isNotEmpty ? podiumList[1]['name']! : "" : index == 2 ? podiumList[2]['name']!.isNotEmpty ? podiumList[2]['name']! : "" : ""}"
+                                              .titleCase,
                                       textColor: Constants.white,
+                                      size: Constants.bodySmall,
+                                      align: TextAlign.center,
+                                      maxlines: 1,
                                     ),
                                   ),
-                                )
-                              : const SizedBox(),
-                        ])
-                      : const SizedBox(),
-                );
-              }),
+                                  WidgetsUtil.verticalSpace8,
+                                  index < 3
+                                      ? _qpContainer(
+                                          Center(
+                                            child: TitleText(
+                                              text:
+                                                  "${index == 0 ? podiumList[0]['score']!.isNotEmpty ? podiumList[0]['score']! : "" : index == 1 ? podiumList[1]['score']!.isNotEmpty ? podiumList[1]['score']! : "" : index == 2 ? podiumList[2]['score']!.isNotEmpty ? podiumList[2]['score']! : "" : ""} PTS",
+                                              size: Constants.bodyXSmall,
+                                              textColor: Constants.white,
+                                            ),
+                                          ),
+                                        )
+                                      : const SizedBox(),
+                                ],
+                              ),
+                            ),
+                          )
+                        : const SizedBox(),
+                  );
+                },
+              ),
               Positioned(
-                top: SizeConfig.screenHeight * 0.2,
+                top: SizeConfig.screenHeight * 0.156,
                 child: Align(
                   alignment: Alignment.topCenter,
                   child: SizedBox(
                     width: SizeConfig.screenWidth,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Expanded(
-                          flex: 1,
-                          child: SizedBox(),
-                        ),
-                        Expanded(
-                          flex: 5,
-                          child: Image.asset(
-                            Assets.rank2,
-                            fit: BoxFit.cover,
-                            height: SizeConfig.screenHeight * 0.29,
-                          ),
-                        ),
-                        Expanded(
-                          flex: 5,
-                          child: Image.asset(
-                            Assets.rank1,
-                            fit: BoxFit.cover,
-                            height: SizeConfig.screenHeight * 0.35,
-                          ),
-                        ),
-                        Expanded(
-                          flex: 5,
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 80),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 22),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // const Expanded(
+                          //   flex: 1,
+                          //   child: SizedBox(),
+                          // ),
+                          Expanded(
+                            flex: 5,
                             child: Image.asset(
-                              Assets.rank3,
-                              fit: BoxFit.cover,
-                              height: SizeConfig.screenHeight * 0.3,
+                              Assets.rank2,
+                              fit: BoxFit.fill,
+                              width: SizeConfig.screenWidth * 0.15,
+                              height: SizeConfig.screenHeight * 0.29,
                             ),
                           ),
-                        ),
-                        const Expanded(
-                          flex: 1,
-                          child: SizedBox(),
-                        ),
-                      ],
+                          Expanded(
+                            flex: 5,
+                            child: Image.asset(
+                              Assets.rank1,
+                              fit: BoxFit.fill,
+                              width: SizeConfig.screenWidth * 0.2,
+                              height: SizeConfig.screenHeight * 0.37,
+                            ),
+                          ),
+                          Expanded(
+                            flex: 5,
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 80),
+                              child: Image.asset(
+                                Assets.rank3,
+                                fit: BoxFit.fill,
+                                width: SizeConfig.screenWidth * 0.15,
+                                height: SizeConfig.screenHeight * 0.35,
+                              ),
+                            ),
+                          ),
+                          // const Expanded(
+                          //   flex: 1,
+                          //   child: SizedBox(),
+                          // ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -679,125 +712,142 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
           child: Stack(
             clipBehavior: Clip.antiAlias,
             children: [
-              ...List.generate(podiumList.length, (index) {
-                return Positioned(
-                  top: _topPosition(index),
-                  left: _leftPosition(index),
-                  right: _rightPosition(index),
-                  child: index < 3
-                      ? Column(
-                          children: [
-                            Badge(
-                              toAnimate: false,
-                              elevation: 0,
-                              showBadge: true,
-                              badgeContent: Image.asset(Assets.portugal),
-                              badgeColor: Colors.transparent,
-                              position: BadgePosition.bottomEnd(end: 2),
-                              child: Badge(
-                                  toAnimate: false,
-                                  elevation: 0,
-                                  showBadge: true,
-                                  badgeContent: index == 0
-                                      ? SvgPicture.asset(
-                                          Assets.crown,
-                                          height: 35,
+              ...List.generate(
+                podiumList.length,
+                (index) {
+                  return Positioned(
+                    top: _topPosition(index),
+                    left: _leftPosition(index),
+                    right: _rightPosition(index),
+                    child: index < 3
+                        ? FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: SizedBox(
+                              height: 150,
+                              child: Column(
+                                children: [
+                                  Badge(
+                                    toAnimate: false,
+                                    elevation: 0,
+                                    showBadge: true,
+                                    badgeContent: Image.asset(Assets.portugal),
+                                    badgeColor: Colors.transparent,
+                                    position: BadgePosition.bottomEnd(end: 2),
+                                    child: Badge(
+                                        toAnimate: false,
+                                        elevation: 0,
+                                        showBadge: true,
+                                        badgeContent: index == 0
+                                            ? SvgPicture.asset(
+                                                Assets.crown,
+                                                height: 28,
+                                              )
+                                            : const SizedBox(),
+                                        position: BadgePosition.topEnd(
+                                            end: 12, top: -25),
+                                        badgeColor: Colors.transparent,
+                                        child: CircleAvatar(
+                                          radius: 32,
+                                          backgroundColor: Colors.transparent,
+                                          backgroundImage:
+                                              CachedNetworkImageProvider(
+                                            index == 0
+                                                ? podiumList[0]['profile']
+                                                : index == 1
+                                                    ? podiumList[1]['profile']
+                                                    : index == 2
+                                                        ? podiumList[2]
+                                                            ['profile']
+                                                        : "",
+                                          ),
+                                        )),
+                                  ),
+                                  WidgetsUtil.verticalSpace10,
+                                  SizedBox(
+                                    width: 100,
+                                    height: 20,
+                                    child: TitleText(
+                                      text:
+                                          "${index == 0 ? podiumList[0]['name']!.isNotEmpty ? podiumList[0]['name']! : "" : index == 1 ? podiumList[1]['name']!.isNotEmpty ? podiumList[1]['name']! : "" : index == 2 ? podiumList[2]['name']!.isNotEmpty ? podiumList[2]['name']! : "" : ""}"
+                                              .titleCase,
+                                      textColor: Constants.white,
+                                      size: Constants.bodySmall,
+                                      align: TextAlign.center,
+                                      maxlines: 1,
+                                    ),
+                                  ),
+                                  WidgetsUtil.verticalSpace8,
+                                  index < 3
+                                      ? _qpContainer(
+                                          Center(
+                                            child: TitleText(
+                                              text:
+                                                  "${index == 0 ? podiumList[0]['score']!.isNotEmpty ? podiumList[0]['score']! : "" : index == 1 ? podiumList[1]['score']!.isNotEmpty ? podiumList[1]['score']! : "" : index == 2 ? podiumList[2]['score']!.isNotEmpty ? podiumList[2]['score']! : "" : ""} PTS",
+                                              size: Constants.bodyXSmall,
+                                              textColor: Constants.white,
+                                            ),
+                                          ),
                                         )
                                       : const SizedBox(),
-                                  position:
-                                      BadgePosition.topEnd(end: 12, top: -35),
-                                  badgeColor: Colors.transparent,
-                                  child: CircleAvatar(
-                                    radius: 35,
-                                    backgroundColor: Colors.transparent,
-                                    backgroundImage: CachedNetworkImageProvider(
-                                      index == 0
-                                          ? podiumList[0]['profile']
-                                          : index == 1
-                                              ? podiumList[1]['profile']
-                                              : index == 2
-                                                  ? podiumList[2]['profile']
-                                                  : "",
-                                    ),
-                                  )),
-                            ),
-                            WidgetsUtil.verticalSpace16,
-                            SizedBox(
-                              width: 100,
-                              height: 20,
-                              child: TitleText(
-                                text:
-                                    "${index == 0 ? podiumList[0]['name']!.isNotEmpty ? podiumList[0]['name']! : "" : index == 1 ? podiumList[1]['name']!.isNotEmpty ? podiumList[1]['name']! : "" : index == 2 ? podiumList[2]['name']!.isNotEmpty ? podiumList[2]['name']! : "" : ""}"
-                                        .titleCase,
-                                textColor: Constants.white,
-                                size: Constants.bodySmall,
-                                align: TextAlign.center,
-                                maxlines: 1,
+                                ],
                               ),
                             ),
-                            WidgetsUtil.verticalSpace4,
-                            index < 3
-                                ? _qpContainer(
-                                    Center(
-                                      child: TitleText(
-                                        text:
-                                            "${index == 0 ? podiumList[0]['score']!.isNotEmpty ? podiumList[0]['score']! : "" : index == 1 ? podiumList[1]['score']!.isNotEmpty ? podiumList[1]['score']! : "" : index == 2 ? podiumList[2]['score']!.isNotEmpty ? podiumList[2]['score']! : "" : ""} PTS",
-                                        size: Constants.bodyXSmall,
-                                        textColor: Constants.white,
-                                      ),
-                                    ),
-                                  )
-                                : const SizedBox(),
-                          ],
-                        )
-                      : const SizedBox(),
-                );
-              }),
+                          )
+                        : const SizedBox(),
+                  );
+                },
+              ),
               Positioned(
-                top: SizeConfig.screenHeight * 0.2,
+                top: SizeConfig.screenHeight * 0.156,
                 child: Align(
                   alignment: Alignment.topCenter,
                   child: SizedBox(
                     width: SizeConfig.screenWidth,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Expanded(
-                          flex: 1,
-                          child: SizedBox(),
-                        ),
-                        Expanded(
-                          flex: 5,
-                          child: Image.asset(
-                            Assets.rank2,
-                            fit: BoxFit.cover,
-                            height: SizeConfig.screenHeight * 0.29,
-                          ),
-                        ),
-                        Expanded(
-                          flex: 5,
-                          child: Image.asset(
-                            Assets.rank1,
-                            fit: BoxFit.cover,
-                            height: SizeConfig.screenHeight * 0.35,
-                          ),
-                        ),
-                        Expanded(
-                          flex: 5,
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 80),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 22),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // const Expanded(
+                          //   flex: 1,
+                          //   child: SizedBox(),
+                          // ),
+                          Expanded(
+                            flex: 5,
                             child: Image.asset(
-                              Assets.rank3,
-                              fit: BoxFit.cover,
-                              height: SizeConfig.screenHeight * 0.3,
+                              Assets.rank2,
+                              fit: BoxFit.fill,
+                              width: SizeConfig.screenWidth * 0.15,
+                              height: SizeConfig.screenHeight * 0.29,
                             ),
                           ),
-                        ),
-                        const Expanded(
-                          flex: 1,
-                          child: SizedBox(),
-                        ),
-                      ],
+                          Expanded(
+                            flex: 5,
+                            child: Image.asset(
+                              Assets.rank1,
+                              fit: BoxFit.fill,
+                              width: SizeConfig.screenWidth * 0.2,
+                              height: SizeConfig.screenHeight * 0.37,
+                            ),
+                          ),
+                          Expanded(
+                            flex: 5,
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 80),
+                              child: Image.asset(
+                                Assets.rank3,
+                                fit: BoxFit.fill,
+                                width: SizeConfig.screenWidth * 0.15,
+                                height: SizeConfig.screenHeight * 0.35,
+                              ),
+                            ),
+                          ),
+                          // const Expanded(
+                          //   flex: 1,
+                          //   child: SizedBox(),
+                          // ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -816,24 +866,19 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
   //   List startsFromThree = [];
   //   List startsFromZero = [];
   //   List users = [];
-
   //   // int index = 0;
   //   int counterIndex = 0;
-
   //   for (int i = 0; i < leaderBoardList.length; i++) {
   //     startsFromZero.add(leaderBoardList[i]);
-
   //     if (i >= 3) {
   //       startsFromThree.add(leaderBoardList[i]);
   //     }
   //   }
-
   //   if (isExpand) {
   //     users = startsFromZero;
   //   } else {
   //     users = startsFromThree;
   //   }
-
   //   log(startsFromThree.length.toString());
   //   // print("${users[3]}");
   //   // log(draggable[""].toString());
@@ -916,13 +961,10 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
   //                     // else if (!users[index].containsKey("name")) {
   //                     //   return SizedBox();
   //                     // }
-
   //                     else if (index % 21 == 0) {
   //                       // log(index.toString());
-
   //                       return const SizedBox();
   //                     }
-
   //                     log("$index  index");
   //                     return SizedBox(
   //                       height: 85,
@@ -1034,7 +1076,6 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
   //                 //   shrinkWrap: true,
   //                 //   itemCount: users.length,
   //                 //   itemBuilder: (context, index) {
-
   //                 //   },
   //                 // ),
   //               ],
@@ -1074,9 +1115,9 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
       },
       child: DraggableScrollableSheet(
         snap: true,
-        initialChildSize: 0.46,
-        minChildSize: 0.46,
-        maxChildSize: 0.97,
+        initialChildSize: 0.44,
+        minChildSize: 0.44,
+        maxChildSize: 1,
 
         // controller: controller,
         builder: (context, controller) {
@@ -1111,8 +1152,8 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
               decoration: BoxDecoration(
                 color: Constants.grey5,
                 borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
+                  topLeft: Radius.circular(25),
+                  topRight: Radius.circular(25),
                 ),
               ),
               child: ListView(

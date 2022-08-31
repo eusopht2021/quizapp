@@ -200,7 +200,7 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
                   Image.asset(
                     (index + 1) <= unlockedLevel
                         ? Assets.levelsIcon
-                        : Assets.badge1,
+                        : Assets.badgeLocked,
                     height: 150,
                   ),
                   Padding(

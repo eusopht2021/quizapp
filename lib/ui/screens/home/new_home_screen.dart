@@ -448,7 +448,12 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                 WidgetsUtil.verticalSpace16,
                 Container(
                   margin: EdgeInsets.zero,
-                  decoration: StyleProperties.sheetBorder,
+                  decoration: BoxDecoration(
+                    color: Constants.white,
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(30),
+                    ),
+                  ),
                   padding: StyleProperties.insets18,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
