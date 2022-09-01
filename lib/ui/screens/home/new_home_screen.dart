@@ -34,6 +34,7 @@ import 'package:flutterquiz/utils/uiUtils.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:recase/recase.dart';
+import 'package:just_the_tooltip/just_the_tooltip.dart';
 
 import '../../../features/auth/authRepository.dart';
 import '../../../features/auth/cubits/referAndEarnCubit.dart';
@@ -1261,8 +1262,17 @@ class _NewHomeScreenState extends State<NewHomeScreen>
           ),
           Align(
             alignment: const Alignment(1.1, -1.1),
-            child: Tooltip(
-              message: quizDescription,
+            child: JustTheTooltip(
+              content: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: TitleText(
+                  text: quizDescription!,
+                  textColor: Constants.white,
+                ),
+              ),
+              backgroundColor: Constants.secondaryColor,
+              tailBaseWidth: 20.0,
+              tailLength: 10.0,
               triggerMode: TooltipTriggerMode.tap,
               child: Icon(
                 Icons.info,

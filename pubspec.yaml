@@ -106,6 +106,7 @@ dependencies:
   sliding_up_panel: ^2.0.0+1
   scrollable_panel: ^0.4.1
   recase: ^4.0.0
+  just_the_tooltip: ^0.0.12
 
  
 

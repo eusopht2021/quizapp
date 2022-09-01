@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -24,10 +25,10 @@ class QuizCategoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.only(
-        top: 6,
+        top: 0,
         left: horizontalMargin ?? 0,
         right: horizontalMargin ?? 0,
-        bottom: 0,
+        bottom: 8,
       ),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
@@ -36,47 +37,47 @@ class QuizCategoryCard extends StatelessWidget {
           color: Constants.grey5,
         ),
       ),
-      clipBehavior: Clip.antiAlias,
       child: ListTile(
         onTap: onTap,
         contentPadding: const EdgeInsets.only(
           left: 8,
           right: 16,
-          top: 8,
-          bottom: 8,
+          top: 4,
+          bottom: 4,
         ),
         leading: Padding(
           padding: const EdgeInsets.only(left: 4),
           child: Container(
+            padding: const EdgeInsets.all(8.0),
+            clipBehavior: Clip.none,
             decoration: BoxDecoration(
               border: Border.all(
+                width: 3,
                 color: Constants.accent2,
               ),
               borderRadius: BorderRadius.circular(
-                20,
+                15,
               ),
               // color: Constants.black1,
             ),
-            height: 80,
-            width: 50,
-            child: asset.contains('.svg')
-                ? SvgPicture.asset(
-                    asset,
-                    height: 25,
-                    width: 25,
+            height: 60,
+            width: 55,
+            child: CachedNetworkImage(
+              imageUrl: asset,
+              // height: 25,
+              // width: 25,
+              fit: BoxFit.scaleDown,
+              placeholder: (_, __) {
+                return Center(
+                  child: CircularProgressIndicator(
                     color: Constants.primaryColor,
-                    placeholderBuilder: ((context) {
-                      return const Icon(Icons.error);
-                    }),
-                  )
-                : Image.asset(
-                    asset,
-                    height: 25,
-                    width: 25,
-                    errorBuilder: ((context, error, stackTrace) {
-                      return const Icon(Icons.error);
-                    }),
                   ),
+                );
+              },
+              errorWidget: ((context, error, stackTrace) {
+                return const Icon(Icons.error);
+              }),
+            ),
           ),
         ),
         title: TitleText(

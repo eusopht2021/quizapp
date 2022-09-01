@@ -11,6 +11,7 @@ import 'package:flutterquiz/ui/widgets/circularProgressContainner.dart';
 import 'package:flutterquiz/ui/widgets/errorContainer.dart';
 import 'package:flutterquiz/ui/widgets/pageBackgroundGradientContainer.dart';
 import 'package:flutterquiz/ui/widgets/roundedAppbar.dart';
+import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/inAppPurchaseProducts.dart';
 import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
@@ -74,25 +75,29 @@ class _CoinStoreScreenState extends State<CoinStoreScreen>
                 .buyConsumableProducts(products[index]);
           },
           child: Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).backgroundColor,
+              borderRadius: BorderRadius.circular(15.0),
+            ),
             child: Column(
               children: [
                 Flexible(
                   flex: 3,
                   child: Container(
                     alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor,
+                      borderRadius: const BorderRadius.only(
+                        topLeft: const Radius.circular(15.0),
+                        topRight: const Radius.circular(15.0),
+                      ),
+                    ),
                     child: Text(
                       "$coins ${AppLocalization.of(context)!.getTranslatedValues(coinsLbl)!}",
                       style: TextStyle(
                         color: Theme.of(context).backgroundColor,
                         fontWeight: FontWeight.bold,
                         fontSize: 16.0,
-                      ),
-                    ),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
-                      borderRadius: const BorderRadius.only(
-                        topLeft: const Radius.circular(15.0),
-                        topRight: const Radius.circular(15.0),
                       ),
                     ),
                   ),
@@ -102,8 +107,6 @@ class _CoinStoreScreenState extends State<CoinStoreScreen>
                     child: Container(
                       alignment: Alignment.centerLeft,
                       padding: const EdgeInsets.all(25.0),
-                      child:
-                          SvgPicture.asset("assets/images/coins/04_coins.svg"),
                       decoration: BoxDecoration(
                         color: Theme.of(context).colorScheme.secondary,
                         borderRadius: const BorderRadius.only(
@@ -111,12 +114,10 @@ class _CoinStoreScreenState extends State<CoinStoreScreen>
                           bottomRight: const Radius.circular(15.0),
                         ),
                       ),
+                      child:
+                          SvgPicture.asset("assets/images/coins/04_coins.svg"),
                     )),
               ],
-            ),
-            decoration: BoxDecoration(
-              color: Theme.of(context).backgroundColor,
-              borderRadius: BorderRadius.circular(15.0),
             ),
           ),
         );
@@ -139,9 +140,10 @@ class _CoinStoreScreenState extends State<CoinStoreScreen>
         return Future.value(true);
       },
       child: Scaffold(
+        backgroundColor: Constants.white,
         body: Stack(
           children: [
-            const PageBackgroundGradientContainer(),
+            // const PageBackgroundGradientContainer(),
             Align(
               alignment: Alignment.topCenter,
               child: BlocConsumer<InAppPurchaseCubit, InAppPurchaseState>(
@@ -200,6 +202,8 @@ class _CoinStoreScreenState extends State<CoinStoreScreen>
                         showBackButton: false,
                         errorMessage: AppLocalization.of(context)!
                             .getTranslatedValues(state.errorMessage)!,
+                        buttonColor: Constants.primaryColor,
+                        buttonTitleColor: Constants.white,
                         onTapRetry: () {
                           initPurchase();
                         },

@@ -287,11 +287,10 @@ class _CategoryScreen extends State<CategoryScreen> {
               physics: const AlwaysScrollableScrollPhysics(),
               itemBuilder: (BuildContext context, int index) {
                 // bool checked = index == selectedIndex;
-
                 return QuizCategoryCard(
                   horizontalMargin: 8,
                   category: "",
-                  asset: Assets.quizCategories[index].asset,
+                  asset: categoryList[index].image!,
                   name: categoryList[index].categoryName!,
                   onTap: () {
                     if (widget.quizType == QuizTypes.quizZone) {
@@ -415,7 +414,6 @@ class _CategoryScreen extends State<CategoryScreen> {
               //     //noOf means how many subcategory it has
               //     //if subcategory is 0 then check for level
               //     log("${categoryList} lists");
-
               //     if (categoryList[index].noOf == "0") {
               //       //means this category does not have level
               //       if (categoryList[index].maxLevel == "0") {
@@ -448,7 +446,6 @@ class _CategoryScreen extends State<CategoryScreen> {
               //     }
               //   } else if (widget.quizType == QuizTypes.audioQuestions) {
               //     //noOf means how many subcategory it has
-
               //     if (categoryList[index].noOf == "0") {
               //       //
               //       Navigator.of(context).pushNamed(Routes.quiz, arguments: {

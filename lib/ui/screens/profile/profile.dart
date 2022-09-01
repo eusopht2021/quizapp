@@ -243,8 +243,8 @@ class _ProfileState extends State<Profile> {
                   _statsCard(state),
                   WidgetsUtil.verticalSpace16,
                   _tabs(state.userProfile.profileUrl!),
-                  WidgetsUtil.verticalSpace32,
-                  WidgetsUtil.verticalSpace32,
+                  // WidgetsUtil.verticalSpace32,
+                  // WidgetsUtil.verticalSpace32,
                 ],
               ),
             ),
@@ -344,13 +344,13 @@ class _ProfileState extends State<Profile> {
             clipBehavior: Clip.none,
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            padding: EdgeInsets.zero,
+            padding: const EdgeInsets.only(bottom: 0),
             itemCount: badges.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,
               crossAxisSpacing: 10,
               mainAxisSpacing: 30,
-              childAspectRatio: 1,
+              childAspectRatio: 0.88,
             ),
             itemBuilder: (context, index) {
               return LayoutBuilder(
@@ -363,9 +363,6 @@ class _ProfileState extends State<Profile> {
                       alignment: Alignment.bottomCenter,
                       child: Stack(
                         clipBehavior: Clip.none,
-                        // crossAxisAlignment: CrossAxisAlignment.center,
-                        // mainAxisAlignment: MainAxisAlignment.start,
-                        // mainAxisSize: MainAxisSize.min,
                         children: [
                           // BadgesIconContainer(
                           //   badge: badges[index],
@@ -386,7 +383,7 @@ class _ProfileState extends State<Profile> {
                           ),
 
                           Positioned(
-                            top: SizeConfig.screenWidth * 0.25,
+                            top: SizeConfig.screenWidth * 0.26,
                             // bottom: 0,
                             left: 4,
                             right: 4,
@@ -399,6 +396,7 @@ class _ProfileState extends State<Profile> {
                                   : Constants.black1, //
                               size: Constants.bodySmall,
                               // height: 1.25,
+
                               weight: FontWeight.w500,
                             ),
                           ),
@@ -816,21 +814,21 @@ class _ProfileState extends State<Profile> {
                         children: [
                           _battleContainer(
                             badge: Assets.lost,
-                            color: Constants.white,
+                            color: Constants.primaryColor,
                             count: model.battleLoose,
                             title: AppLocalization.of(context)!
                                 .getTranslatedValues(lostKey)!,
-                            badgeColor: Constants.black1,
+                            badgeColor: Constants.white,
                           ),
                           WidgetsUtil.horizontalSpace10,
                           // const Spacer(),
                           _battleContainer(
                             badge: Assets.drawn,
-                            color: Constants.primaryColor,
+                            color: Constants.white,
                             count: model.battleDrawn,
                             title: AppLocalization.of(context)!
                                 .getTranslatedValues(drawLbl)!,
-                            badgeColor: Constants.white,
+                            badgeColor: Constants.black1,
                           ),
                         ],
                       ),
@@ -1535,7 +1533,7 @@ class _ProfileState extends State<Profile> {
         //tabItems
         WidgetsUtil.verticalSpace16,
         _tabItem(profile),
-        WidgetsUtil.verticalSpace32,
+        // WidgetsUtil.verticalSpace32,
         WidgetsUtil.verticalSpace16,
       ],
     );

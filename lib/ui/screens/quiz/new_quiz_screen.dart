@@ -34,6 +34,7 @@ import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
+import 'package:just_the_tooltip/just_the_tooltip.dart';
 
 enum LifelineStatus { unused, using, used }
 
@@ -127,11 +128,6 @@ class _NewQuizScreenState extends State<NewQuizScreen>
   late Animation<double> questionContentAnimation;
   late AnimationController animationController;
   late AnimationController topContainerAnimationController;
-  late AnimationController showOptionAnimationController = AnimationController(
-      vsync: this, duration: const Duration(milliseconds: 500));
-  late Animation<double> showOptionAnimation =
-      Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-          parent: showOptionAnimationController, curve: Curves.easeInOut));
   late List<GlobalKey<AudioQuestionContainerState>> audioQuestionContainerKeys =
       [];
   int currentQuestionIndex = 0;
@@ -188,7 +184,7 @@ class _NewQuizScreenState extends State<NewQuizScreen>
     if (widget.quizType != QuizTypes.audioQuestions) {
       timerAnimationController.forward(from: 0);
     }
-
+//
 //  if (!showOptionAnimationController.isAnimating) {
 //                   showOptionAnimationController.reverse();
 //                   audioQuestionContainerKeys[currentQuestionIndex]
@@ -244,6 +240,8 @@ class _NewQuizScreenState extends State<NewQuizScreen>
     if (isExitDialogOpen) {
       Navigator.of(context).pop();
     }
+
+    log('TIME: ${totalSecondsToCompleteQuiz} ${timerAnimationController.value}');
 
     //move to result page
     //to see the what are the keys to pass in arguments for result screen
@@ -358,6 +356,7 @@ class _NewQuizScreenState extends State<NewQuizScreen>
   //update answer locally and on cloud
   void submitAnswer(String submittedAnswer) async {
     timerAnimationController.stop();
+    log('Submit ANswer: ${timerAnimationController.value}');
     if (!context
         .read<QuestionsCubit>()
         .questions()[currentQuestionIndex]
@@ -381,8 +380,6 @@ class _NewQuizScreenState extends State<NewQuizScreen>
           timerAnimationController.value = 0.0;
           timerAnimationController.forward(from: 0.0);
           // showOptionAnimationController.forward();
-        } else if (widget.quizType != QuizTypes.audioQuestions) {
-          timerAnimationController.forward(from: 0.0);
         }
       } else {
         updateSubmittedAnswerForBookmark(
@@ -395,12 +392,9 @@ class _NewQuizScreenState extends State<NewQuizScreen>
 
   //listener for current user timer
   void currentUserTimerAnimationStatusListener(AnimationStatus status) {
+    log('Time is completed!');
     if (status == AnimationStatus.completed) {
       submitAnswer("-1");
-    } else if (status == AnimationStatus.forward) {
-      if (widget.quizType == QuizTypes.audioQuestions) {
-        showOptionAnimationController.reverse();
-      }
     }
   }
 
@@ -744,14 +738,20 @@ class _NewQuizScreenState extends State<NewQuizScreen>
               log("gesture detector tapped");
             }
           : onTap,
-      child: Tooltip(
+      child: JustTheTooltip(
         key: toolTipKey!,
-        message: toolTipMessage,
+        content: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: TitleText(
+            text: toolTipMessage!,
+            textColor: Constants.white,
+          ),
+        ),
         showDuration: const Duration(seconds: 1),
         triggerMode: TooltipTriggerMode.manual,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: Theme.of(context).primaryColor),
+        tailBaseWidth: 20.0,
+        tailLength: 10.0,
+        backgroundColor: Constants.primaryColor,
         child: Container(
           decoration: BoxDecoration(
               color: lifelineTitle == fiftyFifty &&
@@ -1137,9 +1137,12 @@ class _NewQuizScreenState extends State<NewQuizScreen>
                             audioQuestionContainerKeys
                                 .add(GlobalKey<AudioQuestionContainerState>());
                           });
-
+                          // audioQuestionContainerKeys[currentQuestionIndex]
+                          //     .currentState!
+                          //     .changeShowOption();
                           //
                           // showOptionAnimationController.forward();
+                          timerAnimationController.forward(from: 0.0);
 
                           questionContentAnimationController.forward(from: 0);
                           //add audio question container keys
@@ -1150,7 +1153,7 @@ class _NewQuizScreenState extends State<NewQuizScreen>
                         else if (widget.quizType == QuizTypes.mathMania) {
                           questionContentAnimationController.forward();
                         } else {
-                          timerAnimationController.forward();
+                          // timerAnimationController.forward();
                           questionContentAnimationController.forward();
                         }
                       }

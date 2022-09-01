@@ -109,15 +109,24 @@ class _ContestLeaderBoardScreen extends State<ContestLeaderBoardScreen> {
             ],
           ),
         ),
-        body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(Assets.backgroundCircle),
-            ),
-          ),
-          child: Stack(
+        body: SingleChildScrollView(
+          padding: EdgeInsets.zero,
+          physics: const NeverScrollableScrollPhysics(),
+          child: Column(
             children: [
-              leaderBoard(),
+              WidgetsUtil.verticalSpace32,
+              Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(Assets.backgroundCircle),
+                  ),
+                ),
+                child: Stack(
+                  children: [
+                    leaderBoard(),
+                  ],
+                ),
+              ),
             ],
           ),
         ));
@@ -177,30 +186,33 @@ class _ContestLeaderBoardScreen extends State<ContestLeaderBoardScreen> {
                           child: Column(
                             children: [
                               Badge(
+                                toAnimate: false,
                                 elevation: 0,
                                 showBadge: true,
                                 badgeContent: Image.asset(Assets.portugal),
                                 badgeColor: Colors.transparent,
-                                position: BadgePosition.bottomEnd(),
+                                position: BadgePosition.bottomEnd(end: -6),
                                 child: Badge(
+                                  toAnimate: false,
                                   elevation: 0,
                                   showBadge: true,
                                   badgeContent: index == 0
                                       ? SvgPicture.asset(
                                           Assets.crown,
-                                          height: 30,
+                                          height: 28,
                                         )
                                       : const SizedBox(),
                                   position:
-                                      BadgePosition.topEnd(end: 5, top: -20),
+                                      BadgePosition.topEnd(end: 12, top: -25),
                                   badgeColor: Colors.transparent,
                                   child: ClipOval(
                                     clipBehavior: Clip.antiAlias,
                                     child: CircleAvatar(
                                       backgroundColor: Colors.transparent,
-                                      radius: 25,
-                                      child: CachedNetworkImage(
-                                        imageUrl: index == 0
+                                      radius: 32,
+                                      backgroundImage:
+                                          CachedNetworkImageProvider(
+                                        index == 0
                                             ? getContestLeaderboardList[0]
                                                 .profile!
                                             : index == 1
@@ -211,18 +223,7 @@ class _ContestLeaderBoardScreen extends State<ContestLeaderBoardScreen> {
                                                             2]
                                                         .profile!
                                                     : "",
-                                        placeholder: (url, string) {
-                                          return CircularProgressIndicator(
-                                            color: Constants.primaryColor,
-                                          );
-                                        },
-                                        errorWidget: (_, __, ___) {
-                                          return Image.asset(
-                                            Assets.person,
-                                            width: 30,
-                                            height: 30,
-                                          );
-                                        },
+
                                         // placeholder: Image.asset(Assets.person),
                                       ),
                                     ),
@@ -273,6 +274,7 @@ class _ContestLeaderBoardScreen extends State<ContestLeaderBoardScreen> {
                                           textColor: Constants.white,
                                         ),
                                       ),
+                                      showShadow: index == 0 ? true : false,
                                     )
                                   : const SizedBox(),
                             ],
@@ -282,7 +284,7 @@ class _ContestLeaderBoardScreen extends State<ContestLeaderBoardScreen> {
                 );
               }),
               Positioned(
-                top: SizeConfig.screenHeight * 0.156,
+                top: SizeConfig.screenHeight * 0.159,
                 child: Align(
                   alignment: Alignment.topCenter,
                   child: SizedBox(
@@ -363,7 +365,7 @@ class _ContestLeaderBoardScreen extends State<ContestLeaderBoardScreen> {
 
         if (dSnotification.extent >= 0.95) {
           isExpand = true;
-        } else if (dSnotification.extent <= 0.47) {
+        } else if (dSnotification.extent <= 0.58) {
           isExpand = false;
         }
         // setState(() {});
@@ -371,8 +373,8 @@ class _ContestLeaderBoardScreen extends State<ContestLeaderBoardScreen> {
       },
       child: DraggableScrollableSheet(
         snap: true,
-        initialChildSize: 0.45,
-        minChildSize: 0.45,
+        initialChildSize: 0.55,
+        minChildSize: 0.55,
         maxChildSize: 1.0,
         builder: (context, controller) {
           for (int i = 0; i < leaderBoardList.length; i++) {
@@ -436,7 +438,7 @@ class _ContestLeaderBoardScreen extends State<ContestLeaderBoardScreen> {
                       itemBuilder: (context, index) {
                         // counterIndex++;
                         return SizedBox(
-                          height: 100,
+                          height: 85,
                           child: Card(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
@@ -450,22 +452,23 @@ class _ContestLeaderBoardScreen extends State<ContestLeaderBoardScreen> {
                               child: Row(
                                 children: [
                                   Expanded(
-                                    flex: 1,
-                                    child: CircleAvatar(
-                                      backgroundColor: Constants.black1,
-                                      radius: 60,
-                                      child: CircleAvatar(
-                                        radius: 40,
-                                        foregroundColor: Constants.grey2,
-                                        backgroundColor: Constants.white,
-                                        child: TitleText(
-                                          text: isExpand
-                                              ? ((index + 1).toString())
-                                              : (index + 3).toString(),
-                                        ),
+                                      child: Container(
+                                    width: 25,
+                                    height: 25,
+                                    decoration: BoxDecoration(
+                                        border:
+                                            Border.all(color: Constants.grey4),
+                                        shape: BoxShape.circle),
+                                    child: Center(
+                                      child: TitleText(
+                                        text: isExpand
+                                            ? "${index + 1}"
+                                            : "${index + 4}",
+                                        size: Constants.bodyXSmall,
+                                        textColor: Constants.grey2,
                                       ),
                                     ),
-                                  ),
+                                  )),
 
                                   //),
                                   Expanded(
@@ -531,11 +534,21 @@ class _ContestLeaderBoardScreen extends State<ContestLeaderBoardScreen> {
     );
   }
 
-  Widget _qpContainer(child) {
+  Widget _qpContainer(child, {bool? showShadow}) {
     return Container(
       height: 34,
       width: 74,
       decoration: BoxDecoration(
+        boxShadow: [
+          showShadow!
+              ? BoxShadow(
+                  color: Constants.black1.withOpacity(0.5),
+                  spreadRadius: 1,
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                )
+              : const BoxShadow(),
+        ],
         borderRadius: BorderRadius.circular(12),
         color: Constants.secondaryColor,
       ),

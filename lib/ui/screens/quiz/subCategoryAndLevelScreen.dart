@@ -19,7 +19,6 @@ import 'package:flutterquiz/ui/widgets/title_text.dart';
 import 'package:flutterquiz/utils/assets.dart';
 import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
-import 'package:flutterquiz/utils/size_config.dart';
 import 'package:flutterquiz/utils/style_properties.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
 import 'package:flutterquiz/utils/widgets_util.dart';
@@ -98,8 +97,8 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
     );
   }
 
-  Widget _buildLevels(
-      UnlockedLevelState state, List<Subcategory> subcategoryList) {
+  Widget _buildLevels(UnlockedLevelState state,
+      List<Subcategory> subcategoryList, int currentIndex) {
     if (state is UnlockedLevelInitial) {
       return Container();
     }
@@ -207,23 +206,25 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
                     padding: const EdgeInsets.all(
                       15,
                     ),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 3,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                        color: Constants.secondaryColor,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Center(
-                        child: TitleText(
-                          text: "${index + 1}",
-                          textColor: Constants.white,
-                          size: Constants.heading3,
-                        ),
-                      ),
-                    ),
+                    child: (index + 1) <= unlockedLevel
+                        ? Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                width: 3,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                              color: Constants.secondaryColor,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(
+                              child: TitleText(
+                                text: "${index + 1}",
+                                textColor: Constants.white,
+                                size: Constants.heading3,
+                              ),
+                            ),
+                          )
+                        : null,
                   ),
                 ],
               ),
@@ -245,15 +246,11 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
   // double itemContainerHeight = 75;
   // double mainExtentheight = 200;
   // // double containerHeight =
-
   // double? height = null;
-
   // heightContainer(List items) {
   //   return (itemContainerHeight * items.length);
   // }
-
   // (containerHeight + mainExtentheight);
-
   ExpandedTileController? _controller;
   @override
   Widget build(BuildContext context) {
@@ -443,10 +440,8 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
 //     } else {
 //       animationController.reverse();
 //     }
-
 //     super.didUpdateWidget(oldWidget);
 //   }
-
 //   @override
 //   Widget build(BuildContext context) {
 //     return AnimatedBuilder(
@@ -536,7 +531,7 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
             padding: const EdgeInsets.all(5),
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            itemCount: subCategoryList.length,
+            itemCount: state.subcategoryList.length,
             itemBuilder: (context, index) {
               ExpandedTileController controllers = ExpandedTileController();
 
@@ -552,10 +547,6 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
                   child: ExpandedTile(
                       onTap: () {
                         currentIndex = index;
-                        // context.read<UnlockedLevelCubit>().fetchUnlockLevel(
-                        //     context.read<UserDetailsCubit>().getUserId(),
-                        //     widget.category,
-                        //     subCategoryList[currentIndex].id);
                       },
                       theme: ExpandedTileThemeData(
                         headerRadius: 24.0,
@@ -598,7 +589,8 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
                               }
                             },
                             builder: (context, state) {
-                              return _buildLevels(state, subCategoryList);
+                              return _buildLevels(
+                                  state, subCategoryList, index);
                             },
                           ),
                         ],

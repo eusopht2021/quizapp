@@ -332,7 +332,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                                     showBadge: true,
                                     badgeContent: Image.asset(Assets.portugal),
                                     badgeColor: Colors.transparent,
-                                    position: BadgePosition.bottomEnd(end: 2),
+                                    position: BadgePosition.bottomEnd(end: -6),
                                     child: Badge(
                                         toAnimate: false,
                                         elevation: 0,
@@ -387,7 +387,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                                               textColor: Constants.white,
                                             ),
                                           ),
-                                        )
+                                          showShadow: index == 0 ? true : false)
                                       : const SizedBox(),
                                 ],
                               ),
@@ -529,7 +529,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                                     showBadge: true,
                                     badgeContent: Image.asset(Assets.portugal),
                                     badgeColor: Colors.transparent,
-                                    position: BadgePosition.bottomEnd(end: 2),
+                                    position: BadgePosition.bottomEnd(end: -6),
                                     child: Badge(
                                         toAnimate: false,
                                         elevation: 0,
@@ -584,7 +584,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                                               textColor: Constants.white,
                                             ),
                                           ),
-                                        )
+                                          showShadow: index == 0 ? true : false)
                                       : const SizedBox(),
                                 ],
                               ),
@@ -732,7 +732,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                                     showBadge: true,
                                     badgeContent: Image.asset(Assets.portugal),
                                     badgeColor: Colors.transparent,
-                                    position: BadgePosition.bottomEnd(end: 2),
+                                    position: BadgePosition.bottomEnd(end: -6),
                                     child: Badge(
                                         toAnimate: false,
                                         elevation: 0,
@@ -787,6 +787,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                                               textColor: Constants.white,
                                             ),
                                           ),
+                                          showShadow: index == 0 ? true : false,
                                         )
                                       : const SizedBox(),
                                 ],
@@ -1337,11 +1338,21 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
     }
   }
 
-  Widget _qpContainer(child) {
+  Widget _qpContainer(child, {bool? showShadow}) {
     return Container(
       height: 34,
       width: 74,
       decoration: BoxDecoration(
+        boxShadow: [
+          showShadow!
+              ? BoxShadow(
+                  color: Constants.black1.withOpacity(0.5),
+                  spreadRadius: 1,
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                )
+              : const BoxShadow(),
+        ],
         borderRadius: BorderRadius.circular(12),
         color: Constants.secondaryColor,
       ),
