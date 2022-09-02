@@ -172,6 +172,7 @@ const int guessTheWordQuestionDurationInSeconds = 45;
 //It is recommended to give more time in this type of quesiton
 //beacuse rendering time of webview will take some intial load time
 const int latexQuestionDurationInSeconds = 60;
+const int audioTimer = 30;
 
 const int inBetweenQuestionTimeInSeconds = 1;
 //

@@ -7,11 +7,10 @@ import 'package:flutterquiz/features/quiz/cubits/subCategoryCubit.dart';
 import 'package:flutterquiz/features/quiz/models/quizType.dart';
 import 'package:flutterquiz/ui/screens/home/widgets/new_quiz_category_card.dart';
 import 'package:flutterquiz/ui/widgets/bannerAdContainer.dart';
-import 'package:flutterquiz/ui/widgets/circularProgressContainner.dart';
 import 'package:flutterquiz/ui/widgets/customBackButton.dart';
+import 'package:flutterquiz/ui/widgets/custom_card.dart';
 import 'package:flutterquiz/ui/widgets/default_layout.dart';
 import 'package:flutterquiz/ui/widgets/errorContainer.dart';
-import 'package:flutterquiz/ui/widgets/pageBackgroundGradientContainer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
@@ -233,12 +232,20 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
       showBackButton: true,
       titleColor: Constants.white,
       backgroundColor: Constants.primaryColor,
-      child: Stack(
-        children: [
-          _buildSubCategory(),
-          // _buildBackButton(),
-          _buildBannerAd(),
-        ],
+      child: CustomCard(
+        padding: const EdgeInsets.all(8.0),
+        child: Padding(
+          padding: const EdgeInsets.only(
+            top: 16,
+          ),
+          child: Stack(
+            children: [
+              _buildSubCategory(),
+              // _buildBackButton(),
+              _buildBannerAd(),
+            ],
+          ),
+        ),
       ),
     );
   }
