@@ -5,7 +5,6 @@ import 'package:flutterquiz/features/quiz/models/question.dart';
 import 'package:flutterquiz/ui/widgets/customRoundedButton.dart';
 import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/stringLabels.dart';
-import 'package:flutterquiz/utils/uiUtils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ExamQuestionStatusBottomSheetContainer extends StatelessWidget {
@@ -28,8 +27,7 @@ class ExamQuestionStatusBottomSheetContainer extends StatelessWidget {
         children: [
           Text(
             "$questionMark ${AppLocalization.of(context)!.getTranslatedValues(markKey)!} (${questions.length})",
-            style: TextStyle(
-                color: Theme.of(context).primaryColor, fontSize: 16.0),
+            style: TextStyle(color: Constants.primaryColor, fontSize: 16.0),
           ),
           Divider(
             color: Constants.white,
@@ -146,7 +144,7 @@ class ExamQuestionStatusBottomSheetContainer extends StatelessWidget {
                   navigateToResultScreen();
                 },
                 widthPercentage: MediaQuery.of(context).size.width,
-                backgroundColor: Theme.of(context).primaryColor,
+                backgroundColor: Constants.primaryColor,
                 buttonTitle: AppLocalization.of(context)!
                     .getTranslatedValues("submitBtn")!,
                 radius: 10,
@@ -202,8 +200,7 @@ class ExamQuestionStatusBottomSheetContainer extends StatelessWidget {
                     AppLocalization.of(context)!
                         .getTranslatedValues("unAttemptedLbl")!,
                     style: TextStyle(
-                        fontSize: 12.5,
-                        color: Constants.secondaryColor),
+                        fontSize: 12.5, color: Constants.secondaryColor),
                   ),
                 ],
               ),

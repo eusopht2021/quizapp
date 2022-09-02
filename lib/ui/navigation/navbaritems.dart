@@ -1,3 +1,1 @@
-enum NavbarItems {
-  newhome, discover, leaderboard, profile
-}
+enum NavbarItems { newhome, discover, leaderboard, profile }

@@ -202,10 +202,9 @@ class _SignUpProcessState extends State<SignUpProcess> {
         label: AppLocalization.of(context)!.getTranslatedValues(
           'emailLbl',
         ),
-        hint: AppLocalization.of(context)!.getTranslatedValues(
-              'emailLbl',
-            )! +
-            "*",
+        hint: "${AppLocalization.of(context)!.getTranslatedValues(
+          'emailLbl',
+        )!}*",
         prefixIcon: Assets.mail,
       );
     } else if (index == 1) {
@@ -213,9 +212,10 @@ class _SignUpProcessState extends State<SignUpProcess> {
         controller: edtPwd,
         node: passwordFocus,
         hidetext: _obscureText,
+        obscuringCharacter: "●",
         label: 'Password',
         textInputType: TextInputType.visiblePassword,
-        hint: AppLocalization.of(context)!.getTranslatedValues('pwdLbl')! + "*",
+        hint: "${AppLocalization.of(context)!.getTranslatedValues('pwdLbl')!}*",
         validator: (value) => Validators.validatePassword(
           value!,
           '${AppLocalization.of(context)!.getTranslatedValues('pwdLengthMsg')}',
@@ -234,13 +234,14 @@ class _SignUpProcessState extends State<SignUpProcess> {
         node: cPasswordFocus,
         label: 'Confirm Password',
         hint:
-            AppLocalization.of(context)!.getTranslatedValues('cnPwdLbl')! + "*",
+            "${AppLocalization.of(context)!.getTranslatedValues('cnPwdLbl')!}*",
         prefixIcon: Assets.password,
         suffixIcon: _obscureTextCn ? Assets.eye : Assets.closeEye,
+        obscuringCharacter: "●",
         hidetext: _obscureTextCn,
         validator: (value) {
           String password = edtPwd.text;
-          print(password);
+          // print(password);
           if (value != password) {
             return AppLocalization.of(context)!
                 .getTranslatedValues('passwordNotMatch');

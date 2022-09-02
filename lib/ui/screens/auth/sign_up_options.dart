@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterquiz/utils/size_config.dart';
+import 'package:flutterquiz/ui/widgets/social_button.dart';
 
 import '../../../app/appLocalization.dart';
 import '../../../app/routes.dart';
@@ -22,29 +22,32 @@ class SignUpOptions extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           WidgetsUtil.verticalSpace24,
-          WidgetsUtil.verticalSpace24,
+          // WidgetsUtil.verticalSpace24,
           WidgetsUtil.verticalSpace16,
-          Column(
-            children: [
-              SizedBox(
-                width: 56,
-                height: 56,
-                child: Image.asset(
-                  'assets/icons/light_icon.png',
+          Expanded(
+            flex: 3,
+            child: Column(
+              children: [
+                SizedBox(
+                  width: 56,
+                  height: 56,
+                  child: Image.asset(
+                    'assets/icons/light_icon.png',
+                  ),
                 ),
-              ),
-              WidgetsUtil.verticalSpace10,
-              TitleText(
-                text: 'Queezy',
-                textColor: Constants.white,
-                size: Constants.heading3 - 2,
-                fontFamily: 'Nunito',
-                weight: FontWeight.w800,
-              ),
-            ],
+                WidgetsUtil.verticalSpace10,
+                TitleText(
+                  text: 'Queezy',
+                  textColor: Constants.white,
+                  size: Constants.heading3 - 2,
+                  fontFamily: 'Nunito',
+                  weight: FontWeight.w800,
+                ),
+              ],
+            ),
           ),
           Expanded(
-            flex: 4,
+            flex: 5,
             child: Container(
               margin: const EdgeInsets.only(
                 left: 24,
@@ -57,63 +60,75 @@ class SignUpOptions extends StatelessWidget {
             ),
           ),
           Expanded(
-            flex: 6,
+            flex: 8,
             child: CustomCard(
               // height: double.infinity,
               child: Column(
                 children: [
                   WidgetsUtil.verticalSpace16,
-                  TitleText(
-                    text: AppLocalization.of(context)!
-                        .getTranslatedValues('loginOrSignUpLbl')!,
-                    size: Constants.heading3,
-                    weight: FontWeight.w500,
-                  ),
-                  WidgetsUtil.verticalSpace8,
-                  Container(
-                    margin: const EdgeInsets.only(
-                      left: 24,
-                      right: 24,
-                    ),
+                  Expanded(
+                    flex: 1,
                     child: TitleText(
                       text: AppLocalization.of(context)!
-                          .getTranslatedValues('optionScreenTextLbl')!,
-                      align: TextAlign.center,
-                      size: Constants.bodyNormal,
-                      textColor: Constants.grey2,
-                      weight: FontWeight.w400,
+                          .getTranslatedValues('loginOrSignUpLbl')!,
+                      size: Constants.heading3,
+                      weight: FontWeight.w500,
                     ),
                   ),
-                  CustomButton(
+                  // WidgetsUtil.verticalSpace8,
+                  Expanded(
+                    flex: 2,
+                    child: Container(
+                      margin: const EdgeInsets.only(
+                        left: 24,
+                        right: 24,
+                      ),
+                      child: TitleText(
+                        text: AppLocalization.of(context)!
+                            .getTranslatedValues('optionScreenTextLbl')!,
+                        align: TextAlign.center,
+                        size: Constants.bodyNormal,
+                        textColor: Constants.grey2,
+                        weight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: CustomButton(
                       height: 56,
                       text: AppLocalization.of(context)!
                           .getTranslatedValues('loginLbl')!,
                       onPressed: () {
                         Navigator.of(context).pushNamed(Routes.loginScreen);
-                      }),
-                  CustomButton(
-                      height: 56,
-                      backgroundColor: Constants.grey4,
-                      text: AppLocalization.of(context)!
-                          .getTranslatedValues('createAccountLbl')!,
-                      textColor: Constants.primaryColor,
-                      onPressed: () {
-                        Navigator.of(context).pushNamed(Routes.signupScreen);
-                      }),
-                  const Spacer(),
-                  InkWell(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: TitleText(
-                      text: AppLocalization.of(context)!
-                          .getTranslatedValues('laterLbl')!,
-                      textColor: Constants.grey2,
-                      size: Constants.bodyNormal,
-                      weight: FontWeight.w500,
+                      },
                     ),
                   ),
-                  const Spacer(),
+                  Expanded(
+                    flex: 2,
+                    child: CustomButton(
+                        height: 56,
+                        backgroundColor: Constants.grey4,
+                        text: AppLocalization.of(context)!
+                            .getTranslatedValues('createAccountLbl')!,
+                        textColor: Constants.primaryColor,
+                        onPressed: () {
+                          Navigator.of(context).pushNamed(Routes.signupScreen);
+                        }),
+                  ),
+                  // const Spacer(),
+                  Expanded(
+                    flex: 2,
+                    child: SocialButton(
+                      textColor: Constants.grey2,
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      text: AppLocalization.of(context)!
+                          .getTranslatedValues('laterLbl')!,
+                      showBorder: false,
+                    ),
+                  ),
                 ],
               ),
             ),

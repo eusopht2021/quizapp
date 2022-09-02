@@ -6,6 +6,10 @@ class Assets {
   static String background = 'assets/images/background.png';
   static String background1 = 'assets/images/background1.png';
   static String personQuiz = 'assets/images/person_quiz.png';
+
+  static String path = 'assets/images/path.png';
+  static String manWalking = 'assets/images/manWalking.png';
+
   static String personWalkingMobile = 'assets/images/person_walking_mobile.png';
   static String personsNetwork = 'assets/images/persons_network.png';
   static String personsMeeting = 'assets/images/persons_meeting.png';
@@ -41,6 +45,13 @@ class Assets {
   static String cardCircles1 = 'assets/images/card_circles1.png';
   static String sunIcon = "assets/icons/sunIcon.svg";
   static String addImage = "assets/icons/addImage.svg";
+  static String whiteBox = "assets/images/whiteBox.png";
+  static String levelsIcon = "assets/images/levelsBg.png";
+  static String coinIcon = "assets/images/coins/coinicon.png";
+  static String medal = "assets/icons/medal.png";
+  static String drawn = "assets/icons/draw.png";
+  static String lost = "assets/icons/lost.png";
+  static String battle = "assets/icons/battle.png";
 
   static String smallDot = 'assets/images/smalldot.png';
   static String leftCircle = 'assets/images/leftCircle.png';
@@ -53,9 +64,14 @@ class Assets {
   static String crown = "assets/icons/medal.svg";
   static String silverCrown = "assets/icons/SilverCrown.svg";
   static String bronzeCrown = "assets/icons/BronzeCrown.svg";
-  static String bullet = "assets/icons/bullets.png";
+
+  static String clipboard = "assets/icons/clipboard.png";
 
   static String leaderBoardOutlined = "assets/icons/leaderboardoutlined.png";
+  static String shareIcon = "assets/icons/shareIcon.png";
+  static String lock = "assets/icons/lock.png";
+  static String youtubeLogo = "assets/icons/youtube_logo.png";
+
   static String fireworks = "assets/icons/fireworks.png";
   static String findFriendsIcon = "assets/icons/findFriendsIcon.svg";
 
@@ -98,14 +114,23 @@ class Assets {
   static String womanWave = 'assets/avatars/womanWave.svg';
 
   // BADGES
-  static String badge1 = 'assets/badges/badge1.png';
+  static String badgeLocked = 'assets/badges/badge1.png';
   static String badge2 = 'assets/badges/badge2.png';
   static String badge3 = 'assets/badges/badge3.png';
   static String badge4 = 'assets/badges/badge4.png';
   static String badge5 = 'assets/badges/badge5.png';
   static String badge6 = 'assets/badges/badge6.png';
   static List<String> badges = [
-    badge1,
+    badge2,
+    badge3,
+    badge4,
+    badge5,
+    badge6,
+    badge2,
+    badge3,
+    badge4,
+    badge5,
+    badge6,
     badge2,
     badge3,
     badge4,
@@ -153,7 +178,8 @@ class Assets {
 
   static List<String> onBoarding = [
     Assets.personQuiz,
-    Assets.personWalkingMobile,
+    Assets.personsMeeting,
+    Assets.manWalking,
     Assets.personsNetwork,
   ];
 

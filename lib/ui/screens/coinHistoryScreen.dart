@@ -6,10 +6,9 @@ import 'package:flutterquiz/features/coinHistory/coinHistoryRepository.dart';
 import 'package:flutterquiz/features/coinHistory/models/coinHistory.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/userDetailsCubit.dart';
 import 'package:flutterquiz/ui/styles/colors.dart';
-import 'package:flutterquiz/ui/widgets/circularProgressContainner.dart';
 import 'package:flutterquiz/ui/widgets/errorContainer.dart';
-import 'package:flutterquiz/ui/widgets/pageBackgroundGradientContainer.dart';
 import 'package:flutterquiz/ui/widgets/roundedAppbar.dart';
+import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
@@ -100,9 +99,8 @@ class _CoinHistoryScreenState extends State<CoinHistoryScreen> {
             child: Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
-              child: CircularProgressContainer(
-                useWhiteLoader: false,
-                heightAndWidth: 40,
+              child: CircularProgressIndicator(
+                color: Constants.primaryColor,
               ),
             ),
           );
@@ -114,9 +112,15 @@ class _CoinHistoryScreenState extends State<CoinHistoryScreen> {
         print(coinHistory.type);
       },
       child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
+        decoration: BoxDecoration(
+            color: Theme.of(context).primaryColor,
+            borderRadius: BorderRadius.circular(10.0)),
+        height: MediaQuery.of(context).size.height * (0.1),
+        margin: const EdgeInsets.symmetric(vertical: 10.0),
         child: Row(
           children: [
-            Container(
+            SizedBox(
               width: MediaQuery.of(context).size.width * (0.69),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -168,12 +172,6 @@ class _CoinHistoryScreenState extends State<CoinHistoryScreen> {
             })
           ],
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
-        decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor,
-            borderRadius: BorderRadius.circular(10.0)),
-        height: MediaQuery.of(context).size.height * (0.1),
-        margin: const EdgeInsets.symmetric(vertical: 10.0),
       ),
     );
   }
@@ -193,8 +191,8 @@ class _CoinHistoryScreenState extends State<CoinHistoryScreen> {
             state is CoinHistoryInitial) {
           //
           return Center(
-            child: CircularProgressContainer(
-              useWhiteLoader: false,
+            child: CircularProgressIndicator(
+              color: Constants.primaryColor,
             ),
           );
         }
@@ -237,9 +235,10 @@ class _CoinHistoryScreenState extends State<CoinHistoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
       body: Stack(
         children: [
-          const PageBackgroundGradientContainer(),
+          // const PageBackgroundGradientContainer(),
           Align(
             alignment: Alignment.topCenter,
             child: _buildCoinHistory(),

@@ -1,10 +1,17 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterquiz/app/appLocalization.dart';
+import 'package:flutterquiz/app/routes.dart';
+import 'package:flutterquiz/features/auth/cubits/authCubit.dart';
+import 'package:flutterquiz/features/badges/cubits/badgesCubit.dart';
+import 'package:flutterquiz/features/bookmark/cubits/audioQuestionBookmarkCubit.dart';
+import 'package:flutterquiz/features/bookmark/cubits/bookmarkCubit.dart';
+import 'package:flutterquiz/features/bookmark/cubits/guessTheWordBookmarkCubit.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/updateUserDetailsCubit.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/userDetailsCubit.dart';
+import 'package:flutterquiz/ui/navigation/navbarcubit.dart';
+import 'package:flutterquiz/ui/navigation/navbaritems.dart';
 import 'package:flutterquiz/ui/widgets/social_button.dart';
 import 'package:flutterquiz/ui/widgets/title_text.dart';
 import 'package:flutterquiz/utils/constants.dart';
@@ -106,7 +113,7 @@ class _EditProfileFieldBottomSheetContainerState
           decoration: BoxDecoration(
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(20.0),
-              topRight: const Radius.circular(20.0),
+              topRight: Radius.circular(20.0),
             ),
             color: Constants.secondaryColor,
           ),
@@ -342,22 +349,52 @@ class _EditProfileFieldBottomSheetContainerState
                                     });
                                     return;
                                   }
-                                } else if (widget.fieldTitle == pwdLbl) {
-                                  if (state is UserDetailsFetchInProgress) {
-                                    log("changing password");
-                                  } else if (state is UserDetailsFetchSuccess) {
-                                    log("Password change sheet");
+                                }
 
-                                    context
-                                        .read<UserDetailsCubit>()
-                                        .changePassword(
-                                            context: context,
-                                            oldPassword: oldPassword.text,
-                                            newPassword: newPassword.text,
-                                            confrimPassword:
-                                                cnfrmPassword.text);
+                                if (widget.fieldTitle == pwdLbl) {
+                                  // else
 
-                                    return;
+                                  context
+                                      .read<UserDetailsCubit>()
+                                      .changePassword(
+                                          context: context,
+                                          oldPassword: oldPassword.text,
+                                          newPassword: newPassword.text,
+                                          confrimPassword: cnfrmPassword.text);
+
+                                  /////
+                                  ///
+                                  context
+                                      .read<BadgesCubit>()
+                                      .updateState(BadgesInitial());
+                                  context
+                                      .read<BookmarkCubit>()
+                                      .updateState(BookmarkInitial());
+                                  context
+                                      .read<GuessTheWordBookmarkCubit>()
+                                      .updateState(
+                                          GuessTheWordBookmarkInitial());
+
+                                  context
+                                      .read<AudioQuestionBookmarkCubit>()
+                                      .updateState(
+                                          AudioQuestionBookmarkInitial());
+
+                                  //
+
+                                  if (oldPassword.text.isEmpty ||
+                                      newPassword.text.isEmpty ||
+                                      cnfrmPassword.text.isEmpty) {
+                                    UiUtils.setSnackbar(
+                                        "FILL THE FIELDS", context, true);
+                                  } else {
+                                    Navigator.of(context)
+                                        .pushNamedAndRemoveUntil(
+                                            Routes.onBoardingScreen,
+                                            (route) => true);
+                                    BlocProvider.of<NavigationCubit>(context)
+                                        .getNavBarItem(NavbarItems.newhome);
+                                    context.read<AuthCubit>().signOut();
                                   }
                                 }
 

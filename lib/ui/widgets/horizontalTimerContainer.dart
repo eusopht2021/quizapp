@@ -46,23 +46,26 @@ class HorizontalTimerContainer extends StatelessWidget {
                 value1: 100 - (timerAnimationController.value * 100),
                 value2: timerAnimationController.value * 100,
                 radius: 35,
-                mainColor: timerAnimationController.value >= 0.8
+                mainColor: timerAnimationController.value >= 0.5
                     ? Colors.red
-                    : Constants.pink,
+                    : Constants.lightGreen,
+                value2Color: timerAnimationController.value >= 0.5
+                    ? Constants.pink.withOpacity(0.5)
+                    : Constants.lightGreen.withOpacity(0.3),
               ),
             );
-            return Container(
-              decoration: BoxDecoration(
-                  color: timerAnimationController.value >= 0.8
-                      ? hurryUpTimerColor
-                      : Theme.of(context).colorScheme.secondary,
-                  borderRadius: const BorderRadius.all(Radius.circular(10))),
-              alignment: Alignment.topRight,
-              height: 10.0,
-              width: MediaQuery.of(context).size.width *
-                  (UiUtils.quesitonContainerWidthPercentage - 0.1) *
-                  (1.0 - timerAnimationController.value),
-            );
+            // return Container(
+            //   decoration: BoxDecoration(
+            //       color: timerAnimationController.value >= 0.8
+            //           ? hurryUpTimerColor
+            //           : Theme.of(context).colorScheme.secondary,
+            //       borderRadius: const BorderRadius.all(Radius.circular(10))),
+            //   alignment: Alignment.topRight,
+            //   height: 10.0,
+            //   width: MediaQuery.of(context).size.width *
+            //       (UiUtils.quesitonContainerWidthPercentage - 0.1) *
+            //       (1.0 - timerAnimationController.value),
+            // );
           },
         ),
       ],
@@ -79,8 +82,6 @@ class HorizontalTimerContainer extends StatelessWidget {
       totalSeconds = latexQuestionDurationInSeconds;
     } else if (quizTypes == QuizTypes.guessTheWord) {
       totalSeconds = guessTheWordQuestionDurationInSeconds;
-    } else if (quizTypes == QuizTypes.audioQuestions) {
-      totalSeconds = duration!;
     } else {
       totalSeconds = questionDurationInSeconds;
     }

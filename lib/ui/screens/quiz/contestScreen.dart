@@ -11,11 +11,8 @@ import 'package:flutterquiz/features/quiz/cubits/contestCubit.dart';
 import 'package:flutterquiz/features/quiz/models/contest.dart';
 import 'package:flutterquiz/features/quiz/models/quizType.dart';
 import 'package:flutterquiz/features/quiz/quizRepository.dart';
-import 'package:flutterquiz/ui/styles/colors.dart';
-import 'package:flutterquiz/ui/widgets/circularProgressContainner.dart';
 import 'package:flutterquiz/ui/widgets/customBackButton.dart';
 import 'package:flutterquiz/ui/widgets/errorContainer.dart';
-import 'package:flutterquiz/ui/widgets/pageBackgroundGradientContainer.dart';
 import 'package:flutterquiz/ui/widgets/title_text.dart';
 import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
@@ -61,9 +58,9 @@ class _ContestScreen extends State<ContestScreen>
         length: 3,
         child: Builder(builder: (BuildContext context) {
           return Scaffold(
-            backgroundColor: Constants.primaryColor,
+            backgroundColor: Theme.of(context).primaryColor,
             appBar: AppBar(
-                backgroundColor: Constants.primaryColor,
+                backgroundColor: Theme.of(context).primaryColor,
                 leading: CustomBackButton(
                   iconColor: Constants.white,
                 ),
@@ -189,7 +186,7 @@ class _ContestScreen extends State<ContestScreen>
             showBackButton: false,
             errorMessage: AppLocalization.of(context)!.getTranslatedValues(
                 convertErrorCodeToLanguageKey(data.errorMessage))!,
-            errorMessageColor: Theme.of(context).primaryColor,
+            errorMessageColor: Constants.white,
             onTapRetry: () {
               context
                   .read<ContestCubit>()
@@ -214,7 +211,7 @@ class _ContestScreen extends State<ContestScreen>
                             offset: const Offset(5, 5), blurRadius: 10.0),
                       ],
                       borderRadius:
-                          const BorderRadius.all(const Radius.circular(20))),
+                          const BorderRadius.all(Radius.circular(20))),
                   child: contestDesign(data, index, 1));
             });
   }
@@ -302,7 +299,7 @@ class _ContestScreen extends State<ContestScreen>
               ),
             )),
         Divider(
-          color: Constants.primaryColor,
+          color: Theme.of(context).primaryColor,
           height: 0.1,
         ),
         Expanded(
@@ -318,7 +315,7 @@ class _ContestScreen extends State<ContestScreen>
                   child: Text(
                     data.contestDetails[index].name.toString(),
                     style: TextStyle(
-                        color: Constants.primaryColor,
+                        color: Theme.of(context).primaryColor,
                         fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -333,7 +330,7 @@ class _ContestScreen extends State<ContestScreen>
                       data.contestDetails[index].showDescription!
                           ? Icons.keyboard_arrow_up_sharp
                           : Icons.keyboard_arrow_down_sharp,
-                      color: Constants.primaryColor,
+                      color: Theme.of(context).primaryColor,
                       size: 40,
                     )),
               ],
@@ -341,7 +338,7 @@ class _ContestScreen extends State<ContestScreen>
           ),
         ),
         Divider(
-          color: Constants.primaryColor,
+          color: Theme.of(context).primaryColor,
           height: 0.1,
         ),
         data.contestDetails[index].showDescription!
@@ -355,12 +352,12 @@ class _ContestScreen extends State<ContestScreen>
                     child: Text(
                       data.contestDetails[index].description!,
                       style: TextStyle(
-                          color: Constants.primaryColor.withOpacity(0.6),
+                          color: Theme.of(context).primaryColor.withOpacity(0.6),
                           fontWeight: FontWeight.bold),
                     )))
             : Container(),
         Divider(
-          color: Constants.primaryColor,
+          color: Theme.of(context).primaryColor,
           height: 0.1,
         ),
         Expanded(
@@ -385,13 +382,13 @@ class _ContestScreen extends State<ContestScreen>
                         AppLocalization.of(context)!
                             .getTranslatedValues("entryFeesLbl")!,
                         style: TextStyle(
-                            color: Constants.primaryColor.withOpacity(0.6),
+                            color: Theme.of(context).primaryColor.withOpacity(0.6),
                             fontWeight: FontWeight.bold),
                       ),
                       Text(
                         data.contestDetails[index].entry.toString(),
                         style: TextStyle(
-                            color: Constants.primaryColor,
+                            color: Theme.of(context).primaryColor,
                             fontWeight: FontWeight.bold),
                       ),
                     ],
@@ -405,13 +402,13 @@ class _ContestScreen extends State<ContestScreen>
                         AppLocalization.of(context)!
                             .getTranslatedValues("endsOnLbl")!,
                         style: TextStyle(
-                            color: Constants.primaryColor.withOpacity(0.6),
+                            color: Theme.of(context).primaryColor.withOpacity(0.6),
                             fontWeight: FontWeight.bold),
                       ),
                       Text(
                         data.contestDetails[index].endDate.toString(),
                         style: TextStyle(
-                            color: Constants.primaryColor,
+                            color: Theme.of(context).primaryColor,
                             fontWeight: FontWeight.bold),
                       ),
                     ],
@@ -425,13 +422,13 @@ class _ContestScreen extends State<ContestScreen>
                         AppLocalization.of(context)!
                             .getTranslatedValues("playersLbl")!,
                         style: TextStyle(
-                            color: Constants.primaryColor.withOpacity(0.6),
+                            color: Theme.of(context).primaryColor.withOpacity(0.6),
                             fontWeight: FontWeight.bold),
                       ),
                       Text(
                         data.contestDetails[index].participants.toString(),
                         style: TextStyle(
-                            color: Constants.primaryColor,
+                            color: Theme.of(context).primaryColor,
                             fontWeight: FontWeight.bold),
                       ),
                     ],
@@ -446,9 +443,9 @@ class _ContestScreen extends State<ContestScreen>
                         ? TextButton(
                             style: TextButton.styleFrom(
                               primary: Constants.white,
-                              backgroundColor: Constants.primaryColor,
+                              backgroundColor: Theme.of(context).primaryColor,
                               side: BorderSide(
-                                  color: Constants.primaryColor, width: 1),
+                                  color: Theme.of(context).primaryColor, width: 1),
                               minimumSize: Size(
                                   MediaQuery.of(context).size.width * .1,
                                   MediaQuery.of(context).size.height * .05),
@@ -475,9 +472,9 @@ class _ContestScreen extends State<ContestScreen>
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                     onPrimary: Constants.white,
-                                    primary: Constants.primaryColor,
+                                    primary: Theme.of(context).primaryColor,
                                     side: BorderSide(
-                                        color: Constants.primaryColor,
+                                        color: Theme.of(context).primaryColor,
                                         width: 1),
                                     minimumSize: Size(
                                         MediaQuery.of(context).size.width * .2,

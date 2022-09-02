@@ -77,7 +77,7 @@ class BookmarkCubit extends Cubit<BookmarkState> {
   void updateSubmittedAnswerId(Question question, String userId) {
     if (state is BookmarkFetchSuccess) {
       final currentState = (state as BookmarkFetchSuccess);
-      print("Submitted AnswerId : ${question.submittedAnswerId}");
+      // print("Submitted AnswerId : ${question.submittedAnswerId}");
       _bookmarkRepository.setAnswerForBookmarkedQuestion(
           question.id!, question.submittedAnswerId, userId);
       List<Map<String, String>> updatedSubmittedAnswerIds =

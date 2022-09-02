@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutterquiz/ui/screens/new_settings/FAQ%20Screens/invite_friendsScreen.dart';
 import 'package:flutterquiz/ui/screens/new_settings/faq_description_one.dart';
-import 'package:flutterquiz/ui/screens/new_settings/invite_friendsScreen.dart';
 
 import 'package:flutterquiz/ui/widgets/notched_card.dart';
 import 'package:flutterquiz/ui/widgets/title_text.dart';

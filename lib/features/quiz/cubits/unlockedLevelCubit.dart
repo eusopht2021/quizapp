@@ -14,7 +14,8 @@ class UnlockedLevelFetchSuccess extends UnlockedLevelState {
   final String? categoryId;
   final String? subcategoryId;
 
-  UnlockedLevelFetchSuccess(this.categoryId, this.subcategoryId, this.unlockedLevel);
+  UnlockedLevelFetchSuccess(
+      this.categoryId, this.subcategoryId, this.unlockedLevel);
 }
 
 class UnlockedLevelFetchFailure extends UnlockedLevelState {
@@ -26,14 +27,15 @@ class UnlockedLevelCubit extends Cubit<UnlockedLevelState> {
   final QuizRepository _quizRepository;
   UnlockedLevelCubit(this._quizRepository) : super(UnlockedLevelInitial());
 
-  void fetchUnlockLevel(String? userId, String? category, String? subCategory) async {
+  void fetchUnlockLevel(
+      String? userId, String? category, String? subCategory) async {
     emit(UnlockedLevelFetchInProgress());
-    _quizRepository
-        .getUnlockedLevel(userId, category, subCategory)
-        .then(
-          (val) => emit((UnlockedLevelFetchSuccess(category, subCategory, val))),
-        )
-        .catchError((e) {
+
+    _quizRepository.getUnlockedLevel(userId, category, subCategory).then(
+      (val) {
+        emit((UnlockedLevelFetchSuccess(category, subCategory, val)));
+      },
+    ).catchError((e) {
       emit(UnlockedLevelFetchFailure(e.toString()));
     });
   }

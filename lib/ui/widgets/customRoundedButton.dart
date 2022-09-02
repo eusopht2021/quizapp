@@ -42,7 +42,7 @@ class CustomRoundedButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(radius),
         onTap: onTap as void Function()?,
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0), //
+          padding: const EdgeInsets.symmetric(horizontal: 10.0), //
           alignment: Alignment.center,
           height: height,
           decoration: BoxDecoration(

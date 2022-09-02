@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutterquiz/utils/apiBodyParameterLabels.dart';
 import 'package:http/http.dart' as http;
@@ -357,6 +358,8 @@ class QuizRemoteDataSource {
       };
       final response = await http.post(Uri.parse(getSubCategoryUrl),
           body: body, headers: await ApiUtils.getHeaders());
+
+      log("${response.body} sub category response");
       final responseJson = jsonDecode(response.body);
       if (responseJson['error']) {
         throw QuizException(errorMessageCode: responseJson['message']);
@@ -381,9 +384,11 @@ class QuizRemoteDataSource {
         userIdKey: userId,
         subCategoryKey: subCategory
       };
+      log(" body params : HEaders: ${await ApiUtils.getHeaders()} $getLevelUrl ${body.toString()}");
       final response = await http.post(Uri.parse(getLevelUrl),
           body: body, headers: await ApiUtils.getHeaders());
       final responseJson = jsonDecode(response.body);
+      log("Response of Levels : ${responseJson['data']}");
       print(responseJson);
       if (responseJson['error']) {
         throw QuizException(errorMessageCode: responseJson['message']);

@@ -1,5 +1,5 @@
 // import 'dart:async';
-//
+
 // import 'package:flutter/cupertino.dart';
 // import 'package:flutter/material.dart';
 // import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,9 +36,9 @@
 // import 'package:flutterquiz/utils/errorMessageKeys.dart';
 // import 'package:flutterquiz/utils/stringLabels.dart';
 // import 'package:flutterquiz/utils/uiUtils.dart';
-//
+
 // // enum LifelineStatus { unused, using, used }
-//
+
 // class QuizScreen extends StatefulWidget {
 //   final int numberOfPlayer;
 //   final QuizTypes quizType;
@@ -52,7 +52,7 @@
 //   final String contestId;
 //   final Comprehension
 //       comprehension; // will be in use for fun n learn quizType (to pass in result screen)
-//
+
 //   const QuizScreen({
 //     Key? key,
 //     required this.isPlayed,
@@ -66,17 +66,17 @@
 //     required this.contestId,
 //     required this.comprehension,
 //   }) : super(key: key);
-//
+
 //   @override
 //   _QuizScreenState createState() => _QuizScreenState();
-//
+
 //   //to provider route
 //   static Route<dynamic> route(RouteSettings routeSettings) {
 //     Map arguments = routeSettings.arguments as Map;
 //     //keys of arguments are numberOfPlayer and quizType (required)
 //     //if quizType is quizZone then need to pass following keys
 //     //categoryId, subcategoryId, level, subcategoryMaxLevel and unlockedLevel
-//
+
 //     return CupertinoPageRoute(
 //       builder: (_) => MultiBlocProvider(
 //         providers: [
@@ -109,7 +109,7 @@
 //     );
 //   }
 // }
-//
+
 // class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
 //   late AnimationController questionAnimationController;
 //   late AnimationController questionContentAnimationController;
@@ -120,7 +120,7 @@
 //               ? latexQuestionDurationInSeconds
 //               : questionDurationInSeconds))
 //     ..addStatusListener(currentUserTimerAnimationStatusListener);
-//
+
 //   late Animation<double> questionSlideAnimation;
 //   late Animation<double> questionScaleUpAnimation;
 //   late Animation<double> questionScaleDownAnimation;
@@ -137,16 +137,16 @@
 //   int currentQuestionIndex = 0;
 //   final double optionWidth = 0.7;
 //   final double optionHeight = 0.09;
-//
+
 //   late double totalSecondsToCompleteQuiz = 0;
-//
+
 //   late Map<String, LifelineStatus> lifelines = {
 //     fiftyFifty: LifelineStatus.unused,
 //     audiencePoll: LifelineStatus.unused,
 //     skip: LifelineStatus.unused,
 //     resetTime: LifelineStatus.unused,
 //   };
-//
+
 //   //to track if setting dialog is open
 //   bool isSettingDialogOpen = false;
 //   bool isExitDialogOpen = false;
@@ -166,25 +166,25 @@
 //       },
 //     );
 //   }
-//
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   //init reward ad
-  //   Future.delayed(Duration.zero, () {
-  //     context.read<RewardedAdCubit>().createRewardedAd(context,
-  //         onFbRewardAdCompleted: _addCoinsAfterRewardAd);
-  //   });
-  //   //init animations
-  //   initializeAnimation();
-  //   animationController = AnimationController(
-  //       vsync: this, duration: const Duration(milliseconds: 100));
-  //   topContainerAnimationController = AnimationController(
-  //       vsync: this, duration: const Duration(milliseconds: 100));
-  //   //
-  //   _getQuestions();
-  // }
-//
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     //init reward ad
+//     Future.delayed(Duration.zero, () {
+//       context.read<RewardedAdCubit>().createRewardedAd(context,
+//           onFbRewardAdCompleted: _addCoinsAfterRewardAd);
+//     });
+//     //init animations
+//     initializeAnimation();
+//     animationController = AnimationController(
+//         vsync: this, duration: const Duration(milliseconds: 100));
+//     topContainerAnimationController = AnimationController(
+//         vsync: this, duration: const Duration(milliseconds: 100));
+//     //
+//     _getQuestions();
+//   }
+
 //   void initializeAnimation() {
 //     questionContentAnimationController = AnimationController(
 //         vsync: this, duration: const Duration(milliseconds: 250));
@@ -206,7 +206,7 @@
 //             parent: questionAnimationController,
 //             curve: const Interval(0.5, 1.0, curve: Curves.easeOutQuad)));
 //   }
-//
+
 //   @override
 //   void dispose() {
 //     timerAnimationController
@@ -214,14 +214,14 @@
 //     timerAnimationController.dispose();
 //     questionAnimationController.dispose();
 //     questionContentAnimationController.dispose();
-//
+
 //     super.dispose();
 //   }
-//
+
 //   void toggleSettingDialog() {
 //     isSettingDialogOpen = !isSettingDialogOpen;
 //   }
-//
+
 //   void navigateToResultScreen() {
 //     if (isSettingDialogOpen) {
 //       Navigator.of(context).pop();
@@ -229,7 +229,7 @@
 //     if (isExitDialogOpen) {
 //       Navigator.of(context).pop();
 //     }
-//
+
 //     //move to result page
 //     //to see the what are the keys to pass in arguments for result screen
 //     //visit static route function in resultScreen.dart
@@ -248,7 +248,7 @@
 //       "entryFee": 0
 //     });
 //   }
-//
+
 //   void updateSubmittedAnswerForBookmark(Question question) {
 //     if (widget.quizType == QuizTypes.audioQuestions) {
 //       if (context
@@ -267,7 +267,7 @@
 //       }
 //     }
 //   }
-//
+
 //   void markLifeLineUsed() {
 //     if (lifelines[fiftyFifty] == LifelineStatus.using) {
 //       lifelines[fiftyFifty] = LifelineStatus.used;
@@ -282,10 +282,10 @@
 //       lifelines[skip] = LifelineStatus.used;
 //     }
 //   }
-//
+
 //   bool checkHasUsedAnyLifeline() {
 //     bool hasUsedAnyLifeline = false;
-//
+
 //     for (var lifelineStatus in lifelines.values) {
 //       if (lifelineStatus == LifelineStatus.used) {
 //         hasUsedAnyLifeline = true;
@@ -296,9 +296,9 @@
 //     print("Has used any lifeline : $hasUsedAnyLifeline");
 //     return hasUsedAnyLifeline;
 //   }
-//
+
 //   //change to next Question
-//
+
 //   void changeQuestion() {
 //     questionAnimationController.forward(from: 0.0).then((value) {
 //       //need to dispose the animation controllers
@@ -314,7 +314,7 @@
 //       questionContentAnimationController.forward();
 //     });
 //   }
-//
+
 //   //if user has submitted the answer for current question
 //   bool hasSubmittedAnswerForCurrentQuestion() {
 //     return context
@@ -322,7 +322,7 @@
 //         .questions()[currentQuestionIndex]
 //         .attempted;
 //   }
-//
+
 //   // Map<String, LifelineStatus> getLifeLines() {
 //   //   if (widget.quizType == QuizTypes.quizZone ||
 //   //       widget.quizType == QuizTypes.dailyQuiz) {
@@ -330,14 +330,14 @@
 //   //   }
 //   //   return {};
 //   // }
-//
+
 //   void updateTotalSecondsToCompleteQuiz() {
 //     totalSecondsToCompleteQuiz = totalSecondsToCompleteQuiz +
 //         UiUtils.timeTakenToSubmitAnswer(
 //             animationControllerValue: timerAnimationController.value,
 //             quizType: widget.quizType);
 //   }
-//
+
 //   //update answer locally and on cloud
 //   void submitAnswer(String submittedAnswer) async {
 //     timerAnimationController.stop();
@@ -353,7 +353,7 @@
 //       //change question
 //       await Future.delayed(
 //           const Duration(seconds: inBetweenQuestionTimeInSeconds));
-//
+
 //       if (currentQuestionIndex !=
 //           (context.read<QuestionsCubit>().questions().length - 1)) {
 //         updateSubmittedAnswerForBookmark(
@@ -374,7 +374,7 @@
 //       }
 //     }
 //   }
-//
+
 //   //listener for current user timer
 //   void currentUserTimerAnimationStatusListener(AnimationStatus status) {
 //     print(status.toString());
@@ -387,7 +387,7 @@
 //       }
 //     }
 //   }
-//
+
 //   bool hasEnoughCoinsForLifeline(BuildContext context) {
 //     int currentCoins = int.parse(context.read<UserDetailsCubit>().getCoins()!);
 //     //cost of using lifeline is 5 coins
@@ -396,7 +396,7 @@
 //     }
 //     return true;
 //   }
-//
+
 //   Widget _buildShowOptionButton() {
 //     if (widget.quizType == QuizTypes.audioQuestions) {
 //       return Align(
@@ -439,7 +439,7 @@
 //     }
 //     return const SizedBox();
 //   }
-//
+
 //   Widget _buildBookmarkButton(QuestionsCubit questionsCubit) {
 //     //if quiz type is quiuzzone
 //     if (widget.quizType == QuizTypes.quizZone) {
@@ -448,7 +448,7 @@
 //         builder: (context, state) {
 //           if (state is QuestionsFetchSuccess) {
 //             //
-//
+
 //             final bookmarkCubit = context.read<BookmarkCubit>();
 //             final updateBookmarkcubit = context.read<UpdateBookmarkCubit>();
 //             return BlocListener<UpdateBookmarkCubit, UpdateBookmarkState>(
@@ -547,7 +547,7 @@
 //                   if (state is BookmarkFetchFailure) {
 //                     return const SizedBox();
 //                   }
-//
+
 //                   return const SizedBox();
 //                 },
 //               ),
@@ -557,7 +557,7 @@
 //         },
 //       );
 //     }
-//
+
 //     //if quiz tyoe is audio questions
 //     if (widget.quizType == QuizTypes.audioQuestions) {
 //       return BlocBuilder<QuestionsCubit, QuestionsState>(
@@ -565,7 +565,7 @@
 //         builder: (context, state) {
 //           if (state is QuestionsFetchSuccess) {
 //             //
-//
+
 //             final bookmarkCubit = context.read<AudioQuestionBookmarkCubit>();
 //             final updateBookmarkcubit = context.read<UpdateBookmarkCubit>();
 //             return BlocListener<UpdateBookmarkCubit, UpdateBookmarkState>(
@@ -665,7 +665,7 @@
 //                   if (state is AudioQuestionBookmarkFetchFailure) {
 //                     return const SizedBox();
 //                   }
-//
+
 //                   return const SizedBox();
 //                 },
 //               ),
@@ -675,10 +675,10 @@
 //         },
 //       );
 //     }
-//
+
 //     return const SizedBox();
 //   }
-//
+
 //   Widget _buildLifelineContainer(
 //       VoidCallback onTap, String lifelineTitle, String lifelineIcon) {
 //     return GestureDetector(
@@ -721,20 +721,20 @@
 //           )),
 //     );
 //   }
-//
+
 //   void onTapBackButton() {
 //     isExitDialogOpen = true;
 //     showDialog(context: context, builder: (_) => const ExitGameDailog())
 //         .then((value) => isExitDialogOpen = false);
 //   }
-//
+
 //   void _addCoinsAfterRewardAd() {
 //     //once user sees app then add coins to user wallet
 //     context.read<UserDetailsCubit>().updateCoins(
 //           addCoin: true,
 //           coins: lifeLineDeductCoins,
 //         );
-//
+
 //     context.read<UpdateScoreAndCoinsCubit>().updateCoins(
 //         context.read<UserDetailsCubit>().getUserId(),
 //         lifeLineDeductCoins,
@@ -742,7 +742,7 @@
 //         watchedRewardAdKey);
 //     timerAnimationController.forward(from: timerAnimationController.value);
 //   }
-//
+
 //   void showAdDialog() {
 //     if (context.read<RewardedAdCubit>().state is! RewardedAdLoaded) {
 //       UiUtils.setSnackbar(
@@ -774,7 +774,7 @@
 //       }
 //     });
 //   }
-//
+
 //   Widget _buildLifeLines() {
 //     if (widget.quizType == QuizTypes.dailyQuiz ||
 //         widget.quizType == QuizTypes.quizZone) {
@@ -805,7 +805,7 @@
 //                         context.read<UserDetailsCubit>().updateCoins(
 //                             addCoin: false, coins: lifeLineDeductCoins);
 //                         //mark fiftyFifty lifeline as using
-//
+
 //                         //update coins in cloud
 //                         context.read<UpdateScoreAndCoinsCubit>().updateCoins(
 //                             context.read<UserDetailsCubit>().getUserId(),
@@ -834,7 +834,7 @@
 //                       context.read<UserDetailsCubit>().updateCoins(
 //                           addCoin: false, coins: lifeLineDeductCoins);
 //                       //update coins in cloud
-//
+
 //                       context.read<UpdateScoreAndCoinsCubit>().updateCoins(
 //                           context.read<UserDetailsCubit>().getUserId(),
 //                           lifeLineDeductCoins,
@@ -861,7 +861,7 @@
 //                       context.read<UserDetailsCubit>().updateCoins(
 //                           addCoin: false, coins: lifeLineDeductCoins);
 //                       //mark fiftyFifty lifeline as using
-//
+
 //                       //update coins in cloud
 //                       context.read<UpdateScoreAndCoinsCubit>().updateCoins(
 //                           context.read<UserDetailsCubit>().getUserId(),
@@ -892,7 +892,7 @@
 //                           .read<UserDetailsCubit>()
 //                           .updateCoins(addCoin: false, coins: 5);
 //                       //update coins in cloud
-//
+
 //                       context.read<UpdateScoreAndCoinsCubit>().updateCoins(
 //                           context.read<UserDetailsCubit>().getUserId(),
 //                           lifeLineDeductCoins,
@@ -919,7 +919,7 @@
 //     }
 //     return const SizedBox();
 //   }
-//
+
 //   Widget _buildTopMenu() {
 //     return Align(
 //       alignment: Alignment.topCenter,
@@ -953,7 +953,7 @@
 //       ),
 //     );
 //   }
-//
+
 //   @override
 //   Widget build(BuildContext context) {
 //     final quesCubit = context.read<QuestionsCubit>();
@@ -993,14 +993,14 @@
 //                               audioQuestionContainerKeys.add(
 //                                   GlobalKey<AudioQuestionContainerState>());
 //                             });
-//
+
 //                             //
 //                             showOptionAnimationController.forward();
 //                             questionContentAnimationController.forward();
 //                             //add audio question container keys
-//
+
 //                           }
-//
+
 //                           //
 //                           else if (widget.quizType == QuizTypes.mathMania) {
 //                             questionContentAnimationController.forward();

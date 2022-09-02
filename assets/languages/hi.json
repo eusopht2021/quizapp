@@ -40,10 +40,10 @@
 
 
 
-"onBoardingIndex0":"सरलीकृत क्विज़ बनाना सरल हो जाता है,",
-"onBoardingIndex1":"अपने ज्ञान का परीक्षण करने के लिए प्रश्नोत्तरी खोजें",
-"onBoardingIndex2":"दोस्तों के साथ चुनौतियों में भाग लें",
-
+"onBoardingIndex0":"एक प्रश्नोत्तरी का उत्तर दें और रोमांचक पुरस्कार जीतने का मौका पाएं !!!",
+"onBoardingIndex1":"अपने ज्ञान का परीक्षण करें चुनने के लिए सैकड़ों अलग-अलग क्षेत्र हैं",
+"onBoardingIndex2":"पुरस्कार जीतने के लिए सभी प्रश्नों के सही उत्तर चुनें",
+"onBoardingIndex3" : "दोस्तों के साथ चुनौतियों में भाग लें",
 
 
 "signUpProcessIndex0":"तुम्हारा ईमेल क्या है?",
@@ -51,7 +51,7 @@
 "signUpProcessIndex2":"कोई उपयोगकर्ता नाम बनाएं",
 
 "loginOrSignUpLbl" : "लॉगिन या साइन अप करें",
-
+"NEXT":"अगला",
 
 
 
@@ -183,6 +183,7 @@
   "winnerLbl": "विजेता",
   "youLossLbl": "आप हारे",
   "matchDrawLbl": "मैच ड्रा",
+  "drawLbl" : "Draw",
   "looserLbl": "हारने",
   "playAgainBtn": "फिर से चालू करें",
   "nextLevelBtn": "अगला स्तर",
@@ -348,7 +349,7 @@
   "messages": "संदेशों",
   "emojis": "इमोजी",
   "badges": "बैज",
-  "mathMania": "गणित उन्माद",
+  "mathMania": "Math Mania",
   "audioQuestions": "ऑडियो कक्ष",
   "desAudioQuestions": "ऑडियो के साथ प्रश्नोत्तरी",
   "desMathMania": "यह गणित प्रश्नोत्तरी है",
@@ -361,7 +362,7 @@
   "moreThanZeroCoins": "कृपया शून्य से अधिक सिक्के दर्ज करें",
   "updateApplication": "एक अपडेट उपलब्ध है। कृपया इस ऐप का उपयोग करने के लिए अपडेट करें",
   "update": "अद्यतन",
-
+ 
   "warning": "चेतावनी",
 
   "failedToGetAppUrl": "ऐप url पाने में विफल",
@@ -377,13 +378,38 @@
   "scratchHere": "Scratch Here",
 
   "noRewards": "No Rewards",
-  "questions": "Questions",
+  "questions": "प्रशन",
   "back": "Back",
 
   "exam": "Exam",
 
   "desExam": "Give exam",
   "hint" : "Hint",
+  "seeAll" : "सभी देखें",
+  "liveQuizzes" : "प्रश्नोत्तरी",
+  "takepartLbl" : "दोस्तों या अन्य खिलाड़ियों के साथ चुनौतियों में भाग लें",
+  "findFriendsLbs" : "मित्रों को खोजें",
+  "featured": "विशेष रुप से प्रदर्शित",
+  "points" :"अंक",
+  "worldRank" : "विश्व रैंक",
+  "updateUsername" : "उपयोगकर्ता नाम अपडेट करें",
+  "changePassword": "पासवर्ड बदलें",
+  "youHaveAnswered" : "आपने कुल उत्तर दिया है",
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   "tournament" : "Tournament",
   "desTournament" : "Play exiciting tournament",
   "myRank" : "My Rank",

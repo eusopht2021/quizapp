@@ -9,21 +9,16 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutterquiz/app/appLocalization.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/userDetailsCubit.dart';
 import 'package:flutterquiz/features/quiz/cubits/getContestLeaderboardCubit.dart';
-import 'package:flutterquiz/features/quiz/quizRemoteDataSoure.dart';
 import 'package:flutterquiz/features/quiz/quizRepository.dart';
-import 'package:flutterquiz/ui/styles/colors.dart';
 import 'package:flutterquiz/ui/widgets/customBackButton.dart';
-import 'package:flutterquiz/ui/widgets/custom_button.dart';
 import 'package:flutterquiz/ui/widgets/errorContainer.dart';
 import 'package:flutterquiz/ui/widgets/notched_card.dart';
-import 'package:flutterquiz/ui/widgets/pageBackgroundGradientContainer.dart';
 import 'package:flutterquiz/ui/widgets/title_text.dart';
 import 'package:flutterquiz/utils/assets.dart';
 import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/size_config.dart';
-import 'package:flutterquiz/utils/uiUtils.dart';
+import 'package:recase/recase.dart';
 import 'package:flutterquiz/utils/widgets_util.dart';
-import 'package:http/http.dart';
 
 class ContestLeaderBoardScreen extends StatefulWidget {
   final String? contestId;
@@ -55,11 +50,11 @@ class _ContestLeaderBoardScreen extends State<ContestLeaderBoardScreen> {
   double _topPosition(index) {
     double position = 0;
     index == 0
-        ? position = 30.0
+        ? position = SizeConfig.screenHeight * (0.012)
         : index == 1
-            ? position = 60.0
+            ? position = SizeConfig.screenHeight * (0.045)
             : index == 2
-                ? position = 100.0
+                ? position = SizeConfig.screenHeight * (0.07)
                 : null;
 
     return position;
@@ -70,7 +65,7 @@ class _ContestLeaderBoardScreen extends State<ContestLeaderBoardScreen> {
     index == 0
         ? position = 0
         : index == 1
-            ? position = 30
+            ? position = SizeConfig.screenHeight * (0.040)
             // : index == 2
             //     ? position = 60
             : index == 2
@@ -83,14 +78,15 @@ class _ContestLeaderBoardScreen extends State<ContestLeaderBoardScreen> {
     double? position = 0;
     index == 0
         ? position = 0
-        : index == 2
-            ? position = 40
-            : index == 1
-                ? position = null
+        : index == 1
+            ? position = null
+            : index == 2
+                ? position = SizeConfig.screenHeight * (0.045)
                 : null;
     return position;
   }
 
+  Color? _dotColor;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -176,15 +172,17 @@ class _ContestLeaderBoardScreen extends State<ContestLeaderBoardScreen> {
                   left: _leftPosition(index),
                   right: _rightPosition(index),
                   child: index < 3
-                      ? Column(
-                          children: [
-                            Badge(
-                              elevation: 0,
-                              showBadge: true,
-                              badgeContent: Image.asset(Assets.portugal),
-                              badgeColor: Colors.transparent,
-                              position: BadgePosition.bottomEnd(),
-                              child: Badge(
+                      ? FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Column(
+                            children: [
+                              Badge(
+                                elevation: 0,
+                                showBadge: true,
+                                badgeContent: Image.asset(Assets.portugal),
+                                badgeColor: Colors.transparent,
+                                position: BadgePosition.bottomEnd(),
+                                child: Badge(
                                   elevation: 0,
                                   showBadge: true,
                                   badgeContent: index == 0
@@ -196,113 +194,144 @@ class _ContestLeaderBoardScreen extends State<ContestLeaderBoardScreen> {
                                   position:
                                       BadgePosition.topEnd(end: 5, top: -20),
                                   badgeColor: Colors.transparent,
-                                  child: CircleAvatar(
-                                    radius: 25,
-                                    backgroundColor: Colors.transparent,
-                                    backgroundImage: CachedNetworkImageProvider(
-                                      index == 0
-                                          ? getContestLeaderboardList[0]
-                                              .profile!
-                                          : index == 1
-                                              ? getContestLeaderboardList[1]
-                                                  .profile!
-                                              : index == 2
-                                                  ? getContestLeaderboardList[2]
-                                                      .profile!
-                                                  : "",
-                                    ),
-                                  )),
-                            ),
-                            WidgetsUtil.verticalSpace20,
-                            SizedBox(
-                              width: 100,
-                              height: 20,
-                              child: TitleText(
-                                text: index == 0
-                                    ? getContestLeaderboardList[0].name!
-                                    : index == 1
-                                        ? getContestLeaderboardList[1].name!
-                                        : index == 2
-                                            ? getContestLeaderboardList[2].name!
-                                            : "",
-                                textColor: Constants.white,
-                                size: Constants.bodySmall,
-                                align: TextAlign.center,
-                                maxlines: 1,
-                              ),
-                            ),
-                            WidgetsUtil.verticalSpace4,
-                            index < 3
-                                ? _qpContainer(
-                                    Center(
-                                      child: TitleText(
-                                        text: index == 0
+                                  child: ClipOval(
+                                    clipBehavior: Clip.antiAlias,
+                                    child: CircleAvatar(
+                                      backgroundColor: Colors.transparent,
+                                      radius: 25,
+                                      child: CachedNetworkImage(
+                                        imageUrl: index == 0
                                             ? getContestLeaderboardList[0]
-                                                .score!
+                                                .profile!
                                             : index == 1
                                                 ? getContestLeaderboardList[1]
-                                                    .score!
+                                                    .profile!
                                                 : index == 2
                                                     ? getContestLeaderboardList[
                                                             2]
-                                                        .score!
+                                                        .profile!
                                                     : "",
-                                        size: Constants.bodyXSmall,
-                                        textColor: Constants.white,
+                                        placeholder: (url, string) {
+                                          return CircularProgressIndicator(
+                                            color: Constants.primaryColor,
+                                          );
+                                        },
+                                        errorWidget: (_, __, ___) {
+                                          return Image.asset(
+                                            Assets.person,
+                                            width: 30,
+                                            height: 30,
+                                          );
+                                        },
+                                        // placeholder: Image.asset(Assets.person),
                                       ),
                                     ),
-                                  )
-                                : const SizedBox(),
-                          ],
+                                  ),
+                                ),
+                              ),
+                              WidgetsUtil.verticalSpace16,
+                              SizedBox(
+                                width: 100,
+                                height: 20,
+                                child: TitleText(
+                                  text: (index == 0
+                                          ? getContestLeaderboardList[0].name!
+                                          : index == 1
+                                              ? getContestLeaderboardList[1]
+                                                  .name!
+                                              : index == 2
+                                                  ? getContestLeaderboardList[2]
+                                                      .name!
+                                                  : "")
+                                      .titleCase,
+                                  textColor: Constants.white,
+                                  size: Constants.bodySmall,
+                                  align: TextAlign.center,
+                                  maxlines: 1,
+                                ),
+                              ),
+                              WidgetsUtil.verticalSpace8,
+                              index < 3
+                                  ? _qpContainer(
+                                      Center(
+                                        child: TitleText(
+                                          // ignore: prefer_interpolation_to_compose_strings
+                                          text: (index == 0
+                                                  ? getContestLeaderboardList[0]
+                                                      .score!
+                                                  : index == 1
+                                                      ? getContestLeaderboardList[
+                                                              1]
+                                                          .score!
+                                                      : index == 2
+                                                          ? getContestLeaderboardList[
+                                                                  2]
+                                                              .score!
+                                                          : "") +
+                                              " PTS",
+                                          size: Constants.bodyXSmall,
+                                          textColor: Constants.white,
+                                        ),
+                                      ),
+                                    )
+                                  : const SizedBox(),
+                            ],
+                          ),
                         )
                       : const SizedBox(),
                 );
               }),
               Positioned(
-                top: SizeConfig.screenHeight * 0.2,
+                top: SizeConfig.screenHeight * 0.156,
                 child: Align(
                   alignment: Alignment.topCenter,
                   child: SizedBox(
                     width: SizeConfig.screenWidth,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Expanded(
-                          flex: 2,
-                          child: SizedBox(),
-                        ),
-                        Expanded(
-                          flex: 5,
-                          child: Image.asset(
-                            Assets.rank2,
-                            fit: BoxFit.fill,
-                            height: SizeConfig.screenHeight * 0.29,
-                          ),
-                        ),
-                        Expanded(
-                          flex: 5,
-                          child: Image.asset(
-                            Assets.rank1,
-                            fit: BoxFit.fill,
-                            height: SizeConfig.screenHeight * 0.35,
-                          ),
-                        ),
-                        Expanded(
-                          flex: 5,
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 80),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // const Expanded(
+                          //   flex: 1,
+                          //   child: SizedBox(),
+                          // ),
+                          Expanded(
+                            flex: 5,
                             child: Image.asset(
-                              Assets.rank3,
+                              Assets.rank2,
                               fit: BoxFit.fill,
-                              height: SizeConfig.screenHeight * 0.3,
+                              width: SizeConfig.screenWidth * 0.15,
+                              height: SizeConfig.screenHeight * 0.29,
                             ),
                           ),
-                        ),
-                        const Expanded(
-                          flex: 2,
-                          child: SizedBox(),
-                        ),
-                      ],
+                          Expanded(
+                            flex: 5,
+                            child: Image.asset(
+                              Assets.rank1,
+                              fit: BoxFit.fill,
+                              width: SizeConfig.screenWidth * 0.2,
+                              height: SizeConfig.screenHeight * 0.37,
+                            ),
+                          ),
+                          Expanded(
+                            flex: 5,
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 80),
+                              child: Image.asset(
+                                Assets.rank3,
+                                fit: BoxFit.fill,
+                                width: SizeConfig.screenWidth * 0.15,
+                                height: SizeConfig.screenHeight * 0.35,
+                              ),
+                            ),
+                          ),
+                          // const Expanded(
+                          //   flex: 1,
+                          //   child: SizedBox(),
+                          // ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -321,20 +350,6 @@ class _ContestLeaderBoardScreen extends State<ContestLeaderBoardScreen> {
     List startsFromZero = [];
     List users = [];
     // print("getContestLeaderboardList  inedex 0 : ${startsFromThree[0].name}");
-    for (int i = 0; i < leaderBoardList.length; i++) {
-      startsFromZero.add(leaderBoardList[i]);
-
-      if (i > 2) {
-        startsFromThree.add(leaderBoardList[i]);
-      }
-    }
-
-    if (isExpand) {
-      users = startsFromZero;
-    } else {
-      users = startsFromThree;
-    }
-    log(startsFromThree.length.toString());
 
     // log("getContestLeaderboardList  inedex 0 : ${users[0].name}");
     int counterIndex = 0;
@@ -342,20 +357,17 @@ class _ContestLeaderBoardScreen extends State<ContestLeaderBoardScreen> {
     // log('Draggable: ${draggable.length}   leaderboard : ${leaderBoardList.length}   ');
     return NotificationListener(
       onNotification: (DraggableScrollableNotification dSnotification) {
-        if (dSnotification.extent >= 1.0) {
-          setState(() {
-            isExpand = true;
-            log('IsExpand false running');
-          });
-        } else if (dSnotification.extent <= 0.45) {
-          setState(
-            () {
-              isExpand = false;
-              log('IsExpand true running');
-            },
-          );
+        double extent = dSnotification.extent;
+        String temp = extent.toStringAsFixed(2);
+        extent = double.parse(temp);
+
+        if (dSnotification.extent >= 0.95) {
+          isExpand = true;
+        } else if (dSnotification.extent <= 0.47) {
+          isExpand = false;
         }
-        return false;
+        // setState(() {});
+        return true;
       },
       child: DraggableScrollableSheet(
         snap: true,
@@ -363,31 +375,56 @@ class _ContestLeaderBoardScreen extends State<ContestLeaderBoardScreen> {
         minChildSize: 0.45,
         maxChildSize: 1.0,
         builder: (context, controller) {
+          for (int i = 0; i < leaderBoardList.length; i++) {
+            if (!startsFromZero.contains(leaderBoardList[i])) {
+              startsFromZero.add(leaderBoardList[i]);
+            }
+
+            if (i >= 3 && !startsFromThree.contains(leaderBoardList[i])) {
+              startsFromThree.add(leaderBoardList[i]);
+            }
+          }
+
+          if (isExpand) {
+            users = startsFromZero;
+          } else {
+            users = startsFromThree;
+          }
+
+          log(startsFromThree.length.toString());
           return NotchedCard(
             circleColor: Constants.grey5,
+            dotColor: isExpand
+                ? _dotColor = Constants.primaryColor
+                : Constants.primaryColor.withOpacity(0.3),
             child: Container(
               height: SizeConfig.screenHeight,
               padding: const EdgeInsets.only(top: 10, right: 16, left: 16),
               decoration: BoxDecoration(
                 color: Constants.grey5,
                 borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
+                  topLeft: Radius.circular(25),
+                  topRight: Radius.circular(25),
                 ),
               ),
               child: ListView(
                 controller: controller,
                 shrinkWrap: true,
                 children: [
-                  if (users.isEmpty)
+                  if (users.length < 2)
                     Padding(
-                      padding: const EdgeInsets.only(top: 20),
+                      padding: const EdgeInsets.only(
+                        top: 50,
+                      ),
                       child: SizedBox(
                         width: double.infinity,
-                        child: Icon(
-                          Icons.group_add_outlined,
-                          size: 150,
-                          color: Constants.grey1.withOpacity(0.2),
+                        child: Center(
+                          child: TitleText(
+                            text: "No Users".toUpperCase(),
+                            weight: FontWeight.w500,
+                            size: Constants.heading2,
+                            textColor: Constants.grey1.withOpacity(0.2),
+                          ),
                         ),
                       ),
                     )
@@ -397,7 +434,7 @@ class _ContestLeaderBoardScreen extends State<ContestLeaderBoardScreen> {
                       shrinkWrap: true,
                       itemCount: users.length,
                       itemBuilder: (context, index) {
-                        counterIndex++;
+                        // counterIndex++;
                         return SizedBox(
                           height: 100,
                           child: Card(
@@ -423,27 +460,48 @@ class _ContestLeaderBoardScreen extends State<ContestLeaderBoardScreen> {
                                         backgroundColor: Constants.white,
                                         child: TitleText(
                                           text: isExpand
-                                              ? ((counterIndex).toString())
-                                              : (counterIndex + 3).toString(),
+                                              ? ((index + 1).toString())
+                                              : (index + 3).toString(),
                                         ),
                                       ),
                                     ),
                                   ),
+
+                                  //),
                                   Expanded(
                                     flex: 9,
                                     child: ListTile(
-                                        leading: CircleAvatar(
-                                          backgroundColor: Colors.transparent,
-                                          backgroundImage:
-                                              CachedNetworkImageProvider(
-                                                  users[index].profile! ?? ""),
+                                        leading: ClipOval(
+                                          clipBehavior: Clip.antiAlias,
+                                          child: CircleAvatar(
+                                            backgroundColor: Colors.transparent,
+                                            radius: 25,
+                                            child: CachedNetworkImage(
+                                              imageUrl:
+                                                  users[index].profile! ?? "",
+                                              placeholder: (url, string) {
+                                                return CircularProgressIndicator(
+                                                  color: Constants.primaryColor,
+                                                );
+                                              },
+                                              errorWidget: (_, __, ___) {
+                                                return Image.asset(
+                                                  Assets.person,
+                                                  width: 30,
+                                                  height: 30,
+                                                );
+                                              },
+                                              // placeholder: Image.asset(Assets.person),
+                                            ),
+                                          ),
                                         ),
                                         title: TitleText(
-                                          text: users[index].name ?? "Player",
+                                          text:
+                                              "${users[index].name ?? "Player"}",
                                         ),
                                         subtitle: TitleText(
                                           text:
-                                              '${users[index].score ?? "0"}  points',
+                                              '${users[index].score ?? "0"} PTS',
                                         ),
                                         trailing: isExpand
                                             ? index == 0

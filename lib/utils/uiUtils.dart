@@ -102,22 +102,25 @@ class UiUtils {
   }
 
   static void setSnackbar(String msg, BuildContext context, bool showAction,
-      {Function? onPressedAction, Duration? duration}) {
+      {Function? onPressedAction,
+      Duration? duration,
+      Color? backgroundColor,
+      Color? textColor}) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(msg,
           textAlign: showAction ? TextAlign.start : TextAlign.center,
           style: TextStyle(
-              color: Theme.of(context).backgroundColor,
+              color: textColor ?? Theme.of(context).backgroundColor,
               fontWeight: FontWeight.bold,
               fontSize: 16.0)),
       behavior: SnackBarBehavior.fixed,
       duration: duration ?? const Duration(seconds: 2),
-      backgroundColor: Constants.primaryColor,
+      backgroundColor: backgroundColor ?? Constants.primaryColor,
       action: showAction
           ? SnackBarAction(
               label: "Retry",
               onPressed: onPressedAction as void Function(),
-              textColor: Theme.of(context).backgroundColor,
+              textColor: textColor ?? Theme.of(context).backgroundColor,
             )
           : null,
       elevation: 2.0,
@@ -135,7 +138,7 @@ class UiUtils {
   }
 
   static String getprofileImagePath(String imageName) {
-    return "assets/images/profile/$imageName";
+    return "assets/profileAvatars/$imageName";
   }
 
   static String getEmojiPath(String emojiName) {

@@ -22,6 +22,10 @@ class WidgetsUtil {
   static Widget verticalSpace4 = const SizedBox(
     height: 4,
   );
+
+  static SizedBox horizontalSpace4 = const SizedBox(
+    width: 4,
+  );
   static SizedBox horizontalSpace8 = const SizedBox(
     width: 8,
   );

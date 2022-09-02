@@ -13,19 +13,18 @@ import 'package:flutterquiz/features/bookmark/cubits/updateBookmarkCubit.dart';
 import 'package:flutterquiz/features/quiz/models/question.dart';
 import 'package:flutterquiz/features/quiz/models/quizType.dart';
 import 'package:flutterquiz/features/quiz/quizRepository.dart';
+import 'package:flutterquiz/ui/screens/quiz/widgets/new_question_container.dart';
 
-import 'package:flutterquiz/ui/widgets/circularProgressContainner.dart';
 import 'package:flutterquiz/ui/widgets/customBackButton.dart';
 import 'package:flutterquiz/ui/widgets/customRoundedButton.dart';
 import 'package:flutterquiz/ui/widgets/errorContainer.dart';
 import 'package:flutterquiz/ui/widgets/exitGameDailog.dart';
-import 'package:flutterquiz/ui/widgets/pageBackgroundGradientContainer.dart';
-import 'package:flutterquiz/ui/widgets/questionsContainer.dart';
-import 'package:flutterquiz/ui/widgets/quizPlayAreaBackgroundContainer.dart';
 import 'package:flutterquiz/ui/widgets/settingButton.dart';
 import 'package:flutterquiz/ui/widgets/settingsDialogContainer.dart';
+import 'package:flutterquiz/utils/constants.dart';
 
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
+import 'package:flutterquiz/utils/size_config.dart';
 
 import 'package:flutterquiz/utils/uiUtils.dart';
 
@@ -88,6 +87,8 @@ class _SelfChallengeQuestionsScreenState
 
   bool isExitDialogOpen = false;
 
+  double? timeTakenToCompleteQuiz = 0;
+
   void _getQuestions() {
     Future.delayed(Duration.zero, () {
       context.read<QuestionsCubit>().getQuestions(
@@ -107,20 +108,20 @@ class _SelfChallengeQuestionsScreenState
         vsync: this, duration: Duration(minutes: widget.minutes!))
       ..addStatusListener(currentUserTimerAnimationStatusListener);
 
-    animationController =
-        AnimationController(vsync: this, duration: const Duration(milliseconds: 100));
-    topContainerAnimationController =
-        AnimationController(vsync: this, duration: const Duration(milliseconds: 100));
+    animationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 100));
+    topContainerAnimationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 100));
     _getQuestions();
     super.initState();
   }
 
   void initializeAnimation() {
-    questionContentAnimationController =
-        AnimationController(vsync: this, duration: const Duration(milliseconds: 250))
-          ..forward();
-    questionAnimationController =
-        AnimationController(vsync: this, duration: const Duration(milliseconds: 525));
+    questionContentAnimationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 250))
+      ..forward();
+    questionAnimationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 525));
     questionSlideAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(
             parent: questionAnimationController, curve: Curves.easeInOut));
@@ -198,6 +199,14 @@ class _SelfChallengeQuestionsScreenState
     }
   }
 
+  void updateTimeTakenToCompleteQuiz() {
+    timeTakenToCompleteQuiz = timeTakenToCompleteQuiz! +
+        UiUtils.timeTakenToSubmitAnswer(
+            animationControllerValue: timerAnimationController.value,
+            quizType: QuizTypes.guessTheWord);
+    print("Time to complete quiz: $timeTakenToCompleteQuiz");
+  }
+
   void navigateToResult() {
     if (isBottomSheetOpen) {
       Navigator.of(context).pop();
@@ -214,6 +223,7 @@ class _SelfChallengeQuestionsScreenState
       "myPoints": context.read<QuestionsCubit>().currentPoints(),
       "quizType": QuizTypes.selfChallenge,
       "questions": context.read<QuestionsCubit>().questions(),
+      "timeTakenToCompleteQuiz": timeTakenToCompleteQuiz,
       "entryFee": 0
     });
   }
@@ -228,14 +238,12 @@ class _SelfChallengeQuestionsScreenState
       child: Container(
         alignment: Alignment.center,
         margin: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
-        color: attempted
-            ? Theme.of(context).primaryColor
-            : Theme.of(context).colorScheme.secondary,
+        color: attempted ? Theme.of(context).primaryColor : Constants.secondaryColor,
         height: 30.0,
         width: 30.0,
         child: Text(
           "${questionIndex + 1}",
-          style: TextStyle(color: Theme.of(context).backgroundColor),
+          style: TextStyle(color: Constants.white),
         ),
       ),
     );
@@ -275,19 +283,23 @@ class _SelfChallengeQuestionsScreenState
                       Navigator.of(context).pop();
                     },
                     icon: const Icon(Icons.close),
-                    color: Theme.of(context).colorScheme.secondary,
+                    color: Theme.of(context).primaryColor,
                   ),
                 ),
                 Wrap(
                   children: List.generate(questions.length, (index) => index)
-                      .map((index) => hasQuestionAttemptedContainer(
-                          index, questions[index].attempted))
+                      .map(
+                        (index) => hasQuestionAttemptedContainer(
+                          index,
+                          questions[index].attempted,
+                        ),
+                      )
                       .toList(),
                 ),
                 const SizedBox(
                   height: 20.0,
                 ),
-                Container(
+                SizedBox(
                   width: MediaQuery.of(context).size.width * (0.25),
                   child: CustomRoundedButton(
                     onTap: () {
@@ -301,7 +313,7 @@ class _SelfChallengeQuestionsScreenState
                         .getTranslatedValues("submitBtn")!,
                     radius: 10,
                     showBorder: false,
-                    titleColor: Theme.of(context).backgroundColor,
+                    titleColor: Constants.white,
                     height: 30.0,
                   ),
                 ),
@@ -319,7 +331,7 @@ class _SelfChallengeQuestionsScreenState
                         child: Center(
                           child: Icon(
                             Icons.check,
-                            color: Theme.of(context).backgroundColor,
+                            color: Constants.white,
                             size: 22,
                           ),
                         ),
@@ -331,18 +343,16 @@ class _SelfChallengeQuestionsScreenState
                         AppLocalization.of(context)!
                             .getTranslatedValues("attemptedLbl")!,
                         style: TextStyle(
-                            fontSize: 12.5,
-                            color: Theme.of(context).colorScheme.secondary),
+                            fontSize: 12.5, color: Theme.of(context).primaryColor),
                       ),
                       const Spacer(),
                       CircleAvatar(
                         radius: 15,
-                        backgroundColor:
-                            Theme.of(context).colorScheme.secondary,
+                        backgroundColor: Constants.secondaryColor,
                         child: Center(
                           child: Icon(
                             Icons.check,
-                            color: Theme.of(context).backgroundColor,
+                            color: Constants.white,
                             size: 22,
                           ),
                         ),
@@ -354,8 +364,7 @@ class _SelfChallengeQuestionsScreenState
                         AppLocalization.of(context)!
                             .getTranslatedValues("unAttemptedLbl")!,
                         style: TextStyle(
-                            fontSize: 12.5,
-                            color: Theme.of(context).colorScheme.secondary),
+                            fontSize: 12.5, color: Constants.secondaryColor),
                       ),
                     ],
                   ),
@@ -410,11 +419,11 @@ class _SelfChallengeQuestionsScreenState
       builder: (context, state) {
         if (state is QuestionsFetchSuccess) {
           return Padding(
-            padding: const EdgeInsets.only(bottom: 10.0),
+            padding: const EdgeInsets.only(bottom: 10.0, left: 16, right: 16),
             child: Row(
               children: [
                 Opacity(
-                  opacity: currentQuestionIndex != 0 ? 1.0 : 0.5,
+                  opacity: 1.0,
                   child: IconButton(
                       onPressed: () {
                         if (!questionAnimationController.isAnimating) {
@@ -426,7 +435,7 @@ class _SelfChallengeQuestionsScreenState
                       },
                       icon: Icon(
                         Icons.arrow_back_ios,
-                        color: Theme.of(context).colorScheme.secondary,
+                        color: Constants.white,
                       )),
                 ),
                 const Spacer(),
@@ -436,7 +445,7 @@ class _SelfChallengeQuestionsScreenState
                     openBottomSheet(state.questions);
                   },
                   child: CircleAvatar(
-                    backgroundColor: Theme.of(context).colorScheme.secondary,
+                    backgroundColor: Theme.of(context).primaryColor,
                     radius: 20,
                     child: Padding(
                       padding: const EdgeInsets.all(5.0),
@@ -447,9 +456,7 @@ class _SelfChallengeQuestionsScreenState
                 ),
                 const Spacer(),
                 Opacity(
-                  opacity: currentQuestionIndex != (state.questions.length - 1)
-                      ? 1.0
-                      : 0.5,
+                  opacity: 1,
                   child: IconButton(
                       onPressed: () {
                         if (!questionAnimationController.isAnimating) {
@@ -462,7 +469,7 @@ class _SelfChallengeQuestionsScreenState
                       },
                       icon: Icon(
                         Icons.arrow_forward_ios,
-                        color: Theme.of(context).colorScheme.secondary,
+                        color: Constants.white,
                       )),
                 ),
               ],
@@ -494,93 +501,104 @@ class _SelfChallengeQuestionsScreenState
         return Future.value(false);
       },
       child: Scaffold(
-        body: Stack(
-          children: [
-            const PageBackgroundGradientContainer(),
-            Align(
-              alignment: Alignment.topCenter,
-              child: QuizPlayAreaBackgroundContainer(
-                heightPercentage: 0.9,
-              ),
-            ),
-            BlocConsumer<QuestionsCubit, QuestionsState>(
-                bloc: quesCubit,
-                listener: (context, state) {
-                  if (state is QuestionsFetchSuccess) {
-                    if (!timerAnimationController.isAnimating) {
-                      timerAnimationController.forward();
+        backgroundColor: Theme.of(context).primaryColor,
+        body: SizedBox(
+          height: SizeConfig.screenHeight,
+          child: Stack(
+            children: [
+              // const PageBackgroundGradientContainer(),
+              // Align(
+              //   alignment: Alignment.topCenter,
+              //   child: QuizPlayAreaBackgroundContainer(
+              //     heightPercentage: 0.9,
+              //   ),
+              // ),
+              BlocConsumer<QuestionsCubit, QuestionsState>(
+                  bloc: quesCubit,
+                  listener: (context, state) {
+                    if (state is QuestionsFetchSuccess) {
+                      if (!timerAnimationController.isAnimating) {
+                        timerAnimationController.forward();
+                      }
                     }
-                  }
-                },
+                  },
+                  builder: (context, state) {
+                    if (state is QuestionsFetchInProgress ||
+                        state is QuestionsIntial) {
+                      return Center(
+                        child: CircularProgressIndicator(
+                          color: Constants.white,
+                        ),
+                      );
+                    }
+                    if (state is QuestionsFetchFailure) {
+                      return Center(
+                        child: ErrorContainer(
+                          showBackButton: true,
+                          errorMessageColor:
+                              Theme.of(context).scaffoldBackgroundColor,
+                          errorMessage: AppLocalization.of(context)!
+                              .getTranslatedValues(
+                                  convertErrorCodeToLanguageKey(
+                                      state.errorMessage)),
+                          onTapRetry: () {
+                            _getQuestions();
+                          },
+                          showErrorImage: true,
+                        ),
+                      );
+                    }
+                    final questions =
+                        (state as QuestionsFetchSuccess).questions;
+                    ques = questions;
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 50),
+                      child: Align(
+                          alignment: Alignment.topCenter,
+                          child: NewQuestionsContainer(
+                            timerAnimationController: timerAnimationController,
+                            quizType: QuizTypes.selfChallenge,
+                            showAnswerCorrectness: false,
+                            lifeLines: {},
+                            topPadding: MediaQuery.of(context).size.height *
+                                UiUtils
+                                    .getQuestionContainerTopPaddingPercentage(
+                                        MediaQuery.of(context).size.height),
+                            hasSubmittedAnswerForCurrentQuestion:
+                                hasSubmittedAnswerForCurrentQuestion,
+                            questions: questions,
+                            submitAnswer: submitAnswer,
+                            questionContentAnimation: questionContentAnimation,
+                            questionScaleDownAnimation:
+                                questionScaleDownAnimation,
+                            questionScaleUpAnimation: questionScaleUpAnimation,
+                            questionSlideAnimation: questionSlideAnimation,
+                            currentQuestionIndex: currentQuestionIndex,
+                            questionAnimationController:
+                                questionAnimationController,
+                            questionContentAnimationController:
+                                questionContentAnimationController,
+                            guessTheWordQuestions: [],
+                            guessTheWordQuestionContainerKeys: [],
+                            // quizType: QuizTypes.selfChallenge,
+                          )),
+                    );
+                  }),
+              BlocBuilder<QuestionsCubit, QuestionsState>(
+                bloc: quesCubit,
                 builder: (context, state) {
-                  if (state is QuestionsFetchInProgress ||
-                      state is QuestionsIntial) {
-                    return Center(
-                      child: CircularProgressContainer(
-                        useWhiteLoader: true,
-                      ),
+                  if (state is QuestionsFetchSuccess) {
+                    return Align(
+                      alignment: Alignment.bottomCenter,
+                      child: _buildBottomMenu(context),
                     );
                   }
-                  if (state is QuestionsFetchFailure) {
-                    return Center(
-                      child: ErrorContainer(
-                        showBackButton: true,
-                        errorMessageColor:
-                            Theme.of(context).scaffoldBackgroundColor,
-                        errorMessage: AppLocalization.of(context)!
-                            .getTranslatedValues(convertErrorCodeToLanguageKey(
-                                state.errorMessage)),
-                        onTapRetry: () {
-                          _getQuestions();
-                        },
-                        showErrorImage: true,
-                      ),
-                    );
-                  }
-                  final questions = (state as QuestionsFetchSuccess).questions;
-                  ques = questions;
-                  return Align(
-                      alignment: Alignment.topCenter,
-                      child: QuestionsContainer(
-                        timerAnimationController: timerAnimationController,
-                        quizType: QuizTypes.selfChallenge,
-                        showAnswerCorrectness: false,
-                        lifeLines: {},
-                        topPadding: MediaQuery.of(context).size.height *
-                            UiUtils.getQuestionContainerTopPaddingPercentage(
-                                MediaQuery.of(context).size.height),
-                        hasSubmittedAnswerForCurrentQuestion:
-                            hasSubmittedAnswerForCurrentQuestion,
-                        questions: questions,
-                        submitAnswer: submitAnswer,
-                        questionContentAnimation: questionContentAnimation,
-                        questionScaleDownAnimation: questionScaleDownAnimation,
-                        questionScaleUpAnimation: questionScaleUpAnimation,
-                        questionSlideAnimation: questionSlideAnimation,
-                        currentQuestionIndex: currentQuestionIndex,
-                        questionAnimationController:
-                            questionAnimationController,
-                        questionContentAnimationController:
-                            questionContentAnimationController,
-                        guessTheWordQuestions: [],
-                        guessTheWordQuestionContainerKeys: [],
-                        // quizType: QuizTypes.selfChallenge,
-                      ));
-                }),
-            BlocBuilder<QuestionsCubit, QuestionsState>(
-              bloc: quesCubit,
-              builder: (context, state) {
-                if (state is QuestionsFetchSuccess) {
-                  return Align(
-                    alignment: Alignment.bottomCenter,
-                    child: _buildBottomMenu(context),
-                  );
-                }
-                return const SizedBox();
-              },
-            ),
-            _buildTopMenu(),
-          ],
+                  return const SizedBox();
+                },
+              ),
+              _buildTopMenu(),
+            ],
+          ),
         ),
       ),
     );

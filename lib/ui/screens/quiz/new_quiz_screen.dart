@@ -23,7 +23,6 @@ import 'package:flutterquiz/features/quiz/quizRepository.dart';
 import 'package:flutterquiz/features/systemConfig/cubits/systemConfigCubit.dart';
 import 'package:flutterquiz/ui/screens/quiz/widgets/audioQuestionContainer.dart';
 import 'package:flutterquiz/ui/screens/quiz/widgets/new_question_container.dart';
-import 'package:flutterquiz/ui/widgets/customRoundedButton.dart';
 import 'package:flutterquiz/ui/widgets/errorContainer.dart';
 import 'package:flutterquiz/ui/widgets/exitGameDailog.dart';
 import 'package:flutterquiz/ui/widgets/settingButton.dart';
@@ -187,7 +186,7 @@ class _NewQuizScreenState extends State<NewQuizScreen>
         vsync: this, duration: const Duration(milliseconds: 100));
     //
     if (widget.quizType != QuizTypes.audioQuestions) {
-      timerAnimationController.forward(from: 0.0);
+      timerAnimationController.forward(from: 0);
     }
 
 //  if (!showOptionAnimationController.isAnimating) {
@@ -328,6 +327,7 @@ class _NewQuizScreenState extends State<NewQuizScreen>
       });
       //load content(options, image etc) of question
       questionContentAnimationController.forward();
+      log("change questions");
     });
   }
 
@@ -350,8 +350,9 @@ class _NewQuizScreenState extends State<NewQuizScreen>
   void updateTotalSecondsToCompleteQuiz() {
     totalSecondsToCompleteQuiz = totalSecondsToCompleteQuiz +
         UiUtils.timeTakenToSubmitAnswer(
-            animationControllerValue: timerAnimationController.value,
-            quizType: widget.quizType);
+          animationControllerValue: timerAnimationController.value,
+          quizType: widget.quizType,
+        );
   }
 
   //update answer locally and on cloud
@@ -429,7 +430,7 @@ class _NewQuizScreenState extends State<NewQuizScreen>
   //           ),
   //           child: CustomRoundedButton(
   //             widthPercentage: MediaQuery.of(context).size.width * (0.5),
-  //             backgroundColor: Constants.primaryColor,
+  //             backgroundColor: Theme.of(context).primaryColor,
   //             buttonTitle: AppLocalization.of(context)!
   //                 .getTranslatedValues(showOptionsKey)!,
   //             radius: 5,
@@ -458,7 +459,7 @@ class _NewQuizScreenState extends State<NewQuizScreen>
   // Widget _showOption() {
   //   return CustomRoundedButton(
   //     widthPercentage: MediaQuery.of(context).size.width * (0.5),
-  //     backgroundColor: Constants.primaryColor,
+  //     backgroundColor: Theme.of(context).primaryColor,
   //     buttonTitle:
   //         AppLocalization.of(context)!.getTranslatedValues(showOptionsKey)!,
   //     radius: 5,
@@ -720,48 +721,63 @@ class _NewQuizScreenState extends State<NewQuizScreen>
     return const SizedBox();
   }
 
-  // Widget _buildLifelineContainer(
-  //     VoidCallback onTap, String lifelineTitle, String lifelineIcon) {
-  //   return GestureDetector(
-  //     onTap: lifelineTitle == fiftyFifty &&
-  //             context
-  //                     .read<QuestionsCubit>()
-  //                     .questions()[currentQuestionIndex]
-  //                     .answerOptions!
-  //                     .length ==
-  //                 2
-  //         ? () {
-  //             UiUtils.setSnackbar(
-  //                 AppLocalization.of(context)!
-  //                     .getTranslatedValues("notAvailable")!,
-  //                 context,
-  //                 false);
-  //           }
-  //         : onTap,
-  //     child: Container(
-  //         decoration: BoxDecoration(
-  //             color: lifelineTitle == fiftyFifty &&
-  //                     context
-  //                             .read<QuestionsCubit>()
-  //                             .questions()[currentQuestionIndex]
-  //                             .answerOptions!
-  //                             .length ==
-  //                         2
-  //                 ? Theme.of(context).backgroundColor.withOpacity(0.7)
-  //                 : Theme.of(context).backgroundColor,
-  //             boxShadow: [
-  //               UiUtils.buildBoxShadow(),
-  //             ],
-  //             borderRadius: BorderRadius.circular(10.0)),
-  //         width: 45.0,
-  //         height: 45.0,
-  //         padding: const EdgeInsets.all(11),
-  //         child: SvgPicture.asset(
-  //           UiUtils.getImagePath(lifelineIcon),
-  //           color: Theme.of(context).colorScheme.secondary,
-  //         )),
-  //   );
-  // }
+  Widget _buildLifelineContainer(
+      {VoidCallback? onTap,
+      String? lifelineTitle,
+      String? lifelineIcon,
+      Key? toolTipKey,
+      String? toolTipMessage}) {
+    return GestureDetector(
+      onTap: lifelineTitle == fiftyFifty &&
+              context
+                      .read<QuestionsCubit>()
+                      .questions()[currentQuestionIndex]
+                      .answerOptions!
+                      .length ==
+                  2
+          ? () {
+              UiUtils.setSnackbar(
+                  AppLocalization.of(context)!
+                      .getTranslatedValues("notAvailable")!,
+                  context,
+                  false);
+              log("gesture detector tapped");
+            }
+          : onTap,
+      child: Tooltip(
+        key: toolTipKey!,
+        message: toolTipMessage,
+        showDuration: const Duration(seconds: 1),
+        triggerMode: TooltipTriggerMode.manual,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Theme.of(context).primaryColor),
+        child: Container(
+          decoration: BoxDecoration(
+              color: lifelineTitle == fiftyFifty &&
+                      context
+                              .read<QuestionsCubit>()
+                              .questions()[currentQuestionIndex]
+                              .answerOptions!
+                              .length ==
+                          2
+                  ? Theme.of(context).backgroundColor.withOpacity(0.7)
+                  : Theme.of(context).backgroundColor,
+              boxShadow: [
+                UiUtils.buildBoxShadow(),
+              ],
+              borderRadius: BorderRadius.circular(10.0)),
+          width: 45.0,
+          height: 45.0,
+          padding: const EdgeInsets.all(11),
+          child: SvgPicture.asset(
+            UiUtils.getImagePath(lifelineIcon!),
+            color: Theme.of(context).colorScheme.secondary,
+          ),
+        ),
+      ),
+    );
+  }
 
   void onTapBackButton() {
     isExitDialogOpen = true;
@@ -816,151 +832,183 @@ class _NewQuizScreenState extends State<NewQuizScreen>
     });
   }
 
-  // Widget _buildLifeLines() {
-  //   if (widget.quizType == QuizTypes.dailyQuiz ||
-  //       widget.quizType == QuizTypes.quizZone) {
-  //     return Align(
-  //       alignment: Alignment.bottomCenter,
-  //       child: Container(
-  //         padding: EdgeInsets.only(
-  //             bottom: MediaQuery.of(context).size.height * (0.025)),
-  //         child: Row(
-  //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  //           children: [
-  //             _buildLifelineContainer(() {
-  //               if (lifelines[fiftyFifty] == LifelineStatus.unused) {
-  //                 if (hasEnoughCoinsForLifeline(context)) {
-  //                   if (context
-  //                           .read<QuestionsCubit>()
-  //                           .questions()[currentQuestionIndex]
-  //                           .answerOptions!
-  //                           .length ==
-  //                       2) {
-  //                     UiUtils.setSnackbar(
-  //                         AppLocalization.of(context)!
-  //                             .getTranslatedValues("notAvailable")!,
-  //                         context,
-  //                         false);
-  //                   } else {
-  //                     //deduct coins for using lifeline
-  //                     context.read<UserDetailsCubit>().updateCoins(
-  //                         addCoin: false, coins: lifeLineDeductCoins);
-  //                     //mark fiftyFifty lifeline as using
+  Widget _buildLifeLines() {
+    if (widget.quizType == QuizTypes.dailyQuiz ||
+        widget.quizType == QuizTypes.quizZone) {
+      return Align(
+        alignment: Alignment.bottomCenter,
+        child: Container(
+          padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).size.height * (0.025)),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _buildLifelineContainer(
+                  toolTipKey: key1,
+                  onTap: () {
+                    final dynamic toolTip = key1.currentState;
+                    toolTip.ensureTooltipVisible();
 
-  //                     //update coins in cloud
-  //                     context.read<UpdateScoreAndCoinsCubit>().updateCoins(
-  //                         context.read<UserDetailsCubit>().getUserId(),
-  //                         lifeLineDeductCoins,
-  //                         false,
-  //                         used5050lifelineKey);
-  //                     setState(() {
-  //                       lifelines[fiftyFifty] = LifelineStatus.using;
-  //                     });
-  //                   }
-  //                 } else {
-  //                   showAdDialog();
-  //                 }
-  //               } else {
-  //                 UiUtils.setSnackbar(
-  //                     AppLocalization.of(context)!.getTranslatedValues(
-  //                         convertErrorCodeToLanguageKey(lifeLineUsedCode))!,
-  //                     context,
-  //                     false);
-  //               }
-  //             }, fiftyFifty, "fiftyfifty icon.svg"),
-  //             _buildLifelineContainer(() {
-  //               if (lifelines[audiencePoll] == LifelineStatus.unused) {
-  //                 if (hasEnoughCoinsForLifeline(context)) {
-  //                   //deduct coins for using lifeline
-  //                   context.read<UserDetailsCubit>().updateCoins(
-  //                       addCoin: false, coins: lifeLineDeductCoins);
-  //                   //update coins in cloud
+                    if (lifelines[fiftyFifty] == LifelineStatus.unused) {
+                      if (hasEnoughCoinsForLifeline(context)) {
+                        if (context
+                                .read<QuestionsCubit>()
+                                .questions()[currentQuestionIndex]
+                                .answerOptions!
+                                .length ==
+                            2) {
+                          UiUtils.setSnackbar(
+                              AppLocalization.of(context)!
+                                  .getTranslatedValues("notAvailable")!,
+                              context,
+                              false);
+                        } else {
+                          //deduct coins for using lifeline
+                          context.read<UserDetailsCubit>().updateCoins(
+                              addCoin: false, coins: lifeLineDeductCoins);
+                          //mark fiftyFifty lifeline as using
 
-  //                   context.read<UpdateScoreAndCoinsCubit>().updateCoins(
-  //                       context.read<UserDetailsCubit>().getUserId(),
-  //                       lifeLineDeductCoins,
-  //                       false,
-  //                       usedAudiencePolllifelineKey);
-  //                   setState(() {
-  //                     lifelines[audiencePoll] = LifelineStatus.using;
-  //                   });
-  //                 } else {
-  //                   showAdDialog();
-  //                 }
-  //               } else {
-  //                 UiUtils.setSnackbar(
-  //                     AppLocalization.of(context)!.getTranslatedValues(
-  //                         convertErrorCodeToLanguageKey(lifeLineUsedCode))!,
-  //                     context,
-  //                     false);
-  //               }
-  //             }, audiencePoll, "audience_poll.svg"),
-  //             _buildLifelineContainer(() {
-  //               if (lifelines[resetTime] == LifelineStatus.unused) {
-  //                 if (hasEnoughCoinsForLifeline(context)) {
-  //                   //deduct coins for using lifeline
-  //                   context.read<UserDetailsCubit>().updateCoins(
-  //                       addCoin: false, coins: lifeLineDeductCoins);
-  //                   //mark fiftyFifty lifeline as using
+                          //update coins in cloud
+                          context.read<UpdateScoreAndCoinsCubit>().updateCoins(
+                              context.read<UserDetailsCubit>().getUserId(),
+                              lifeLineDeductCoins,
+                              false,
+                              used5050lifelineKey);
+                          setState(() {
+                            lifelines[fiftyFifty] = LifelineStatus.using;
+                          });
+                        }
+                      } else {
+                        showAdDialog();
+                      }
+                    } else {
+                      UiUtils.setSnackbar(
+                          AppLocalization.of(context)!.getTranslatedValues(
+                              convertErrorCodeToLanguageKey(lifeLineUsedCode))!,
+                          context,
+                          false);
+                    }
+                  },
+                  lifelineTitle: fiftyFifty,
+                  lifelineIcon: "fiftyfifty icon.svg",
+                  toolTipMessage: "50 50"),
+              _buildLifelineContainer(
+                  toolTipKey: key2,
+                  onTap: () {
+                    final dynamic toolTip = key2.currentState;
+                    toolTip.ensureTooltipVisible();
 
-  //                   //update coins in cloud
-  //                   context.read<UpdateScoreAndCoinsCubit>().updateCoins(
-  //                       context.read<UserDetailsCubit>().getUserId(),
-  //                       lifeLineDeductCoins,
-  //                       false,
-  //                       usedResetTimerlifelineKey);
-  //                   setState(() {
-  //                     lifelines[resetTime] = LifelineStatus.using;
-  //                   });
-  //                   timerAnimationController.stop();
-  //                   timerAnimationController.forward(from: 0.0);
-  //                 } else {
-  //                   showAdDialog();
-  //                 }
-  //               } else {
-  //                 UiUtils.setSnackbar(
-  //                     AppLocalization.of(context)!.getTranslatedValues(
-  //                         convertErrorCodeToLanguageKey(lifeLineUsedCode))!,
-  //                     context,
-  //                     false);
-  //               }
-  //             }, resetTime, "reset_time.svg"),
-  //             _buildLifelineContainer(() {
-  //               if (lifelines[skip] == LifelineStatus.unused) {
-  //                 if (hasEnoughCoinsForLifeline(context)) {
-  //                   //deduct coins for using lifeline
-  //                   context
-  //                       .read<UserDetailsCubit>()
-  //                       .updateCoins(addCoin: false, coins: 5);
-  //                   //update coins in cloud
+                    if (lifelines[audiencePoll] == LifelineStatus.unused) {
+                      if (hasEnoughCoinsForLifeline(context)) {
+                        //deduct coins for using lifeline
+                        context.read<UserDetailsCubit>().updateCoins(
+                            addCoin: false, coins: lifeLineDeductCoins);
+                        //update coins in cloud
 
-  //                   context.read<UpdateScoreAndCoinsCubit>().updateCoins(
-  //                       context.read<UserDetailsCubit>().getUserId(),
-  //                       lifeLineDeductCoins,
-  //                       false,
-  //                       usedSkiplifelineKey);
-  //                   setState(() {
-  //                     lifelines[skip] = LifelineStatus.using;
-  //                   });
-  //                   submitAnswer("0");
-  //                 } else {
-  //                   showAdDialog();
-  //                 }
-  //               } else {
-  //                 UiUtils.setSnackbar(
-  //                     AppLocalization.of(context)!.getTranslatedValues(
-  //                         convertErrorCodeToLanguageKey(lifeLineUsedCode))!,
-  //                     context,
-  //                     false);
-  //               }
-  //             }, skip, "skip_icon.svg"),
-  //           ],
-  //         ),
-  //       ),
-  //     );
-  //   }
-  //   return const SizedBox();
-  // }
+                        context.read<UpdateScoreAndCoinsCubit>().updateCoins(
+                            context.read<UserDetailsCubit>().getUserId(),
+                            lifeLineDeductCoins,
+                            false,
+                            usedAudiencePolllifelineKey);
+                        setState(() {
+                          lifelines[audiencePoll] = LifelineStatus.using;
+                        });
+                      } else {
+                        showAdDialog();
+                      }
+                    } else {
+                      UiUtils.setSnackbar(
+                          AppLocalization.of(context)!.getTranslatedValues(
+                              convertErrorCodeToLanguageKey(lifeLineUsedCode))!,
+                          context,
+                          false);
+                    }
+                  },
+                  lifelineTitle: audiencePoll,
+                  lifelineIcon: "audience_poll.svg",
+                  toolTipMessage: "AUDIENCE POLL"),
+              _buildLifelineContainer(
+                  toolTipKey: key3,
+                  onTap: () {
+                    final dynamic toolTip = key3.currentState;
+                    toolTip.ensureTooltipVisible();
+
+                    if (lifelines[resetTime] == LifelineStatus.unused) {
+                      if (hasEnoughCoinsForLifeline(context)) {
+                        //deduct coins for using lifeline
+                        context.read<UserDetailsCubit>().updateCoins(
+                            addCoin: false, coins: lifeLineDeductCoins);
+                        //mark fiftyFifty lifeline as using
+
+                        //update coins in cloud
+                        context.read<UpdateScoreAndCoinsCubit>().updateCoins(
+                            context.read<UserDetailsCubit>().getUserId(),
+                            lifeLineDeductCoins,
+                            false,
+                            usedResetTimerlifelineKey);
+                        setState(() {
+                          lifelines[resetTime] = LifelineStatus.using;
+                        });
+                        timerAnimationController.stop();
+                        timerAnimationController.forward(from: 0.0);
+                      } else {
+                        showAdDialog();
+                      }
+                    } else {
+                      UiUtils.setSnackbar(
+                          AppLocalization.of(context)!.getTranslatedValues(
+                              convertErrorCodeToLanguageKey(lifeLineUsedCode))!,
+                          context,
+                          false);
+                    }
+                  },
+                  lifelineTitle: resetTime,
+                  lifelineIcon: "reset_time.svg",
+                  toolTipMessage: "RESET TIME"),
+              _buildLifelineContainer(
+                  toolTipKey: key4,
+                  onTap: () {
+                    final dynamic toolTip = key4.currentState;
+                    toolTip.ensureTooltipVisible();
+
+                    if (lifelines[skip] == LifelineStatus.unused) {
+                      if (hasEnoughCoinsForLifeline(context)) {
+                        //deduct coins for using lifeline
+                        context
+                            .read<UserDetailsCubit>()
+                            .updateCoins(addCoin: false, coins: 5);
+                        //update coins in cloud
+
+                        context.read<UpdateScoreAndCoinsCubit>().updateCoins(
+                            context.read<UserDetailsCubit>().getUserId(),
+                            lifeLineDeductCoins,
+                            false,
+                            usedSkiplifelineKey);
+                        setState(() {
+                          lifelines[skip] = LifelineStatus.using;
+                        });
+                        submitAnswer("0");
+                      } else {
+                        showAdDialog();
+                      }
+                    } else {
+                      UiUtils.setSnackbar(
+                          AppLocalization.of(context)!.getTranslatedValues(
+                              convertErrorCodeToLanguageKey(lifeLineUsedCode))!,
+                          context,
+                          false);
+                    }
+                  },
+                  lifelineTitle: skip,
+                  lifelineIcon: "skip_icon.svg",
+                  toolTipMessage: "SKIP QUESTION"),
+            ],
+          ),
+        ),
+      );
+    }
+    return const SizedBox();
+  }
 
   Widget _buildTopMenu(int questionLength) {
     return Align(
@@ -1039,7 +1087,7 @@ class _NewQuizScreenState extends State<NewQuizScreen>
                   (value) {
                     toggleSettingDialog();
                   },
-                );  
+                );
               },
             ),
           ],
@@ -1047,6 +1095,11 @@ class _NewQuizScreenState extends State<NewQuizScreen>
       ),
     );
   }
+
+  final key1 = GlobalKey();
+  final key2 = GlobalKey();
+  final key3 = GlobalKey();
+  final key4 = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -1066,7 +1119,7 @@ class _NewQuizScreenState extends State<NewQuizScreen>
           }
         },
         child: Scaffold(
-          backgroundColor: Constants.primaryColor,
+          backgroundColor: Theme.of(context).primaryColor,
           body: Stack(
             children: [
               BlocConsumer<QuestionsCubit, QuestionsState>(
@@ -1087,7 +1140,8 @@ class _NewQuizScreenState extends State<NewQuizScreen>
 
                           //
                           // showOptionAnimationController.forward();
-                          questionContentAnimationController.forward();
+
+                          questionContentAnimationController.forward(from: 0);
                           //add audio question container keys
 
                         }
@@ -1121,7 +1175,7 @@ class _NewQuizScreenState extends State<NewQuizScreen>
                   if (state is QuestionsFetchFailure) {
                     return Center(
                       child: ErrorContainer(
-                        errorMessageColor: Theme.of(context).backgroundColor,
+                        errorMessageColor: Theme.of(context).primaryColor,
                         showBackButton: true,
                         errorMessage: AppLocalization.of(context)!
                             .getTranslatedValues(convertErrorCodeToLanguageKey(
@@ -1168,7 +1222,7 @@ class _NewQuizScreenState extends State<NewQuizScreen>
                 bloc: quesCubit,
                 builder: (context, state) {
                   if (state is QuestionsFetchSuccess) {
-                    // return _buildLifeLines();
+                    return _buildLifeLines();
                   }
                   return const SizedBox();
                 },

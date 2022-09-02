@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -206,6 +208,8 @@ class _WaitingForPlayesDialogState extends State<WaitingForPlayesDialog> {
       },
       height: MediaQuery.of(context).size.height * (0.79),
       child: Container(
+        height: MediaQuery.of(context).size.height * (0.79),
+        width: MediaQuery.of(context).size.width * (0.79),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(UiUtils.dailogRadius),
             color: Constants.white),
@@ -573,6 +577,7 @@ class _WaitingForPlayesDialogState extends State<WaitingForPlayesDialog> {
                                   alignment: Alignment.centerRight,
                                   child: IconButton(
                                     onPressed: () {
+                                      log("message");
                                       try {
                                         String inviteMessage =
                                             "$groupBattleInviteMessage${context.read<MultiUserBattleRoomCubit>().getRoomCode()}";

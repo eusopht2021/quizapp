@@ -20,14 +20,13 @@ import 'package:flutterquiz/features/profileManagement/models/userProfile.dart';
 import 'package:flutterquiz/features/profileManagement/profileManagementLocalDataSource.dart';
 import 'package:flutterquiz/features/profileManagement/profileManagementRepository.dart';
 import 'package:flutterquiz/features/quiz/cubits/quizCategoryCubit.dart';
+import 'package:flutterquiz/features/quiz/cubits/subCategoryCubit.dart';
 import 'package:flutterquiz/features/systemConfig/cubits/systemConfigCubit.dart';
-import 'package:flutterquiz/ui/navigation/navbarcubit.dart';
-import 'package:flutterquiz/ui/navigation/navbaritems.dart';
 import 'package:flutterquiz/ui/screens/battle/widgets/randomOrPlayFrdDialog.dart';
 import 'package:flutterquiz/ui/screens/battle/widgets/roomDialog.dart';
 import 'package:flutterquiz/ui/screens/home/widgets/appUnderMaintenanceDialog.dart';
-import 'package:flutterquiz/ui/screens/home/widgets/new_quiz_category_card.dart';
 import 'package:flutterquiz/ui/screens/profile/widgets/editProfileFieldBottomSheetContainer.dart';
+import 'package:flutterquiz/ui/screens/quiz/battle_quiz_screen.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/quizTypes.dart';
 import 'package:flutterquiz/utils/size_config.dart';
@@ -35,6 +34,7 @@ import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
+import 'package:recase/recase.dart';
 
 import '../../../features/auth/authRepository.dart';
 import '../../../features/auth/cubits/referAndEarnCubit.dart';
@@ -44,8 +44,6 @@ import '../../../utils/assets.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/style_properties.dart';
 import '../../../utils/widgets_util.dart';
-import '../../widgets/pie_chart.dart';
-import '../../widgets/social_button.dart';
 import '../../widgets/title_text.dart';
 
 class NewHomeScreen extends StatefulWidget {
@@ -100,6 +98,9 @@ class _NewHomeScreenState extends State<NewHomeScreen>
   bool? dragUP;
   int currentMenu = 1;
   bool routefromHomeScreen = false;
+  int? selectedIndex;
+  bool? showDescription = false;
+  final descriptions = <int>[];
 
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
@@ -130,11 +131,11 @@ class _NewHomeScreenState extends State<NewHomeScreen>
   }
 
   ScrollController scrollController = ScrollController();
-
+  int? index;
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-      color: Constants.primaryColor,
+      color: Theme.of(context).primaryColor,
       child: BlocConsumer<UserDetailsCubit, UserDetailsState>(
         bloc: context.read<UserDetailsCubit>(),
         builder: (context, state) {
@@ -211,7 +212,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                             WidgetsUtil.horizontalSpace8,
                             Expanded(
                               child: TitleText(
-                                text: 'Good Morning',
+                                text: greetingMessage(),
                                 textColor: Constants.accent1,
                                 size: Constants.bodyXSmall,
                                 weight: FontWeight.w500,
@@ -220,7 +221,7 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                           ],
                         ),
                         TitleText(
-                          text: state.userProfile.name!,
+                          text: state.userProfile.name!.titleCase,
                           textColor: Constants.white,
                           size: Constants.heading3,
                           weight: FontWeight.w500,
@@ -241,7 +242,8 @@ class _NewHomeScreenState extends State<NewHomeScreen>
                       child: CircleAvatar(
                         backgroundColor: Constants.pink,
                         backgroundImage: CachedNetworkImageProvider(
-                            state.userProfile.profileUrl!),
+                          state.userProfile.profileUrl!,
+                        ),
                       ),
                     ),
                   ),
@@ -255,226 +257,288 @@ class _NewHomeScreenState extends State<NewHomeScreen>
               controller: scrollController,
               padding: EdgeInsets.zero,
               children: [
-                GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    height: 84,
-                    width: SizeConfig.screenWidth,
-                    margin: const EdgeInsets.only(
-                      left: 24,
-                      right: 24,
-                    ),
-                    clipBehavior: Clip.antiAlias,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(
-                          Assets.swivels,
-                        ),
-                      ),
-                      borderRadius: BorderRadius.circular(20),
-                      color: Constants.secondaryAccent,
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          flex: 10,
-                          child: Container(
-                            margin: const EdgeInsets.only(
-                              left: 24,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                WidgetsUtil.verticalSpace16,
-                                TitleText(
-                                  text: 'Recent Quiz'.toUpperCase(),
-                                  size: Constants.bodySmall,
-                                  weight: FontWeight.w500,
-                                  textColor: Constants.secondaryTextColor,
-                                ),
-                                WidgetsUtil.verticalSpace8,
-                                Expanded(
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      Expanded(
-                                        flex: 0,
-                                        child: Icon(
-                                          Icons.headphones,
-                                          color: Constants.secondaryTextColor,
-                                        ),
-                                      ),
-                                      WidgetsUtil.horizontalSpace8,
-                                      Expanded(
-                                        flex: 14,
-                                        child: TitleText(
-                                          text: 'A Basic Music Quiz',
-                                          size: Constants.bodyLarge,
-                                          weight: FontWeight.w500,
-                                          textColor:
-                                              Constants.secondaryTextColor,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        const Expanded(
-                          flex: 3,
-                          child: CustomPieChart(
-                            value1: 88,
-                            value2: 12,
-                            radius: 24,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                WidgetsUtil.verticalSpace24,
+                // GestureDetector(
+                //   onTap: () {},
+                //   child: Container(
+                //     height: 84,
+                //     width: SizeConfig.screenWidth,
+                //     margin: const EdgeInsets.only(
+                //       left: 24,
+                //       right: 24,
+                //     ),
+                //     clipBehavior: Clip.antiAlias,
+                //     decoration: BoxDecoration(
+                //       image: DecorationImage(
+                //         image: AssetImage(
+                //           Assets.swivels,
+                //         ),
+                //       ),
+                //       borderRadius: BorderRadius.circular(20),
+                //       color: Constants.secondaryAccent,
+                //     ),
+                //     child: Row(
+                //       children: [
+                //         Expanded(
+                //           flex: 10,
+                //           child: Container(
+                //             margin: const EdgeInsets.only(
+                //               left: 24,
+                //             ),
+                //             child: Column(
+                //               crossAxisAlignment: CrossAxisAlignment.start,
+                //               children: [
+                //                 WidgetsUtil.verticalSpace16,
+                //                 TitleText(
+                //                   text: 'Recent Quiz'.toUpperCase(),
+                //                   size: Constants.bodySmall,
+                //                   weight: FontWeight.w500,
+                //                   textColor: Constants.secondaryTextColor,
+                //                 ),
+                //                 WidgetsUtil.verticalSpace8,
+                //                 Expanded(
+                //                   child: Row(
+                //                     mainAxisAlignment:
+                //                         MainAxisAlignment.spaceAround,
+                //                     children: [
+                //                       Expanded(
+                //                         flex: 0,
+                //                         child: Icon(
+                //                           Icons.headphones,
+                //                           color: Constants.secondaryTextColor,
+                //                         ),
+                //                       ),
+                //                       WidgetsUtil.horizontalSpace8,
+                //                       Expanded(
+                //                         flex: 14,
+                //                         child: TitleText(
+                //                           text: 'A Basic Music Quiz',
+                //                           size: Constants.bodyLarge,
+                //                           weight: FontWeight.w500,
+                //                           textColor:
+                //                               Constants.secondaryTextColor,
+                //                         ),
+                //                       ),
+                //                     ],
+                //                   ),
+                //                 ),
+                //               ],
+                //             ),
+                //           ),
+                //         ),
+                //         const Expanded(
+                //           flex: 3,
+                //           child: CustomPieChart(
+                //             value1: 88,
+                //             value2: 12,
+                //             radius: 24,
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
+                WidgetsUtil.verticalSpace8,
+                _buildSelfChallenge(),
+
+                // Container(
+                //   margin: const EdgeInsets.only(
+                //     left: 24,
+                //     right: 24,
+                //   ),
+                //   decoration: BoxDecoration(
+                //     color: Constants.grey3.withOpacity(0.4),
+                //     borderRadius: BorderRadius.circular(20),
+                //     image: DecorationImage(
+                //       fit: BoxFit.fill,
+                //       image: AssetImage(Assets.cardCircles),
+                //     ),
+                //   ),
+                //   child:
+
+                //   Column(
+                //     // mainAxisAlignment: MainAxisAlignment.center,
+                //     children: [
+                //       // WidgetsUtil.verticalSpace16,
+                //       // Row(s
+                //       //   // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //       //   children: [
+                //       //     Expanded(
+                //       //       flex: 2,
+                //       //       child: SvgPicture.asset(
+                //       //         Assets.man9,
+                //       //         height: 48,
+                //       //         width: 48,
+                //       //       ),
+                //       //     ),
+                //       //     Expanded(
+                //       //       flex: 6,
+                //       //       child: Center(
+                //       //         child: TitleText(
+                //       //           text: AppLocalization.of(context)!
+                //       //               .getTranslatedValues("featured")!
+                //       //               .toUpperCase(),
+                //       //           size: Constants.bodySmall,
+                //       //           textColor: Constants.white,
+                //       //           weight: FontWeight.w500,
+                //       //         ),
+                //       //       ),
+                //       //     ),
+                //       //     const Expanded(
+                //       //       flex: 2,
+                //       //       child: SizedBox(),
+                //       //     ),
+                //       //   ],
+                //       // ),
+                //       // Padding(
+                //       //   padding: const EdgeInsets.only(
+                //       //     left: 40,
+                //       //     right: 40,
+                //       //   ),
+                //       //   child: TitleText(
+                //       //     text: AppLocalization.of(context)!
+                //       //         .getTranslatedValues("takepartLbl")!,
+                //       //     size: Constants.bodyLarge,
+                //       //     align: TextAlign.center,
+                //       //     weight: FontWeight.w500,
+                //       //     textColor: Constants.white,
+                //       //   ),
+                //       // ),
+                //       // WidgetsUtil.verticalSpace16,
+                //       // SizedBox(
+                //       //   // width: SizeConfig.screenWidth,
+                //       //   child: Row(
+                //       //     mainAxisAlignment: MainAxisAlignment.center,
+                //       //     children: [
+                //       //       const Spacer(),
+                //       //       Expanded(
+                //       //         flex: 3,
+                //       //         child: SocialButton(
+                //       //           horizontalMargin: 10,
+                //       //           textColor: Theme.of(context).primaryColor,
+                //       //           iconColor: Theme.of(context).primaryColor,
+                //       //           background: Constants.white,
+                //       //           icon: Assets.findFriendsIcon,
+                //       //           itemSpace: 12,
+                //       //           onTap: () {
+                //       //             BlocProvider.of<NavigationCubit>(context)
+                //       //                 .getNavBarItem(NavbarItems.discover);
+                //       //           },
+                //       //           height: 44,
+                //       //           text: AppLocalization.of(context)!
+                //       //               .getTranslatedValues("findFriendsLbs")!,
+                //       //           showBorder: false,
+                //       //         ),
+                //       //       ),
+                //       //       // const Spacer(),
+                //       //       Expanded(
+                //       //         child: SvgPicture.asset(
+                //       //           Assets.womanWave,
+                //       //           height: 48,
+                //       //           width: 48,
+                //       //         ),
+                //       //       ),
+                //       //       WidgetsUtil.horizontalSpace16,
+                //       //     ],
+                //       //   ),
+                //       // ),
+                //       // WidgetsUtil.verticalSpace16,
+
+                //     ],
+                //   ),
+                // ),
+                WidgetsUtil.verticalSpace16,
                 Container(
-                  margin: const EdgeInsets.only(
-                    left: 24,
-                    right: 24,
-                  ),
+                  margin: EdgeInsets.zero,
                   decoration: BoxDecoration(
-                    color: Constants.grey3.withOpacity(0.4),
-                    borderRadius: BorderRadius.circular(20),
-                    image: DecorationImage(
-                      fit: BoxFit.fill,
-                      image: AssetImage(Assets.cardCircles),
+                    color: Constants.white,
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(30),
                     ),
                   ),
+                  padding: StyleProperties.insets18,
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      WidgetsUtil.verticalSpace16,
-                      Row(
-                        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Expanded(
-                            flex: 2,
-                            child: SvgPicture.asset(
-                              Assets.man9,
-                              height: 48,
-                              width: 48,
-                            ),
-                          ),
-                          Expanded(
-                            flex: 6,
-                            child: Center(
-                              child: TitleText(
-                                text: 'Featured'.toUpperCase(),
-                                size: Constants.bodySmall,
-                                textColor: Constants.white,
-                                weight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                          const Expanded(
-                            flex: 2,
-                            child: SizedBox(),
-                          ),
-                        ],
+                      // WidgetsUtil.verticalSpace8,
+                      TitleText(
+                        text: AppLocalization.of(context)!
+                            .getTranslatedValues("liveQuizzes")!,
+                        size: Constants.bodyXLarge,
+                        textColor: Constants.black1,
+                        weight: FontWeight.w500,
                       ),
-                      Padding(
+
+                      // WidgetsUtil.verticalSpace16,
+
+                      GridView.builder(
+                        clipBehavior: Clip.none,
+                        physics: const NeverScrollableScrollPhysics(),
                         padding: const EdgeInsets.only(
-                          left: 40,
-                          right: 40,
+                            top: 16, right: 0, left: 0, bottom: kToolbarHeight),
+                        itemCount: _quizTypes.length,
+                        shrinkWrap: true,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          // childAspectRatio: 1,
+                          mainAxisExtent: 115,
+                          crossAxisSpacing: 16,
+                          mainAxisSpacing: 16,
+                          crossAxisCount: 2,
                         ),
-                        child: TitleText(
-                          text:
-                              'Take part in challenges with friends or other players',
-                          size: Constants.bodyLarge,
-                          align: TextAlign.center,
-                          weight: FontWeight.w500,
-                          textColor: Constants.white,
-                        ),
-                      ),
-                      WidgetsUtil.verticalSpace16,
-                      SizedBox(
-                        width: SizeConfig.screenWidth,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Spacer(),
-                            Expanded(
-                              flex: 15,
-                              child: SocialButton(
-                                textColor: Constants.primaryColor,
-                                iconColor: Constants.primaryColor,
-                                background: Constants.white,
-                                icon: Assets.findFriendsIcon,
-                                itemSpace: 12,
-                                onTap: () {
-                                  BlocProvider.of<NavigationCubit>(context)
-                                      .getNavBarItem(NavbarItems.discover);
-                                },
-                                height: 44,
-                                text: 'Find Friends',
-                                showBorder: true,
-                              ),
-                            ),
-                            const Spacer(),
-                            SvgPicture.asset(
-                              Assets.womanWave,
-                              height: 48,
-                              width: 48,
-                            ),
-                            WidgetsUtil.horizontalSpace16,
-                          ],
-                        ),
-                      ),
-                      WidgetsUtil.verticalSpace16,
-                    ],
-                  ),
-                ),
-                WidgetsUtil.verticalSpace24,
-                Container(
-                  decoration: StyleProperties.sheetBorder,
-                  padding: StyleProperties.insetsBottom80Hzt20,
-                  child: Column(
-                    children: [
-                      WidgetsUtil.verticalSpace24,
-                      Row(
-                        children: [
-                          TitleText(
-                            text: 'Live Quizzes',
-                            size: Constants.bodyXLarge,
-                            textColor: Constants.black1,
-                            weight: FontWeight.w500,
-                          ),
-                          const Spacer(),
-                          InkWell(
+                        itemBuilder: ((context, index) {
+                          // log(categoryList.length.toString() + " lists");
+                          bool checked = index == selectedIndex;
+
+                          return categoryCard(
+                            mainIconColor: checked
+                                ? Theme.of(context).primaryColor
+                                : Constants.white,
+                            showDesc: descriptions.contains(index),
                             onTap: () {
-                              _scrollController();
-                              log('See All');
+                              setState(() {
+                                selectedIndex = index;
+                                _navigateToQuizZone(index + 1);
+                              });
                             },
-                            child: TitleText(
-                              text: 'See All',
-                              textColor: Constants.primaryColor,
-                              size: Constants.bodySmall,
-                              weight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
+                            onTapIcon: () {
+                              if (descriptions.contains(index)) {
+                                descriptions.remove(index);
+                              } else {
+                                descriptions.add(index);
+                              }
+
+                              setState(() {});
+                            },
+                            iconColor: checked
+                                ? Constants.white
+                                : Theme.of(context).primaryColor,
+                            iconShadowOpacity: checked ? 0.2 : 1,
+                            quizDescription: AppLocalization.of(context)!
+                                .getTranslatedValues(
+                                    _quizTypes[index].description),
+                            icon: _quizTypes[index].image,
+                            backgroundColor:
+                                checked ? Constants.pink : Constants.grey5,
+                            categoryName: _quizTypes[index].getTitle(context),
+                            textColor: checked
+                                ? Constants.white
+                                : Theme.of(context).primaryColor,
+                          );
+                        }),
                       ),
-                      WidgetsUtil.verticalSpace16,
-                      ...List.generate(_quizTypes.length, (index) {
-                        return QuizCategoryCard(
-                          name: _quizTypes[index].getTitle(context),
-                          asset: _quizTypes[index].image,
-                          category: AppLocalization.of(context)!
-                              .getTranslatedValues(
-                                  _quizTypes[index].description)!,
-                          onTap: () {
-                            _navigateToQuizZone(index + 1);
-                          },
-                        );
-                      }),
+
+                      // ...List.generate(_quizTypes.length, (index) {
+                      //   return QuizCategoryCard(
+                      //     name: _quizTypes[index].getTitle(context),
+                      //     asset: _quizTypes[index].image,
+                      //     category: AppLocalization.of(context)!
+                      //         .getTranslatedValues(
+                      //             _quizTypes[index].description)!,
+                      //     onTap: () {
+                      //       _navigateToQuizZone(index + 1);
+                      //     },
+                      //   );
+                      // }),
                     ],
                   ),
                 ),
@@ -499,6 +563,84 @@ class _NewHomeScreenState extends State<NewHomeScreen>
             }
           }
         },
+      ),
+    );
+  }
+
+  Widget _buildSelfChallenge() {
+    return GestureDetector(
+      onTap: () {
+        context.read<QuizCategoryCubit>().updateState(QuizCategoryInitial());
+        context.read<SubCategoryCubit>().updateState(SubCategoryInitial());
+        Navigator.of(context).pushNamed(Routes.selfChallenge);
+      },
+      child: Align(
+        alignment: Alignment.topCenter,
+        child: SlideTransition(
+          position: selfChallengeSlideAnimation,
+          child: Container(
+            margin: const EdgeInsets.only(
+              top: 0,
+              left: 24,
+              right: 24,
+            ),
+            decoration: BoxDecoration(
+              color: Theme.of(context).backgroundColor,
+
+              //gradient: UiUtils.buildLinerGradient([Theme.of(context).colorScheme.secondary, Theme.of(context).primaryColor], Alignment.centerLeft, Alignment.centerRight),
+
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height * (0.1),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20.0),
+              child: Stack(
+                clipBehavior: Clip.hardEdge,
+                children: [
+                  Align(
+                    alignment: AlignmentDirectional.centerStart,
+                    child: Container(
+                      margin: const EdgeInsetsDirectional.only(start: 20.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          TitleText(
+                            text: AppLocalization.of(context)!
+                                .getTranslatedValues(selfChallengeLbl)!,
+                            size: Constants.bodyLarge,
+                            weight: FontWeight.w500,
+                            textColor: Theme.of(context).primaryColor,
+                          ),
+                          const SizedBox(
+                            height: 1.0,
+                          ),
+                          TitleText(
+                            text: AppLocalization.of(context)!
+                                .getTranslatedValues(challengeYourselfLbl)!,
+                            size: 14.0,
+                            textColor: Theme.of(context).primaryColor,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Align(
+                    alignment: AlignmentDirectional.centerEnd,
+                    child: Transform.scale(
+                        scale: 0.55,
+                        child: SvgPicture.asset(
+                          "assets/images/selfchallenge_icon.svg",
+                          color: Theme.of(context).primaryColor,
+                        )),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -957,8 +1099,12 @@ class _NewHomeScreenState extends State<NewHomeScreen>
             false);
       }
     } else if (_quizTypes[quizTypeIndex].quizTypeEnum == QuizTypes.quizZone) {
-      Navigator.of(context).pushNamed(Routes.category,
-          arguments: {"quizType": QuizTypes.quizZone});
+      Navigator.of(context).pushNamed(Routes.category, arguments: {
+        "quizType": QuizTypes.quizZone,
+        "categoryTitle": _quizTypes[quizTypeIndex].getTitle(context)
+
+        /// ??
+      });
     } else if (_quizTypes[quizTypeIndex].quizTypeEnum ==
         QuizTypes.selfChallenge) {
       Navigator.of(context).pushNamed(Routes.selfChallenge);
@@ -967,6 +1113,14 @@ class _NewHomeScreenState extends State<NewHomeScreen>
       //
       context.read<BattleRoomCubit>().updateState(BattleRoomInitial());
       context.read<QuizCategoryCubit>().updateState(QuizCategoryInitial());
+
+      // log(_quizTypes[quizTypeIndex].title.toString() + "hjkhjkh");
+      // Navigator.push(
+      //     context,
+      //     MaterialPageRoute(
+      //         builder: (_) => BattleQuizScreen(
+      //             quizType: QuizTypes.battle,
+      //             title: _quizTypes[quizTypeIndex].title)));
 
       showDialog(
         context: context,
@@ -985,8 +1139,10 @@ class _NewHomeScreenState extends State<NewHomeScreen>
       });
     } else if (_quizTypes[quizTypeIndex].quizTypeEnum ==
         QuizTypes.funAndLearn) {
-      Navigator.of(context).pushNamed(Routes.category,
-          arguments: {"quizType": QuizTypes.funAndLearn});
+      Navigator.of(context).pushNamed(Routes.category, arguments: {
+        "quizType": QuizTypes.funAndLearn,
+        "categoryTitle": _quizTypes[quizTypeIndex].getTitle(context),
+      });
     } else if (_quizTypes[quizTypeIndex].quizTypeEnum == QuizTypes.groupPlay) {
       context
           .read<MultiUserBattleRoomCubit>()
@@ -996,11 +1152,16 @@ class _NewHomeScreenState extends State<NewHomeScreen>
       //
       showDialog(
           context: context,
-          builder: (context) => MultiBlocProvider(providers: [
-                BlocProvider<UpdateScoreAndCoinsCubit>(
-                    create: (_) => UpdateScoreAndCoinsCubit(
-                        ProfileManagementRepository())),
-              ], child: RoomDialog(quizType: QuizTypes.groupPlay)));
+          builder: (context) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider<UpdateScoreAndCoinsCubit>(
+                        create: (_) => UpdateScoreAndCoinsCubit(
+                            ProfileManagementRepository())),
+                  ],
+                  child: BattleQuizScreen(
+                    quizType: QuizTypes.groupPlay,
+                    title: _quizTypes[quizTypeIndex].title,
+                  )));
       //
     } else if (_quizTypes[quizTypeIndex].quizTypeEnum == QuizTypes.contest) {
       if (context.read<SystemConfigCubit>().getIsContestAvailable() == "1") {
@@ -1014,19 +1175,142 @@ class _NewHomeScreenState extends State<NewHomeScreen>
       }
     } else if (_quizTypes[quizTypeIndex].quizTypeEnum ==
         QuizTypes.guessTheWord) {
-      Navigator.of(context).pushNamed(Routes.category,
-          arguments: {"quizType": QuizTypes.guessTheWord});
+      Navigator.of(context).pushNamed(Routes.category, arguments: {
+        "quizType": QuizTypes.guessTheWord,
+        "categoryTitle": _quizTypes[quizTypeIndex].getTitle(context)
+      });
     } else if (_quizTypes[quizTypeIndex].quizTypeEnum ==
         QuizTypes.audioQuestions) {
-      Navigator.of(context).pushNamed(Routes.category,
-          arguments: {"quizType": QuizTypes.audioQuestions});
+      Navigator.of(context).pushNamed(Routes.category, arguments: {
+        "quizType": QuizTypes.audioQuestions,
+        "categoryTitle": _quizTypes[quizTypeIndex].getTitle(context),
+      });
     } else if (_quizTypes[quizTypeIndex].quizTypeEnum == QuizTypes.exam) {
       //update exam status to exam initial
       context.read<ExamCubit>().updateState(ExamInitial());
-      Navigator.of(context).pushNamed(Routes.exams);
+      Navigator.of(context).pushNamed(Routes.exams, arguments: {
+        "categoryTitle": _quizTypes[quizTypeIndex].getTitle(context),
+      });
     } else if (_quizTypes[quizTypeIndex].quizTypeEnum == QuizTypes.mathMania) {
-      Navigator.of(context).pushNamed(Routes.category,
-          arguments: {"quizType": QuizTypes.mathMania});
+      Navigator.of(context).pushNamed(Routes.category, arguments: {
+        "quizType": QuizTypes.mathMania,
+        "categoryTitle": _quizTypes[quizTypeIndex].getTitle(context)
+      });
     }
   }
+
+//Greetings Message
+  String greetingMessage() {
+    var timeNow = DateTime.now().hour;
+
+    if ((timeNow >= 5) && (timeNow < 12)) {
+      //05 : 00 am to 11:59am
+      return 'GOOD MORNING';
+    } else if ((timeNow >= 12) && (timeNow < 17)) {
+      // 12:00 pm to 4:59pm
+      return 'GOOD AFTERNOON';
+    } else if ((timeNow >= 17) && (timeNow < 5)) {
+      //5:00pm to 4:59am
+      return 'GOOD EVENING';
+    } else {
+      return 'GOOD EVENING';
+    }
+  }
+
+// categoryCard
+  Widget categoryCard({
+    final String? quizDescription,
+    final String? categoryName,
+    final String? icon,
+    final Color? backgroundColor,
+    final Color? iconColor,
+    final Color? textColor,
+    final double? iconShadowOpacity,
+    final Color? mainIconColor,
+    Function()? onTap,
+    Function()? onTapIcon,
+    bool? showDesc,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          Container(
+            // width: SizeConfig.screenWidth,
+            margin: EdgeInsets.zero,
+            decoration: BoxDecoration(
+              borderRadius: StyleProperties.cardsRadius,
+              color: backgroundColor,
+            ),
+            padding: StyleProperties.insets10,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                FittedBox(
+                  fit: BoxFit.fill,
+                  child: SvgPicture.asset(
+                    icon!,
+                    color: iconColor,
+                    height: 40,
+                    width: 40,
+                  ),
+                ),
+                WidgetsUtil.verticalSpace8,
+                Align(
+                  alignment: Alignment.center,
+                  child: FittedBox(
+                    fit: BoxFit.cover,
+                    child: TitleText(
+                      text: categoryName!,
+                      textColor: textColor ?? Constants.white,
+                      size: Constants.bodyNormal,
+                      weight: FontWeight.w500,
+                      align: TextAlign.center,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Align(
+            alignment: const Alignment(1.1, -1.1),
+            child: Tooltip(
+              message: quizDescription,
+              triggerMode: TooltipTriggerMode.tap,
+              child: Icon(
+                Icons.info,
+                color: Theme.of(context).primaryColor,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _iconBox({icon, iconShadowOpacity, iconColor}) => Container(
+        decoration: BoxDecoration(
+            color: Constants.white.withOpacity(iconShadowOpacity ?? 0.2),
+            borderRadius: StyleProperties.cardsRadius),
+        width: 48,
+        height: 48,
+        padding: const EdgeInsets.all(10),
+        child: icon.contains('.svg')
+            ? SvgPicture.asset(
+                icon,
+                height: 38,
+                color: iconColor ?? Constants.white,
+              )
+            : icon.contains('.png')
+                ? Image.asset(
+                    icon,
+                    height: 38,
+                    color: iconColor ?? Constants.white,
+                  )
+                : Icon(
+                    Icons.error,
+                    color: iconColor,
+                  ),
+      );
 }

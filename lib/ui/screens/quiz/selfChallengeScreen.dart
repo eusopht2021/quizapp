@@ -11,7 +11,6 @@ import 'package:flutterquiz/features/quiz/models/quizType.dart';
 import 'dart:math' as math;
 
 import 'package:flutterquiz/ui/widgets/customRoundedButton.dart';
-import 'package:flutterquiz/ui/widgets/pageBackgroundGradientContainer.dart';
 import 'package:flutterquiz/ui/widgets/roundedAppbar.dart';
 import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
@@ -126,7 +125,7 @@ class _SelfChallengeScreenState extends State<SelfChallengeScreen> {
       child: Icon(
         Icons.arrow_forward_ios,
         size: 20,
-        color: Theme.of(context).primaryColor,
+        color: Constants.white,
       ),
     );
   }
@@ -140,10 +139,9 @@ class _SelfChallengeScreenState extends State<SelfChallengeScreen> {
   }) {
     return DropdownButton<String>(
         key: Key(keyValue),
-        dropdownColor: Theme.of(context)
-            .primaryColor, //same as background of dropdown color
-        style:
-            TextStyle(color: Theme.of(context).backgroundColor, fontSize: 16.0),
+        dropdownColor:
+            Theme.of(context).primaryColor, //same as background of dropdown color
+        style: TextStyle(color: Constants.white, fontSize: 16.0),
         isExpanded: true,
         onChanged: (value) {
           ScaffoldMessenger.of(context).removeCurrentSnackBar();
@@ -189,10 +187,10 @@ class _SelfChallengeScreenState extends State<SelfChallengeScreen> {
         //values is map of name and id. only passing name to dropdown
         items: values.map((e) => e['name']).toList().map((name) {
           return DropdownMenuItem(
+            value: name,
             child: name! == selectCategoryKey || name == selectSubCategoryKey
                 ? Text(AppLocalization.of(context)!.getTranslatedValues(name)!)
                 : Text(name),
-            value: name,
           );
         }).toList(),
         value: forCategory ? selectedCategory : selectedSubcategory);
@@ -255,7 +253,7 @@ class _SelfChallengeScreenState extends State<SelfChallengeScreen> {
         style: TextStyle(
             fontSize: 18.0,
             fontWeight: FontWeight.w500,
-            color: Theme.of(context).backgroundColor),
+            color: Constants.white),
       ),
     );
   }
@@ -264,6 +262,8 @@ class _SelfChallengeScreenState extends State<SelfChallengeScreen> {
     return Align(
       alignment: Alignment.topCenter,
       child: RoundedAppbar(
+        appBarColor: Theme.of(context).primaryColor,
+        appTextAndIconColor: Constants.white,
         removeSnackBars: true,
         title:
             AppLocalization.of(context)!.getTranslatedValues("selfChallenge")!,
@@ -302,10 +302,10 @@ class _SelfChallengeScreenState extends State<SelfChallengeScreen> {
         return Future.value(true);
       },
       child: Scaffold(
-        //backgroundColor: bgColorGradient,
+        backgroundColor: Constants.white,
         body: Stack(
           children: [
-            const PageBackgroundGradientContainer(),
+            // const PageBackgroundGradientContainer(),
             Align(
               alignment: Alignment.topCenter,
               child: Padding(
@@ -477,7 +477,7 @@ class _SelfChallengeScreenState extends State<SelfChallengeScreen> {
                             const SizedBox(
                               height: 25.0,
                             ),
-                            Container(
+                            SizedBox(
                               height: 50,
                               child: ListView(
                                 scrollDirection: Axis.horizontal,
@@ -489,22 +489,16 @@ class _SelfChallengeScreenState extends State<SelfChallengeScreen> {
                                           value: e,
                                           borderColor:
                                               selectedNumberOfQuestions == e
-                                                  ? Theme.of(context)
-                                                      .colorScheme
-                                                      .secondary
-                                                  : Colors.grey.shade400,
+                                                  ? Theme.of(context).primaryColor
+                                                  : Constants.white,
                                           backgroundColor:
                                               selectedNumberOfQuestions == e
-                                                  ? Theme.of(context)
-                                                      .colorScheme
-                                                      .secondary
-                                                  : Colors.grey.shade100,
+                                                  ? Constants.white
+                                                  : Constants.secondaryColor,
                                           textColor:
                                               selectedNumberOfQuestions == e
-                                                  ? Theme.of(context)
-                                                      .backgroundColor
-                                                  : Theme.of(context)
-                                                      .primaryColor,
+                                                  ? Theme.of(context).primaryColor
+                                                  : Constants.white,
                                         ))
                                     .toList(),
                               ),
@@ -532,7 +526,7 @@ class _SelfChallengeScreenState extends State<SelfChallengeScreen> {
                             const SizedBox(
                               height: 25.0,
                             ),
-                            Container(
+                            SizedBox(
                               height: 50,
                               child: ListView(
                                 scrollDirection: Axis.horizontal,
@@ -545,21 +539,14 @@ class _SelfChallengeScreenState extends State<SelfChallengeScreen> {
                                             value: e,
                                             backgroundColor:
                                                 selectedMinutes == e
-                                                    ? Theme.of(context)
-                                                        .colorScheme
-                                                        .secondary
-                                                    : Colors.grey.shade100,
+                                                    ? Constants.white
+                                                    : Constants.secondaryColor,
                                             textColor: selectedMinutes == e
-                                                ? Theme
-                                                        .of(context)
-                                                    .backgroundColor
-                                                : Theme.of(context)
-                                                    .primaryColor,
+                                                ? Theme.of(context).primaryColor
+                                                : Constants.white,
                                             borderColor: selectedMinutes == e
-                                                ? Theme.of(context)
-                                                    .colorScheme
-                                                    .secondary
-                                                : Colors.grey.shade400))
+                                                ? Theme.of(context).primaryColor
+                                                : Constants.white))
                                     .toList(),
                               ),
                             ),
@@ -571,6 +558,7 @@ class _SelfChallengeScreenState extends State<SelfChallengeScreen> {
                       ),
                       CustomRoundedButton(
                         elevation: 5.0,
+                        borderColor: Theme.of(context).primaryColor,
                         widthPercentage: 0.3,
                         backgroundColor: Theme.of(context).primaryColor,
                         buttonTitle: AppLocalization.of(context)!
@@ -582,9 +570,8 @@ class _SelfChallengeScreenState extends State<SelfChallengeScreen> {
                           startSelfChallenge();
                         },
                         showBorder: false,
-                        titleColor: Theme.of(context).backgroundColor,
-                        shadowColor:
-                            Theme.of(context).primaryColor.withOpacity(0.5),
+                        titleColor: Constants.white,
+                        shadowColor: Theme.of(context).primaryColor,
                         height: 40,
                       )
                     ],

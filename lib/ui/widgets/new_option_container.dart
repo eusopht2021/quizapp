@@ -143,7 +143,7 @@ class _NewOptionContainerState extends State<NewOptionContainer>
     }
     if (widget.hasSubmittedAnswerForCurrentQuestion() &&
         widget.submittedAnswerId == widget.answerOption.id) {
-      return Constants.primaryColor;
+      return Constants.secondaryColor;
     }
     return Constants.grey5;
   }

@@ -1,25 +1,17 @@
 {
     "images" : [
-        "1.png",
-        "2.png",
-        "3.png",
-        "4.png",
-        "5.png",
-        "6.png",
-        "7.png",
-        "8.png",
-        "9.png",
-        "10.png",
-        "11.png",
-        "12.png",
-        "13.png",
-        "14.png",
-        "15.png",
-        "16.png",
-        "17.png",
-        "18.png",
-        "19.png",
-        "20.png"
-
+        "man1.png",
+        "man2.png",
+        "man3.png",
+        "man4.png",
+        "man5.png",
+        "man6.png",
+        "man7.png",
+        "man8.png",
+        "man9.png",
+        "woman1.png",
+        "woman2.png",
+        "woman3.png"      
+       
     ]
 }

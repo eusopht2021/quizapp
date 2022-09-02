@@ -507,7 +507,7 @@ class SignInScreenState extends State<SignInScreen> {
                             .read<SignInCubit>()
                             .signInUser(AuthProvider.apple);
                       },
-                    ),
+                    ),  
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: InkWell(

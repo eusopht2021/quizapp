@@ -54,8 +54,8 @@ class AudioQuestionBookmarkCubit extends Cubit<AudioQuestionBookMarkState> {
   }
 
   void addBookmarkQuestion(Question question, String userId) {
-    print(
-        "Added question id ${question.id} and answer id is ${question.submittedAnswerId}");
+    // print(
+    //     "Added question id ${question.id} and answer id is ${question.submittedAnswerId}");
     if (state is AudioQuestionBookmarkFetchSuccess) {
       final currentState = (state as AudioQuestionBookmarkFetchSuccess);
       //set submitted answer for given index initially submitted answer will be empty

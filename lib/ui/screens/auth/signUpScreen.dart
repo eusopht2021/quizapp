@@ -286,6 +286,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
               },
               builder: (context, state) {
                 return CupertinoButton(
+                  color: Theme.of(context).primaryColor,
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      //calling signup user
+                      context.read<SignUpCubit>().signUpUser(AuthProvider.email,
+                          edtEmail.text.trim(), edtPwd.text.trim());
+                      resetForm();
+                    }
+                  },
                   child: state is SignUpProgress
                       ? Center(
                           child: CircularProgressContainer(
@@ -299,15 +308,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           style: TextStyle(
                               color: Theme.of(context).backgroundColor),
                         ),
-                  color: Theme.of(context).primaryColor,
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
-                      //calling signup user
-                      context.read<SignUpCubit>().signUpUser(AuthProvider.email,
-                          edtEmail.text.trim(), edtPwd.text.trim());
-                      resetForm();
-                    }
-                  },
                 );
               },
             ),

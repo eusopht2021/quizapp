@@ -18,14 +18,16 @@ class AboutAppScreen extends StatelessWidget {
           PageBackgroundGradientContainer(),
           SingleChildScrollView(
             padding: EdgeInsets.only(
-              top: MediaQuery.of(context).size.height * (UiUtils.appBarHeightPercentage + 0.025),
+              top: MediaQuery.of(context).size.height *
+                  (UiUtils.appBarHeightPercentage + 0.025),
             ),
             child: Column(
               children: [
                 MenuTile(
                   isSvgIcon: true,
                   onTap: () {
-                    Navigator.of(context).pushNamed(Routes.appSettings, arguments: contactUs);
+                    Navigator.of(context)
+                        .pushNamed(Routes.appSettings, arguments: contactUs);
                   },
                   title: contactUs,
                   leadingIcon: "contactus_icon.svg",
@@ -33,7 +35,8 @@ class AboutAppScreen extends StatelessWidget {
                 MenuTile(
                   isSvgIcon: true,
                   onTap: () {
-                    Navigator.of(context).pushNamed(Routes.appSettings, arguments: aboutUs);
+                    Navigator.of(context)
+                        .pushNamed(Routes.appSettings, arguments: aboutUs);
                   },
                   title: aboutUs,
                   leadingIcon: "aboutus_icon.svg",
@@ -41,7 +44,8 @@ class AboutAppScreen extends StatelessWidget {
                 MenuTile(
                   isSvgIcon: true,
                   onTap: () {
-                    Navigator.of(context).pushNamed(Routes.appSettings, arguments: termsAndConditions);
+                    Navigator.of(context).pushNamed(Routes.appSettings,
+                        arguments: termsAndConditions);
                   },
                   title: termsAndConditions,
                   leadingIcon: "termscond_icon.svg",
@@ -49,7 +53,8 @@ class AboutAppScreen extends StatelessWidget {
                 MenuTile(
                   isSvgIcon: true,
                   onTap: () {
-                    Navigator.of(context).pushNamed(Routes.appSettings, arguments: privacyPolicy);
+                    Navigator.of(context).pushNamed(Routes.appSettings,
+                        arguments: privacyPolicy);
                   },
                   title: privacyPolicy,
                   leadingIcon: "privacypolicy_icon.svg",
@@ -60,7 +65,8 @@ class AboutAppScreen extends StatelessWidget {
           Align(
             alignment: Alignment.topCenter,
             child: RoundedAppbar(
-              title: AppLocalization.of(context)!.getTranslatedValues(aboutQuizAppKey)!,
+              title: AppLocalization.of(context)!
+                  .getTranslatedValues(aboutQuizAppKey)!,
             ),
           ),
         ],

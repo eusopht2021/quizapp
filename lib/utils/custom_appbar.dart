@@ -10,13 +10,15 @@ class CustomAppBar extends StatelessWidget {
   final bool? showBackButton;
   final Color? textColor;
   final Color? iconColor;
-  const CustomAppBar({
+  final Color? backgroundColor;
+  CustomAppBar({
     Key? key,
     required this.title,
     this.onBackTapped,
     this.backIcon,
     this.showBackButton,
     this.textColor,
+    this.backgroundColor,
     this.iconColor,
   }) : super(key: key);
 
@@ -29,7 +31,7 @@ class CustomAppBar extends StatelessWidget {
         size: Constants.heading3,
         textColor: textColor ?? Constants.white,
       ),
-      backgroundColor: Colors.transparent,
+      backgroundColor: backgroundColor ?? Colors.transparent,
       elevation: 0.0,
       centerTitle: true,
       leading: showBackButton!

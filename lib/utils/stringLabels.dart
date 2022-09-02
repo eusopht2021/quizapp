@@ -169,6 +169,7 @@ String betterNextLbl = "betterNextLbl";
 String winnerLbl = "winnerLbl";
 String youLossLbl = "youLossLbl";
 String matchDrawLbl = "matchDrawLbl";
+String drawLbl = "drawLbl";
 String looserLbl = "looserLbl";
 String playAgainBtn = "playAgainBtn";
 String nextLevelBtn = "nextLevelBtn";

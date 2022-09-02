@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutterquiz/utils/constants.dart';
 
-const Color primaryColor = const Color(0xffF98367);
+Color primaryColor = Constants.primaryColor;
 const Color secondaryColor = const Color(0xff434B5D); //work as secondary color
 const Color backgroundColor = Colors.white;
 const Color pageBackgroundColor = const Color(0xFFFFEEEA);

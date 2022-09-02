@@ -4,7 +4,6 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutterquiz/app/appLocalization.dart';
 import 'package:flutterquiz/app/routes.dart';
 import 'package:flutterquiz/features/auth/cubits/authCubit.dart';
@@ -21,13 +20,13 @@ import 'package:flutterquiz/features/systemConfig/cubits/appSettingsCubit.dart';
 import 'package:flutterquiz/features/systemConfig/systemConfigRepository.dart';
 import 'package:flutterquiz/ui/navigation/navbarcubit.dart';
 import 'package:flutterquiz/ui/navigation/navbaritems.dart';
-import 'package:flutterquiz/ui/navigation/navigation.dart';
-import 'package:flutterquiz/ui/navigation/navigation_bar_state.dart';
-import 'package:flutterquiz/ui/screens/appSettingsScreen.dart';
-import 'package:flutterquiz/ui/screens/auth/onBoardingScreen.dart';
-import 'package:flutterquiz/ui/screens/new_settings/faq_screen.dart';
+import 'package:flutterquiz/ui/screens/home/widgets/languageBottomSheetContainer.dart';
+import 'package:flutterquiz/ui/screens/new_settings/FAQ%20Screens/about.dart';
+import 'package:flutterquiz/ui/screens/new_settings/FAQ%20Screens/contactUs.dart';
+import 'package:flutterquiz/ui/screens/new_settings/FAQ%20Screens/faq_screen.dart';
 import 'package:flutterquiz/ui/screens/profile/widgets/editProfileFieldBottomSheetContainer.dart';
-import 'package:flutterquiz/ui/screens/quiz/voice_note_screen.dart';
+import 'package:recase/recase.dart';
+
 import 'package:flutterquiz/ui/widgets/title_text.dart';
 import 'package:flutterquiz/utils/assets.dart';
 import 'package:flutterquiz/utils/constants.dart';
@@ -38,7 +37,9 @@ import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
 import 'package:flutterquiz/utils/widgets_util.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:launch_review/launch_review.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class NewSettingsScreen extends StatefulWidget {
   final String title;
@@ -47,41 +48,30 @@ class NewSettingsScreen extends StatefulWidget {
 
   static Route<NewSettingsScreen> route(RouteSettings routeSettings) {
     return CupertinoPageRoute(
-        builder: ((_) => MultiBlocProvider(
-              providers: [
-                BlocProvider<AppSettingsCubit>(
-                  create: (_) => AppSettingsCubit(
-                    SystemConfigRepository(),
-                  ),
+      builder: ((_) => MultiBlocProvider(
+            providers: [
+              BlocProvider<AppSettingsCubit>(
+                create: (_) => AppSettingsCubit(
+                  SystemConfigRepository(),
                 ),
-                BlocProvider<DeleteAccountCubit>(
-                    create: (_) =>
-                        DeleteAccountCubit(ProfileManagementRepository())),
-                BlocProvider<UploadProfileCubit>(
-                  create: (context) => UploadProfileCubit(
-                    ProfileManagementRepository(),
-                  ),
+              ),
+              BlocProvider<DeleteAccountCubit>(
+                  create: (_) =>
+                      DeleteAccountCubit(ProfileManagementRepository())),
+              BlocProvider<UploadProfileCubit>(
+                create: (context) => UploadProfileCubit(
+                  ProfileManagementRepository(),
                 ),
-                BlocProvider<UpdateUserDetailCubit>(
-                  create: (context) => UpdateUserDetailCubit(
-                    ProfileManagementRepository(),
-                  ),
+              ),
+              BlocProvider<UpdateUserDetailCubit>(
+                create: (context) => UpdateUserDetailCubit(
+                  ProfileManagementRepository(),
                 ),
-                // BlocProvider<UserDetailsCubit>(
-                //   create: (context) => UserDetailsCubit(
-                //     ProfileManagementRepository(),
-                //   ),
-                // ),
-              ],
-              child:
-                  NewSettingsScreen(title: routeSettings.arguments as String),
-            ))
-
-        // builder: (_) => BlocProvider<AppSettingsCubit>(
-        //       create: (_) => AppSettingsCubit(
-        //         SystemConfigRepository(),
-        //       ),
-        );
+              ),
+            ],
+            child: NewSettingsScreen(title: routeSettings.arguments as String),
+          )),
+    );
   }
 
   @override
@@ -99,6 +89,12 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
   TextEditingController? newPassword;
   TextEditingController? confirmPassword;
   bool _isOn = false;
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -126,6 +122,7 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                     child: CustomAppBar(
                       title: "Settings",
                       showBackButton: true,
+                      backgroundColor: Constants.white,
                       textColor: Constants.black1,
                       iconColor: Constants.black1,
                       onBackTapped: () {
@@ -138,18 +135,30 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                       horizontal: 24,
                     ),
                     child: SingleChildScrollView(
+                      padding: const EdgeInsets.only(bottom: 30),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           WidgetsUtil.verticalSpace24,
                           TitleText(
-                            text: "Account",
+                            text: AppLocalization.of(context)!
+                                .getTranslatedValues("account")!,
                             textColor: Constants.black1.withOpacity(0.5),
                             weight: FontWeight.w500,
                             size: Constants.bodyNormal,
                           ),
                           WidgetsUtil.verticalSpace16,
-                          GestureDetector(
+
+                          _settingsOptionsContainer(
+                            listTileicon: Image.asset(
+                              Assets.person,
+                              height: 25,
+                              width: 25,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            title: AppLocalization.of(context)!
+                                .getTranslatedValues("updateUsername")!,
+                            subtitle: state.userProfile.name!.titleCase,
                             onTap: () {
                               editProfileFieldBottomSheet(
                                 nameLbl,
@@ -161,35 +170,34 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                                 context.read<UpdateUserDetailCubit>(),
                               );
                             },
-                            child: _settingsOptionsContainer(
-                              listTileicon: Image.asset(
-                                Assets.person,
-                                height: 25,
-                                width: 25,
-                                color: Constants.primaryColor,
-                              ),
-                              title: "Update Username",
-                              subtitle: state.userProfile.name!,
-                            ),
                           ),
                           WidgetsUtil.verticalSpace16,
-                          GestureDetector(
-                            onTap: () {},
-                            child: _settingsOptionsContainer(
-                              listTileicon: Image.asset(
-                                Assets.mail,
-                                height: 25,
-                                width: 25,
-                                color: Constants.primaryColor,
-                              ),
-                              title: "Change Email Address",
-                              subtitle: state.userProfile.email!.isEmpty
-                                  ? "-"
-                                  : state.userProfile.email!,
+
+                          _settingsOptionsContainer(
+                            showIcon: false,
+                            listTileicon: Image.asset(
+                              Assets.mail,
+                              height: 25,
+                              width: 25,
+                              color: Theme.of(context).primaryColor,
                             ),
+                            title: "Change Email Address",
+                            subtitle: state.userProfile.email!.isEmpty
+                                ? "-"
+                                : state.userProfile.email!,
                           ),
                           WidgetsUtil.verticalSpace16,
-                          GestureDetector(
+
+                          _settingsOptionsContainer(
+                            listTileicon: Image.asset(
+                              Assets.password,
+                              height: 25,
+                              width: 25,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            title: AppLocalization.of(context)!
+                                .getTranslatedValues("changePassword")!,
+                            subtitle: "last change 1 year ago",
                             onTap: () {
                               editpasswordFieldBottomSheet(
                                   fieldTitle: pwdLbl,
@@ -201,20 +209,169 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                                       context.read<UpdateUserDetailCubit>(),
                                   userDetailsCubit:
                                       context.read<UserDetailsCubit>());
-                              BlocProvider.of<NavigationCubit>(context)
-                                  .getNavBarItem(NavbarItems.newhome);
                             },
-                            child: _settingsOptionsContainer(
-                              listTileicon: Image.asset(
-                                Assets.password,
-                                height: 25,
-                                width: 25,
-                                color: Constants.primaryColor,
-                              ),
-                              title: "Change Password",
-                              subtitle: "last change 1 year ago",
+                          ),
+                          WidgetsUtil.verticalSpace16,
+
+                          _settingsOptionsContainer(
+                            title: AppLocalization.of(context)!
+                                .getTranslatedValues("language")!,
+                            subtitle: "Change Language",
+                            onTap: () {
+                              Navigator.of(context).pop();
+                              showDialog(
+                                  context: context,
+                                  builder: (_) => LanguageDailogContainer());
+                            },
+                            listTileicon: Icon(
+                              Icons.language,
+                              color: Theme.of(context).primaryColor,
                             ),
                           ),
+                          WidgetsUtil.verticalSpace16,
+
+                          // _settingsOptionsContainer(
+                          //   listTileicon: Icon(
+                          //     Icons.brightness_7,
+                          //     color: Theme.of(context).primaryColor,
+                          //   ),
+                          //   onTap: () {
+                          //     Navigator.of(context).pop();
+                          //     showDialog(
+                          //         context: context,
+                          //         builder: (_) => const ThemeDialog());
+                          //   },
+                          //   title: "Theme",
+                          //   subtitle: "Change App Theme",
+                          // ),
+                          // WidgetsUtil.verticalSpace16,
+                          _settingsOptionsContainer(
+                            title: AppLocalization.of(context)!
+                                .getTranslatedValues(coinStoreKey)!,
+                            subtitle: "View Coin Store",
+                            onTap: () {
+                              Navigator.of(context).pushNamed(Routes.coinStore);
+                            },
+                            listTileicon: FaIcon(
+                              FontAwesomeIcons.coins,
+                              color: Constants.primaryColor,
+                            ),
+                          ),
+                          WidgetsUtil.verticalSpace16,
+
+                          _settingsOptionsContainer(
+                            title: AppLocalization.of(context)!
+                                .getTranslatedValues(rewardsLbl)!,
+                            subtitle: "View Rewards",
+                            onTap: () {
+                              Navigator.of(context).pushNamed(Routes.rewards);
+                            },
+                            listTileicon: Icon(
+                              Icons.redeem,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          ),
+                          WidgetsUtil.verticalSpace16,
+
+                          _settingsOptionsContainer(
+                            listTileicon: Icon(
+                              Icons.brightness_7,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            onTap: () {
+                              Navigator.of(context).pushNamed(Routes.wallet);
+                            },
+                            title: AppLocalization.of(context)!
+                                .getTranslatedValues(walletKey)!,
+                            subtitle: "Wallet",
+                          ),
+                          WidgetsUtil.verticalSpace16,
+
+                          _settingsOptionsContainer(
+                              listTileicon: Icon(
+                                Icons.toll,
+                                color: Constants.primaryColor,
+                              ),
+                              title: "Coin History",
+                              subtitle: "View Coin History",
+                              onTap: () {
+                                Navigator.of(context)
+                                    .pushNamed(Routes.coinHistory);
+                              }),
+                          WidgetsUtil.verticalSpace16,
+
+                          _settingsOptionsContainer(
+                              title: AppLocalization.of(context)!
+                                  .getTranslatedValues("deleteAccount")!,
+                              subtitle: "Delete your Account",
+                              listTileicon: Icon(
+                                Icons.delete_outline_rounded,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                              onTap: () {
+                                showDialog<bool>(
+                                    context: context,
+                                    builder: (_) => AlertDialog(
+                                          content: Text(
+                                            AppLocalization.of(context)!
+                                                .getTranslatedValues(
+                                                    deleteAccountConfirmationKey)!,
+                                            style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                            ),
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context)
+                                                      .pop(true);
+                                                  Navigator
+                                                      .pushNamedAndRemoveUntil(
+                                                          context,
+                                                          Routes
+                                                              .onBoardingScreen,
+                                                          (route) => false);
+                                                  BlocProvider.of<
+                                                              NavigationCubit>(
+                                                          context)
+                                                      .getNavBarItem(
+                                                          NavbarItems.newhome);
+                                                },
+                                                child: Text(
+                                                  AppLocalization.of(context)!
+                                                      .getTranslatedValues(
+                                                          "yesBtn")!,
+                                                  style: TextStyle(
+                                                      color: Constants
+                                                          .primaryColor),
+                                                )),
+                                            TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context)
+                                                      .pop(false);
+                                                },
+                                                child: Text(
+                                                  AppLocalization.of(context)!
+                                                      .getTranslatedValues(
+                                                          "noBtn")!,
+                                                  style: TextStyle(
+                                                      color: Constants
+                                                          .primaryColor),
+                                                )),
+                                          ],
+                                        )).then((value) {
+                                  if (value != null && value) {
+                                    context
+                                        .read<DeleteAccountCubit>()
+                                        .deleteUserAccount(
+                                            userId: context
+                                                .read<UserDetailsCubit>()
+                                                .getUserId());
+                                  }
+                                });
+                              }),
+
                           WidgetsUtil.verticalSpace24,
                           TitleText(
                             text: "OTHER",
@@ -227,7 +384,8 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               TitleText(
-                                text: "Notification",
+                                text: AppLocalization.of(context)!
+                                    .getTranslatedValues("notificationLbl")!,
                                 textColor: Constants.black1,
                                 weight: FontWeight.w500,
                                 size: Constants.bodyNormal,
@@ -242,48 +400,96 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                                     _isOn = value;
                                   });
                                 },
-                                activeColor: Constants.primaryColor,
+                                activeColor: Theme.of(context).primaryColor,
                               )
                             ],
                           ),
                           WidgetsUtil.verticalSpace24,
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (_) => const VoiceNoteScreen()));
-                            },
-                            child: _settingsOptionsContainer(
-                              listTileicon: SvgPicture.asset(
-                                Assets.puzzleIcon,
-                                height: 25,
-                                width: 25,
-                                color: Constants.primaryColor,
-                              ),
-                              title: "Change Difficulty",
-                              subtitle: "Easy, normal, hard",
+                          // _settingsOptionsContainer(
+                          //   listTileicon: SvgPicture.asset(
+                          //     Assets.puzzleIcon,
+                          //     height: 25,
+                          //     width: 25,
+                          //     color: Theme.of(context).primaryColor,
+                          //   ),
+                          //   title: "Change Difficulty",
+                          //   subtitle: "Easy, normal, hard",
+                          //   onTap: () {
+                          //     // Navigator.push(
+                          //     //     context,
+                          //     //     MaterialPageRoute(
+                          //     //         builder: (_) => const VoiceNoteScreen()));
+                          //   },
+                          // ),
+                          // WidgetsUtil.verticalSpace16,
+                          _settingsOptionsContainer(
+                            listTileicon: Icon(
+                              Icons.question_mark,
+                              color: Theme.of(context).primaryColor,
                             ),
-                          ),
-                          WidgetsUtil.verticalSpace16,
-                          GestureDetector(
+                            title: "FAQ",
+                            subtitle: "Most frequently asked questions",
                             onTap: () {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (_) => const FaqScreen()));
                             },
-                            child: _settingsOptionsContainer(
-                              listTileicon: Icon(
-                                Icons.question_mark,
-                                color: Constants.primaryColor,
-                              ),
-                              title: "FAQ",
-                              subtitle: "Most frequently asked questions",
+                          ),
+                          WidgetsUtil.verticalSpace16,
+                          _settingsOptionsContainer(
+                            title: AppLocalization.of(context)!
+                                .getTranslatedValues("contactUs")!,
+                            listTileicon: Icon(
+                              Icons.contacts_outlined,
+                              color: Theme.of(context).primaryColor,
                             ),
+                            subtitle: "for any Enquiry",
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => const ContactUs()));
+                            },
+                          ),
+                          WidgetsUtil.verticalSpace16,
+                          _settingsOptionsContainer(
+                            title: AppLocalization.of(context)!
+                                .getTranslatedValues("aboutUs")!,
+                            listTileicon: Icon(
+                              Icons.info_outline,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            subtitle: AppLocalization.of(context)!
+                                .getTranslatedValues("aboutUs")!,
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => const AboutUs()));
+                            },
+                          ),
+                          WidgetsUtil.verticalSpace16,
+                          _settingsOptionsContainer(
+                            listTileicon: Icon(
+                              Icons.stars,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            subtitle: AppLocalization.of(context)!
+                                .getTranslatedValues("rateUsLbl")!,
+                            title: AppLocalization.of(context)!
+                                .getTranslatedValues("rateUsLbl")!,
+                            onTap: () {
+                              /// rate us button
+                              Navigator.of(context).pop();
+                              LaunchReview.launch(
+                                androidAppId: packageName,
+                                iOSAppId: "585027354",
+                              );
+                            },
                           ),
                           WidgetsUtil.verticalSpace32,
-                          GestureDetector(
+                          InkWell(
                             onTap: () {
                               showDialog(
                                   context: context,
@@ -329,8 +535,10 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                                                     .signOut();
 
                                                 Navigator.of(context)
-                                                    .pushReplacementNamed(Routes
-                                                        .onBoardingScreen);
+                                                    .pushNamedAndRemoveUntil(
+                                                  Routes.onBoardingScreen,
+                                                  (route) => false,
+                                                );
                                                 BlocProvider.of<
                                                             NavigationCubit>(
                                                         context)
@@ -364,7 +572,8 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
                             },
                             child: Center(
                               child: TitleText(
-                                text: "Logout",
+                                text: AppLocalization.of(context)!
+                                    .getTranslatedValues("logoutLbl")!,
                                 textColor: Colors.red,
                                 weight: FontWeight.w500,
                                 size: Constants.bodyNormal,
@@ -384,37 +593,48 @@ class _NewSettingsScreenState extends State<NewSettingsScreen> {
   }
 }
 
-Widget _settingsOptionsContainer(
-    {Widget? listTileicon, String? title, String? subtitle}) {
-  return Container(
-    decoration: BoxDecoration(
-      borderRadius: const BorderRadius.all(
-        const Radius.circular(16),
+Widget _settingsOptionsContainer({
+  final Widget? listTileicon,
+  final String? title,
+  final String? subtitle,
+  final bool? showIcon = true,
+  final Function()? onTap,
+}) {
+  return InkWell(
+    onTap: onTap,
+    child: Ink(
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(
+          Radius.circular(16),
+        ),
+        color: Constants.grey5,
       ),
-      color: Constants.grey5,
-    ),
-    height: SizeConfig.screenHeight * 0.09,
-    child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: ListTile(
-        leading: CircleAvatar(
-          radius: 24,
-          backgroundColor: Constants.white,
-          child: listTileicon,
-        ),
-        title: TitleText(
-          text: title!,
-          size: Constants.bodyNormal,
-          weight: FontWeight.w500,
-        ),
-        subtitle: TitleText(
-          text: subtitle!,
-          size: Constants.bodyXSmall,
-          weight: FontWeight.w400,
-        ),
-        trailing: Icon(
-          Icons.arrow_forward_ios,
-          color: Constants.black1,
+      height: SizeConfig.screenHeight * 0.09,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: ListTile(
+          leading: CircleAvatar(
+            radius: 24,
+            backgroundColor: Constants.white,
+            child: listTileicon,
+          ),
+          title: TitleText(
+            text: title!,
+            size: Constants.bodyNormal,
+            weight: FontWeight.w500,
+          ),
+          subtitle: TitleText(
+            text: subtitle!,
+            size: Constants.bodyXSmall,
+            weight: FontWeight.w400,
+            maxlines: 1,
+          ),
+          trailing: showIcon!
+              ? Icon(
+                  Icons.arrow_forward_ios,
+                  color: Constants.black1,
+                )
+              : const SizedBox(),
         ),
       ),
     ),
@@ -486,8 +706,8 @@ void editpasswordFieldBottomSheet({
       isScrollControlled: true,
       elevation: 5.0,
       shape: const RoundedRectangleBorder(
-          borderRadius: const BorderRadius.only(
-        topLeft: const Radius.circular(20.0),
+          borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(20.0),
         topRight: Radius.circular(20.0),
       )),
       context: context!,

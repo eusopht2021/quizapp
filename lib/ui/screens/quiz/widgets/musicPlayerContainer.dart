@@ -153,7 +153,7 @@ class _PlayerControlContainerState extends State<PlayerControlContainer> {
       }
 
       if (widget.index == widget.currentIndex) {
-        print("index is ${widget.index} and isPlaying to true");
+        // print("index is ${widget.index} and isPlaying to true");
         _isPlaying = true;
         context.read<MusicPlayerCubit>().audioPlayer.play();
       }

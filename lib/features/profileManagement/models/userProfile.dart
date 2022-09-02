@@ -13,7 +13,20 @@ class UserProfile {
   final String? referCode;
   final String? fcmToken;
 
-  UserProfile({this.email, this.fcmToken, this.referCode, this.firebaseId, this.mobileNumber, this.name, this.profileUrl, this.userId, this.allTimeRank, this.allTimeScore, this.coins, this.registeredDate, this.status});
+  UserProfile(
+      {this.email,
+      this.fcmToken,
+      this.referCode,
+      this.firebaseId,
+      this.mobileNumber,
+      this.name,
+      this.profileUrl,
+      this.userId,
+      this.allTimeRank,
+      this.allTimeScore,
+      this.coins,
+      this.registeredDate,
+      this.status});
 
   static UserProfile fromJson(Map<String, dynamic> jsonData) {
     //torefer keys go profileMan.remoteRepo
@@ -33,7 +46,15 @@ class UserProfile {
         email: jsonData['email']);
   }
 
-  UserProfile copyWith({String? profileUrl, String? name, String? allTimeRank, String? allTimeScore, String? coins, String? status, String? mobile, String? email}) {
+  UserProfile copyWith(
+      {String? profileUrl,
+      String? name,
+      String? allTimeRank,
+      String? allTimeScore,
+      String? coins,
+      String? status,
+      String? mobile,
+      String? email}) {
     return UserProfile(
         fcmToken: this.fcmToken,
         userId: this.userId,

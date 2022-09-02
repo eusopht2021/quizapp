@@ -1,12 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterquiz/utils/constants.dart';
 
 class CircularImageContainer extends StatelessWidget {
   final String imagePath;
   //width percentage must be more than 0.15 to height percentage
   final double width;
   final double height;
-  const CircularImageContainer({Key? key, required this.height, required this.imagePath, required this.width}) : super(key: key);
+  const CircularImageContainer(
+      {Key? key,
+      required this.height,
+      required this.imagePath,
+      required this.width})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +20,7 @@ class CircularImageContainer extends StatelessWidget {
       height: height,
       width: width,
       child: CircleAvatar(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: Constants.white,
         radius: height,
         backgroundImage: CachedNetworkImageProvider(
           imagePath,

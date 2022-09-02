@@ -13,8 +13,8 @@ class QuizPlayAreaBackgroundContainer extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         color: Constants.primaryColor,
-        borderRadius: const BorderRadiusDirectional.only(
-            bottomEnd: const Radius.circular(100)),
+        borderRadius:
+            const BorderRadiusDirectional.only(bottomEnd: Radius.circular(100)),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.3),

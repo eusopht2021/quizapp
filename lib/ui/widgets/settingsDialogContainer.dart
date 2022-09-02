@@ -143,6 +143,8 @@ class SettingsDialogContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomDialog(
       height: MediaQuery.of(context).size.height * 0.35,
+      showbackButton: false,
+      topPadding: 0,
       child: Container(
         alignment: Alignment.center,
         decoration: BoxDecoration(

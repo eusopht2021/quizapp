@@ -64,8 +64,8 @@ const String settingsThemeKey = "theme";
 //Add your database url
 //make sure do not add '/' at the end of url
 
-const String databaseUrl = "https://elitequiz.wrteam.in";
-// const String databaseUrl = "https://cricketmobileapp.com/api";
+// const String databaseUrl = "https://elitequiz.wrteam.in";
+const String databaseUrl = "https://cricketmobileapp.com/api";
 
 const String baseUrl = '$databaseUrl/Api/';
 
@@ -144,7 +144,7 @@ const String getGuessTheWordQuestionUrl = "${baseUrl}get_guess_the_word";
 const String getAppSettingsUrl = "${baseUrl}get_settings";
 const String reportQuestionUrl = "${baseUrl}report_question";
 const String getQuestionsByCategoryOrSubcategory = "${baseUrl}get_questions";
-const String updateFcmIdUrl = "${baseUrl}update_fcm_id";
+const String updateFcmIdUrl = "${baseUrl} ";
 const String getAudioQuestionUrl = "${baseUrl}get_audio_questions"; //
 const String getUserBadgesUrl = "${baseUrl}get_user_badges";
 const String setUserBadgesUrl = "${baseUrl}set_badges";
@@ -359,6 +359,7 @@ class Constants {
 
   static Color tulip = const Color(0xff88E2CE);
   static Color lightGreen = const Color(0xff53DF83);
+  static Color green = const Color(0xFF1B5E20);
   static Color wrongAnswer = const Color(0xffFF6666);
 
   static Color black1 = const Color(0xff49465F);

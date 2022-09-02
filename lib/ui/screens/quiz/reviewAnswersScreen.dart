@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tex/flutter_tex.dart';
 import 'package:flutterquiz/app/appLocalization.dart';
+import 'package:flutterquiz/app/routes.dart';
 import 'package:flutterquiz/features/bookmark/bookmarkRepository.dart';
 import 'package:flutterquiz/features/bookmark/cubits/updateBookmarkCubit.dart';
 import 'package:flutterquiz/features/musicPlayer/musicPlayerCubit.dart';
@@ -23,14 +24,10 @@ import 'package:flutterquiz/ui/widgets/customRoundedButton.dart';
 import 'package:flutterquiz/ui/widgets/custom_button.dart';
 import 'package:flutterquiz/ui/widgets/custom_card.dart';
 import 'package:flutterquiz/ui/widgets/default_layout.dart';
-import 'package:flutterquiz/ui/widgets/pageBackgroundGradientContainer.dart';
-import 'package:flutterquiz/ui/widgets/roundedAppbar.dart';
 import 'package:flutterquiz/ui/widgets/title_text.dart';
 import 'package:flutterquiz/utils/answerEncryption.dart';
 import 'package:flutterquiz/utils/constants.dart';
-import 'package:flutterquiz/utils/custom_appbar.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
-import 'package:flutterquiz/utils/quizTypes.dart';
 import 'package:flutterquiz/utils/size_config.dart';
 import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
@@ -121,6 +118,7 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
   @override
   void dispose() {
     _audioPlayer.dispose();
+
     super.dispose();
   }
 
@@ -395,8 +393,11 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
                     child: CustomButton(
                       verticalMargin: 0,
                       onPressed: () {
-                        Navigator.of(context)
-                            .popUntil((route) => route.isFirst);
+                        // Navigator.of(context)
+                        //     .popUntil((route) => route.isFirst);
+
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, Routes.home, (route) => false);
                       },
                       text: "Done",
                     ),
@@ -598,15 +599,17 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
                                     fontStyle: TeXViewFontStyle(fontSize: 19)),
                               ),
                             )
-                          : Text(
-                              submittedAnswer,
-                              style: TextStyle(
-                                color: question.attempted
-                                    ? question.submittedAnswerId ==
-                                            correctAnswerId
-                                        ? Constants.white
-                                        : Colors.red
-                                    : Colors.red,
+                          : Expanded(
+                              child: Text(
+                                submittedAnswer,
+                                style: TextStyle(
+                                  color: question.attempted
+                                      ? question.submittedAnswerId ==
+                                              correctAnswerId
+                                          ? Constants.white
+                                          : Colors.red
+                                      : Colors.red,
+                                ),
                               ),
                             ),
                       Icon(
@@ -883,7 +886,7 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
                     text: AppLocalization.of(context)!
                         .getTranslatedValues(notesKey)!,
                     textColor: Constants.black1,
-                    weight: FontWeight.bold,
+                    weight: FontWeight.w500,
                     size: 18.0),
                 const SizedBox(
                   height: 10.0,
@@ -1099,7 +1102,7 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
       backgroundColor: Constants.white,
       body: DefaultLayout(
         showBackButton: false,
-        backgroundColor: Constants.primaryColor,
+        backgroundColor: Theme.of(context).primaryColor,
         title: "Answers Explanation",
         size: Constants.bodyXLarge,
         action: IconButton(

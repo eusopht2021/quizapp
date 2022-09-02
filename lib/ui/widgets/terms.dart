@@ -5,6 +5,8 @@ import 'dart:developer';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterquiz/app/appLocalization.dart';
+import 'package:flutterquiz/ui/screens/new_settings/FAQ%20Screens/privacyPolicy.dart';
+import 'package:flutterquiz/ui/screens/new_settings/FAQ%20Screens/terms.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../utils/constants.dart';
@@ -56,6 +58,11 @@ class Terms extends StatelessWidget {
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
                   log('Privacy Policy');
+
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => const PrivacyPolicyScreen()));
                 },
               style: GoogleFonts.rubik(
                 fontSize: Constants.bodySmall,

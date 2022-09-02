@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -16,10 +15,8 @@ import 'package:flutterquiz/features/profileManagement/models/userProfile.dart';
 import 'package:flutterquiz/features/profileManagement/profileManagementRepository.dart';
 import 'package:flutterquiz/features/systemConfig/cubits/systemConfigCubit.dart';
 import 'package:flutterquiz/ui/screens/profile/widgets/chooseProfileDialog.dart';
-import 'package:flutterquiz/ui/widgets/circularProgressContainner.dart';
 import 'package:flutterquiz/ui/widgets/errorContainer.dart';
-
-import 'package:flutterquiz/ui/widgets/pageBackgroundGradientContainer.dart';
+import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
@@ -86,13 +83,13 @@ class _SelectProfilePictureScreen extends State<SelectProfilePictureScreen> {
           width: MediaQuery.of(context).size.width * (0.3),
           height: MediaQuery.of(context).size.width * (0.3),
           decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor,
+            color: Constants.secondaryColor,
             shape: BoxShape.circle,
           ),
           child: Center(
             child: Icon(
               Icons.add_a_photo,
-              color: Theme.of(context).backgroundColor,
+              color: Constants.white,
             ),
           ),
         ),
@@ -132,19 +129,17 @@ class _SelectProfilePictureScreen extends State<SelectProfilePictureScreen> {
                     },
                     child: Container(
                       alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          color: Constants.white,
+                          borderRadius: BorderRadius.circular(
+                              constraints.maxWidth * (0.15))),
+                      height: constraints.maxWidth * (0.3),
+                      width: constraints.maxWidth * (0.3),
                       child: Icon(
                         Icons.add_a_photo,
                         color: Theme.of(context).primaryColor,
                         size: 20.0,
                       ),
-                      decoration: BoxDecoration(
-                          color: Theme.of(context)
-                              .backgroundColor
-                              .withOpacity(0.7),
-                          borderRadius: BorderRadius.circular(
-                              constraints.maxWidth * (0.15))),
-                      height: constraints.maxWidth * (0.3),
-                      width: constraints.maxWidth * (0.3),
                     ),
                   ),
                 ),
@@ -160,7 +155,7 @@ class _SelectProfilePictureScreen extends State<SelectProfilePictureScreen> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
-        color: Theme.of(context).backgroundColor,
+        color: Constants.white,
       ),
       width: MediaQuery.of(context).size.width * (0.8),
       height: 60.0,
@@ -169,9 +164,9 @@ class _SelectProfilePictureScreen extends State<SelectProfilePictureScreen> {
           AppLocalization.of(context)!
               .getTranslatedValues("selectProfilePhotoLbl")!,
           style: TextStyle(
-            color: Theme.of(context).colorScheme.secondary,
+            color: Constants.black1,
             fontSize: 22.5,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w500,
           )),
     );
   }
@@ -218,7 +213,7 @@ class _SelectProfilePictureScreen extends State<SelectProfilePictureScreen> {
               .defaultProfileImages;
       avatars = defaultProfileImages;
     } else {
-      log('SystemConfig is not Success');
+      // log('SystemConfig is not Success');
     }
 
     return SizedBox(
@@ -290,11 +285,10 @@ class _SelectProfilePictureScreen extends State<SelectProfilePictureScreen> {
 
               return TextButton(
                 style: TextButton.styleFrom(
-                  backgroundColor: Theme.of(context).primaryColor,
+                  backgroundColor: Constants.secondaryColor,
                   padding: const EdgeInsetsDirectional.only(
                       end: 40, start: 40, bottom: 15, top: 15),
-                  side: BorderSide(
-                      color: Theme.of(context).primaryColor, width: 1),
+                  side: BorderSide(color: Constants.secondaryColor, width: 1),
                   shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(15.0))),
                 ),
@@ -340,8 +334,10 @@ class _SelectProfilePictureScreen extends State<SelectProfilePictureScreen> {
                 child: Text(
                   AppLocalization.of(context)!
                       .getTranslatedValues(textButtonKey)!,
-                  style: Theme.of(context).textTheme.headline5!.merge(
-                      TextStyle(color: Theme.of(context).backgroundColor)),
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline5!
+                      .merge(TextStyle(color: Constants.white)),
                 ),
               );
             },
@@ -361,10 +357,10 @@ class _SelectProfilePictureScreen extends State<SelectProfilePictureScreen> {
 
         return TextButton(
           style: TextButton.styleFrom(
-            backgroundColor: Theme.of(context).primaryColor,
+            backgroundColor: Constants.secondaryColor,
             padding: const EdgeInsetsDirectional.only(
                 end: 40, start: 40, bottom: 15, top: 15),
-            side: BorderSide(color: Theme.of(context).primaryColor, width: 1),
+            side: BorderSide(color: Constants.secondaryColor, width: 1),
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(15.0))),
           ),
@@ -380,7 +376,7 @@ class _SelectProfilePictureScreen extends State<SelectProfilePictureScreen> {
             style: Theme.of(context)
                 .textTheme
                 .headline5!
-                .merge(TextStyle(color: Theme.of(context).backgroundColor)),
+                .merge(TextStyle(color: Constants.white)),
           ),
         );
       },
@@ -442,28 +438,28 @@ class _SelectProfilePictureScreen extends State<SelectProfilePictureScreen> {
               });
             },
             child: AnimatedContainer(
-              child: iHaveInviteCode
-                  ? Icon(
-                      Icons.check,
-                      color: Theme.of(context).backgroundColor,
-                      size: 18.0,
-                    )
-                  : const SizedBox(),
               duration: const Duration(milliseconds: 300),
               width: 20,
               height: 20,
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 color: iHaveInviteCode
-                    ? Theme.of(context).primaryColor
-                    : Colors.transparent,
+                    ? Constants.secondaryColor
+                    : Constants.white,
                 border: Border.all(
                   width: 1.5,
                   color: iHaveInviteCode
-                      ? Theme.of(context).primaryColor
-                      : Theme.of(context).colorScheme.secondary,
+                      ? Constants.secondaryColor
+                      : Constants.white,
                 ),
               ),
+              child: iHaveInviteCode
+                  ? Icon(
+                      Icons.check,
+                      color: Constants.white,
+                      size: 18.0,
+                    )
+                  : const SizedBox(),
             ),
           ),
           const SizedBox(
@@ -473,7 +469,7 @@ class _SelectProfilePictureScreen extends State<SelectProfilePictureScreen> {
             AppLocalization.of(context)!
                 .getTranslatedValues(iHaveInviteCodeKey)!,
             style: TextStyle(
-              color: Theme.of(context).colorScheme.secondary,
+              color: Constants.white,
             ),
           )
         ],
@@ -534,12 +530,16 @@ class _SelectProfilePictureScreen extends State<SelectProfilePictureScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () {
-        return Future.value(false);
+        if (widget.updateProfileAndName) {
+          return Future.value(false);
+        } else {
+          return Future.value(true);
+        }
       },
       child: Scaffold(
+        backgroundColor: Theme.of(context).primaryColor,
         body: Stack(
           children: <Widget>[
-            const PageBackgroundGradientContainer(),
             BlocConsumer<UserDetailsCubit, UserDetailsState>(
               listener: (context, state) {
                 //when user register first time then set this listener
@@ -554,8 +554,8 @@ class _SelectProfilePictureScreen extends State<SelectProfilePictureScreen> {
                 if (state is UserDetailsFetchInProgress ||
                     state is UserDetailsInitial) {
                   return Center(
-                    child: CircularProgressContainer(
-                      useWhiteLoader: false,
+                    child: CircularProgressIndicator(
+                      color: Constants.white,
                     ),
                   );
                 }
@@ -597,8 +597,8 @@ class _SelectProfilePictureScreen extends State<SelectProfilePictureScreen> {
                           AppLocalization.of(context)!
                               .getTranslatedValues("orLbl")!,
                           style: TextStyle(
-                            color: Theme.of(context).colorScheme.secondary,
-                            fontWeight: FontWeight.bold,
+                            color: Constants.white,
+                            fontWeight: FontWeight.w500,
                             fontSize: 25.0,
                           ),
                         ),

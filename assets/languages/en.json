@@ -25,6 +25,7 @@
 
   "createAccountLbl" : "Create Account",
   "laterLbl" : "Later",
+  "NEXT": "NEXT",
 
 
   "userLoginLbl": "User Login",
@@ -37,6 +38,8 @@
   "emailFldLbl": "Email Address",
   "emailRequiredMsg": "Email is Required",
   "validEmail": "enter valid email",
+
+
   "emailLbl": "Email",
   "pwdLengthMsg": "password should be more than 6 char long",
   "pwdLbl": "Password",
@@ -49,9 +52,10 @@
 "termsLblAnd": "& ",
 "termsLblPrivacyPolicy": "Privacy Policy",
 
-"onBoardingIndex0":"Create gamified quizzes becomes simple",
-"onBoardingIndex1":"Find quizzes to test out your knowledge",
-"onBoardingIndex2":"Take part in challenges with friends",
+"onBoardingIndex0" :"Answer a quiz & get a chance to win exciting prizes!!!",
+"onBoardingIndex1":"Test your knowledge there are hundred of different Area to choose",
+"onBoardingIndex2":"Pick the correct all answer of questions to win the prize",
+"onBoardingIndex3" : "Take part in challenges with friends",
 
 
 "signUpProcessIndex0":"What’s your email?",
@@ -185,6 +189,7 @@
   "winnerLbl": "Winner",
   "youLossLbl": "You Loss",
   "matchDrawLbl": "MATCH DRAW",
+  "drawLbl" : "Draw",
   "looserLbl": "Looser",
   "playAgainBtn": "PLAY AGAIN",
   "nextLevelBtn": "NEXT LEVEL",
@@ -378,6 +383,25 @@
   "exam": "Exam",
   "desExam": "Give exam",
   "hint" : "Hint",
+  "seeAll" : "See All",
+  "liveQuizzes" : "Quizzes",
+  "takepartLbl" : "Take part in challenges with friends or other players",
+  "findFriendsLbs" : "Find Friends",
+  "featured": "Featured",
+  "points" : "Points",
+  "worldRank" : "WORLD RANK",
+  "updateUsername" : "Update Username",
+  "changePassword" : "Change Password",
+  "youHaveAnswered" : "You have answered total",
+  
+
+
+
+
+
+
+
+
   "tournament" : "Tournament",
   "desTournament" : "Play exiciting tournament",
   "myRank" : "My Rank",

@@ -23,6 +23,12 @@ class OnBoarding extends StatefulWidget {
 class _OnBoardingState extends State<OnBoarding> {
   int selectedIndex = 0;
   List<String> onBoarding = [];
+  final PageController _pageController = PageController();
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +36,7 @@ class _OnBoardingState extends State<OnBoarding> {
       AppLocalization.of(context)!.getTranslatedValues('onBoardingIndex0')!,
       AppLocalization.of(context)!.getTranslatedValues('onBoardingIndex1')!,
       AppLocalization.of(context)!.getTranslatedValues('onBoardingIndex2')!,
+      AppLocalization.of(context)!.getTranslatedValues('onBoardingIndex3')!,
     ];
     return Scaffold(
       body: DefaultBackground(
@@ -37,19 +44,20 @@ class _OnBoardingState extends State<OnBoarding> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Expanded(
-              flex: 8,
+              flex: 10,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Expanded(
                     flex: 9,
                     child: PageView.builder(
+                      controller: _pageController,
                       onPageChanged: (value) {
                         setState(() {
                           selectedIndex = value;
                         });
                       },
-                      itemCount: 3,
+                      itemCount: 4,
                       itemBuilder: (context, index) {
                         return Container(
                           margin: EdgeInsets.only(
@@ -63,12 +71,12 @@ class _OnBoardingState extends State<OnBoarding> {
                       },
                     ),
                   ),
+                  const Spacer(),
                   Expanded(
-                    flex: 3,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: List.generate(
-                        3,
+                        4,
                         (index) => Padding(
                           padding: const EdgeInsets.only(left: 8.0),
                           child: Container(
@@ -100,82 +108,103 @@ class _OnBoardingState extends State<OnBoarding> {
                 ],
               ),
             ),
+            // const Spacer(),
             Expanded(
               flex: 4,
               child: CustomCard(
                 // height: double.infinity,
                 child: Column(
                   children: [
-                    Container(
-                      margin: const EdgeInsets.only(
-                        top: 16,
-                        left: 14,
-                        right: 14,
-                      ),
-                      child: TitleText(
-                        text: onBoarding[selectedIndex],
-                        textColor: Colors.black,
-                        weight: FontWeight.w500,
-                        size: Constants.heading3,
-                        align: TextAlign.center,
+                    // WidgetsUtil.verticalSpace16,
+                    FittedBox(
+                      fit: BoxFit.fitHeight,
+                      clipBehavior: Clip.antiAlias,
+                      child: SizedBox(
+                        height: SizeConfig.screenHeight * 0.13,
+                        width: SizeConfig.screenWidth * 0.80,
+                        child: Center(
+                          child: TitleText(
+                            text: onBoarding[selectedIndex],
+                            textColor: Colors.black,
+                            weight: FontWeight.w500,
+                            size: Constants.bodyXLarge,
+                            align: TextAlign.center,
+                          ),
+                        ),
                       ),
                     ),
-                    // // const Spacer(),
-                    // WidgetsUtil.verticalSpace10,
+                    // const Spacer(),
                     CustomButton(
-                      text: AppLocalization.of(context)!
-                          .getTranslatedValues('signUpLbl')!,
-                      onPressed: () {
-                        // This was the original navigation
-                        // Navigator.of(context).pushNamed(Routes.signupoptions);
-                        // This navigation was only to design the NewPasswordScreen
-                        // Navigator.of(context).pushNamed(Routes.resetpswdScreen);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => FaqScreen()));
+
+                      verticalMargin: 0,
+                      text: selectedIndex == 3
+                          ? AppLocalization.of(context)!
+                              .getTranslatedValues('signUpLbl')!
+                          : AppLocalization.of(context)!
+                              .getTranslatedValues('NEXT')!,
+                      onPressed: () async {
+                        if (selectedIndex == 3) {
+                          Navigator.of(context).pushNamed(Routes.signupoptions);
+                        } else {
+                          selectedIndex++;
+
+                          await _pageController.animateToPage(selectedIndex,
+                              duration: const Duration(milliseconds: 700),
+                              curve: Curves.easeInOut);
+                        }
+
 
                         // Get.to(() => const SignUpOptions());
                       },
                     ),
-                    const Spacer(),
-                    // WidgetsUtil.verticalSpace16,
-                    Container(
-                      margin: const EdgeInsets.only(
-                        top: 16,
-                        bottom: 16,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          TitleText(
-                            text: AppLocalization.of(context)!
-                                .getTranslatedValues('alreadyAccountLbl')!,
-                            size: Constants.bodyNormal,
-                            textColor: Colors.grey,
-                            weight: FontWeight.w400,
-                          ),
-                          InkWell(
-                            onTap: () {
-                              log('Login');
-                              // Get.to(
-                              //   () => const Login(),
-                              // );
 
-                              Navigator.of(context)
-                                  .pushNamed(Routes.loginScreen);
-                            },
-                            child: TitleText(
-                              text:
-                                  " ${AppLocalization.of(context)!.getTranslatedValues('loginLbl')!}",
-                              size: Constants.bodyNormal,
-                              textColor: Constants.primaryColor,
-                              weight: FontWeight.w500,
+                    // WidgetsUtil.verticalSpace4, // WidgetsUtil.verticalSpace16,
+
+                    selectedIndex == 3 ? const Spacer() : const SizedBox(),
+                    selectedIndex == 3
+                        ? Container(
+                            width: double.infinity,
+                            margin: const EdgeInsets.only(
+                              top: 0,
+                              bottom: 10,
+                              right: 50,
+                              left: 50,
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  TitleText(
+                                    text: AppLocalization.of(context)!
+                                        .getTranslatedValues(
+                                            'alreadyAccountLbl')!,
+                                    size: Constants.bodyNormal,
+                                    textColor: Colors.grey,
+                                    weight: FontWeight.w400,
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      log('Login');
+                                      Navigator.of(context)
+                                          .pushNamed(Routes.loginScreen);
+                                    },
+                                    child: TitleText(
+                                      text:
+                                          " ${AppLocalization.of(context)!.getTranslatedValues('loginLbl')!}",
+                                      size: Constants.bodyNormal,
+                                      textColor: Constants.primaryColor,
+                                      weight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        : const SizedBox(
+                            height: 10,
+                            width: double.infinity,
+                          )
                   ],
                 ),
               ),

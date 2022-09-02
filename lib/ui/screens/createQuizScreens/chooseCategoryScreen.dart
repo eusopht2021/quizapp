@@ -120,6 +120,7 @@ class _ChooseCategoryScreenState extends State<ChooseCategoryScreen> {
                           });
                         },
                         child: CategoryCard(
+                          showAsSubCategories: false,
                           backgroundColor:
                               checked ? Constants.pink : Constants.grey5,
                           icon: Assets.quizCategories[index].asset,

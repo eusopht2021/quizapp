@@ -26,6 +26,7 @@ import 'package:flutterquiz/features/leaderBoard/cubit/leaderBoardAllTimeCubit.d
 import 'package:flutterquiz/features/leaderBoard/cubit/leaderBoardDailyCubit.dart';
 import 'package:flutterquiz/features/leaderBoard/cubit/leaderBoardMonthlyCubit.dart';
 import 'package:flutterquiz/features/localization/appLocalizationCubit.dart';
+import 'package:flutterquiz/features/profileManagement/cubits/updateScoreAndCoinsCubit.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/uploadProfileCubit.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/userDetailsCubit.dart';
 import 'package:flutterquiz/features/profileManagement/profileManagementRepository.dart';
@@ -33,6 +34,7 @@ import 'package:flutterquiz/features/quiz/cubits/comprehensionCubit.dart';
 import 'package:flutterquiz/features/quiz/cubits/getContestLeaderboardCubit.dart';
 import 'package:flutterquiz/features/quiz/cubits/quizCategoryCubit.dart';
 import 'package:flutterquiz/features/quiz/cubits/subCategoryCubit.dart';
+import 'package:flutterquiz/features/quiz/cubits/unlockedLevelCubit.dart';
 import 'package:flutterquiz/features/quiz/quizRepository.dart';
 import 'package:flutterquiz/features/settings/settingsCubit.dart';
 import 'package:flutterquiz/features/settings/settingsLocalDataSource.dart';
@@ -170,6 +172,20 @@ class MyApp extends StatelessWidget {
         ),
 
         /// New Navigation Cubit
+        ///
+        BlocProvider<QuizCategoryCubit>(
+            create: (_) => QuizCategoryCubit(QuizRepository())),
+        BlocProvider<UpdateScoreAndCoinsCubit>(
+            create: (_) =>
+                UpdateScoreAndCoinsCubit(ProfileManagementRepository())),
+        BlocProvider<UpdateScoreAndCoinsCubit>(
+            create: (_) =>
+                UpdateScoreAndCoinsCubit(ProfileManagementRepository())),
+        BlocProvider<QuizCategoryCubit>(
+            create: (_) => QuizCategoryCubit(QuizRepository())),
+        BlocProvider<UpdateScoreAndCoinsCubit>(
+            create: (_) =>
+                UpdateScoreAndCoinsCubit(ProfileManagementRepository())),
 
         BlocProvider<NavigationCubit>(
             create: (_) => NavigationCubit(Navigation())),
@@ -188,6 +204,13 @@ class MyApp extends StatelessWidget {
         //
         BlocProvider<UploadProfileCubit>(
             create: (_) => UploadProfileCubit(ProfileManagementRepository())),
+
+        BlocProvider<SubCategoryCubit>(
+          create: (_) => SubCategoryCubit(QuizRepository()),
+        ),
+        BlocProvider<UnlockedLevelCubit>(
+          create: (_) => UnlockedLevelCubit(QuizRepository()),
+        ),
 
         BlocProvider<StatisticCubit>(
           create: (_) => StatisticCubit(
@@ -221,11 +244,11 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             builder: (context, widget) {
               SizeConfig.init(context);
-
-              return ScrollConfiguration(
-                behavior: GlobalScrollBehavior(),
-                child: widget!,
-              );
+              return widget!;
+              // return ScrollConfiguration(
+              //   behavior: GlobalScrollBehavior(),
+              //   child: widget!,
+              // );
             },
             locale: currentLanguage,
             theme: appThemeData[currentTheme]!.copyWith(

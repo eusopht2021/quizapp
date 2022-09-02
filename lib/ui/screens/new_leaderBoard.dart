@@ -6,17 +6,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
 import 'package:flutterquiz/app/appLocalization.dart';
-import 'package:flutterquiz/app/routes.dart';
 import 'package:flutterquiz/features/leaderBoard/cubit/leaderBoardAllTimeCubit.dart';
 import 'package:flutterquiz/features/leaderBoard/cubit/leaderBoardDailyCubit.dart';
 import 'package:flutterquiz/features/leaderBoard/cubit/leaderBoardMonthlyCubit.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/userDetailsCubit.dart';
 import 'package:flutterquiz/ui/navigation/navbarcubit.dart';
 import 'package:flutterquiz/ui/navigation/navbaritems.dart';
-import 'package:flutterquiz/ui/navigation/navigation.dart';
 import 'package:flutterquiz/ui/widgets/errorContainer.dart';
 import 'package:flutterquiz/ui/widgets/notched_card.dart';
+
 import 'package:flutterquiz/ui/widgets/title_text.dart';
 import 'package:flutterquiz/utils/assets.dart';
 import 'package:flutterquiz/utils/constants.dart';
@@ -25,6 +25,7 @@ import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/size_config.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
 import 'package:flutterquiz/utils/widgets_util.dart';
+import 'package:recase/recase.dart';
 
 class NewLeaderBoardScreen extends StatefulWidget {
   const NewLeaderBoardScreen({Key? key}) : super(key: key);
@@ -116,7 +117,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
   int selectTab = 0;
   List<String> tabItems = ['Daily', 'Monthly', 'All Time'];
   bool isExpand = false;
-
+  Color? _dotColor;
 
   @override
   Widget build(BuildContext context) {
@@ -125,14 +126,15 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
         BlocProvider.of<NavigationCubit>(context)
             .getNavBarItem(NavbarItems.newhome);
 
-        return false;
+        return true;
       },
       child: Scaffold(
-        appBar: const PreferredSize(
-          preferredSize: Size.fromHeight(60),
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(60),
           child: CustomAppBar(
             title: "Leaderboard",
-            showBackButton: false,
+            showBackButton: true,
+            onBackTapped: () => Navigator.pop(context),
           ),
         ),
         backgroundColor: Constants.primaryColor,
@@ -152,9 +154,8 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
   Widget topDesign() {
     return Column(
       children: [
-        // WidgetsUtil.verticalSpace24,
         Container(
-          height: SizeConfig.screenHeight * 0.07,
+          height: SizeConfig.screenHeight * 0.06,
           width: SizeConfig.screenWidth,
           margin: const EdgeInsets.symmetric(horizontal: 24),
           decoration: BoxDecoration(
@@ -163,6 +164,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
           ),
           child: _tabBar(),
         ),
+        WidgetsUtil.verticalSpace16,
         Expanded(
           child: _tabItem(),
         ),
@@ -184,26 +186,20 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
             }),
             child: AnimatedContainer(
               duration: const Duration(
-                milliseconds: 300,
+                milliseconds: 200,
               ),
-              height: 40,
-              width: 100,
-              child: Container(
-                padding: const EdgeInsets.only(
-                  top: 8,
-                  bottom: 8,
-                ),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    color: selectTab == index
-                        ? Constants.secondaryColor
-                        : Colors.transparent),
-                child: Center(
-                  child: TitleText(
-                    text: tabItems[index],
-                    textColor: Constants.white,
-                    weight: FontWeight.w500,
-                  ),
+              height: SizeConfig.screenHeight * 0.05,
+              width: SizeConfig.screenWidth * 0.27,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  color: selectTab == index
+                      ? Constants.secondaryColor
+                      : Colors.transparent),
+              child: Center(
+                child: TitleText(
+                  text: tabItems[index],
+                  textColor: Constants.white,
+                  weight: FontWeight.w500,
                 ),
               ),
             ),
@@ -228,11 +224,11 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
   double _topPosition(index) {
     double position = 0;
     index == 0
-        ? position = 30.0
+        ? position = SizeConfig.screenHeight * (0.012)
         : index == 1
-            ? position = 60.0
+            ? position = SizeConfig.screenHeight * (0.045)
             : index == 2
-                ? position = 100.0
+                ? position = SizeConfig.screenHeight * (0.07)
                 : null;
 
     return position;
@@ -243,7 +239,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
     index == 0
         ? position = 0
         : index == 1
-            ? position = 30
+            ? position = SizeConfig.screenHeight * (0.040)
             // : index == 2
             //     ? position = 60
             : index == 2
@@ -256,10 +252,10 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
     double? position = 0;
     index == 0
         ? position = 0
-        : index == 2
-            ? position = 40
-            : index == 1
-                ? position = null
+        : index == 1
+            ? position = null
+            : index == 2
+                ? position = SizeConfig.screenHeight * (0.045)
                 : null;
     return position;
   }
@@ -297,7 +293,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                   "20", context.read<UserDetailsCubit>().getUserId());
             },
             showErrorImage: true,
-            errorMessageColor: Theme.of(context).primaryColor,
+            errorMessageColor: Constants.white,
           );
         }
         final monthlyList =
@@ -314,6 +310,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
         return SizedBox(
           height: SizeConfig.screenHeight,
           child: Stack(
+            clipBehavior: Clip.none,
             children: [
               ...List.generate(
                 podiumList.length,
@@ -323,145 +320,134 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                     left: _leftPosition(index),
                     right: _rightPosition(index),
                     child: index < 3
-                        ? Column(
-                            children: [
-                              Badge(
-                                elevation: 0,
-                                showBadge: true,
-                                badgeContent: Image.asset(Assets.portugal),
-                                badgeColor: Colors.transparent,
-                                position: BadgePosition.bottomEnd(),
-                                child: Badge(
+                        ? FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: SizedBox(
+                              height: 150,
+                              child: Column(
+                                children: [
+                                  Badge(
+                                    toAnimate: false,
                                     elevation: 0,
                                     showBadge: true,
-                                    badgeContent: index == 0
-                                        ? SvgPicture.asset(
-                                            Assets.crown,
-                                            height: 30,
-                                          )
-                                        : const SizedBox(),
-                                    position:
-                                        BadgePosition.topEnd(end: 5, top: -20),
+                                    badgeContent: Image.asset(Assets.portugal),
                                     badgeColor: Colors.transparent,
-                                    child: CircleAvatar(
-                                      radius: 25,
-                                      backgroundColor: Colors.transparent,
-                                      backgroundImage:
-                                          CachedNetworkImageProvider(
-                                        index == 0
-                                            ? podiumList[0]['profile']
-                                            : index == 1
-                                                ? podiumList[1]['profile']
-                                                : index == 2
-                                                    ? podiumList[2]['profile']
-                                                    : "",
-                                      ),
-                                    )),
+                                    position: BadgePosition.bottomEnd(end: 2),
+                                    child: Badge(
+                                        toAnimate: false,
+                                        elevation: 0,
+                                        showBadge: true,
+                                        badgeContent: index == 0
+                                            ? SvgPicture.asset(
+                                                Assets.crown,
+                                                height: 28,
+                                              )
+                                            : const SizedBox(),
+                                        position: BadgePosition.topEnd(
+                                            end: 12, top: -25),
+                                        badgeColor: Colors.transparent,
+                                        child: CircleAvatar(
+                                          radius: 32,
+                                          backgroundColor: Colors.transparent,
+                                          backgroundImage:
+                                              CachedNetworkImageProvider(
+                                            index == 0
+                                                ? podiumList[0]['profile']
+                                                : index == 1
+                                                    ? podiumList[1]['profile']
+                                                    : index == 2
+                                                        ? podiumList[2]
+                                                            ['profile']
+                                                        : "",
+                                          ),
+                                        )),
+                                  ),
+                                  WidgetsUtil.verticalSpace10,
+                                  SizedBox(
+                                    width: 100,
+                                    height: 20,
+                                    child: TitleText(
+                                      text:
+                                          "${index == 0 ? podiumList[0]['name']!.isNotEmpty ? podiumList[0]['name']! : "" : index == 1 ? podiumList[1]['name']!.isNotEmpty ? podiumList[1]['name']! : "" : index == 2 ? podiumList[2]['name']!.isNotEmpty ? podiumList[2]['name']! : "" : ""}"
+                                              .titleCase,
+                                      textColor: Constants.white,
+                                      size: Constants.bodySmall,
+                                      align: TextAlign.center,
+                                      maxlines: 1,
+                                    ),
+                                  ),
+                                  WidgetsUtil.verticalSpace8,
+                                  index < 3
+                                      ? _qpContainer(
+                                          Center(
+                                            child: TitleText(
+                                              text:
+                                                  "${index == 0 ? podiumList[0]['score']!.isNotEmpty ? podiumList[0]['score']! : "" : index == 1 ? podiumList[1]['score']!.isNotEmpty ? podiumList[1]['score']! : "" : index == 2 ? podiumList[2]['score']!.isNotEmpty ? podiumList[2]['score']! : "" : ""} PTS",
+                                              size: Constants.bodyXSmall,
+                                              textColor: Constants.white,
+                                            ),
+                                          ),
+                                        )
+                                      : const SizedBox(),
+                                ],
                               ),
-                              WidgetsUtil.verticalSpace20,
-                              SizedBox(
-                                width: 100,
-                                height: 20,
-                                child: TitleText(
-                                  text: index == 0
-                                      ? podiumList[0]['name']!.isNotEmpty
-                                          ? podiumList[0]['name']!
-                                          : ""
-                                      : index == 1
-                                          ? podiumList[1]['name']!.isNotEmpty
-                                              ? podiumList[1]['name']!
-                                              : ""
-                                          : index == 2
-                                              ? podiumList[2]['name']!
-                                                      .isNotEmpty
-                                                  ? podiumList[2]['name']!
-                                                  : ""
-                                              : "",
-                                  textColor: Constants.white,
-                                  size: Constants.bodySmall,
-                                  align: TextAlign.center,
-                                  maxlines: 1,
-                                ),
-                              ),
-                              WidgetsUtil.verticalSpace4,
-                              index < 3
-                                  ? _qpContainer(
-                                      Center(
-                                        child: TitleText(
-                                          text: index == 0
-                                              ? podiumList[0]['score']!
-                                                      .isNotEmpty
-                                                  ? podiumList[0]['score']!
-                                                  : ""
-                                              : index == 1
-                                                  ? podiumList[1]['score']!
-                                                          .isNotEmpty
-                                                      ? podiumList[1]['score']!
-                                                      : ""
-                                                  : index == 2
-                                                      ? podiumList[2]['score']!
-                                                              .isNotEmpty
-                                                          ? podiumList[2]
-                                                              ['score']!
-                                                          : ""
-                                                      : "",
-                                          size: Constants.bodyXSmall,
-                                          textColor: Constants.white,
-                                        ),
-                                      ),
-                                    )
-                                  : const SizedBox(),
-                            ],
+                            ),
                           )
                         : const SizedBox(),
                   );
                 },
               ),
               Positioned(
-                top: SizeConfig.screenHeight * 0.2,
+                top: SizeConfig.screenHeight * 0.156,
                 child: Align(
                   alignment: Alignment.topCenter,
                   child: SizedBox(
                     width: SizeConfig.screenWidth,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Expanded(
-                          flex: 2,
-                          child: const SizedBox(),
-                        ),
-                        Expanded(
-                          flex: 5,
-                          child: Image.asset(
-                            Assets.rank2,
-                            fit: BoxFit.fill,
-                            height: SizeConfig.screenHeight * 0.29,
-                          ),
-                        ),
-                        Expanded(
-                          flex: 5,
-                          child: Image.asset(
-                            Assets.rank1,
-                            fit: BoxFit.fill,
-                            height: SizeConfig.screenHeight * 0.35,
-                          ),
-                        ),
-                        Expanded(
-                          flex: 5,
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 80),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 22),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // const Expanded(
+                          //   flex: 1,
+                          //   child: SizedBox(),
+                          // ),
+                          Expanded(
+                            flex: 5,
                             child: Image.asset(
-                              Assets.rank3,
+                              Assets.rank2,
                               fit: BoxFit.fill,
-                              height: SizeConfig.screenHeight * 0.3,
+                              width: SizeConfig.screenWidth * 0.15,
+                              height: SizeConfig.screenHeight * 0.29,
                             ),
                           ),
-                        ),
-                        const Expanded(
-                          flex: 2,
-                          child: SizedBox(),
-                        ),
-                      ],
+                          Expanded(
+                            flex: 5,
+                            child: Image.asset(
+                              Assets.rank1,
+                              fit: BoxFit.fill,
+                              width: SizeConfig.screenWidth * 0.2,
+                              height: SizeConfig.screenHeight * 0.37,
+                            ),
+                          ),
+                          Expanded(
+                            flex: 5,
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 80),
+                              child: Image.asset(
+                                Assets.rank3,
+                                fit: BoxFit.fill,
+                                width: SizeConfig.screenWidth * 0.15,
+                                height: SizeConfig.screenHeight * 0.35,
+                              ),
+                            ),
+                          ),
+                          // const Expanded(
+                          //   flex: 1,
+                          //   child: SizedBox(),
+                          // ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -506,7 +492,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                   "20", context.read<UserDetailsCubit>().getUserId());
             },
             showErrorImage: true,
-            errorMessageColor: Theme.of(context).primaryColor,
+            errorMessageColor: Constants.white,
           );
         }
         final dailyList = (state as LeaderBoardDailySuccess).leaderBoardDetails;
@@ -523,144 +509,142 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
           height: SizeConfig.screenHeight,
           child: Stack(
             children: [
-              ...List.generate(podiumList.length, (index) {
-                return Positioned(
-                  top: _topPosition(index),
-                  left: _leftPosition(index),
-                  right: _rightPosition(index),
-                  child: index < 3
-                      ? Column(children: [
-                          Badge(
-                            elevation: 0,
-                            showBadge: true,
-                            badgeContent: Image.asset(Assets.portugal),
-                            badgeColor: Colors.transparent,
-                            position: BadgePosition.bottomEnd(),
-                            child: Badge(
-                                elevation: 0,
-                                showBadge: true,
-                                badgeContent: index == 0
-                                    ? SvgPicture.asset(
-                                        Assets.crown,
-                                        height: 30,
-                                      )
-                                    : const SizedBox(),
-                                position:
-                                    BadgePosition.topEnd(end: 5, top: -20),
-                                badgeColor: Colors.transparent,
-                                child: CircleAvatar(
-                                  radius: 25,
-                                  backgroundColor: Colors.transparent,
-                                  backgroundImage: CachedNetworkImageProvider(
-                                    index == 0
-                                        ? podiumList[0]['profile']
-                                        : index == 1
-                                            ? podiumList[1]['profile']
-                                            : index == 2
-                                                ? podiumList[2]['profile']
-                                                : "",
+              ...List.generate(
+                podiumList.length,
+                (index) {
+                  return Positioned(
+                    top: _topPosition(index),
+                    left: _leftPosition(index),
+                    right: _rightPosition(index),
+                    child: index < 3
+                        ? FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: SizedBox(
+                              height: 150,
+                              child: Column(
+                                children: [
+                                  Badge(
+                                    toAnimate: false,
+                                    elevation: 0,
+                                    showBadge: true,
+                                    badgeContent: Image.asset(Assets.portugal),
+                                    badgeColor: Colors.transparent,
+                                    position: BadgePosition.bottomEnd(end: 2),
+                                    child: Badge(
+                                        toAnimate: false,
+                                        elevation: 0,
+                                        showBadge: true,
+                                        badgeContent: index == 0
+                                            ? SvgPicture.asset(
+                                                Assets.crown,
+                                                height: 28,
+                                              )
+                                            : const SizedBox(),
+                                        position: BadgePosition.topEnd(
+                                            end: 12, top: -25),
+                                        badgeColor: Colors.transparent,
+                                        child: CircleAvatar(
+                                          radius: 32,
+                                          backgroundColor: Colors.transparent,
+                                          backgroundImage:
+                                              CachedNetworkImageProvider(
+                                            index == 0
+                                                ? podiumList[0]['profile']
+                                                : index == 1
+                                                    ? podiumList[1]['profile']
+                                                    : index == 2
+                                                        ? podiumList[2]
+                                                            ['profile']
+                                                        : "",
+                                          ),
+                                        )),
                                   ),
-                                )),
-                          ),
-                          WidgetsUtil.verticalSpace20,
-                          SizedBox(
-                            width: 100,
-                            height: 20,
-                            child: TitleText(
-                              text: index == 0
-                                  ? podiumList[0]['name']!.isNotEmpty
-                                      ? podiumList[0]['name']!
-                                      : ""
-                                  : index == 1
-                                      ? podiumList[1]['name']!.isNotEmpty
-                                          ? podiumList[1]['name']!
-                                          : ""
-                                      : index == 2
-                                          ? podiumList[2]['name']!.isNotEmpty
-                                              ? podiumList[2]['name']!
-                                              : ""
-                                          : "",
-                              textColor: Constants.white,
-                              size: Constants.bodySmall,
-                              align: TextAlign.center,
-                              maxlines: 1,
-                            ),
-                          ),
-                          WidgetsUtil.verticalSpace4,
-                          index < 3
-                              ? _qpContainer(
-                                  Center(
+                                  WidgetsUtil.verticalSpace10,
+                                  SizedBox(
+                                    width: 100,
+                                    height: 20,
                                     child: TitleText(
-                                      text: index == 0
-                                          ? podiumList[0]['score']!.isNotEmpty
-                                              ? podiumList[0]['score']!
-                                              : ""
-                                          : index == 1
-                                              ? podiumList[1]['score']!
-                                                      .isNotEmpty
-                                                  ? podiumList[1]['score']!
-                                                  : ""
-                                              : index == 2
-                                                  ? podiumList[2]['score']!
-                                                          .isNotEmpty
-                                                      ? podiumList[2]['score']!
-                                                      : ""
-                                                  : "",
-                                      size: Constants.bodyXSmall,
+                                      text:
+                                          "${index == 0 ? podiumList[0]['name']!.isNotEmpty ? podiumList[0]['name']! : "" : index == 1 ? podiumList[1]['name']!.isNotEmpty ? podiumList[1]['name']! : "" : index == 2 ? podiumList[2]['name']!.isNotEmpty ? podiumList[2]['name']! : "" : ""}"
+                                              .titleCase,
                                       textColor: Constants.white,
+                                      size: Constants.bodySmall,
+                                      align: TextAlign.center,
+                                      maxlines: 1,
                                     ),
                                   ),
-                                )
-                              : const SizedBox(),
-                        ])
-                      : const SizedBox(),
-                );
-              }),
+                                  WidgetsUtil.verticalSpace8,
+                                  index < 3
+                                      ? _qpContainer(
+                                          Center(
+                                            child: TitleText(
+                                              text:
+                                                  "${index == 0 ? podiumList[0]['score']!.isNotEmpty ? podiumList[0]['score']! : "" : index == 1 ? podiumList[1]['score']!.isNotEmpty ? podiumList[1]['score']! : "" : index == 2 ? podiumList[2]['score']!.isNotEmpty ? podiumList[2]['score']! : "" : ""} PTS",
+                                              size: Constants.bodyXSmall,
+                                              textColor: Constants.white,
+                                            ),
+                                          ),
+                                        )
+                                      : const SizedBox(),
+                                ],
+                              ),
+                            ),
+                          )
+                        : const SizedBox(),
+                  );
+                },
+              ),
               Positioned(
-                top: SizeConfig.screenHeight * 0.2,
+                top: SizeConfig.screenHeight * 0.156,
                 child: Align(
                   alignment: Alignment.topCenter,
                   child: SizedBox(
                     width: SizeConfig.screenWidth,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Expanded(
-                          flex: 2,
-                          child: const SizedBox(),
-                        ),
-                        Expanded(
-                          flex: 5,
-                          child: Image.asset(
-                            Assets.rank2,
-                            fit: BoxFit.fill,
-                            height: SizeConfig.screenHeight * 0.29,
-                          ),
-                        ),
-                        Expanded(
-                          flex: 5,
-                          child: Image.asset(
-                            Assets.rank1,
-                            fit: BoxFit.fill,
-                            height: SizeConfig.screenHeight * 0.35,
-                          ),
-                        ),
-                        Expanded(
-                          flex: 5,
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 80),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 22),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // const Expanded(
+                          //   flex: 1,
+                          //   child: SizedBox(),
+                          // ),
+                          Expanded(
+                            flex: 5,
                             child: Image.asset(
-                              Assets.rank3,
+                              Assets.rank2,
                               fit: BoxFit.fill,
-                              height: SizeConfig.screenHeight * 0.3,
+                              width: SizeConfig.screenWidth * 0.15,
+                              height: SizeConfig.screenHeight * 0.29,
                             ),
                           ),
-                        ),
-                        const Expanded(
-                          flex: 2,
-                          child: SizedBox(),
-                        ),
-                      ],
+                          Expanded(
+                            flex: 5,
+                            child: Image.asset(
+                              Assets.rank1,
+                              fit: BoxFit.fill,
+                              width: SizeConfig.screenWidth * 0.2,
+                              height: SizeConfig.screenHeight * 0.37,
+                            ),
+                          ),
+                          Expanded(
+                            flex: 5,
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 80),
+                              child: Image.asset(
+                                Assets.rank3,
+                                fit: BoxFit.fill,
+                                width: SizeConfig.screenWidth * 0.15,
+                                height: SizeConfig.screenHeight * 0.35,
+                              ),
+                            ),
+                          ),
+                          // const Expanded(
+                          //   flex: 1,
+                          //   child: SizedBox(),
+                          // ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -706,7 +690,7 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
                   "20", context.read<UserDetailsCubit>().getUserId());
             },
             showErrorImage: true,
-            errorMessageColor: Theme.of(context).primaryColor,
+            errorMessageColor: Constants.white,
           );
         }
         final allTimeList =
@@ -726,148 +710,144 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
         return SizedBox(
           height: SizeConfig.screenHeight,
           child: Stack(
+            clipBehavior: Clip.antiAlias,
             children: [
-              ...List.generate(podiumList.length, (index) {
-                return Positioned(
-                  top: _topPosition(index),
-                  left: _leftPosition(index),
-                  right: _rightPosition(index),
-                  child: index < 3
-                      ? Column(
-                          children: [
-                            Badge(
-                              elevation: 0,
-                              showBadge: true,
-                              badgeContent: Image.asset(Assets.portugal),
-                              badgeColor: Colors.transparent,
-                              position: BadgePosition.bottomEnd(),
-                              child: Badge(
-                                  elevation: 0,
-                                  showBadge: true,
-                                  badgeContent: index == 0
-                                      ? SvgPicture.asset(
-                                          Assets.crown,
-                                          height: 30,
+              ...List.generate(
+                podiumList.length,
+                (index) {
+                  return Positioned(
+                    top: _topPosition(index),
+                    left: _leftPosition(index),
+                    right: _rightPosition(index),
+                    child: index < 3
+                        ? FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: SizedBox(
+                              height: 150,
+                              child: Column(
+                                children: [
+                                  Badge(
+                                    toAnimate: false,
+                                    elevation: 0,
+                                    showBadge: true,
+                                    badgeContent: Image.asset(Assets.portugal),
+                                    badgeColor: Colors.transparent,
+                                    position: BadgePosition.bottomEnd(end: 2),
+                                    child: Badge(
+                                        toAnimate: false,
+                                        elevation: 0,
+                                        showBadge: true,
+                                        badgeContent: index == 0
+                                            ? SvgPicture.asset(
+                                                Assets.crown,
+                                                height: 28,
+                                              )
+                                            : const SizedBox(),
+                                        position: BadgePosition.topEnd(
+                                            end: 12, top: -25),
+                                        badgeColor: Colors.transparent,
+                                        child: CircleAvatar(
+                                          radius: 32,
+                                          backgroundColor: Colors.transparent,
+                                          backgroundImage:
+                                              CachedNetworkImageProvider(
+                                            index == 0
+                                                ? podiumList[0]['profile']
+                                                : index == 1
+                                                    ? podiumList[1]['profile']
+                                                    : index == 2
+                                                        ? podiumList[2]
+                                                            ['profile']
+                                                        : "",
+                                          ),
+                                        )),
+                                  ),
+                                  WidgetsUtil.verticalSpace10,
+                                  SizedBox(
+                                    width: 100,
+                                    height: 20,
+                                    child: TitleText(
+                                      text:
+                                          "${index == 0 ? podiumList[0]['name']!.isNotEmpty ? podiumList[0]['name']! : "" : index == 1 ? podiumList[1]['name']!.isNotEmpty ? podiumList[1]['name']! : "" : index == 2 ? podiumList[2]['name']!.isNotEmpty ? podiumList[2]['name']! : "" : ""}"
+                                              .titleCase,
+                                      textColor: Constants.white,
+                                      size: Constants.bodySmall,
+                                      align: TextAlign.center,
+                                      maxlines: 1,
+                                    ),
+                                  ),
+                                  WidgetsUtil.verticalSpace8,
+                                  index < 3
+                                      ? _qpContainer(
+                                          Center(
+                                            child: TitleText(
+                                              text:
+                                                  "${index == 0 ? podiumList[0]['score']!.isNotEmpty ? podiumList[0]['score']! : "" : index == 1 ? podiumList[1]['score']!.isNotEmpty ? podiumList[1]['score']! : "" : index == 2 ? podiumList[2]['score']!.isNotEmpty ? podiumList[2]['score']! : "" : ""} PTS",
+                                              size: Constants.bodyXSmall,
+                                              textColor: Constants.white,
+                                            ),
+                                          ),
                                         )
                                       : const SizedBox(),
-                                  position:
-                                      BadgePosition.topEnd(end: 5, top: -20),
-                                  badgeColor: Colors.transparent,
-                                  child: CircleAvatar(
-                                    radius: 25,
-                                    backgroundColor: Colors.transparent,
-                                    backgroundImage: CachedNetworkImageProvider(
-                                      index == 0
-                                          ? podiumList[0]['profile']
-                                          : index == 1
-                                              ? podiumList[1]['profile']
-                                              : index == 2
-                                                  ? podiumList[2]['profile']
-                                                  : "",
-                                    ),
-                                  )),
-                            ),
-                            WidgetsUtil.verticalSpace20,
-                            SizedBox(
-                              width: 100,
-                              height: 20,
-                              child: TitleText(
-                                text: index == 0
-                                    ? podiumList[0]['name']!.isNotEmpty
-                                        ? podiumList[0]['name']!
-                                        : ""
-                                    : index == 1
-                                        ? podiumList[1]['name']!.isNotEmpty
-                                            ? podiumList[1]['name']!
-                                            : ""
-                                        : index == 2
-                                            ? podiumList[2]['name']!.isNotEmpty
-                                                ? podiumList[2]['name']!
-                                                : ""
-                                            : "",
-                                textColor: Constants.white,
-                                size: Constants.bodySmall,
-                                align: TextAlign.center,
-                                maxlines: 1,
+                                ],
                               ),
                             ),
-                            WidgetsUtil.verticalSpace4,
-                            index < 3
-                                ? _qpContainer(
-                                    Center(
-                                      child: TitleText(
-                                        text: index == 0
-                                            ? podiumList[0]['score']!.isNotEmpty
-                                                ? podiumList[0]['score']!
-                                                : ""
-                                            : index == 1
-                                                ? podiumList[1]['score']!
-                                                        .isNotEmpty
-                                                    ? podiumList[1]['score']!
-                                                    : ""
-                                                : index == 2
-                                                    ? podiumList[2]['score']!
-                                                            .isNotEmpty
-                                                        ? podiumList[2]
-                                                            ['score']!
-                                                        : ""
-                                                    : "",
-                                        size: Constants.bodyXSmall,
-                                        textColor: Constants.white,
-                                      ),
-                                    ),
-                                  )
-                                : const SizedBox(),
-                          ],
-                        )
-                      : const SizedBox(),
-                );
-              }),
+                          )
+                        : const SizedBox(),
+                  );
+                },
+              ),
               Positioned(
-                top: SizeConfig.screenHeight * 0.2,
+                top: SizeConfig.screenHeight * 0.156,
                 child: Align(
                   alignment: Alignment.topCenter,
                   child: SizedBox(
                     width: SizeConfig.screenWidth,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Expanded(
-                          flex: 2,
-                          child: SizedBox(),
-                        ),
-                        Expanded(
-                          flex: 5,
-                          child: Image.asset(
-                            Assets.rank2,
-                            fit: BoxFit.fill,
-                            height: SizeConfig.screenHeight * 0.29,
-                          ),
-                        ),
-                        Expanded(
-                          flex: 5,
-                          child: Image.asset(
-                            Assets.rank1,
-                            fit: BoxFit.fill,
-                            height: SizeConfig.screenHeight * 0.35,
-                          ),
-                        ),
-                        Expanded(
-                          flex: 5,
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 80),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 22),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // const Expanded(
+                          //   flex: 1,
+                          //   child: SizedBox(),
+                          // ),
+                          Expanded(
+                            flex: 5,
                             child: Image.asset(
-                              Assets.rank3,
+                              Assets.rank2,
                               fit: BoxFit.fill,
-                              height: SizeConfig.screenHeight * 0.3,
+                              width: SizeConfig.screenWidth * 0.15,
+                              height: SizeConfig.screenHeight * 0.29,
                             ),
                           ),
-                        ),
-                        const Expanded(
-                          flex: 2,
-                          child: const SizedBox(),
-                        ),
-                      ],
+                          Expanded(
+                            flex: 5,
+                            child: Image.asset(
+                              Assets.rank1,
+                              fit: BoxFit.fill,
+                              width: SizeConfig.screenWidth * 0.2,
+                              height: SizeConfig.screenHeight * 0.37,
+                            ),
+                          ),
+                          Expanded(
+                            flex: 5,
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 80),
+                              child: Image.asset(
+                                Assets.rank3,
+                                fit: BoxFit.fill,
+                                width: SizeConfig.screenWidth * 0.15,
+                                height: SizeConfig.screenHeight * 0.35,
+                              ),
+                            ),
+                          ),
+                          // const Expanded(
+                          //   flex: 1,
+                          //   child: SizedBox(),
+                          // ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -880,173 +860,464 @@ class _NewLeaderBoardScreenState extends State<NewLeaderBoardScreen> {
     );
   }
 
+  // final PanelController _panelController = PanelController();
+
+  // Widget leaderBoardList(List leaderBoardList, bool hasMore, {state}) {
+  //   List startsFromThree = [];
+  //   List startsFromZero = [];
+  //   List users = [];
+  //   // int index = 0;
+  //   int counterIndex = 0;
+  //   for (int i = 0; i < leaderBoardList.length; i++) {
+  //     startsFromZero.add(leaderBoardList[i]);
+  //     if (i >= 3) {
+  //       startsFromThree.add(leaderBoardList[i]);
+  //     }
+  //   }
+  //   if (isExpand) {
+  //     users = startsFromZero;
+  //   } else {
+  //     users = startsFromThree;
+  //   }
+  //   log(startsFromThree.length.toString());
+  //   // print("${users[3]}");
+  //   // log(draggable[""].toString());
+  //   // log('Draggable: ${draggable.length}   leaderboard : ${leaderBoardList.length}   ');
+  //   return ScrollablePanel(
+  //     onExpand: () {
+  //       setState(() {
+  //         isExpand = true;
+  //       });
+  //       // _panelController
+  //     },
+  //     controller: _panelController,
+  //     maxPanelSize: 0.5,
+  //     defaultPanelSize: 0.45,
+  //     minPanelSize: 0.45,
+  //     builder: (context, controller) {
+  //       controller.addListener(() {
+  //         scrollListener(controller);
+  //       });
+  //       // return SingleChildScrollView(
+  //       //   controller: controller,
+  //       //   child: Container(
+  //       //     color: Colors.pink,
+  //       //     height: SizeConfig.screenHeight,
+  //       //   ),
+  //       // );
+  //       return NotchedCard(
+  //         circleColor: Constants.grey5,
+  //         dotColor: isExpand
+  //             ? _dotColor = Constants.primaryColor
+  //             : Constants.primaryColor.withOpacity(0.3),
+  //         child: Container(
+  //           height: SizeConfig.screenHeight,
+  //           padding: const EdgeInsets.only(top: 10, right: 16, left: 16),
+  //           decoration: BoxDecoration(
+  //             color: Constants.grey5,
+  //             borderRadius: const BorderRadius.only(
+  //               topLeft: Radius.circular(20),
+  //               topRight: Radius.circular(20),
+  //             ),
+  //           ),
+  //           child: SingleChildScrollView(
+  //             controller: controller,
+  //             // physics: NeverScrollableScrollPhysics(),
+  //             child: Column(
+  //               // controller: controller,
+  //               // padding: EdgeInsets.zero,
+  //               // shrinkWrap: true,
+  //               children: [
+  //                 if (users.length < 2)
+  //                   Padding(
+  //                     padding: const EdgeInsets.only(
+  //                       top: 50,
+  //                     ),
+  //                     child: SizedBox(
+  //                       width: double.infinity,
+  //                       child: Center(
+  //                         child: TitleText(
+  //                           text: "No Users".toUpperCase(),
+  //                           weight: FontWeight.w500,
+  //                           size: Constants.heading2,
+  //                           textColor: Constants.grey1.withOpacity(0.2),
+  //                         ),
+  //                       ),
+  //                     ),
+  //                   )
+  //                 else
+  //                   ...List.generate(users.length, (index) {
+  //                     // (index % 21 == 0) ?   : index;
+  //                     if (hasMore && index == (leaderBoardList.length - 1)) {
+  //                       return Center(
+  //                         child: Padding(
+  //                           padding: const EdgeInsets.all(15),
+  //                           child: CircularProgressIndicator(
+  //                             color: Constants.primaryColor,
+  //                           ),
+  //                         ),
+  //                       );
+  //                     }
+  //                     // else if (!users[index].containsKey("name")) {
+  //                     //   return SizedBox();
+  //                     // }
+  //                     else if (index % 21 == 0) {
+  //                       // log(index.toString());
+  //                       return const SizedBox();
+  //                     }
+  //                     log("$index  index");
+  //                     return SizedBox(
+  //                       height: 85,
+  //                       child: Card(
+  //                         shape: RoundedRectangleBorder(
+  //                           borderRadius: BorderRadius.circular(20),
+  //                         ),
+  //                         elevation: 0,
+  //                         child: Padding(
+  //                           padding: const EdgeInsets.only(
+  //                             right: 10,
+  //                             left: 10,
+  //                           ),
+  //                           child: Row(
+  //                             children: [
+  //                               Expanded(
+  //                                   child: Container(
+  //                                 width: 25,
+  //                                 height: 25,
+  //                                 decoration: BoxDecoration(
+  //                                     border:
+  //                                         Border.all(color: Constants.grey4),
+  //                                     shape: BoxShape.circle),
+  //                                 child: Center(
+  //                                   child: TitleText(
+  //                                     text:
+  //                                         isExpand ? "$index" : "${index + 3}",
+  //                                     size: Constants.bodyXSmall,
+  //                                     textColor: Constants.grey2,
+  //                                   ),
+  //                                 ),
+  //                               )),
+  //                               Expanded(
+  //                                 flex: 8,
+  //                                 child: ListTile(
+  //                                     horizontalTitleGap: 16,
+  //                                     minVerticalPadding: 4,
+  //                                     leading: Badge(
+  //                                       toAnimate: false,
+  //                                       badgeContent: Image.asset(
+  //                                         index % 3 == 0
+  //                                             ? Assets.portugal
+  //                                             : index % 2 == 0
+  //                                                 ? Assets.turkey
+  //                                                 : Assets.france,
+  //                                         width: 20,
+  //                                         height: 20,
+  //                                       ),
+  //                                       position: BadgePosition.bottomEnd(),
+  //                                       badgeColor: Colors.transparent,
+  //                                       elevation: 0,
+  //                                       child: ClipOval(
+  //                                         clipBehavior: Clip.antiAlias,
+  //                                         child: CircleAvatar(
+  //                                           backgroundColor: Colors.transparent,
+  //                                           radius: 25,
+  //                                           child: CachedNetworkImage(
+  //                                             imageUrl:
+  //                                                 users[index]['profile'] ?? "",
+  //                                             placeholder: (url, string) {
+  //                                               return CircularProgressIndicator(
+  //                                                 color: Constants.primaryColor,
+  //                                               );
+  //                                             },
+  //                                             errorWidget: (_, __, ___) {
+  //                                               return Image.asset(
+  //                                                 Assets.person,
+  //                                                 width: 30,
+  //                                                 height: 30,
+  //                                               );
+  //                                             },
+  //                                             // placeholder: Image.asset(Assets.person),
+  //                                           ),
+  //                                         ),
+  //                                       ),
+  //                                     ),
+  //                                     title: TitleText(
+  //                                       maxlines: 1,
+  //                                       text: users[index]['name'] ?? "Player",
+  //                                       size: Constants.bodyNormal,
+  //                                       align: TextAlign.left,
+  //                                       weight: FontWeight.w500,
+  //                                     ),
+  //                                     subtitle: TitleText(
+  //                                       text:
+  //                                           '${users[index]['score'] ?? "0"} pts',
+  //                                       // ${AppLocalization.of(context)!.getTranslatedValues("points")!}',
+  //                                     ),
+  //                                     trailing: isExpand
+  //                                         ? index == 1
+  //                                             ? SvgPicture.asset(Assets.crown)
+  //                                             : index == 2
+  //                                                 ? SvgPicture.asset(
+  //                                                     Assets.silverCrown)
+  //                                                 : index == 3
+  //                                                     ? SvgPicture.asset(
+  //                                                         Assets.bronzeCrown)
+  //                                                     : const SizedBox()
+  //                                         : const SizedBox()),
+  //                               )
+  //                             ],
+  //                           ),
+  //                         ),
+  //                       ),
+  //                     );
+  //                   }),
+  //                 // ListView.builder(
+  //                 //   physics: const NeverScrollableScrollPhysics(),
+  //                 //   shrinkWrap: true,
+  //                 //   itemCount: users.length,
+  //                 //   itemBuilder: (context, index) {
+  //                 //   },
+  //                 // ),
+  //               ],
+  //             ),
+  //           ),
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
+
   Widget leaderBoardList(List leaderBoardList, bool hasMore, {state}) {
     List startsFromThree = [];
     List startsFromZero = [];
     List users = [];
 
-    for (int i = 0; i < leaderBoardList.length; i++) {
-      startsFromZero.add(leaderBoardList[i]);
-
-      if (i > 2) {
-        startsFromThree.add(leaderBoardList[i]);
-      }
-    }
-
-    if (isExpand) {
-      users = startsFromZero;
-    } else {
-      users = startsFromThree;
-    }
-    log(startsFromThree.length.toString());
+    // int index = 0;
     int counterIndex = 0;
+
+    // print("${users[3]}");
     // log(draggable[""].toString());
     // log('Draggable: ${draggable.length}   leaderboard : ${leaderBoardList.length}   ');
     return NotificationListener(
       onNotification: (DraggableScrollableNotification dSnotification) {
-        if (dSnotification.extent >= 1.0) {
-          setState(() {
-            isExpand = true;
-            log('IsExpand false running');
-          });
-        } else if (dSnotification.extent <= 0.45) {
-          setState(
-            () {
-              isExpand = false;
-              log('IsExpand true running');
-            },
-          );
+        double extent = dSnotification.extent;
+        String temp = extent.toStringAsFixed(2);
+        extent = double.parse(temp);
+        log("counte======r :${extent} ${dSnotification.extent}");
+
+        if (dSnotification.extent >= 0.95) {
+          isExpand = true;
+        } else if (dSnotification.extent <= 0.47) {
+          isExpand = false;
         }
-        return false;
+        // setState(() {});
+        return true;
       },
       child: DraggableScrollableSheet(
         snap: true,
-        initialChildSize: 0.45,
-        minChildSize: 0.45,
-        maxChildSize: 1.0,
+        initialChildSize: 0.44,
+        minChildSize: 0.44,
+        maxChildSize: 1,
+
+        // controller: controller,
         builder: (context, controller) {
           controller.addListener(() {
             scrollListener(controller);
           });
+          for (int i = 0; i < leaderBoardList.length; i++) {
+            if (!startsFromZero.contains(leaderBoardList[i])) {
+              startsFromZero.add(leaderBoardList[i]);
+            }
+
+            if (i >= 3 && !startsFromThree.contains(leaderBoardList[i])) {
+              startsFromThree.add(leaderBoardList[i]);
+            }
+          }
+
+          if (isExpand) {
+            users = startsFromZero;
+          } else {
+            users = startsFromThree;
+          }
+
+          log(startsFromThree.length.toString());
           return NotchedCard(
             circleColor: Constants.grey5,
+            dotColor: isExpand
+                ? _dotColor = Constants.primaryColor
+                : Constants.primaryColor.withOpacity(0.3),
             child: Container(
               height: SizeConfig.screenHeight,
               padding: const EdgeInsets.only(top: 10, right: 16, left: 16),
               decoration: BoxDecoration(
                 color: Constants.grey5,
                 borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
+                  topLeft: Radius.circular(25),
+                  topRight: Radius.circular(25),
                 ),
               ),
               child: ListView(
                 controller: controller,
+                padding: EdgeInsets.zero,
                 shrinkWrap: true,
+                // physics: NeverScrollableScrollPhysics(),
                 children: [
-                  if (users.isEmpty)
+                  if (users.length < 2)
                     Padding(
-                      padding: const EdgeInsets.only(top: 20),
+                      padding: const EdgeInsets.only(
+                        top: 50,
+                      ),
                       child: SizedBox(
                         width: double.infinity,
-                        child: Icon(
-                          Icons.group_add_outlined,
-                          size: 150,
-                          color: Constants.grey1.withOpacity(0.2),
+                        child: Center(
+                          child: TitleText(
+                            text: "No Users".toUpperCase(),
+                            weight: FontWeight.w500,
+                            size: Constants.heading2,
+                            textColor: Constants.grey1.withOpacity(0.2),
+                          ),
                         ),
                       ),
                     )
                   else
-                    ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: users.length,
-                      itemBuilder: (context, index) {
-                        if (hasMore && index == (leaderBoardList.length - 1)) {
-                          return Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(15),
-                              child: CircularProgressIndicator(
-                                color: Constants.primaryColor,
-                              ),
-                            ),
-                          );
-                        }
-                        // else if (!users[index].containsKey("name")) {
-                        //   return SizedBox();
-                        // }
-
-                        else if (index % 21 == 0) {
-                          // log(index.toString());
-                          return const SizedBox();
-                        }
-                        counterIndex++;
-                        return SizedBox(
-                          height: 100,
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            elevation: 0,
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                right: 16,
-                                left: 16,
-                              ),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    flex: 1,
-                                    child: CircleAvatar(
-                                      backgroundColor: Constants.black1,
-                                      radius: 60,
-                                      child: CircleAvatar(
-                                        radius: 40,
-                                        foregroundColor: Constants.grey2,
-                                        backgroundColor: Constants.white,
-                                        child: TitleText(
-                                          text: isExpand
-                                              ? ((counterIndex).toString())
-                                              : (counterIndex + 3).toString(),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    flex: 9,
-                                    child: ListTile(
-                                        leading: CircleAvatar(
-                                          backgroundColor: Colors.transparent,
-                                          backgroundImage: NetworkImage(
-                                              users[index]['profile'] ?? ""),
-                                        ),
-                                        title: TitleText(
-                                          text:
-                                              users[index]['name'] ?? "Player",
-                                        ),
-                                        subtitle: TitleText(
-                                          text:
-                                              '${users[index]['score'] ?? "0"}  points',
-                                        ),
-                                        trailing: isExpand
-                                            ? index == 1
-                                                ? SvgPicture.asset(Assets.crown)
-                                                : index == 2
-                                                    ? SvgPicture.asset(
-                                                        Assets.silverCrown)
-                                                    : index == 3
-                                                        ? SvgPicture.asset(
-                                                            Assets.bronzeCrown)
-                                                        : const SizedBox()
-                                            : const SizedBox()),
-                                  )
-                                ],
-                              ),
+                    ...List.generate(users.length, (index) {
+                      // (index % 21 == 0) ?   : index;
+                      if (hasMore && index == (leaderBoardList.length - 1)) {
+                        return Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(15),
+                            child: CircularProgressIndicator(
+                              color: Constants.primaryColor,
                             ),
                           ),
                         );
-                      },
-                    ),
+                      }
+                      // else if (!users[index].containsKey("name")) {
+                      //   return SizedBox();
+                      // }
+
+                      else if (index % 21 == 0) {
+                        // log(index.toString());
+
+                        return const SizedBox();
+                      }
+
+                      log("$index  index");
+                      return SizedBox(
+                        height: 85,
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          elevation: 0,
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              right: 10,
+                              left: 10,
+                            ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                    child: Container(
+                                  width: 25,
+                                  height: 25,
+                                  decoration: BoxDecoration(
+                                      border:
+                                          Border.all(color: Constants.grey4),
+                                      shape: BoxShape.circle),
+                                  child: Center(
+                                    child: TitleText(
+                                      text:
+                                          isExpand ? "$index" : "${index + 3}",
+                                      size: Constants.bodyXSmall,
+                                      textColor: Constants.grey2,
+                                    ),
+                                  ),
+                                )),
+                                Expanded(
+                                  flex: 8,
+                                  child: ListTile(
+                                      horizontalTitleGap: 16,
+                                      minVerticalPadding: 4,
+                                      leading: Badge(
+                                        toAnimate: false,
+                                        badgeContent: Image.asset(
+                                          index % 3 == 0
+                                              ? Assets.portugal
+                                              : index % 2 == 0
+                                                  ? Assets.turkey
+                                                  : Assets.france,
+                                          width: 20,
+                                          height: 20,
+                                        ),
+                                        position: BadgePosition.bottomEnd(),
+                                        badgeColor: Colors.transparent,
+                                        elevation: 0,
+                                        child: ClipOval(
+                                          clipBehavior: Clip.antiAlias,
+                                          child: CircleAvatar(
+                                            backgroundColor: Colors.transparent,
+                                            radius: 25,
+                                            child: CachedNetworkImage(
+                                              imageUrl:
+                                                  users[index]['profile'] ?? "",
+                                              placeholder: (url, string) {
+                                                return CircularProgressIndicator(
+                                                  color: Constants.primaryColor,
+                                                );
+                                              },
+                                              errorWidget: (_, __, ___) {
+                                                return Image.asset(
+                                                  Assets.person,
+                                                  width: 30,
+                                                  height: 30,
+                                                );
+                                              },
+                                              // placeholder: Image.asset(Assets.person),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      title: TitleText(
+                                        maxlines: 1,
+                                        text:
+                                            "${users[index]['name'] ?? "Player"}"
+                                                .titleCase,
+                                        size: Constants.bodyNormal,
+                                        align: TextAlign.left,
+                                        weight: FontWeight.w500,
+                                      ),
+                                      subtitle: TitleText(
+                                        text:
+                                            '${users[index]['score'] ?? "0"} PTS',
+                                        // ${AppLocalization.of(context)!.getTranslatedValues("points")!}',
+                                      ),
+                                      trailing: isExpand
+                                          ? index == 1
+                                              ? SvgPicture.asset(Assets.crown)
+                                              : index == 2
+                                                  ? SvgPicture.asset(
+                                                      Assets.silverCrown)
+                                                  : index == 3
+                                                      ? SvgPicture.asset(
+                                                          Assets.bronzeCrown)
+                                                      : const SizedBox()
+                                          : const SizedBox()),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
+                  // ListView.builder(
+                  //   physics: const NeverScrollableScrollPhysics(),
+                  //   shrinkWrap: true,
+                  //   itemCount: users.length,
+                  //   itemBuilder: (context, index) {
+
+                  //   },
+                  // ),
                 ],
               ),
             ),

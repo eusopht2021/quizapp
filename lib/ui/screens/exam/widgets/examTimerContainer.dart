@@ -1,11 +1,16 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutterquiz/utils/constants.dart';
 
 class ExamTimerContainer extends StatefulWidget {
   final int examDurationInMinutes;
   final Function navigateToResultScreen;
-  ExamTimerContainer({Key? key, required this.examDurationInMinutes, required this.navigateToResultScreen}) : super(key: key);
+  ExamTimerContainer(
+      {Key? key,
+      required this.examDurationInMinutes,
+      required this.navigateToResultScreen})
+      : super(key: key);
 
   @override
   ExamTimerContainerState createState() => ExamTimerContainerState();
@@ -52,9 +57,13 @@ class ExamTimerContainerState extends State<ExamTimerContainer> {
 
   @override
   Widget build(BuildContext context) {
-    String hours = (minutesLeft ~/ 60).toString().length == 1 ? "0${(minutesLeft ~/ 60)}" : (minutesLeft ~/ 60).toString();
+    String hours = (minutesLeft ~/ 60).toString().length == 1
+        ? "0${(minutesLeft ~/ 60)}"
+        : (minutesLeft ~/ 60).toString();
 
-    String minutes = (minutesLeft % 60).toString().length == 1 ? "0${(minutesLeft % 60)}" : (minutesLeft % 60).toString();
+    String minutes = (minutesLeft % 60).toString().length == 1
+        ? "0${(minutesLeft % 60)}"
+        : (minutesLeft % 60).toString();
     hours = hours == "00" ? "" : hours;
 
     String seconds = secondsLeft < 10 ? "0$secondsLeft" : "$secondsLeft";
@@ -64,7 +73,7 @@ class ExamTimerContainerState extends State<ExamTimerContainer> {
         hours.isEmpty ? "$minutes:$seconds" : "$hours:$minutes:$seconds",
         textAlign: TextAlign.center,
         style: TextStyle(
-          color: Theme.of(context).primaryColor,
+          color: Constants.white,
         ),
       ),
     );

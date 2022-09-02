@@ -196,9 +196,8 @@ class _BattleRoomFindOpponentScreenState
           children: [
             //
             Container(
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Theme.of(context).primaryColor),
+              decoration:
+                  BoxDecoration(shape: BoxShape.circle, color: Constants.white),
               height: MediaQuery.of(context).size.height * (0.15),
             ),
             CircularImageContainer(
@@ -217,8 +216,7 @@ class _BattleRoomFindOpponentScreenState
             name,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-                color: Theme.of(context).primaryColor, fontSize: 18.0),
+            style: TextStyle(color: Constants.white, fontSize: 18.0),
           ),
         )
       ],
@@ -250,16 +248,15 @@ class _BattleRoomFindOpponentScreenState
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle, color: Constants.white),
+                  height: MediaQuery.of(context).size.height * (0.15),
                   child: Center(
                     child: Icon(
                       Icons.error,
-                      color: Theme.of(context).backgroundColor,
+                      color: Constants.white,
                     ),
                   ),
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Theme.of(context).primaryColor),
-                  height: MediaQuery.of(context).size.height * (0.15),
                 ),
                 const SizedBox(
                   height: 2.5,
@@ -271,8 +268,7 @@ class _BattleRoomFindOpponentScreenState
                     "....",
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        color: Theme.of(context).primaryColor, fontSize: 18.0),
+                    style: TextStyle(color: Constants.white, fontSize: 18.0),
                   ),
                 )
               ],
@@ -302,8 +298,7 @@ class _BattleRoomFindOpponentScreenState
                   "....",
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      color: Theme.of(context).primaryColor, fontSize: 18.0),
+                  style: TextStyle(color: Constants.white, fontSize: 18.0),
                 ),
               )
             ],
@@ -338,7 +333,7 @@ class _BattleRoomFindOpponentScreenState
                           AppLocalization.of(context)!
                               .getTranslatedValues('findingOpponentLbl')!,
                           style: TextStyle(
-                            color: Theme.of(context).primaryColor,
+                            color: Constants.white,
                             fontSize: 20.0,
                             fontWeight: FontWeight.bold,
                           ),
@@ -348,7 +343,7 @@ class _BattleRoomFindOpponentScreenState
                         AppLocalization.of(context)!
                             .getTranslatedValues('foundOpponentLbl')!,
                         style: TextStyle(
-                          color: Theme.of(context).primaryColor,
+                          color: Constants.white,
                           fontSize: 20.0,
                           fontWeight: FontWeight.bold,
                         ),
@@ -395,7 +390,7 @@ class _BattleRoomFindOpponentScreenState
     return Align(
         key: const Key("userFound"),
         alignment: Alignment.topCenter,
-        child: Container(
+        child: SizedBox(
           height: MediaQuery.of(context).size.height * (0.6),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -405,7 +400,7 @@ class _BattleRoomFindOpponentScreenState
                 AppLocalization.of(context)!
                     .getTranslatedValues('getReadyLbl')!,
                 style: TextStyle(
-                  color: Theme.of(context).primaryColor,
+                  color: Constants.white,
                   fontSize: 25,
                 ),
               ),
@@ -419,7 +414,7 @@ class _BattleRoomFindOpponentScreenState
                               .getTranslatedValues('bestOfLuckLbl')!
                           : "${quizCountDownAnimation.value}",
                       style: TextStyle(
-                        color: Theme.of(context).primaryColor,
+                        color: Constants.white,
                         fontSize: 40,
                         fontWeight: FontWeight.bold,
                       ),
@@ -437,7 +432,7 @@ class _BattleRoomFindOpponentScreenState
     return Align(
       alignment: Alignment.topCenter,
       key: const Key("userNotFound"),
-      child: Container(
+      child: SizedBox(
         height: MediaQuery.of(context).size.height * (0.6),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -448,7 +443,7 @@ class _BattleRoomFindOpponentScreenState
                   .getTranslatedValues('opponentNotFoundLbl')!,
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: Theme.of(context).primaryColor,
+                color: Constants.white,
                 fontSize: 25,
               ),
             ),
@@ -459,13 +454,13 @@ class _BattleRoomFindOpponentScreenState
                     children: [
                       CustomRoundedButton(
                         widthPercentage: 0.375,
-                        backgroundColor: Theme.of(context).primaryColor,
+                        backgroundColor: Constants.primaryColor,
                         buttonTitle: AppLocalization.of(context)!
                             .getTranslatedValues('retryLbl')!,
                         radius: 5,
                         showBorder: false,
                         height: 40,
-                        titleColor: Theme.of(context).backgroundColor,
+                        titleColor: Constants.white,
                         elevation: 5.0,
                         onTap: () {
                           retryToSearchBattleRoom();
@@ -473,12 +468,12 @@ class _BattleRoomFindOpponentScreenState
                       ),
                       CustomRoundedButton(
                         widthPercentage: 0.375,
-                        backgroundColor: Theme.of(context).primaryColor,
+                        backgroundColor: Constants.white,
                         buttonTitle: "Back",
                         radius: 5,
                         showBorder: false,
                         height: 40,
-                        titleColor: Theme.of(context).backgroundColor,
+                        titleColor: Constants.primaryColor,
                         elevation: 5.0,
                         onTap: () {
                           Navigator.pop(context);
@@ -488,13 +483,13 @@ class _BattleRoomFindOpponentScreenState
                   )
                 : CustomRoundedButton(
                     widthPercentage: 0.375,
-                    backgroundColor: Theme.of(context).primaryColor,
+                    backgroundColor: Constants.primaryColor,
                     buttonTitle: AppLocalization.of(context)!
                         .getTranslatedValues('retryLbl')!,
                     radius: 5,
                     showBorder: false,
                     height: 40,
-                    titleColor: Theme.of(context).backgroundColor,
+                    titleColor: Constants.white,
                     elevation: 5.0,
                     onTap: () {
                       retryToSearchBattleRoom();
@@ -521,7 +516,7 @@ class _BattleRoomFindOpponentScreenState
                 showBackButton: true,
                 errorMessage: AppLocalization.of(context)!.getTranslatedValues(
                     convertErrorCodeToLanguageKey(state.errorMessageCode))!,
-                errorMessageColor: Theme.of(context).primaryColor,
+                errorMessageColor: Constants.primaryColor,
                 onTapRetry: () {
                   retryToSearchBattleRoom();
                 },
@@ -599,7 +594,7 @@ class _BattleRoomFindOpponentScreenState
                         },
                       ));
             },
-            iconColor: Theme.of(context).colorScheme.secondary),
+            iconColor: Constants.white),
       ),
     );
   }
@@ -627,6 +622,7 @@ class _BattleRoomFindOpponentScreenState
         return Future.value(false);
       },
       child: Scaffold(
+        backgroundColor: Constants.secondaryColor,
         body: BlocListener<BattleRoomCubit, BattleRoomState>(
           bloc: context.read<BattleRoomCubit>(),
           listener: (context, state) async {
@@ -650,7 +646,7 @@ class _BattleRoomFindOpponentScreenState
           },
           child: Stack(
             children: [
-              const PageBackgroundGradientContainer(),
+              // const PageBackgroundGradientContainer(),
               _buildFindingOpponentMapDetails(),
               _buildPlayersDetails(),
               _buildFindingOpponentStatus(),

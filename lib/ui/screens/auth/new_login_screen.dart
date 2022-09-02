@@ -37,84 +37,95 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<SignInCubit>(
-      create: (_) => SignInCubit(
-        AuthRepository(),
-      ),
-      child: Builder(
-        builder: (context) => DefaultLayout(
-          title:
-              AppLocalization.of(context)!.getTranslatedValues('userLoginLbl')!,
-          child: SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  SizedBox(height: 85, child: _showGoogleButton()),
-                  SizedBox(height: 75, child: _showFacebookButton()),
-                  CustomDivider(
-                    text:
-                        AppLocalization.of(context)!.getTranslatedValues('or')!,
-                    verticalMargin: 24,
-                  ),
-                  WidgetsUtil.verticalSpace24,
-                  CustomTextField(
-                    controller: edtEmail,
-                    keyboardtype: TextInputType.emailAddress,
-                    label: AppLocalization.of(context)!
-                        .getTranslatedValues('emailFldLbl')!,
-                    textInputType: TextInputType.emailAddress,
-                    hint:
-                        "${AppLocalization.of(context)!.getTranslatedValues('emailLbl')!}*",
-                    validator: (val) => Validators.validateEmail(
-                      val!,
-                      AppLocalization.of(context)!
-                          .getTranslatedValues('emailRequiredMsg')!,
-                      AppLocalization.of(context)!
-                          .getTranslatedValues('VALID_EMAIL'),
+    return WillPopScope(
+      onWillPop: () async {
+        return true;
+      },
+      child: BlocProvider<SignInCubit>(
+        create: (_) => SignInCubit(
+          AuthRepository(),
+        ),
+        child: Builder(
+          builder: (context) => DefaultLayout(
+            title: AppLocalization.of(context)!
+                .getTranslatedValues('userLoginLbl')!,
+            child: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 85,
+                      child: _showGoogleButton(),
                     ),
-                    prefixIcon: Assets.mail,
-                  ),
-                  WidgetsUtil.verticalSpace16,
-                  CustomTextField(
-                    controller: edtPwd,
-                    hidetext: _obscureText,
-                    obscuringCharacter: "*",
-                    validator: (val) => val!.isEmpty
-                        ? '${AppLocalization.of(context)!.getTranslatedValues('pwdLengthMsg')}'
-                        : null,
-                    label: AppLocalization.of(context)!
-                        .getTranslatedValues('pwdLbl')!,
-                    hint:
-                        "${AppLocalization.of(context)!.getTranslatedValues('pwdLbl')!}*",
-                    prefixIcon: Assets.password,
-                    suffixIcon: _obscureText ? Assets.eye : Assets.closeEye,
-                    onSuffixTap: () {
-                      setState(() {
-                        _obscureText = !_obscureText;
-                      });
-
-                      log('Suffix');
-                    },
-                  ),
-                  showSignIn(context),
-                  WidgetsUtil.verticalSpace24,
-                  InkWell(
-                    onTap: () {
-                      Navigator.of(context).pushNamed(Routes.resetpswdScreen);
-                    },
-                    child: TitleText(
+                    SizedBox(
+                      height: 75,
+                      child: _showFacebookButton(),
+                    ),
+                    CustomDivider(
                       text: AppLocalization.of(context)!
-                          .getTranslatedValues('forgotPwdLbl')!,
-                      size: Constants.bodyNormal,
-                      textColor: Constants.primaryColor,
-                      weight: FontWeight.w500,
+                          .getTranslatedValues('or')!,
+                      verticalMargin: 24,
                     ),
-                  ),
-                  WidgetsUtil.verticalSpace24,
-                  const Terms(),
-                  WidgetsUtil.verticalSpace24,
-                ],
+                    WidgetsUtil.verticalSpace24,
+                    CustomTextField(
+                      controller: edtEmail,
+                      keyboardtype: TextInputType.emailAddress,
+                      label: AppLocalization.of(context)!
+                          .getTranslatedValues('emailFldLbl')!,
+                      textInputType: TextInputType.emailAddress,
+                      hint:
+                          "${AppLocalization.of(context)!.getTranslatedValues('emailLbl')!}*",
+                      validator: (val) => Validators.validateEmail(
+                        val!,
+                        AppLocalization.of(context)!
+                            .getTranslatedValues('emailRequiredMsg')!,
+                        AppLocalization.of(context)!
+                            .getTranslatedValues('VALID_EMAIL'),
+                      ),
+                      prefixIcon: Assets.mail,
+                    ),
+                    WidgetsUtil.verticalSpace16,
+                    CustomTextField(
+                      controller: edtPwd,
+                      hidetext: _obscureText,
+                      obscuringCharacter: "●",
+                      validator: (val) => val!.isEmpty
+                          ? '${AppLocalization.of(context)!.getTranslatedValues('pwdLengthMsg')}'
+                          : null,
+                      label: AppLocalization.of(context)!
+                          .getTranslatedValues('pwdLbl')!,
+                      hint:
+                          "${AppLocalization.of(context)!.getTranslatedValues('pwdLbl')!}*",
+                      prefixIcon: Assets.password,
+                      suffixIcon: _obscureText ? Assets.eye : Assets.closeEye,
+                      onSuffixTap: () {
+                        setState(() {
+                          _obscureText = !_obscureText;
+                        });
+
+                        log('Suffix');
+                      },
+                    ),
+                    showSignIn(context),
+                    WidgetsUtil.verticalSpace24,
+                    InkWell(
+                      onTap: () {
+                        Navigator.of(context).pushNamed(Routes.resetpswdScreen);
+                      },
+                      child: TitleText(
+                        text: AppLocalization.of(context)!
+                            .getTranslatedValues('forgotPwdLbl')!,
+                        size: Constants.bodyNormal,
+                        textColor: Constants.primaryColor,
+                        weight: FontWeight.w500,
+                      ),
+                    ),
+                    WidgetsUtil.verticalSpace24,
+                    const Terms(),
+                    WidgetsUtil.verticalSpace24,
+                  ],
+                ),
               ),
             ),
           ),
@@ -126,6 +137,7 @@ class _LoginState extends State<Login> {
   Widget _showGoogleButton() {
     return BlocConsumer<SignInCubit, SignInState>(
       listener: (context, state) {
+        //Exceuting only if authProvider is not email
         if (state is SignInSuccess &&
             state.authProvider != AuthProvider.email) {
           context.read<AuthCubit>().updateAuthDetails(
@@ -142,18 +154,17 @@ class _LoginState extends State<Login> {
             //get user detials of signed in user
             context.read<UserDetailsCubit>().fetchUserDetails(state.user.uid);
             //updateFcm id
-            log(state.user.uid);
-            Navigator.of(context).pushNamedAndRemoveUntil(
-                Routes.loginScreen, (Route<dynamic> route) => false);
+            print(state.user.uid);
+            Navigator.of(context)
+                .pushReplacementNamed(Routes.home, arguments: false);
           }
         } else if (state is SignInFailure &&
             state.authProvider != AuthProvider.email) {
           UiUtils.setSnackbar(
-            AppLocalization.of(context)!.getTranslatedValues(
-                convertErrorCodeToLanguageKey(state.errorMessage))!,
-            context,
-            false,
-          );
+              AppLocalization.of(context)!.getTranslatedValues(
+                  convertErrorCodeToLanguageKey(state.errorMessage))!,
+              context,
+              false);
         }
       },
       builder: (context, state) {

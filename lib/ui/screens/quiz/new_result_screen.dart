@@ -183,6 +183,7 @@ class _NewResultScreenState extends State<NewResultScreen> {
   double accuracy = 0;
   int correctAnswers = 0;
   bool _displayedAlreadyLoggedInDailog = false;
+  List exams = [];
 
   @override
   void initState() {
@@ -217,6 +218,8 @@ class _NewResultScreenState extends State<NewResultScreen> {
       _updateScoreAndCoinsDetails();
       _updateStatistics();
     });
+
+    log("IS PLAYED ${widget.isPlayed}");
   }
 
   void _updateStatistics() {
@@ -705,13 +708,10 @@ class _NewResultScreenState extends State<NewResultScreen> {
     return widget.questions!.length;
   }
 
-  Widget _buildGreetingMessage(String title, String message) {
+  Widget _buildGreetingMessage({String? title, String? message}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const SizedBox(
-          height: 15.0,
-        ),
         Platform.isIOS
             ? Stack(
                 children: [
@@ -732,7 +732,7 @@ class _NewResultScreenState extends State<NewResultScreen> {
                               border: Border.all(color: Colors.transparent)),
                           child: Icon(
                             Icons.arrow_back_ios,
-                            color: Theme.of(context).backgroundColor,
+                            color: Theme.of(context).primaryColor,
                           ),
                         ),
                       ),
@@ -740,25 +740,20 @@ class _NewResultScreenState extends State<NewResultScreen> {
                   ),
                   Container(
                     alignment: Alignment.center,
-                    child: Text(
-                      message,
-                      style: TextStyle(
-                        fontSize: 19.0,
-                        color: Theme.of(context).backgroundColor,
-                      ),
+                    child: TitleText(
+                      text: message!,
+                      size: Constants.bodyXLarge,
+                      textColor: Constants.white,
                     ),
                   ),
                 ],
               )
             : Container(
                 alignment: Alignment.center,
-                child: Text(
-                  message,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 19.0,
-                    color: Theme.of(context).backgroundColor,
-                  ),
+                child: TitleText(
+                  text: message!,
+                  size: Constants.bodyXLarge,
+                  textColor: Constants.white,
                 ),
               ),
         const SizedBox(
@@ -767,13 +762,11 @@ class _NewResultScreenState extends State<NewResultScreen> {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 5.0),
           alignment: Alignment.center,
-          child: Text(
-            title,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 25.0 * MediaQuery.of(context).textScaleFactor * 1.25,
-              color: Theme.of(context).backgroundColor,
-            ),
+          child: TitleText(
+            text: title!,
+            size: Constants.bodyNormal,
+            textColor: Constants.white,
+            weight: FontWeight.w500,
           ),
         ),
       ],
@@ -813,16 +806,21 @@ class _NewResultScreenState extends State<NewResultScreen> {
           Assets.fireworks,
         ),
         WidgetsUtil.verticalSpace24,
-        TitleText(
-          text: _isWinner
-              ? "You got +${widget.myPoints} Points"
-              : "You did not get Points",
-          textColor: Constants.white,
-          size: 16,
-          weight: FontWeight.w500,
-        ),
-        WidgetsUtil.verticalSpace24,
-        newReviewAnswersButton(),
+
+        widget.quizType == QuizTypes.exam
+            ? const SizedBox()
+            : TitleText(
+                text: _isWinner
+                    ? "You got  +${widget.myPoints} Quiz Points"
+                    : "You did not get Points",
+                textColor: Constants.white,
+                size: 16,
+                weight: FontWeight.w500,
+              ),
+        // WidgetsUtil.verticalSpace10,
+        widget.quizType == QuizTypes.exam
+            ? const SizedBox()
+            : newReviewAnswersButton(),
         _buildPlayAgainButton()
       ],
     );
@@ -868,38 +866,34 @@ class _NewResultScreenState extends State<NewResultScreen> {
                 children: [
                   _winnerId!.isEmpty
                       ? _buildGreetingMessage(
-                          AppLocalization.of(context)!
+                          title: AppLocalization.of(context)!
                               .getTranslatedValues("matchDrawLbl")!,
-                          AppLocalization.of(context)!
-                              .getTranslatedValues("congratulationsLbl")!)
+                          message: "")
                       : _isWinner
                           ? _buildGreetingMessage(
-                              AppLocalization.of(context)!
+                              title: AppLocalization.of(context)!
                                   .getTranslatedValues("victoryLbl")!,
-                              AppLocalization.of(context)!
-                                  .getTranslatedValues("congratulationsLbl")!)
+                              message: "")
                           : _buildGreetingMessage(
-                              AppLocalization.of(context)!
+                              title: AppLocalization.of(context)!
                                   .getTranslatedValues("defeatLbl")!,
-                              AppLocalization.of(context)!
-                                  .getTranslatedValues("betterNextLbl")!),
+                              message: ""),
                   context.read<UserDetailsCubit>().getUserId() == _winnerId
                       ? Text(
                           "${AppLocalization.of(context)!.getTranslatedValues("youWin")!} ${widget.entryFee} ${AppLocalization.of(context)!.getTranslatedValues("coinsLbl")!}",
-                          style: TextStyle(
-                              fontSize: 17.0,
-                              color: Theme.of(context).backgroundColor),
+                          style:
+                              TextStyle(fontSize: 17.0, color: Constants.white),
                         )
                       : Text(
                           "${AppLocalization.of(context)!.getTranslatedValues("youLossLbl")!} ${widget.entryFee} ${AppLocalization.of(context)!.getTranslatedValues("coinsLbl")!}",
-                          style: TextStyle(
-                              fontSize: 17.0,
-                              color: Theme.of(context).backgroundColor),
+                          style:
+                              TextStyle(fontSize: 17.0, color: Constants.white),
                         ),
-                  SizedBox(
-                    height:
-                        constraints.maxHeight * verticalSpacePercentage - 10.2,
-                  ),
+                  // SizedBox(
+                  //   height:
+                  //       constraints.maxHeight * verticalSpacePercentage - 10.2,
+                  // ),
+                  WidgetsUtil.verticalSpace20,
                   _winnerId!.isEmpty
                       ? Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -915,8 +909,7 @@ class _NewResultScreenState extends State<NewResultScreen> {
                                         children: [
                                           Center(
                                             child: CircleAvatar(
-                                              radius: constraints.maxHeight *
-                                                  (profileRadiusPercentage),
+                                              radius: 50,
                                               backgroundImage:
                                                   CachedNetworkImageProvider(
                                                       widget.battleRoom!.user1!
@@ -934,15 +927,13 @@ class _NewResultScreenState extends State<NewResultScreen> {
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 4.0, horizontal: 5.0),
                                     decoration: BoxDecoration(
-                                      color: Theme.of(context).backgroundColor,
+                                      color: Constants.white,
                                       borderRadius: BorderRadius.circular(5.0),
                                     ),
                                     width: constraints.maxWidth * (0.3),
                                     child: Text(
                                       widget.battleRoom!.user1!.name,
-                                      style: TextStyle(
-                                          color:
-                                              Theme.of(context).primaryColor),
+                                      style: TextStyle(color: Constants.black1),
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       textAlign: TextAlign.center,
@@ -954,12 +945,21 @@ class _NewResultScreenState extends State<NewResultScreen> {
                                   Container(
                                     width: constraints.maxWidth * (0.3),
                                     padding: const EdgeInsets.only(left: 10),
-                                    child: Text(
-                                      AppLocalization.of(context)!
-                                          .getTranslatedValues("winnerLbl")!,
-                                      style: TextStyle(
-                                          color: Theme.of(context)
-                                              .backgroundColor),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          AppLocalization.of(context)!
+                                              .getTranslatedValues(
+                                                  "winnerLbl")!,
+                                          style:
+                                              TextStyle(color: Constants.white),
+                                        ),
+                                        Text(
+                                          "${winnerDetails!.points} points",
+                                          style:
+                                              TextStyle(color: Constants.white),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ],
@@ -972,8 +972,7 @@ class _NewResultScreenState extends State<NewResultScreen> {
                                     children: [
                                       Center(
                                         child: CircleAvatar(
-                                          radius: constraints.maxHeight *
-                                              (profileRadiusPercentage),
+                                          radius: 50,
                                           backgroundImage:
                                               CachedNetworkImageProvider(widget
                                                   .battleRoom!
@@ -990,15 +989,13 @@ class _NewResultScreenState extends State<NewResultScreen> {
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 4.0, horizontal: 5.0),
                                     decoration: BoxDecoration(
-                                      color: Theme.of(context).backgroundColor,
+                                      color: Constants.white,
                                       borderRadius: BorderRadius.circular(5.0),
                                     ),
                                     width: constraints.maxWidth * (0.3),
                                     child: Text(
                                       widget.battleRoom!.user2!.name,
-                                      style: TextStyle(
-                                          color:
-                                              Theme.of(context).primaryColor),
+                                      style: TextStyle(color: Constants.black1),
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       textAlign: TextAlign.center,
@@ -1010,12 +1007,21 @@ class _NewResultScreenState extends State<NewResultScreen> {
                                   Container(
                                     width: constraints.maxWidth * (0.3),
                                     padding: const EdgeInsets.only(left: 10),
-                                    child: Text(
-                                      AppLocalization.of(context)!
-                                          .getTranslatedValues("winnerLbl")!,
-                                      style: TextStyle(
-                                          color: Theme.of(context)
-                                              .backgroundColor),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          AppLocalization.of(context)!
+                                              .getTranslatedValues(
+                                                  "winnerLbl")!,
+                                          style:
+                                              TextStyle(color: Constants.white),
+                                        ),
+                                        Text(
+                                          "${looserDetails!.points} points",
+                                          style:
+                                              TextStyle(color: Constants.white),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ],
@@ -1035,8 +1041,7 @@ class _NewResultScreenState extends State<NewResultScreen> {
                                   children: [
                                     Center(
                                       child: CircleAvatar(
-                                        radius: constraints.maxHeight *
-                                            (profileRadiusPercentage),
+                                        radius: 50,
                                         backgroundImage:
                                             CachedNetworkImageProvider(
                                                 winnerDetails!.profileUrl),
@@ -1051,14 +1056,14 @@ class _NewResultScreenState extends State<NewResultScreen> {
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 4.0, horizontal: 5.0),
                                   decoration: BoxDecoration(
-                                    color: Theme.of(context).backgroundColor,
+                                    color: Constants.white,
                                     borderRadius: BorderRadius.circular(5.0),
                                   ),
                                   width: constraints.maxWidth * (0.3),
                                   child: Text(
                                     winnerDetails.name,
                                     style: TextStyle(
-                                      color: Theme.of(context).primaryColor,
+                                      color: Constants.black1,
                                     ),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
@@ -1075,104 +1080,81 @@ class _NewResultScreenState extends State<NewResultScreen> {
                                   child: Text(
                                     AppLocalization.of(context)!
                                         .getTranslatedValues("winnerLbl")!,
-                                    style: TextStyle(
-                                        color:
-                                            Theme.of(context).backgroundColor),
+                                    style: TextStyle(color: Constants.white),
                                   ),
+                                ),
+                                Text(
+                                  "${winnerDetails.points} points",
+                                  style: TextStyle(color: Constants.white),
                                 ),
                               ],
                             ),
                             const Spacer(),
-                            Transform.translate(
-                              offset: Offset(0.0, translateOffsetdy),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Stack(
-                                    alignment: Alignment.center,
-                                    children: [
-                                      Center(
-                                        child: CircleAvatar(
-                                          radius: constraints.maxHeight *
-                                              (looserProfileRadiusPercentage),
-                                          backgroundImage:
-                                              CachedNetworkImageProvider(
-                                                  looserDetails!.profileUrl),
-                                        ),
+                            // WidgetsUtil.verticalSpace16,
+                            // Transform.translate(
+                            //   offset: Offset(0.0, translateOffsetdy),
+                            //   child:
+
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    Center(
+                                      child: CircleAvatar(
+                                        radius: 50,
+                                        //constraints.maxHeight *
+                                        //   (looserProfileRadiusPercentage),
+                                        backgroundImage:
+                                            CachedNetworkImageProvider(
+                                                looserDetails!.profileUrl),
                                       ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: nameAndProfileSizedBoxHeight,
-                                  ),
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 4.0, horizontal: 5.0),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5.0),
-                                      color: Theme.of(context).backgroundColor,
                                     ),
-                                    width: constraints.maxWidth * (0.3),
-                                    child: Text(
-                                      looserDetails.name,
-                                      textAlign: TextAlign.center,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          color:
-                                              Theme.of(context).primaryColor),
-                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: nameAndProfileSizedBoxHeight,
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 4.0, horizontal: 5.0),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5.0),
+                                    color: Constants.white,
                                   ),
-                                  const SizedBox(
-                                    height: 2.0,
+                                  width: constraints.maxWidth * (0.3),
+                                  child: Text(
+                                    looserDetails.name,
+                                    textAlign: TextAlign.center,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(color: Constants.black1),
                                   ),
-                                  Container(
-                                    width: constraints.maxWidth * (0.3),
-                                    padding: const EdgeInsetsDirectional.only(
-                                        start: 10),
-                                    child: Text(
-                                      AppLocalization.of(context)!
-                                          .getTranslatedValues("looserLbl")!,
-                                      style: TextStyle(
-                                          color: Theme.of(context)
-                                              .backgroundColor),
-                                    ),
+                                ),
+                                const SizedBox(
+                                  height: 2.0,
+                                ),
+                                Container(
+                                  width: constraints.maxWidth * (0.3),
+                                  padding: const EdgeInsetsDirectional.only(
+                                      start: 10),
+                                  child: Text(
+                                    AppLocalization.of(context)!
+                                        .getTranslatedValues("looserLbl")!,
+                                    style: TextStyle(color: Constants.white),
                                   ),
-                                ],
-                              ),
+                                ),
+                                Text(
+                                  "${looserDetails.points} points",
+                                  style: TextStyle(color: Constants.white),
+                                ),
+                              ],
                             ),
-                            const SizedBox(
-                              width: 20.0,
-                            ),
+                            // ),
                           ],
                         ),
                   const Spacer(),
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                        vertical: constraints.maxHeight <
-                                UiUtils.profileHeightBreakPointResultScreen
-                            ? 7.5
-                            : 15.0),
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).backgroundColor,
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    width: constraints.maxWidth * (0.8),
-                    child: Text(
-                      "${winnerDetails!.points}:${looserDetails!.points}",
-                      style: TextStyle(
-                          fontSize: 17.5,
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).primaryColor),
-                    ),
-                  ),
-                  SizedBox(
-                    height: constraints.maxHeight <
-                            UiUtils.profileHeightBreakPointResultScreen
-                        ? 10.0
-                        : 20.0,
-                  ),
                 ],
               );
             },
@@ -1197,7 +1179,11 @@ class _NewResultScreenState extends State<NewResultScreen> {
     return Screenshot(
       controller: screenshotController,
       child: Container(
-        // height: MediaQuery.of(context).size.height * (0.575),
+        height: widget.quizType == QuizTypes.exam
+            ? SizeConfig.screenHeight * 0.4
+            : widget.quizType == QuizTypes.battle
+                ? SizeConfig.screenHeight * 0.45
+                : SizeConfig.screenHeight * 0.55,
         width: SizeConfig.screenWidth,
         margin: const EdgeInsets.all(
           24,
@@ -1439,7 +1425,8 @@ class _NewResultScreenState extends State<NewResultScreen> {
                               child: Text(
                                 AppLocalization.of(context)!
                                     .getTranslatedValues(continueLbl)!,
-                                style: TextStyle(color: Constants.primaryColor),
+                                style: TextStyle(
+                                    color: Theme.of(context).primaryColor),
                               )),
                           TextButton(
                               onPressed: () {
@@ -1448,7 +1435,8 @@ class _NewResultScreenState extends State<NewResultScreen> {
                               child: Text(
                                 AppLocalization.of(context)!
                                     .getTranslatedValues(cancelButtonKey)!,
-                                style: TextStyle(color: Constants.primaryColor),
+                                style: TextStyle(
+                                    color: Theme.of(context).primaryColor),
                               )),
                         ],
                         content: Text(
@@ -1777,13 +1765,13 @@ class _NewResultScreenState extends State<NewResultScreen> {
                 width: 56,
                 decoration: BoxDecoration(
                   border: Border.all(
-                    color: Constants.primaryColor.withOpacity(0.2),
+                    color: Theme.of(context).primaryColor.withOpacity(0.2),
                   ),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Icon(
                   Icons.share_outlined,
-                  color: Constants.primaryColor,
+                  color: Theme.of(context).primaryColor,
                 ),
               ),
             ),
@@ -1928,40 +1916,35 @@ class _NewResultScreenState extends State<NewResultScreen> {
             automaticallyImplyLeading: false,
             elevation: 0,
             centerTitle: true,
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Spacer(
-                  flex: 2,
-                ),
-                TitleText(
-                  text: _isWinner ? "Congratulations" : "Defeat",
-                  textColor: Constants.black1,
-                  size: 24,
-                  weight: FontWeight.w500,
-                ),
-                const Spacer(),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, Routes.home, (route) => true);
-                    },
-                    child: Icon(
-                      Icons.close,
-                      color: Constants.black1,
-                      size: 30,
-                    ),
+            title: TitleText(
+              text: widget.quizType == QuizTypes.exam
+                  ? "Congratulations"
+                  : _isWinner
+                      ? "Congratulations"
+                      : "Defeat",
+              textColor: Constants.black1,
+              weight: FontWeight.w500,
+              size: Constants.heading3,
+            ),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, Routes.home, (route) => true);
+                  },
+                  icon: Icon(
+                    Icons.close,
+                    color: Constants.black1,
+                    size: 30,
                   ),
                 ),
-              ],
-            ),
+              )
+            ],
           ),
           backgroundColor: Constants.white,
           body: SingleChildScrollView(
-            padding: EdgeInsets.zero,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -1971,192 +1954,340 @@ class _NewResultScreenState extends State<NewResultScreen> {
                   ),
                 ),
                 WidgetsUtil.verticalSpace20,
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TitleText(
-                        text: "Accuration Answer",
-                        weight: FontWeight.w500,
-                        size: Constants.bodyXSmall,
-                      ),
-                      WidgetsUtil.verticalSpace16,
-                      SizedBox(
-                        height: 130,
-                        width: double.infinity,
-                        child: LineChart(
-                          LineChartData(
-                            lineTouchData: LineTouchData(
-                                touchTooltipData: LineTouchTooltipData(
-                                    tooltipBgColor: Constants.white)),
-                            borderData: FlBorderData(
-                                show: true,
-                                border: Border(
-                                    left: BorderSide.none,
-                                    right: BorderSide.none,
-                                    top: BorderSide.none,
-                                    bottom:
-                                        BorderSide(color: Constants.black1))),
-                            minX: 1,
-                            maxX: widget.quizType == QuizTypes.guessTheWord
-                                ? widget.guessTheWordQuestions!.length
-                                    .toDouble()
-                                : widget.questions!.length.toDouble(),
-                            maxY: 100,
-                            minY: 0,
-                            titlesData: FlTitlesData(
-                              show: true,
-                              leftTitles: AxisTitles(),
-                              rightTitles: AxisTitles(),
-                              topTitles: AxisTitles(),
-                              bottomTitles: AxisTitles(
-                                sideTitles: SideTitles(
-                                    interval: 1,
-                                    reservedSize: 50,
-                                    showTitles: true,
-                                    getTitlesWidget: ((value, meta) {
-                                      return TitleText(
-                                        text: value.toInt().toString(),
-                                        textColor: Constants.black1,
-                                        size: 15,
-                                        weight: FontWeight.w500,
-                                      );
-                                    })),
-                              ),
+                //  TitleText(
+                //   text:
+                //       "${widget.obtainedMarks} / ${widget.exam!.totalMarks} ${AppLocalization.of(context)!.getTranslatedValues(markKey)}  ",
+                //   textColor: Constants.white,
+                //   size: 16,
+                //   weight: FontWeight.w500,
+                // ) :
+
+                widget.quizType == QuizTypes.exam
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        child: Column(
+                          children: [
+                            TitleText(
+                              text: AppLocalization.of(context)!
+                                  .getTranslatedValues(examResultKey)!,
+                              weight: FontWeight.w500,
+                              size: Constants.bodyLarge,
                             ),
-                            gridData: FlGridData(
-                              show: true,
-                              drawHorizontalLine: false,
-                              drawVerticalLine: false,
+                          ],
+                        ),
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            TitleText(
+                              text: "Accuration Answer",
+                              weight: FontWeight.w500,
+                              size: Constants.bodyXSmall,
                             ),
-                            lineBarsData: [
-                              LineChartBarData(
-                                belowBarData: BarAreaData(
+                            WidgetsUtil.verticalSpace16,
+                            SizedBox(
+                              height: 130,
+                              width: double.infinity,
+                              child: LineChart(
+                                LineChartData(
+                                  lineTouchData: LineTouchData(
+                                      touchTooltipData: LineTouchTooltipData(
+                                          tooltipBgColor: Constants.white)),
+                                  borderData: FlBorderData(
+                                      show: true,
+                                      border: Border(
+                                          left: BorderSide.none,
+                                          right: BorderSide.none,
+                                          top: BorderSide.none,
+                                          bottom: BorderSide(
+                                              color: Constants.black1))),
+                                  minX: 1,
+                                  maxX:
+                                      widget.quizType == QuizTypes.guessTheWord
+                                          ? widget.guessTheWordQuestions!.length
+                                              .toDouble()
+                                          : widget.questions?.length.toDouble(),
+                                  maxY: 100,
+                                  minY: 0,
+                                  titlesData: FlTitlesData(
                                     show: true,
-                                    color: Constants.primaryColor
-                                        .withOpacity(0.2)),
-                                color: Constants.primaryColor,
-                                dotData: FlDotData(show: false),
-                                spots: List.generate(
-                                  widget.quizType == QuizTypes.guessTheWord
-                                      ? widget.guessTheWordQuestions!.length
-                                      : widget.questions!.length,
-                                  (index) {
-                                    bool temp = widget.quizType ==
-                                            QuizTypes.guessTheWord
-                                        ? widget.guessTheWordQuestions![index]
-                                                .answer ==
-                                            widget.guessTheWordQuestions![index]
-                                                .submittedAnswer
-                                                .join()
-                                                .toString()
-                                        : AnswerEncryption.decryptCorrectAnswer(
-                                                rawKey: context
-                                                    .read<UserDetailsCubit>()
-                                                    .getUserFirebaseId(),
-                                                correctAnswer: widget
-                                                    .questions![index]
-                                                    .correctAnswer!) ==
-                                            widget.questions![index]
-                                                .submittedAnswerId;
-                                    if (temp) {
-                                      correctAnswers++;
-                                    }
-                                    accuracy =
-                                        (correctAnswers / (index + 1)) * 100;
-                                    log(accuracy.toString());
-                                    log("correct answers $correctAnswers");
-                                    return FlSpot(
-                                      index.toDouble() + 1,
-                                      accuracy.toInt().toDouble(),
-                                    );
-                                  },
+                                    leftTitles: AxisTitles(),
+                                    rightTitles: AxisTitles(),
+                                    topTitles: AxisTitles(),
+                                    bottomTitles: AxisTitles(
+                                      sideTitles: SideTitles(
+                                          interval: 1,
+                                          reservedSize: 50,
+                                          showTitles: true,
+                                          getTitlesWidget: ((value, meta) {
+                                            return TitleText(
+                                              //text: "${value.toInt()}",
+
+                                              text: "${value.toInt()}",
+                                              textColor: Constants.black1,
+                                              size: 15,
+                                              weight: FontWeight.w500,
+                                            );
+                                          })),
+                                    ),
+                                  ),
+                                  gridData: FlGridData(
+                                    show: true,
+                                    drawHorizontalLine: false,
+                                    drawVerticalLine: false,
+                                  ),
+                                  lineBarsData: [
+                                    LineChartBarData(
+                                      belowBarData: BarAreaData(
+                                          show: true,
+                                          color: Theme.of(context)
+                                              .primaryColor
+                                              .withOpacity(0.2)),
+                                      color: Theme.of(context).primaryColor,
+                                      dotData: FlDotData(show: false),
+                                      spots: List.generate(
+                                        widget.quizType ==
+                                                QuizTypes.guessTheWord
+                                            ? widget
+                                                .guessTheWordQuestions!.length
+                                            : widget.quizType! == QuizTypes.exam
+                                                ? 0
+                                                : widget.questions!.length,
+                                        (index) {
+                                          bool temp = widget.quizType ==
+                                                  QuizTypes.guessTheWord
+                                              ? widget
+                                                      .guessTheWordQuestions![
+                                                          index]
+                                                      .answer ==
+                                                  widget
+                                                      .guessTheWordQuestions![
+                                                          index]
+                                                      .submittedAnswer
+                                                      .join()
+                                                      .toString()
+                                              : widget.quizType! ==
+                                                      QuizTypes.exam
+                                                  ? false
+                                                  : AnswerEncryption.decryptCorrectAnswer(
+                                                          rawKey: context
+                                                              .read<
+                                                                  UserDetailsCubit>()
+                                                              .getUserFirebaseId(),
+                                                          correctAnswer: widget
+                                                              .questions![index]
+                                                              .correctAnswer!) ==
+                                                      widget.questions![index]
+                                                          .submittedAnswerId;
+                                          if (temp) {
+                                            correctAnswers++;
+                                          }
+                                          accuracy =
+                                              (correctAnswers / (index + 1)) *
+                                                  100;
+                                          log(accuracy.toString());
+                                          log("correct answers $correctAnswers");
+                                          return FlSpot(
+                                            index.toDouble() + 1,
+                                            accuracy.toInt().toDouble(),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
-                ),
                 WidgetsUtil.verticalSpace24,
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          TitleText(
-                            text: "CORRECT ANSWER",
-                            weight: FontWeight.w500,
-                            size: Constants.bodyXSmall,
-                            textColor: Constants.grey2,
-                          ),
-                          WidgetsUtil.verticalSpace8,
-                          TitleText(
-                            text: correctAnswers.toString(),
-                            weight: FontWeight.w500,
-                            size: Constants.bodyXLarge,
-                            textColor: Constants.black1,
-                          ),
-                          WidgetsUtil.verticalSpace16,
-                          TitleText(
-                            text: "Time Taken",
-                            weight: FontWeight.w500,
-                            size: Constants.bodyXSmall,
-                            textColor: Constants.grey2,
-                          ),
-                          WidgetsUtil.verticalSpace8,
-                          TitleText(
-                            text: getTime(),
-                            weight: FontWeight.w500,
-                            size: Constants.bodyXLarge,
-                            textColor: Constants.black1,
-                          ),
-                        ],
+                widget.quizType == QuizTypes.exam
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                TitleText(
+                                  text: "OBTAIN MARKS",
+                                  weight: FontWeight.w500,
+                                  size: Constants.bodyXSmall,
+                                  textColor: Constants.grey2,
+                                ),
+                                WidgetsUtil.verticalSpace8,
+                                TitleText(
+                                  text: "${widget.obtainedMarks}",
+                                  weight: FontWeight.w500,
+                                  size: Constants.bodyXLarge,
+                                  textColor: Constants.black1,
+                                ),
+                                WidgetsUtil.verticalSpace16,
+                                TitleText(
+                                  text: "CORRECT ANSWERS",
+                                  weight: FontWeight.w500,
+                                  size: Constants.bodyXSmall,
+                                  textColor: Constants.grey2,
+                                ),
+                                WidgetsUtil.verticalSpace8,
+                                TitleText(
+                                  text: widget.correctExamAnswers.toString(),
+                                  weight: FontWeight.w500,
+                                  size: Constants.bodyXLarge,
+                                  textColor: Constants.black1,
+                                ),
+                                WidgetsUtil.verticalSpace16,
+                                TitleText(
+                                  text: "TIME TAKEN",
+                                  weight: FontWeight.w500,
+                                  size: Constants.bodyXSmall,
+                                  textColor: Constants.grey2,
+                                ),
+                                WidgetsUtil.verticalSpace8,
+                                TitleText(
+                                  text: getExamTime(),
+                                  weight: FontWeight.w500,
+                                  size: Constants.bodyXLarge,
+                                  textColor: Constants.black1,
+                                ),
+                              ],
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                TitleText(
+                                  text: "TOTAL MARKS",
+                                  weight: FontWeight.w500,
+                                  size: Constants.bodyXSmall,
+                                  textColor: Constants.grey2,
+                                ),
+                                WidgetsUtil.verticalSpace8,
+                                TitleText(
+                                  text: widget.exam!.totalMarks,
+                                  weight: FontWeight.w500,
+                                  size: Constants.bodyXLarge,
+                                  textColor: Constants.black1,
+                                ),
+                                WidgetsUtil.verticalSpace16,
+                                TitleText(
+                                  text: "INCORRECT ANSWER",
+                                  weight: FontWeight.w500,
+                                  size: Constants.bodyXSmall,
+                                  textColor: Constants.grey2,
+                                ),
+                                WidgetsUtil.verticalSpace8,
+                                TitleText(
+                                  text: "${widget.incorrectExamAnswers}",
+                                  weight: FontWeight.w500,
+                                  size: Constants.bodyXLarge,
+                                  textColor: Constants.black1,
+                                ),
+                                WidgetsUtil.verticalSpace16,
+                                TitleText(
+                                  text: "QUESTIONS ATTEMPTED",
+                                  weight: FontWeight.w500,
+                                  size: Constants.bodyXSmall,
+                                  textColor: Constants.grey2,
+                                ),
+                                WidgetsUtil.verticalSpace8,
+                                TitleText(
+                                  text:
+                                      "${(widget.incorrectExamAnswers! + widget.correctExamAnswers!)}",
+                                  weight: FontWeight.w500,
+                                  size: Constants.bodyXLarge,
+                                  textColor: Constants.black1,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                TitleText(
+                                  text: "CORRECT ANSWER",
+                                  weight: FontWeight.w500,
+                                  size: Constants.bodyXSmall,
+                                  textColor: Constants.grey2,
+                                ),
+                                WidgetsUtil.verticalSpace8,
+                                TitleText(
+                                  text: correctAnswers.toString(),
+                                  weight: FontWeight.w500,
+                                  size: Constants.bodyXLarge,
+                                  textColor: Constants.black1,
+                                ),
+                                WidgetsUtil.verticalSpace16,
+                                TitleText(
+                                  text: widget.quizType == QuizTypes.battle
+                                      ? ""
+                                      : "Time Taken",
+                                  weight: FontWeight.w500,
+                                  size: Constants.bodyXSmall,
+                                  textColor: Constants.grey2,
+                                ),
+                                WidgetsUtil.verticalSpace8,
+                                TitleText(
+                                  text: widget.quizType == QuizTypes.battle
+                                      ? ""
+                                      : getTime(),
+                                  weight: FontWeight.w500,
+                                  size: Constants.bodyXLarge,
+                                  textColor: Constants.black1,
+                                ),
+                              ],
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                TitleText(
+                                  text: "Accuracy",
+                                  weight: FontWeight.w500,
+                                  size: Constants.bodyXSmall,
+                                  textColor: Constants.grey2,
+                                ),
+                                WidgetsUtil.verticalSpace8,
+                                TitleText(
+                                  text: "${accuracy.toInt()}%",
+                                  weight: FontWeight.w500,
+                                  size: Constants.bodyXLarge,
+                                  textColor: Constants.black1,
+                                ),
+                                WidgetsUtil.verticalSpace16,
+                                TitleText(
+                                  text: "Incorrect Answer",
+                                  weight: FontWeight.w500,
+                                  size: Constants.bodyXSmall,
+                                  textColor: Constants.grey2,
+                                ),
+                                WidgetsUtil.verticalSpace8,
+                                TitleText(
+                                  text: widget.quizType ==
+                                          QuizTypes.guessTheWord
+                                      ? "${widget.guessTheWordQuestions!.length - correctAnswers}"
+                                      : widget.quizType! == QuizTypes.exam
+                                          ? ""
+                                          : "${widget.questions!.length - correctAnswers}",
+                                  weight: FontWeight.w500,
+                                  size: Constants.bodyXLarge,
+                                  textColor: Constants.black1,
+                                ),
+                              ],
+                            ),
+                            const SizedBox(),
+                          ],
+                        ),
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          TitleText(
-                            text: "Accuracy",
-                            weight: FontWeight.w500,
-                            size: Constants.bodyXSmall,
-                            textColor: Constants.grey2,
-                          ),
-                          WidgetsUtil.verticalSpace8,
-                          TitleText(
-                            text: "${accuracy.toInt()}%",
-                            weight: FontWeight.w500,
-                            size: Constants.bodyXLarge,
-                            textColor: Constants.black1,
-                          ),
-                          WidgetsUtil.verticalSpace16,
-                          TitleText(
-                            text: "Incorrect Answer",
-                            weight: FontWeight.w500,
-                            size: Constants.bodyXSmall,
-                            textColor: Constants.grey2,
-                          ),
-                          WidgetsUtil.verticalSpace8,
-                          TitleText(
-                            text: widget.quizType == QuizTypes.guessTheWord
-                                ? "${widget.guessTheWordQuestions!.length - correctAnswers}"
-                                : "${widget.questions!.length - correctAnswers}",
-                            weight: FontWeight.w500,
-                            size: Constants.bodyXLarge,
-                            textColor: Constants.black1,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(),
-                    ],
-                  ),
-                ),
 
                 // Padding(
                 //   padding: const EdgeInsets.all(24),
@@ -2170,6 +2301,15 @@ class _NewResultScreenState extends State<NewResultScreen> {
         ),
       ),
     );
+  }
+
+  String getExamTime() {
+    Duration duration =
+        Duration(minutes: widget.examCompletedInMinutes!.toInt());
+    String time = '';
+    time = '$time${duration.inMinutes}';
+    time = '$time:${duration.inSeconds % 60} ';
+    return time;
   }
 
   String getTime() {

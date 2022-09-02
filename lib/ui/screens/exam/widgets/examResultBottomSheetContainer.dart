@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterquiz/app/appLocalization.dart';
 import 'package:flutterquiz/features/exam/models/examResult.dart';
 import 'package:flutterquiz/ui/styles/colors.dart';
+import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
 
@@ -28,7 +29,7 @@ class ExamResultBottomSheetContainer extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                color: Theme.of(context).primaryColor,
+                color: Constants.primaryColor,
                 fontSize: 17.0,
               ),
             ),
@@ -36,15 +37,15 @@ class ExamResultBottomSheetContainer extends StatelessWidget {
           Container(
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              color: Theme.of(context).canvasColor,
+              color: Constants.secondaryColor,
               borderRadius: BorderRadius.circular(25.0),
             ),
             height: 45,
             width: MediaQuery.of(context).size.width * (0.4),
             child: Text(
-              "$examData",
+              examData,
               style: TextStyle(
-                color: Theme.of(context).primaryColor,
+                color: Constants.white,
                 fontSize: 16.0,
               ),
             ),
@@ -72,9 +73,9 @@ class ExamResultBottomSheetContainer extends StatelessWidget {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              "$title",
+              title,
               style: TextStyle(
-                color: Theme.of(context).primaryColor,
+                color: Constants.primaryColor,
                 fontSize: 20.0,
               ),
             ),
@@ -85,7 +86,7 @@ class ExamResultBottomSheetContainer extends StatelessWidget {
           Expanded(
             child: LayoutBuilder(builder: (context, boxConstraints) {
               final textStyle = TextStyle(
-                color: Theme.of(context).primaryColor.withOpacity(0.7),
+                color: Constants.primaryColor.withOpacity(0.7),
                 height: 1.3,
               );
               return Container(
@@ -115,15 +116,13 @@ class ExamResultBottomSheetContainer extends StatelessWidget {
                                   border: Border(
                                 left: BorderSide(
                                   width: 2,
-                                  color: Theme.of(context)
-                                      .primaryColor
-                                      .withOpacity(0.7),
+                                  color:
+                                      Constants.primaryColor.withOpacity(0.7),
                                 ),
                                 right: BorderSide(
                                   width: 2,
-                                  color: Theme.of(context)
-                                      .primaryColor
-                                      .withOpacity(0.7),
+                                  color:
+                                      Constants.primaryColor.withOpacity(0.7),
                                 ),
                               )),
                               alignment: Alignment.center,
@@ -150,22 +149,20 @@ class ExamResultBottomSheetContainer extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: const BorderRadius.only(
                           bottomLeft: Radius.circular(25),
-                          bottomRight: const Radius.circular(25),
+                          bottomRight: Radius.circular(25),
                         ),
                         child: Row(
                           children: [
                             Container(
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
-                                color: Theme.of(context).canvasColor,
+                                color: Constants.primaryColor,
                               ),
                               width: boxConstraints.maxWidth * (0.32),
                               child: Text(
                                 "$totalQuestion",
                                 style: TextStyle(
-                                  fontSize: 17.5,
-                                  color: Theme.of(context).primaryColor,
-                                ),
+                                    fontSize: 17.5, color: Constants.white),
                               ),
                             ),
                             Container(
@@ -177,7 +174,7 @@ class ExamResultBottomSheetContainer extends StatelessWidget {
                                 "$correct",
                                 style: TextStyle(
                                   fontSize: 17.5,
-                                  color: Theme.of(context).backgroundColor,
+                                  color: Constants.white,
                                 ),
                               ),
                             ),
@@ -214,7 +211,7 @@ class ExamResultBottomSheetContainer extends StatelessWidget {
       constraints: BoxConstraints(
           maxHeight: MediaQuery.of(context).size.height * (0.85)),
       decoration: BoxDecoration(
-        color: Theme.of(context).backgroundColor,
+        color: Constants.white,
         borderRadius: UiUtils.getBottomSheetRadius(),
       ),
       child: Stack(
@@ -229,21 +226,20 @@ class ExamResultBottomSheetContainer extends StatelessWidget {
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height * (0.075),
                   decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
+                      color: Constants.primaryColor,
                       borderRadius: UiUtils.getBottomSheetRadius()),
                   child: Text(
-                    "${AppLocalization.of(context)!.getTranslatedValues(examResultKey)!}",
-                    style: TextStyle(
-                        color: Theme.of(context).backgroundColor,
-                        fontSize: 20.0),
+                    AppLocalization.of(context)!
+                        .getTranslatedValues(examResultKey)!,
+                    style: TextStyle(color: Constants.white, fontSize: 20.0),
                   ),
                 ),
                 const SizedBox(
                   height: 15.0,
                 ),
                 _buildExamDetailsContainer(
-                    title:
-                        "${AppLocalization.of(context)!.getTranslatedValues(obtainedMarksKey)!}",
+                    title: AppLocalization.of(context)!
+                        .getTranslatedValues(obtainedMarksKey)!,
                     examData:
                         "${examResult.obtainedMarks()}/${examResult.totalMarks}",
                     context: context),
@@ -251,8 +247,8 @@ class ExamResultBottomSheetContainer extends StatelessWidget {
                   height: 10.0,
                 ),
                 _buildExamDetailsContainer(
-                    title:
-                        "${AppLocalization.of(context)!.getTranslatedValues(examDurationKey)!}",
+                    title: AppLocalization.of(context)!
+                        .getTranslatedValues(examDurationKey)!,
                     examData: UiUtils.convertMinuteIntoHHMM(
                         int.parse(examResult.duration)),
                     context: context),
@@ -260,8 +256,8 @@ class ExamResultBottomSheetContainer extends StatelessWidget {
                   height: 10.0,
                 ),
                 _buildExamDetailsContainer(
-                    title:
-                        "${AppLocalization.of(context)!.getTranslatedValues(completedInKey)!}",
+                    title: AppLocalization.of(context)!
+                        .getTranslatedValues(completedInKey)!,
                     examData: UiUtils.convertMinuteIntoHHMM(
                         examResult.totalDuration.isNotEmpty
                             ? int.parse(examResult.totalDuration)
@@ -274,8 +270,8 @@ class ExamResultBottomSheetContainer extends StatelessWidget {
                   ),
                 ),
                 _buildQuestionStatistic(
-                    title:
-                        "${AppLocalization.of(context)!.getTranslatedValues(totalQuestionsKey)!}",
+                    title: AppLocalization.of(context)!
+                        .getTranslatedValues(totalQuestionsKey)!,
                     context: context,
                     totalQuestion: examResult.totalQuestions(),
                     correct: examResult.totalCorrectAnswers(),
