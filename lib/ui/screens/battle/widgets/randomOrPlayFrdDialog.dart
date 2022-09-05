@@ -14,6 +14,7 @@ import 'package:flutterquiz/features/quiz/quizRepository.dart';
 import 'package:flutterquiz/features/systemConfig/cubits/systemConfigCubit.dart';
 import 'package:flutterquiz/ui/screens/battle/widgets/customDialog.dart';
 import 'package:flutterquiz/ui/screens/battle/widgets/roomDialog.dart';
+import 'package:flutterquiz/ui/screens/quiz/battle_quiz_screen.dart';
 import 'package:flutterquiz/ui/widgets/custom_button.dart';
 import 'package:flutterquiz/ui/widgets/social_button.dart';
 import 'package:flutterquiz/ui/widgets/title_text.dart';
@@ -21,6 +22,7 @@ import 'package:flutterquiz/ui/widgets/watchRewardAdDialog.dart';
 import 'package:flutterquiz/utils/constants.dart';
 
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
+import 'package:flutterquiz/utils/quizTypes.dart';
 import 'package:flutterquiz/utils/size_config.dart';
 import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
@@ -196,8 +198,7 @@ class _RandomOrPlayFrdDialogState extends State<RandomOrPlayFrdDialog> {
                 builder: (context, state) {
                   return AnimatedSwitcher(
                     duration: const Duration(milliseconds: 500),
-                    child: 
-                    state is QuizCategorySuccess
+                    child: state is QuizCategorySuccess
                         ? _buildDropdown(
                             values: state.categories
                                 .map(
@@ -351,6 +352,7 @@ class _RandomOrPlayFrdDialogState extends State<RandomOrPlayFrdDialog> {
     );
   }
 
+  int? index = 0;
   Widget playWithFrdBtn(BoxConstraints constraints) {
     return Container(
       alignment: Alignment.center,
@@ -360,15 +362,24 @@ class _RandomOrPlayFrdDialogState extends State<RandomOrPlayFrdDialog> {
         onTap: () async {
           Navigator.of(context).pop();
 
-          showDialog(
-            context: context,
-            builder: (context) => MultiBlocProvider(providers: [
-              BlocProvider<QuizCategoryCubit>(
-                  create: (_) => QuizCategoryCubit(QuizRepository())),
-              BlocProvider<UpdateScoreAndCoinsCubit>(
-                  create: (_) =>
-                      UpdateScoreAndCoinsCubit(ProfileManagementRepository())),
-            ], child: RoomDialog(quizType: QuizTypes.battle)),
+          // showDialog(
+          //   context: context,
+          //   builder: (context) => MultiBlocProvider(providers: [
+          //     BlocProvider<QuizCategoryCubit>(
+          //         create: (_) => QuizCategoryCubit(QuizRepository())),
+          //     BlocProvider<UpdateScoreAndCoinsCubit>(
+          //         create: (_) =>
+          //             UpdateScoreAndCoinsCubit(ProfileManagementRepository())),
+          //   ], child: RoomDialog(quizType: QuizTypes.battle)),
+          // );
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const BattleQuizScreen(
+                quizType: QuizTypes.battle,
+                title: "1 v/s 1 Battle ",
+              ),
+            ),
           );
         },
         text:

@@ -26,6 +26,7 @@ import 'package:flutterquiz/ui/screens/battle/widgets/randomOrPlayFrdDialog.dart
 import 'package:flutterquiz/ui/screens/battle/widgets/roomDialog.dart';
 import 'package:flutterquiz/ui/screens/home/widgets/appUnderMaintenanceDialog.dart';
 import 'package:flutterquiz/ui/screens/profile/widgets/editProfileFieldBottomSheetContainer.dart';
+import 'package:flutterquiz/ui/screens/quiz/battle_quiz_screen.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/quizTypes.dart';
 import 'package:flutterquiz/utils/size_config.dart';
@@ -1144,11 +1145,16 @@ class _NewHomeScreenState extends State<NewHomeScreen>
       //
       showDialog(
           context: context,
-          builder: (context) => MultiBlocProvider(providers: [
-                BlocProvider<UpdateScoreAndCoinsCubit>(
-                    create: (_) => UpdateScoreAndCoinsCubit(
-                        ProfileManagementRepository())),
-              ], child: RoomDialog(quizType: QuizTypes.groupPlay)));
+          builder: (context) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider<UpdateScoreAndCoinsCubit>(
+                        create: (_) => UpdateScoreAndCoinsCubit(
+                            ProfileManagementRepository())),
+                  ],
+                  child: BattleQuizScreen(
+                    quizType: QuizTypes.groupPlay,
+                    title: _quizTypes[quizTypeIndex].getTitle(context),
+                  )));
       //
     } else if (_quizTypes[quizTypeIndex].quizTypeEnum == QuizTypes.contest) {
       if (context.read<SystemConfigCubit>().getIsContestAvailable() == "1") {

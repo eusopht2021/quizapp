@@ -131,8 +131,8 @@ class _InviteFriendsScreenState extends State<InviteFriendsScreen> {
               Align(
                 alignment: Alignment.center,
                 child: Image.asset(
-                  Assets.backgroundCircle,
-                  height: 180,
+                  Assets.backgroundCircle2,
+                  fit: BoxFit.scaleDown,
                 ),
               ),
               Align(

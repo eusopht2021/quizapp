@@ -53,8 +53,7 @@ class _MessageBoxContainerState extends State<MessageBoxContainer> {
       child: Text(
         text,
         style: TextStyle(
-            color: Theme.of(context)
-                .backgroundColor
+            color: Constants.white
                 .withOpacity(index == _currentSelectedIndex ? 1.0 : 0.65)),
       ),
     );

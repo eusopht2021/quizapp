@@ -59,6 +59,7 @@ class Assets {
   static String bigDot = 'assets/images/bigdot.png';
 
   static String backgroundCircle = 'assets/images/backgroundCircle.png';
+  static String backgroundCircle2 = 'assets/images/backgroundCircle2.png';
 
   // ICONS
   static String crown = "assets/icons/medal.svg";

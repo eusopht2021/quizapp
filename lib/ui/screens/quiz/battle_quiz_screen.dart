@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,7 +17,6 @@ import 'package:flutterquiz/features/quiz/models/quizType.dart';
 import 'package:flutterquiz/features/quiz/quizRepository.dart';
 import 'package:flutterquiz/features/systemConfig/cubits/systemConfigCubit.dart';
 import 'package:flutterquiz/ui/screens/battle/widgets/new_waiting_for_players_dialog.dart';
-import 'package:flutterquiz/ui/screens/battle/widgets/waitingForPlayersDialog.dart';
 import 'package:flutterquiz/ui/widgets/customRoundedButton.dart';
 import 'package:flutterquiz/ui/widgets/default_layout.dart';
 import 'package:flutterquiz/ui/widgets/title_text.dart';
@@ -30,7 +31,9 @@ import 'package:flutterquiz/utils/widgets_util.dart';
 
 class BattleQuizScreen extends StatefulWidget {
   final QuizTypes quizType;
-  const BattleQuizScreen({Key? key, required this.quizType}) : super(key: key);
+  final String? title;
+  const BattleQuizScreen({Key? key, required this.quizType, this.title})
+      : super(key: key);
 
   @override
   State<BattleQuizScreen> createState() => _BattleQuizScreenState();
@@ -309,10 +312,15 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
                 listener: (context, state) {
                   if (state is BattleRoomUserFound) {
                     Navigator.of(context).pop();
-                    showDialog(
-                        context: context,
-                        builder: (context) => WaitingForPlayesDialog(
-                            quizType: QuizTypes.battle));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => NewWaitingForPlayerDialog(
+                                quizType: QuizTypes.battle)));
+                    // showDialog(
+                    //     context: context,
+                    //     builder: (context) => NewWaitingForPlayerDialog(
+                    //         quizType: QuizTypes.battle));
                   } else if (state is BattleRoomFailure) {
                     if (state.errorMessageCode == unauthorizedAccessCode) {
                       UiUtils.showAlreadyLoggedInDialog(
@@ -369,12 +377,21 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
             : BlocConsumer<MultiUserBattleRoomCubit, MultiUserBattleRoomState>(
                 listener: (context, state) {
                   if (state is MultiUserBattleRoomSuccess) {
-                    Navigator.of(context).pop();
-                    showDialog(
-                        context: context,
-                        builder: (context) => WaitingForPlayesDialog(
-                              quizType: QuizTypes.groupPlay,
-                            ));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => NewWaitingForPlayerDialog(
+                          quizType: QuizTypes.battle,
+                        ),
+                      ),
+                    );
+                    //Navigator.of(context).pop();
+                    // showDialog(
+                    //   context: context,
+                    //   builder: (context) => WaitingForPlayesDialog(
+                    //     quizType: QuizTypes.groupPlay,
+                    //   ),
+                    // );
                   } else if (state is MultiUserBattleRoomFailure) {
                     if (state.errorMessageCode == unauthorizedAccessCode) {
                       UiUtils.showAlreadyLoggedInDialog(
@@ -533,7 +550,7 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
                           //   ),
                           : SizedBox(
                               width: SizeConfig.screenWidth,
-                              height: SizeConfig.screenWidth * 0.123,
+                              height: SizeConfig.screenWidth * 0.122,
                               child: Center(
                                 child: CircularProgressIndicator(
                                   color: Constants.white,
@@ -618,10 +635,13 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
                   if (state is BattleRoomCreated) {
                     //wait for others
                     Navigator.of(context).pop();
-                    showDialog(
-                        context: context,
-                        builder: (context) => WaitingForPlayesDialog(
-                            quizType: QuizTypes.battle, battleLbl: "playFrd"));
+                    log('log is here');
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => NewWaitingForPlayerDialog(
+                                quizType: QuizTypes.battle,
+                                battleLbl: "playFrd")));
                   } else if (state is BattleRoomFailure) {
                     if (state.errorMessageCode == unauthorizedAccessCode) {
                       UiUtils.showAlreadyLoggedInDialog(
@@ -704,11 +724,12 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
                     //wait for others
                     Navigator.of(context).pop();
                     showDialog(
-                        context: context,
-                        builder: (context) => WaitingForPlayesDialog(
-                              quizType: QuizTypes.groupPlay,
-                              battleLbl: "",
-                            ));
+                      context: context,
+                      builder: (context) => NewWaitingForPlayerDialog(
+                        quizType: QuizTypes.groupPlay,
+                        battleLbl: "",
+                      ),
+                    );
                   } else if (state is MultiUserBattleRoomFailure) {
                     if (state.errorMessageCode == unauthorizedAccessCode) {
                       UiUtils.showAlreadyLoggedInDialog(
@@ -765,6 +786,7 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
                                       UiUtils.getCurrentQuestionLanguageId(
                                           context),
                                 );
+                            log("message");
                           },
                     widthPercentage: UiUtils.dailogWidthPercentage - 0.1,
                     backgroundColor: Constants.primaryColor,
@@ -841,7 +863,7 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
               resizeToAvoidBottomInset: false,
               backgroundColor: Constants.primaryColor,
               titleColor: Constants.white,
-              title: "GROUP BATTLE",
+              title: widget.title ?? "Group Battle",
               child: Column(
                 children: [
                   // WidgetsUtil.verticalSpace24,
@@ -901,13 +923,15 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
                           width: SizeConfig.screenWidth * 0.85,
                           padding: const EdgeInsets.symmetric(horizontal: 24),
                           decoration: BoxDecoration(
-                              color: Constants.secondaryColor,
-                              borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                topRight: Radius.circular(20),
-                              ),
-                              image: DecorationImage(
-                                  image: AssetImage(Assets.backgroundCircle))),
+                            color: Constants.secondaryColor,
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20),
+                            ),
+                            image: DecorationImage(
+                              image: AssetImage(Assets.backgroundCircle2),
+                            ),
+                          ),
                         ),
                         // Positioned(
                         //   top: SizeConfig.screenHeight * 0.14,

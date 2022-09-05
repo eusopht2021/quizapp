@@ -26,12 +26,6 @@ class RectangleUserProfileContainer extends StatelessWidget {
       alignment: Alignment.center,
       children: [
         CustomPaint(
-          child: Container(
-            width:
-                MediaQuery.of(context).size.width * userDetailsWidthPercentage,
-            height: MediaQuery.of(context).size.height *
-                userDetailsHeightPercentage,
-          ),
           painter: RectanglePainter(
             color: Theme.of(context).colorScheme.secondary,
             paintingStyle: PaintingStyle.stroke,
@@ -39,18 +33,24 @@ class RectangleUserProfileContainer extends StatelessWidget {
             animationControllerValue: 1.0,
             curveRadius: 10,
           ),
+          child: Container(
+            width:
+                MediaQuery.of(context).size.width * userDetailsWidthPercentage,
+            height: MediaQuery.of(context).size.height *
+                userDetailsHeightPercentage,
+          ),
         ),
         RectangleTimerProgressContainer(
             animationController: animationController, color: progressColor),
         CustomPaint(
+          painter: RectanglePainter(
+            color: Theme.of(context).primaryColor,
+            paintingStyle: PaintingStyle.fill,
+            points: [],
+            animationControllerValue: 1.0,
+            curveRadius: 10,
+          ),
           child: Container(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Image.network(
-                userBattleRoomDetails.profileUrl,
-                fit: BoxFit.cover,
-              ),
-            ),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
             ),
@@ -58,13 +58,13 @@ class RectangleUserProfileContainer extends StatelessWidget {
                 MediaQuery.of(context).size.width * userDetailsWidthPercentage,
             height: MediaQuery.of(context).size.height *
                 userDetailsHeightPercentage,
-          ),
-          painter: RectanglePainter(
-            color: Theme.of(context).primaryColor,
-            paintingStyle: PaintingStyle.fill,
-            points: [],
-            animationControllerValue: 1.0,
-            curveRadius: 10,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image.network(
+                userBattleRoomDetails.profileUrl,
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
         ),
       ],
@@ -78,7 +78,7 @@ class RectangleUserProfileContainer extends StatelessWidget {
         style: TextStyle(
           height: 1.1,
           fontSize: 13.0,
-          color: Theme.of(context).backgroundColor,
+          color: Theme.of(context).primaryColor,
         ),
         maxLines: 2,
         overflow: TextOverflow.ellipsis,
@@ -97,7 +97,7 @@ class RectangleUserProfileContainer extends StatelessWidget {
               isLeft ? MainAxisAlignment.start : MainAxisAlignment.end,
           children: [
             isLeft ? _buildProfileContainer(context) : _buildUserName(context),
-           const SizedBox(
+            const SizedBox(
               width: 12.50,
             ),
             isLeft ? _buildUserName(context) : _buildProfileContainer(context),

@@ -24,6 +24,7 @@ import 'package:flutterquiz/ui/screens/battle/widgets/messageBoxContainer.dart';
 import 'package:flutterquiz/ui/screens/battle/widgets/messageContainer.dart';
 import 'package:flutterquiz/ui/screens/battle/widgets/rectangleUserProfileContainer.dart';
 import 'package:flutterquiz/ui/screens/battle/widgets/waitForOthersContainer.dart';
+import 'package:flutterquiz/ui/screens/quiz/widgets/new_question_container.dart';
 
 import 'package:flutterquiz/ui/widgets/customBackButton.dart';
 
@@ -636,7 +637,7 @@ class _MultiUserBattleRoomQuizScreenState
           userBattleRoomDetails: userBattleRoomDetails,
           isLeft: true,
           animationController: timerAnimationController,
-          progressColor: Theme.of(context).backgroundColor,
+          progressColor: Theme.of(context).primaryColor,
         ),
       ),
     );
@@ -690,7 +691,7 @@ class _MultiUserBattleRoomQuizScreenState
               alignment == AlignmentDirectional.topStart,
           animationController:
               opponentProgressAnimationControllers[opponentUserIndex],
-          progressColor: Theme.of(context).backgroundColor,
+          progressColor: Theme.of(context).primaryColor,
         ),
       ),
     );
@@ -749,20 +750,19 @@ class _MultiUserBattleRoomQuizScreenState
 
   Widget _buildCurrentUserMessageContainer() {
     return PositionedDirectional(
-      child: ScaleTransition(
-        scale: messageAnimation,
-        child: const MessageContainer(
-          quizType: QuizTypes.groupPlay,
-          isCurrentUser: true,
-        ),
-        alignment:
-            const Alignment(-0.5, -1.0), //-0.5 left side and 0.5 is right side,
-      ),
       start: MediaQuery.of(context).size.width *
           userDetaislHorizontalPaddingPercentage,
       bottom: MediaQuery.of(context).size.height *
           RectangleUserProfileContainer.userDetailsHeightPercentage *
           2.9,
+      child: ScaleTransition(
+        scale: messageAnimation,
+        alignment: const Alignment(-0.5, -1.0),
+        child: const MessageContainer(
+          quizType: QuizTypes.groupPlay,
+          isCurrentUser: true,
+        ), //-0.5 left side and 0.5 is right side,
+      ),
     );
   }
 
@@ -781,15 +781,6 @@ class _MultiUserBattleRoomQuizScreenState
           ? null
           : MediaQuery.of(context).size.width *
               userDetaislHorizontalPaddingPercentage,
-      child: ScaleTransition(
-        scale: opponentMessageAnimations[opponentUserIndex],
-        child: MessageContainer(
-          quizType: QuizTypes.groupPlay,
-          isCurrentUser: false,
-          opponentUserIndex: opponentUserIndex,
-        ),
-        alignment: alignment, //-0.5 left side and 0.5 is right side,
-      ),
       start: opponentUserIndex == 1
           ? MediaQuery.of(context).size.width *
               userDetaislHorizontalPaddingPercentage
@@ -805,6 +796,15 @@ class _MultiUserBattleRoomQuizScreenState
               RectangleUserProfileContainer.userDetailsHeightPercentage *
               (2.9)
           : null,
+      child: ScaleTransition(
+        scale: opponentMessageAnimations[opponentUserIndex],
+        alignment: alignment,
+        child: MessageContainer(
+          quizType: QuizTypes.groupPlay,
+          isCurrentUser: false,
+          opponentUserIndex: opponentUserIndex,
+        ), //-0.5 left side and 0.5 is right side,
+      ),
     );
   }
 
@@ -951,7 +951,7 @@ class _MultiUserBattleRoomQuizScreenState
                             key: Key("waitForOthers"),
                           )
                         : Container(
-                            child: QuestionsContainer(
+                            child: NewQuestionsContainer(
                               topPadding: MediaQuery.of(context).size.height *
                                   RectangleUserProfileContainer
                                       .userDetailsHeightPercentage *

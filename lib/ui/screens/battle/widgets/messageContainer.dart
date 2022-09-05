@@ -86,7 +86,7 @@ class MessageContainer extends StatelessWidget {
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                    color: Theme.of(context).colorScheme.secondary,
+                    color: Theme.of(context).primaryColor,
                     fontSize: 13.5,
                     height: 1.0),
               )

@@ -113,9 +113,9 @@ class _NewQuizScreenState extends State<NewQuizScreen>
     with TickerProviderStateMixin {
   late AnimationController questionAnimationController;
   late AnimationController questionContentAnimationController;
-  late AnimationController audioAnimationController = AnimationController(
-      vsync: this, duration: Duration(seconds: latexQuestionDurationInSeconds))
-    ..addStatusListener(currentUserTimerAnimationStatusListener);
+  // late AnimationController audioAnimationController = AnimationController(
+  //     vsync: this, duration: Duration(seconds: latexQuestionDurationInSeconds))
+  //   ..addStatusListener(currentUserTimerAnimationStatusListener);
   late AnimationController timerAnimationController = AnimationController(
       vsync: this,
       duration: Duration(
@@ -178,24 +178,26 @@ class _NewQuizScreenState extends State<NewQuizScreen>
     });
     //init animations
     initializeAnimation();
-    animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 100));
-    topContainerAnimationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 100));
-    audioAnimationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 100));
+    animationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 100));
+    topContainerAnimationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 100));
     //
-    if (widget.quizType == QuizTypes.audioQuestions) {
-      audioAnimationController.forward();
-      timerAnimationController.value = 0.0;
-      timerAnimationController.stop();
-    }
+    // if (widget.quizType != QuizTypes.audioQuestions) {
+    //   timerAnimationController.forward(from: 0);
+    // }
+//  if (!showOptionAnimationController.isAnimating) {
+//                   showOptionAnimationController.reverse();
+//                   audioQuestionContainerKeys[currentQuestionIndex]
+//                       .currentState!
+//                       .changeShowOption();
+//                 }
     _getQuestions();
   }
 
   void initializeAnimation() {
-    audioAnimationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 250));
+    // audioAnimationController =
+    //     AnimationController(vsync: this, duration: Duration(milliseconds: 250));
 
     questionContentAnimationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 250));
@@ -225,7 +227,7 @@ class _NewQuizScreenState extends State<NewQuizScreen>
     timerAnimationController.dispose();
     questionAnimationController.dispose();
     questionContentAnimationController.dispose();
-    audioAnimationController.dispose();
+    // audioAnimationController.dispose();
 
     super.dispose();
   }
@@ -317,7 +319,7 @@ class _NewQuizScreenState extends State<NewQuizScreen>
     questionAnimationController.forward(from: 0.0).then((value) {
       //need to dispose the animation controllers
       questionAnimationController.dispose();
-      audioAnimationController.dispose();
+      // audioAnimationController.dispose();
       questionContentAnimationController.dispose();
       //initializeAnimation again
       setState(() {
@@ -327,7 +329,7 @@ class _NewQuizScreenState extends State<NewQuizScreen>
       });
       //load content(options, image etc) of question
       questionContentAnimationController.forward();
-      audioAnimationController.forward();
+      // audioAnimationController.forward();
       log("change questions");
     });
   }
@@ -351,9 +353,7 @@ class _NewQuizScreenState extends State<NewQuizScreen>
   void updateTotalSecondsToCompleteQuiz() {
     totalSecondsToCompleteQuiz = totalSecondsToCompleteQuiz +
         UiUtils.timeTakenToSubmitAnswer(
-          animationControllerValue: widget.quizType == QuizTypes.audioQuestions
-              ? audioAnimationController.value
-              : timerAnimationController.value,
+          animationControllerValue: timerAnimationController.value,
           quizType: widget.quizType,
         );
   }
@@ -361,6 +361,7 @@ class _NewQuizScreenState extends State<NewQuizScreen>
   //update answer locally and on cloud
   void submitAnswer(String submittedAnswer) async {
     timerAnimationController.stop();
+
     log('Submit ANswer: ${timerAnimationController.value}');
     if (!context
         .read<QuestionsCubit>()
@@ -383,28 +384,28 @@ class _NewQuizScreenState extends State<NewQuizScreen>
         //if quizType is not audio or latex(math or chemistry) then start timer again
         if (widget.quizType == QuizTypes.mathMania) {
           timerAnimationController.value = 0.0;
-        } else if (widget.quizType == QuizTypes.audioQuestions) {
-          // audioAnimationController.forward(from: 0.0);
-          // timerAnimationController.value = 0.0;
-//
-          timerAnimationController.stop();
-        } else {
           timerAnimationController.forward(from: 0.0);
+          // showOptionAnimationController.forward();
+          // } else if (widget.quizType != QuizTypes.audioQuestions) {
+          //   timerAnimationController.forward(from: 0.0);
+          // }
         }
       } else {
         updateSubmittedAnswerForBookmark(
             context.read<QuestionsCubit>().questions()[currentQuestionIndex]);
-
         navigateToResultScreen();
       }
     }
   }
 
-  //listener for current user timer
+//listener for current user timer
   void currentUserTimerAnimationStatusListener(AnimationStatus status) {
-    log('Time is completed!');
     if (status == AnimationStatus.completed) {
       submitAnswer("-1");
+    } else if (status == AnimationStatus.forward) {
+      if (widget.quizType == QuizTypes.audioQuestions) {
+        timerAnimationController.stop();
+      }
     }
   }
 
@@ -1144,30 +1145,20 @@ class _NewQuizScreenState extends State<NewQuizScreen>
                             audioQuestionContainerKeys
                                 .add(GlobalKey<AudioQuestionContainerState>());
                           });
-
-                          // audioQuestionContainerKeys[currentQuestionIndex]
-                          //     .currentState!
-                          //     .changeShowOption();
                           //
                           // showOptionAnimationController.forward();
-                          audioAnimationController.forward();
-
-                          questionContentAnimationController.forward();
+                          questionContentAnimationController.forward(from: 0);
                           //add audio question container keys
-
+                        }
+                        //
+                        else if (widget.quizType == QuizTypes.mathMania) {
+                          questionContentAnimationController.forward();
+                        } else {
+                          timerAnimationController.forward();
+                          questionContentAnimationController.forward();
                         }
                       }
-
-                      //
-                      //
-                      else if (widget.quizType == QuizTypes.mathMania) {
-                        questionContentAnimationController.forward();
-                      } else {
-                        timerAnimationController.forward();
-                        questionContentAnimationController.forward();
-                      }
                     }
-                    // }
                   } else if (state is QuestionsFetchFailure) {
                     if (state.errorMessage == unauthorizedAccessCode) {
                       UiUtils.showAlreadyLoggedInDialog(context: context);
