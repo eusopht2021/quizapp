@@ -1093,6 +1093,7 @@ class _MultiUserBattleRoomQuizScreenState
                       ),
                     ],
               _buildMessageButton(),
+              _buildMessageBoxContainer(),
               _buildYouWonContainer(battleRoomCubit),
               _buildUserLeftTheGame(),
               _buildTopMenu(),

@@ -13,6 +13,7 @@ import 'package:flutterquiz/features/quiz/models/userBattleRoomDetails.dart';
 
 import 'package:flutterquiz/ui/widgets/customRoundedButton.dart';
 import 'package:flutterquiz/ui/widgets/pageBackgroundGradientContainer.dart';
+import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
 
 import 'package:flutterquiz/utils/stringLabels.dart';
@@ -144,10 +145,11 @@ class _MultiUserBattleRoomResultScreenState
                   padding: const EdgeInsets.only(
                     bottom: 15.0,
                   ),
-                  child: Container(
+                  child: SizedBox(
                     height: size.height - size.width * (0.925),
                     width: size.width * (0.5),
                     child: CustomPaint(
+                      painter: PointsPainter(color),
                       child: Center(
                         child: Padding(
                           padding: const EdgeInsets.only(top: 7.5),
@@ -159,13 +161,16 @@ class _MultiUserBattleRoomResultScreenState
                           ),
                         ),
                       ),
-                      painter: PointsPainter(color),
                     ),
                   ),
                 )),
             Container(
               height: size.width,
               width: size.width,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(size.width * (0.5)),
+                color: color,
+              ),
               child: Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(
@@ -177,16 +182,14 @@ class _MultiUserBattleRoomResultScreenState
                 ),
                 margin: const EdgeInsets.all(5.0),
               ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(size.width * (0.5)),
-                color: color,
-              ),
             ),
             Align(
               alignment: showStars
                   ? AlignmentDirectional.topStart
                   : AlignmentDirectional.topEnd,
               child: CircleAvatar(
+                backgroundColor: Theme.of(context).primaryColor,
+                radius: showStars ? 25 : 20,
                 child: Center(
                   child: Text(
                     rank.toString(),
@@ -196,8 +199,6 @@ class _MultiUserBattleRoomResultScreenState
                     ),
                   ),
                 ),
-                backgroundColor: Theme.of(context).primaryColor,
-                radius: showStars ? 25 : 20,
               ),
             ),
           ],
@@ -263,9 +264,10 @@ class _MultiUserBattleRoomResultScreenState
         }
       },
       child: Scaffold(
+        backgroundColor: Constants.white,
         body: Stack(
           children: [
-            const PageBackgroundGradientContainer(),
+            // const PageBackgroundGradientContainer(),
 
             _buildResultLabel(),
 
@@ -281,7 +283,7 @@ class _MultiUserBattleRoomResultScreenState
                 start: 10.0,
                 top: MediaQuery.of(context).size.height * (0.125),
               ),
-              Colors.green,
+              Constants.lightGreen,
             ),
             //user 2
 
