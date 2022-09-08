@@ -70,14 +70,15 @@ class AudioQuestionContainerState extends State<AudioQuestionContainer>
           .setUrl(widget.questions[widget.currentQuestionIndex].audio!);
       _audioDuration = result ?? Duration.zero;
 
-      widget.timerAnimationController = AnimationController(
-        vsync: this,
-        duration: Duration(
-          seconds: _audioDuration.inSeconds + 15,
-        ),
-      );
+      // widget.timerAnimationController = AnimationController(
+      //   vsync: this,
+      //   duration: Duration(
+      //     seconds: _audioDuration.inSeconds + 15,
+      //   ),
+      // );
       // _audioDuration + Duration(seconds: 15);
-      widget.timerAnimationController.forward(from: 0.0);
+
+      widget.timerAnimationController.forward();
       _processingStateStreamSubscription =
           _audioPlayer.processingStateStream.listen(_processingStateListener);
       _streamSubscription = _audioPlayer.positionStream.listen((audioDuration) {
@@ -155,7 +156,6 @@ class AudioQuestionContainerState extends State<AudioQuestionContainer>
   //     return IconButton(
   //         onPressed: () {
   //           //
-
   //           _audioPlayer.pause();
   //           _isPlaying = false;
   //           setState(() {});
@@ -280,35 +280,39 @@ class AudioQuestionContainerState extends State<AudioQuestionContainer>
               horizontal: widget.constraints.maxWidth * (0.05), vertical: 10.0),
           child: Column(
             children: [
-              SizedBox(
-                height: 50,
-                child: InkWell(
-                  onTap: () {
-                    setState(() {
-                      if (_isPlaying) {
-                        _audioPlayer.stop();
-                        log("if state");
+              _isLoading
+                  ? CircularProgressIndicator(
+                      color: Constants.primaryColor,
+                    )
+                  : SizedBox(
+                      height: 50,
+                      child: InkWell(
+                        onTap: () {
+                          setState(() {
+                            if (_isPlaying) {
+                              _audioPlayer.stop();
+                              log("if state");
 
-                        _isPlaying = false;
-                        isAnimating = true;
-                      } else {
-                        _audioPlayer.play();
-                        log("else state");
+                              _isPlaying = false;
+                              isAnimating = true;
+                            } else {
+                              _audioPlayer.play();
+                              log("else state");
 
-                        _isPlaying = true;
-                        isAnimating = false;
-                      }
-                    });
-                  },
-                  child: MusicVisualizer(
-                    barCount: colors.length,
-                    colors: colors,
-                    duration: duration,
-                    curve: Curves.easeInOut,
-                    isAnimating: isAnimating,
-                  ),
-                ),
-              ),
+                              _isPlaying = true;
+                              isAnimating = false;
+                            }
+                          });
+                        },
+                        child: MusicVisualizer(
+                          barCount: colors.length,
+                          colors: colors,
+                          duration: duration,
+                          curve: Curves.easeInOut,
+                          isAnimating: isAnimating,
+                        ),
+                      ),
+                    ),
               WidgetsUtil.verticalSpace8,
               SizedBox(
                 height: 20,

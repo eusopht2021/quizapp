@@ -361,8 +361,6 @@ class _NewQuizScreenState extends State<NewQuizScreen>
   //update answer locally and on cloud
   void submitAnswer(String submittedAnswer) async {
     timerAnimationController.stop();
-
-    log('Submit ANswer: ${timerAnimationController.value}');
     if (!context
         .read<QuestionsCubit>()
         .questions()[currentQuestionIndex]
@@ -373,8 +371,7 @@ class _NewQuizScreenState extends State<NewQuizScreen>
           context.read<UserDetailsCubit>().getUserFirebaseId());
       updateTotalSecondsToCompleteQuiz();
       //change question
-      await Future.delayed(
-          const Duration(seconds: inBetweenQuestionTimeInSeconds));
+      await Future.delayed(Duration(seconds: inBetweenQuestionTimeInSeconds));
 
       if (currentQuestionIndex !=
           (context.read<QuestionsCubit>().questions().length - 1)) {
@@ -384,11 +381,9 @@ class _NewQuizScreenState extends State<NewQuizScreen>
         //if quizType is not audio or latex(math or chemistry) then start timer again
         if (widget.quizType == QuizTypes.mathMania) {
           timerAnimationController.value = 0.0;
-          timerAnimationController.forward(from: 0.0);
           // showOptionAnimationController.forward();
-          // } else if (widget.quizType != QuizTypes.audioQuestions) {
-          //   timerAnimationController.forward(from: 0.0);
-          // }
+        } else {
+          timerAnimationController.forward(from: 0.0);
         }
       } else {
         updateSubmittedAnswerForBookmark(
@@ -403,9 +398,9 @@ class _NewQuizScreenState extends State<NewQuizScreen>
     if (status == AnimationStatus.completed) {
       submitAnswer("-1");
     } else if (status == AnimationStatus.forward) {
-      if (widget.quizType == QuizTypes.audioQuestions) {
-        timerAnimationController.stop();
-      }
+      // if (widget.quizType == QuizTypes.audioQuestions) {
+      //   timerAnimationController.forward(from: 0.0);
+      // }
     }
   }
 
@@ -1154,8 +1149,8 @@ class _NewQuizScreenState extends State<NewQuizScreen>
                         else if (widget.quizType == QuizTypes.mathMania) {
                           questionContentAnimationController.forward();
                         } else {
-                          timerAnimationController.forward();
-                          questionContentAnimationController.forward();
+                          timerAnimationController.forward(from: 0.0);
+                          questionContentAnimationController.forward(from: 0);
                         }
                       }
                     }
