@@ -18,6 +18,7 @@ import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/size_config.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutterquiz/utils/widgets_util.dart';
 import 'package:share_plus/share_plus.dart';
 
 class NewWaitingForPlayerDialog extends StatefulWidget {
@@ -732,9 +733,9 @@ class _NewWaitingForPlayerDialogState extends State<NewWaitingForPlayerDialog> {
                                   height: constraints.maxHeight * 0.69,
                                   width: constraints.maxWidth / .2,
                                   // padding: const EdgeInsets.symmetric(horizontal: 28),
-                                  padding: EdgeInsets.all(8),
+                                  padding: const EdgeInsets.all(8),
 
-                                  margin: EdgeInsets.all(8),
+                                  margin: const EdgeInsets.all(8),
                                   decoration: BoxDecoration(
                                     color: Constants.secondaryColor,
                                     borderRadius: const BorderRadius.only(
@@ -749,102 +750,190 @@ class _NewWaitingForPlayerDialogState extends State<NewWaitingForPlayerDialog> {
                                       ),
                                     ),
                                   ),
-                                  child: profileAndNameContainer(
-                                    context,
-                                    constraints,
-                                    state.battleRoom.user1!.name,
-                                    state.battleRoom.user1!.profileUrl,
-                                    Theme.of(context).backgroundColor,
+                                  child: Column(
+                                    children: [
+                                      profileAndNameContainer(
+                                        context,
+                                        constraints,
+                                        state.battleRoom.user1!.name,
+                                        state.battleRoom.user1!.profileUrl,
+                                        Theme.of(context).backgroundColor,
+                                      ),
+                                      Text(
+                                        AppLocalization.of(context)!
+                                            .getTranslatedValues('vsLbl')!,
+                                        style: TextStyle(
+                                          color:
+                                              Theme.of(context).backgroundColor,
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 32,
+                                        ),
+                                      ),
+                                      BlocBuilder<MultiUserBattleRoomCubit,
+                                          MultiUserBattleRoomState>(
+                                        bloc: context
+                                            .read<MultiUserBattleRoomCubit>(),
+                                        builder: (context, state) {
+                                          if (state
+                                              is MultiUserBattleRoomSuccess) {
+                                            return widget.quizType ==
+                                                    QuizTypes.battle
+                                                ? Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      profileAndNameContainer(
+                                                          context,
+                                                          constraints,
+                                                          state.battleRoom
+                                                              .user2!.name,
+                                                          state
+                                                              .battleRoom
+                                                              .user2!
+                                                              .profileUrl,
+                                                          Colors.black54),
+                                                    ],
+                                                  )
+                                                : Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      profileAndNameContainer(
+                                                          context,
+                                                          constraints,
+                                                          state.battleRoom
+                                                              .user2!.name,
+                                                          state
+                                                              .battleRoom
+                                                              .user2!
+                                                              .profileUrl,
+                                                          Colors.black54),
+                                                      const SizedBox(
+                                                        width: 2,
+                                                      ),
+                                                      profileAndNameContainer(
+                                                          context,
+                                                          constraints,
+                                                          state.battleRoom
+                                                              .user3!.name,
+                                                          state
+                                                              .battleRoom
+                                                              .user3!
+                                                              .profileUrl,
+                                                          Colors.black54),
+                                                      const SizedBox(
+                                                        width: 2,
+                                                      ),
+                                                      profileAndNameContainer(
+                                                          context,
+                                                          constraints,
+                                                          state.battleRoom
+                                                              .user4!.name,
+                                                          state
+                                                              .battleRoom
+                                                              .user4!
+                                                              .profileUrl,
+                                                          Colors.black54),
+                                                    ],
+                                                  );
+                                          } else {
+                                            return Container();
+                                          }
+                                        },
+                                      ),
+                                    ],
                                   ),
                                 ),
+                                // Positioned(
+                                //   left: constraints.maxWidth * .45,
+                                //   top: constraints.maxHeight * .175,
+                                //   child: Text(
+                                //     AppLocalization.of(context)!
+                                //         .getTranslatedValues('vsLbl')!,
+                                //     style: TextStyle(
+                                //       color: Theme.of(context).backgroundColor,
+                                //       fontWeight: FontWeight.w700,
+                                //       fontSize: 32,
+                                //     ),
+                                //   ),
+                                // ),
+                                // Positioned(
+                                //   left: constraints.maxWidth / 25,
+                                //   top: constraints.maxHeight * .23,
+                                //   child: Padding(
+                                //     padding: const EdgeInsets.symmetric(
+                                //         horizontal: 5),
+                                //     child: BlocBuilder<MultiUserBattleRoomCubit,
+                                //         MultiUserBattleRoomState>(
+                                //       bloc: context
+                                //           .read<MultiUserBattleRoomCubit>(),
+                                //       builder: (context, state) {
+                                //         if (state
+                                //             is MultiUserBattleRoomSuccess) {
+                                //           return widget.quizType ==
+                                //                   QuizTypes.battle
+                                //               ? Row(
+                                //                   mainAxisAlignment:
+                                //                       MainAxisAlignment.center,
+                                //                   children: [
+                                //                     profileAndNameContainer(
+                                //                         context,
+                                //                         constraints,
+                                //                         state.battleRoom.user2!
+                                //                             .name,
+                                //                         state.battleRoom.user2!
+                                //                             .profileUrl,
+                                //                         Colors.black54),
+                                //                   ],
+                                //                 )
+                                //               : Row(
+                                //                   mainAxisAlignment:
+                                //                       MainAxisAlignment
+                                //                           .spaceBetween,
+                                //                   children: [
+                                //                     profileAndNameContainer(
+                                //                         context,
+                                //                         constraints,
+                                //                         state.battleRoom.user2!
+                                //                             .name,
+                                //                         state.battleRoom.user2!
+                                //                             .profileUrl,
+                                //                         Colors.black54),
+                                //                     const SizedBox(
+                                //                       width: 2,
+                                //                     ),
+                                //                     profileAndNameContainer(
+                                //                         context,
+                                //                         constraints,
+                                //                         state.battleRoom.user3!
+                                //                             .name,
+                                //                         state.battleRoom.user3!
+                                //                             .profileUrl,
+                                //                         Colors.black54),
+                                //                     const SizedBox(
+                                //                       width: 2,
+                                //                     ),
+                                //                     profileAndNameContainer(
+                                //                         context,
+                                //                         constraints,
+                                //                         state.battleRoom.user4!
+                                //                             .name,
+                                //                         state.battleRoom.user4!
+                                //                             .profileUrl,
+                                //                         Colors.black54),
+                                //                   ],
+                                //                 );
+                                //         } else {
+                                //           return Container();
+                                //         }
+                                //       },
+                                //     ),
+                                //   ),
+                                // ),
                                 Positioned(
-                                  left: constraints.maxWidth * .45,
-                                  top: constraints.maxHeight * .175,
-                                  child: Text(
-                                    AppLocalization.of(context)!
-                                        .getTranslatedValues('vsLbl')!,
-                                    style: TextStyle(
-                                      color: Theme.of(context).backgroundColor,
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 32,
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  left: constraints.maxWidth / 25,
-                                  top: constraints.maxHeight * .23,
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 5),
-                                    child: BlocBuilder<MultiUserBattleRoomCubit,
-                                        MultiUserBattleRoomState>(
-                                      bloc: context
-                                          .read<MultiUserBattleRoomCubit>(),
-                                      builder: (context, state) {
-                                        if (state
-                                            is MultiUserBattleRoomSuccess) {
-                                          return widget.quizType ==
-                                                  QuizTypes.battle
-                                              ? Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    profileAndNameContainer(
-                                                        context,
-                                                        constraints,
-                                                        state.battleRoom.user2!
-                                                            .name,
-                                                        state.battleRoom.user2!
-                                                            .profileUrl,
-                                                        Colors.black54),
-                                                  ],
-                                                )
-                                              : Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    profileAndNameContainer(
-                                                        context,
-                                                        constraints,
-                                                        state.battleRoom.user2!
-                                                            .name,
-                                                        state.battleRoom.user2!
-                                                            .profileUrl,
-                                                        Colors.black54),
-                                                    SizedBox(
-                                                      width: 2,
-                                                    ),
-                                                    profileAndNameContainer(
-                                                        context,
-                                                        constraints,
-                                                        state.battleRoom.user3!
-                                                            .name,
-                                                        state.battleRoom.user3!
-                                                            .profileUrl,
-                                                        Colors.black54),
-                                                    SizedBox(
-                                                      width: 2,
-                                                    ),
-                                                    profileAndNameContainer(
-                                                        context,
-                                                        constraints,
-                                                        state.battleRoom.user4!
-                                                            .name,
-                                                        state.battleRoom.user4!
-                                                            .profileUrl,
-                                                        Colors.black54),
-                                                  ],
-                                                );
-                                        } else {
-                                          return Container();
-                                        }
-                                      },
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  top: SizeConfig.screenHeight * .354,
+                                  top: SizeConfig.screenHeight * .4,
                                   right: 8,
                                   left: 8,
                                   child: Image.asset(
@@ -857,7 +946,7 @@ class _NewWaitingForPlayerDialogState extends State<NewWaitingForPlayerDialog> {
                                 Positioned(
                                   left: 0,
                                   right: 0,
-                                  top: constraints.maxHeight * .42,
+                                  top: constraints.maxHeight * .47,
                                   child: Text(
                                     AppLocalization.of(context)!
                                         .getTranslatedValues(
@@ -872,7 +961,7 @@ class _NewWaitingForPlayerDialogState extends State<NewWaitingForPlayerDialog> {
                                   ),
                                 ),
                                 Positioned(
-                                  top: SizeConfig.screenHeight * 0.45,
+                                  top: SizeConfig.screenHeight * 0.5,
                                   left: SizeConfig.screenWidth * 0.065,
                                   child: Row(
                                     // mainAxisAlignment: MainAxisAlignment.center,
@@ -888,114 +977,141 @@ class _NewWaitingForPlayerDialogState extends State<NewWaitingForPlayerDialog> {
                                             color: Constants.bluecolor,
                                           ),
                                         ),
+                                        child: Center(
+                                          child: Text(
+                                            "${AppLocalization.of(context)!.getTranslatedValues('roomCodeLbl')!} : ${context.read<MultiUserBattleRoomCubit>().getRoomCode()}",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 18.0,
+                                              color: Constants.black2,
+                                              height: 1.2,
+                                            ),
+                                          ),
+                                        ),
                                       ),
                                     ],
                                   ),
                                 ),
+                                // Positioned(
+                                //   // top: SizeConfig.screenHeight * 0.475,
+                                //   // left: SizeConfig.screenWidth * 0.25,
+                                //   left: 0,
+                                //   right: 0,
+                                //   child:
+                                // ),
                                 Positioned(
-                                  top: SizeConfig.screenHeight * 0.475,
-                                  left: SizeConfig.screenWidth * 0.25,
-                                  child: Text(
-                                    "${AppLocalization.of(context)!.getTranslatedValues('roomCodeLbl')!} : ${context.read<MultiUserBattleRoomCubit>().getRoomCode()}",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 18.0,
-                                      color: Constants.black2,
-                                      height: 1.2,
+                                  top: SizeConfig.screenHeight * 0.6,
+                                  // left: SizeConfig.screenWidth * 0.065,
+                                  right: 0,
+                                  left: 0,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 24),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 5,
+                                          child: CustomButton(
+                                            onPressed: () {
+                                              //need minimum 2 player to start the game
+                                              //mark as ready to play in database
+                                              //need minimum 2 player to start the game
+                                              //mark as ready to play in database
+                                              if (state.battleRoom.user2!.uid
+                                                  .isEmpty) {
+                                                UiUtils.errorMessageDialog(
+                                                    context,
+                                                    AppLocalization.of(context)!
+                                                        .getTranslatedValues(
+                                                            convertErrorCodeToLanguageKey(
+                                                                canNotStartGameCode)));
+                                              } else {
+                                                //start quiz
+                                                /*    widget.quizType==QuizTypes.battle?context.read<BattleRoomCubit>().startGame():*/ context
+                                                    .read<
+                                                        MultiUserBattleRoomCubit>()
+                                                    .startGame();
+                                                //navigate to quiz screen
+                                                widget.quizType ==
+                                                        QuizTypes.battle
+                                                    ? Navigator.of(context)
+                                                        .pushReplacementNamed(
+                                                            Routes
+                                                                .battleRoomQuiz,
+                                                            arguments: {
+                                                            "battleLbl": widget
+                                                                .battleLbl,
+                                                            "isTournamentBattle":
+                                                                false
+                                                          })
+                                                    : Navigator.of(context)
+                                                        .pushReplacementNamed(Routes
+                                                            .multiUserBattleRoomQuiz);
+                                              }
+                                            },
+                                            backgroundColor:
+                                                Constants.primaryColor,
+                                            height: 56,
+                                            horizontalMargin: 10,
+                                            isLoading: false,
+                                            text: 'Start',
+                                            textColor: Constants.white,
+                                            verticalMargin: 0,
+                                          ),
+                                        ),
+                                        // WidgetsUtil.horizontalSpace16,
+                                        Expanded(
+                                          child: GestureDetector(
+                                            behavior:
+                                                HitTestBehavior.translucent,
+                                            onTap: () {
+                                              log("message");
+                                              String inviteMessage =
+                                                  "$groupBattleInviteMessage${context.read<MultiUserBattleRoomCubit>().getRoomCode()}";
+                                              Share.share(inviteMessage);
+                                              try {} catch (e) {
+                                                log(" $e message");
+                                                UiUtils.setSnackbar(
+                                                    AppLocalization.of(context)!
+                                                        .getTranslatedValues(
+                                                            convertErrorCodeToLanguageKey(
+                                                                defaultErrorMessageCode))!,
+                                                    context,
+                                                    false);
+                                              }
+                                            },
+                                            child: Container(
+                                              height: SizeConfig.screenHeight *
+                                                  0.07,
+                                              width:
+                                                  SizeConfig.screenWidth * 0.15,
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: Constants.grey4,
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                  20,
+                                                ),
+                                              ),
+                                              child: Icon(
+                                                Icons.share,
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
-                                Positioned(
-                                  top: SizeConfig.screenHeight * 0.55,
-                                  left: SizeConfig.screenWidth * 0.065,
-                                  child: SizedBox(
-                                      height: SizeConfig.screenHeight * 0.07,
-                                      width: SizeConfig.screenWidth / 1.5,
-                                      child: CustomButton(
-                                        onPressed: () {
-                                          //need minimum 2 player to start the game
-                                          //mark as ready to play in database
-                                          //need minimum 2 player to start the game
-                                          //mark as ready to play in database
-                                          if (state
-                                              .battleRoom.user2!.uid.isEmpty) {
-                                            UiUtils.errorMessageDialog(
-                                                context,
-                                                AppLocalization.of(context)!
-                                                    .getTranslatedValues(
-                                                        convertErrorCodeToLanguageKey(
-                                                            canNotStartGameCode)));
-                                          } else {
-                                            //start quiz
-                                            /*    widget.quizType==QuizTypes.battle?context.read<BattleRoomCubit>().startGame():*/ context
-                                                .read<
-                                                    MultiUserBattleRoomCubit>()
-                                                .startGame();
-                                            //navigate to quiz screen
-                                            widget.quizType == QuizTypes.battle
-                                                ? Navigator.of(context)
-                                                    .pushReplacementNamed(
-                                                        Routes.battleRoomQuiz,
-                                                        arguments: {
-                                                        "battleLbl":
-                                                            widget.battleLbl,
-                                                        "isTournamentBattle":
-                                                            false
-                                                      })
-                                                : Navigator.of(context)
-                                                    .pushReplacementNamed(Routes
-                                                        .multiUserBattleRoomQuiz);
-                                          }
-                                        },
-                                        backgroundColor: Constants.primaryColor,
-                                        height: 12,
-                                        horizontalMargin: 0,
-                                        isLoading: false,
-                                        text: 'Start',
-                                        textColor: Constants.white,
-                                        verticalMargin: 0,
-                                      )),
-                                ),
-                                Positioned(
-                                  top: SizeConfig.screenHeight * 0.55,
-                                  left: SizeConfig.screenWidth * 0.79,
-                                  child: GestureDetector(
-                                    behavior: HitTestBehavior.translucent,
-                                    onTap: () {
-                                      log("message");
-                                      String inviteMessage =
-                                          "$groupBattleInviteMessage${context.read<MultiUserBattleRoomCubit>().getRoomCode()}";
-                                      Share.share(inviteMessage);
-                                      try {} catch (e) {
-                                        log(" $e message");
-                                        UiUtils.setSnackbar(
-                                            AppLocalization.of(context)!
-                                                .getTranslatedValues(
-                                                    convertErrorCodeToLanguageKey(
-                                                        defaultErrorMessageCode))!,
-                                            context,
-                                            false);
-                                      }
-                                    },
-                                    child: Container(
-                                      height: SizeConfig.screenHeight * 0.07,
-                                      width: SizeConfig.screenWidth * 0.15,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: Constants.grey4,
-                                        ),
-                                        borderRadius: BorderRadius.circular(
-                                          20,
-                                        ),
-                                      ),
-                                      child: Icon(
-                                        Icons.share,
-                                        color: Theme.of(context).primaryColor,
-                                      ),
-                                    ),
-                                  ),
-                                )
+                                // Positioned(
+                                //   top: SizeConfig.screenHeight * 0.6,
+                                //   left: SizeConfig.screenWidth * 0.79,
+                                //   child:
+                                // )
                               ],
                             );
                           }
@@ -1003,72 +1119,72 @@ class _NewWaitingForPlayerDialogState extends State<NewWaitingForPlayerDialog> {
                               "", "", Theme.of(context).backgroundColor);
                         },
                       ),
-                      SizedBox(
-                        height: constraints.maxHeight * (0.027),
-                      ),
-                      SizedBox(
-                        height: constraints.maxHeight * (0.03),
-                      ),
-                      const Spacer(),
-                      BlocBuilder<MultiUserBattleRoomCubit,
-                          MultiUserBattleRoomState>(
-                        bloc: context.read<MultiUserBattleRoomCubit>(),
-                        builder: (context, state) {
-                          if (state is MultiUserBattleRoomSuccess) {
-                            if (state.battleRoom.user1!.uid !=
-                                context
-                                    .read<UserDetailsCubit>()
-                                    .getUserProfile()
-                                    .userId) {
-                              return Container();
-                            }
-                            return TextButton(
-                              onPressed: () {
-                                //need minimum 2 player to start the game
-                                //mark as ready to play in database
-                                if (state.battleRoom.user2!.uid.isEmpty) {
-                                  UiUtils.errorMessageDialog(
-                                    context,
-                                    AppLocalization.of(context)!
-                                        .getTranslatedValues(
-                                      convertErrorCodeToLanguageKey(
-                                          canNotStartGameCode),
-                                    ),
-                                  );
-                                } else {
-                                  //start quiz
-                                  /*    widget.quizType==QuizTypes.battle?context.read<BattleRoomCubit>().startGame():*/ context
-                                      .read<MultiUserBattleRoomCubit>()
-                                      .startGame();
-                                  //navigate to quiz screen
-                                  widget.quizType == QuizTypes.battle
-                                      ? Navigator.of(context)
-                                          .pushReplacementNamed(
-                                              Routes.battleRoomQuiz,
-                                              arguments: {
-                                              "battleLbl": widget.battleLbl,
-                                              "isTournamentBattle": false
-                                            })
-                                      : Navigator.of(context)
-                                          .pushReplacementNamed(
-                                              Routes.multiUserBattleRoomQuiz);
-                                }
-                              },
-                              child: Text(
-                                  AppLocalization.of(context)!
-                                      .getTranslatedValues('startLbl')!,
-                                  style: TextStyle(
-                                    fontSize: 20.0,
-                                    color: Constants.primaryColor,
-                                  )),
-                            );
-                          }
-                          return Container();
-                        },
-                      ),
-                      SizedBox(
-                        height: constraints.maxHeight * (0.01),
-                      ),
+                      // SizedBox(
+                      //   height: constraints.maxHeight * (0.027),
+                      // ),
+                      // SizedBox(
+                      //   height: constraints.maxHeight * (0.03),
+                      // ),
+                      // const Spacer(),
+                      // BlocBuilder<MultiUserBattleRoomCubit,
+                      //     MultiUserBattleRoomState>(
+                      //   bloc: context.read<MultiUserBattleRoomCubit>(),
+                      //   builder: (context, state) {
+                      //     if (state is MultiUserBattleRoomSuccess) {
+                      //       if (state.battleRoom.user1!.uid !=
+                      //           context
+                      //               .read<UserDetailsCubit>()
+                      //               .getUserProfile()
+                      //               .userId) {
+                      //         return Container();
+                      //       }
+                      //       return TextButton(
+                      //         onPressed: () {
+                      //           //need minimum 2 player to start the game
+                      //           //mark as ready to play in database
+                      //           if (state.battleRoom.user2!.uid.isEmpty) {
+                      //             UiUtils.errorMessageDialog(
+                      //               context,
+                      //               AppLocalization.of(context)!
+                      //                   .getTranslatedValues(
+                      //                 convertErrorCodeToLanguageKey(
+                      //                     canNotStartGameCode),
+                      //               ),
+                      //             );
+                      //           } else {
+                      //             //start quiz
+                      //             /*    widget.quizType==QuizTypes.battle?context.read<BattleRoomCubit>().startGame():*/ context
+                      //                 .read<MultiUserBattleRoomCubit>()
+                      //                 .startGame();
+                      //             //navigate to quiz screen
+                      //             widget.quizType == QuizTypes.battle
+                      //                 ? Navigator.of(context)
+                      //                     .pushReplacementNamed(
+                      //                         Routes.battleRoomQuiz,
+                      //                         arguments: {
+                      //                         "battleLbl": widget.battleLbl,
+                      //                         "isTournamentBattle": false
+                      //                       })
+                      //                 : Navigator.of(context)
+                      //                     .pushReplacementNamed(
+                      //                         Routes.multiUserBattleRoomQuiz);
+                      //           }
+                      //         },
+                      //         child: Text(
+                      //             AppLocalization.of(context)!
+                      //                 .getTranslatedValues('startLbl')!,
+                      //             style: TextStyle(
+                      //               fontSize: 20.0,
+                      //               color: Constants.primaryColor,
+                      //             )),
+                      //       );
+                      //     }
+                      //     return Container();
+                      //   },
+                      // ),
+                      // SizedBox(
+                      //   height: constraints.maxHeight * (0.01),
+                      // ),
                       //entry amount card
                       // Container(
                       //   height: constraints.maxHeight * (0.10),
@@ -1123,10 +1239,9 @@ class _NewWaitingForPlayerDialogState extends State<NewWaitingForPlayerDialog> {
                       //     ),
                       //   ),
                       // ),
-
-                      SizedBox(
-                        height: constraints.maxHeight * (0.025),
-                      ),
+                      // SizedBox(
+                      //   height: constraints.maxHeight * (0.025),
+                      // ),
                       //room code card
                       // Container(
                       //   width: constraints.maxWidth * (0.85),
@@ -1179,10 +1294,9 @@ class _NewWaitingForPlayerDialogState extends State<NewWaitingForPlayerDialog> {
                       //     ],
                       //   ),
                       // ),
-
-                      SizedBox(
-                        height: constraints.maxHeight * (0.0275),
-                      ),
+                      // SizedBox(
+                      //   height: constraints.maxHeight * (0.0275),
+                      // ),
                       //user imiage
                       // BlocBuilder<MultiUserBattleRoomCubit,
                       //     MultiUserBattleRoomState>(
@@ -1200,10 +1314,9 @@ class _NewWaitingForPlayerDialogState extends State<NewWaitingForPlayerDialog> {
                       //         "", "", Theme.of(context).backgroundColor);
                       //   },
                       // ),
-
-                      SizedBox(
-                        height: constraints.maxHeight * (0.027),
-                      ),
+                      // SizedBox(
+                      //   height: constraints.maxHeight * (0.027),
+                      // ),
                       //vs card
                       // CircleAvatar(
                       //   backgroundColor: Constants.primaryColor,
@@ -1214,10 +1327,9 @@ class _NewWaitingForPlayerDialogState extends State<NewWaitingForPlayerDialog> {
                       //         color: Theme.of(context).backgroundColor),
                       //   ),
                       // ),
-
-                      SizedBox(
-                        height: constraints.maxHeight * (0.03),
-                      ),
+                      // SizedBox(
+                      //   height: constraints.maxHeight * (0.03),
+                      // ),
                       //opponent card
                       // Padding(
                       //   padding: const EdgeInsets.symmetric(horizontal: 5),
@@ -1325,10 +1437,9 @@ class _NewWaitingForPlayerDialogState extends State<NewWaitingForPlayerDialog> {
                       //     return Container();
                       //   },
                       // ),
-
-                      SizedBox(
-                        height: constraints.maxHeight * (0.01),
-                      ),
+                      // SizedBox(
+                      //   height: constraints.maxHeight * (0.01),
+                      // ),
                     ],
                   );
                 }),
