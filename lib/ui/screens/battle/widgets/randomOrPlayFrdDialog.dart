@@ -14,7 +14,7 @@ import 'package:flutterquiz/features/quiz/quizRepository.dart';
 import 'package:flutterquiz/features/systemConfig/cubits/systemConfigCubit.dart';
 import 'package:flutterquiz/ui/screens/battle/widgets/customDialog.dart';
 import 'package:flutterquiz/ui/screens/battle/widgets/roomDialog.dart';
-import 'package:flutterquiz/ui/screens/quiz/battle_quiz_screen.dart';
+import 'package:flutterquiz/ui/screens/quiz/new_room_dialog.dart';
 import 'package:flutterquiz/ui/widgets/custom_button.dart';
 import 'package:flutterquiz/ui/widgets/social_button.dart';
 import 'package:flutterquiz/ui/widgets/title_text.dart';
@@ -362,25 +362,31 @@ class _RandomOrPlayFrdDialogState extends State<RandomOrPlayFrdDialog> {
         onTap: () async {
           Navigator.of(context).pop();
 
-          // showDialog(
-          //   context: context,
-          //   builder: (context) => MultiBlocProvider(providers: [
-          //     BlocProvider<QuizCategoryCubit>(
-          //         create: (_) => QuizCategoryCubit(QuizRepository())),
-          //     BlocProvider<UpdateScoreAndCoinsCubit>(
-          //         create: (_) =>
-          //             UpdateScoreAndCoinsCubit(ProfileManagementRepository())),
-          //   ], child: RoomDialog(quizType: QuizTypes.battle)),
-          // );
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const BattleQuizScreen(
+          showDialog(
+            context: context,
+            builder: (context) => MultiBlocProvider(
+              providers: [
+                BlocProvider<QuizCategoryCubit>(
+                    create: (_) => QuizCategoryCubit(QuizRepository())),
+                BlocProvider<UpdateScoreAndCoinsCubit>(
+                    create: (_) => UpdateScoreAndCoinsCubit(
+                        ProfileManagementRepository())),
+              ],
+              child: const BattleQuizScreen(
                 quizType: QuizTypes.battle,
                 title: "1 v/s 1 Battle ",
               ),
             ),
           );
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(
+          //     builder: (context) => const BattleQuizScreen(
+          //       quizType: QuizTypes.battle,
+          //       title: "1 v/s 1 Battle ",
+          //     ),
+          //   ),
+          // );
         },
         text:
             AppLocalization.of(context)!.getTranslatedValues("playWithFrdLbl")!,

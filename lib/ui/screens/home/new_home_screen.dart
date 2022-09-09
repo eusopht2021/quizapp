@@ -26,7 +26,7 @@ import 'package:flutterquiz/ui/screens/battle/widgets/randomOrPlayFrdDialog.dart
 import 'package:flutterquiz/ui/screens/battle/widgets/roomDialog.dart';
 import 'package:flutterquiz/ui/screens/home/widgets/appUnderMaintenanceDialog.dart';
 import 'package:flutterquiz/ui/screens/profile/widgets/editProfileFieldBottomSheetContainer.dart';
-import 'package:flutterquiz/ui/screens/quiz/battle_quiz_screen.dart';
+import 'package:flutterquiz/ui/screens/quiz/new_room_dialog.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/quizTypes.dart';
 import 'package:flutterquiz/utils/size_config.dart';

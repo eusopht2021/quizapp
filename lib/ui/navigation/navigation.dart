@@ -15,7 +15,7 @@ import 'package:flutterquiz/ui/screens/Discover%20Screen/discover.dart';
 import 'package:flutterquiz/ui/screens/home/new_home_screen.dart';
 import 'package:flutterquiz/ui/screens/new_leaderBoard.dart';
 import 'package:flutterquiz/ui/screens/profile/profile.dart';
-import 'package:flutterquiz/ui/screens/quiz/battle_quiz_screen.dart';
+import 'package:flutterquiz/ui/screens/quiz/new_room_dialog.dart';
 import 'package:flutterquiz/utils/assets.dart';
 import 'package:flutterquiz/utils/constants.dart';
 

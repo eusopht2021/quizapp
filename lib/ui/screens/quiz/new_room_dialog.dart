@@ -55,7 +55,6 @@ class BattleQuizScreen extends StatefulWidget {
 class _BattleQuizScreenState extends State<BattleQuizScreen> {
   int currentSelectedTab = 1; //1 is create and second is join
 
-  String selectedCategory = selectCategoryKey;
   List<int> entryFees = [minCoinsForGroupBattleCreation, 10, 15, 20];
   int entryFee =
       minCoinsForGroupBattleCreation; //difference between two entries is
@@ -316,7 +315,9 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => NewWaitingForPlayerDialog(
-                                quizType: QuizTypes.battle)));
+                                  quizType: QuizTypes.battle,
+                                  battleLbl: "",
+                                )));
                     // showDialog(
                     //     context: context,
                     //     builder: (context) => NewWaitingForPlayerDialog(
@@ -382,6 +383,7 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
                       MaterialPageRoute(
                         builder: (context) => NewWaitingForPlayerDialog(
                           quizType: QuizTypes.battle,
+                          battleLbl: "",
                         ),
                       ),
                     );
@@ -463,7 +465,6 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
   }
 
   Widget _buildCreateRoomTab(BoxConstraints constraints) {
-    int? index;
     return Column(
       // crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -485,8 +486,7 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
                   listener: (context, state) {
                     if (state is QuizCategorySuccess) {
                       setState(() {
-                        selectedCategory =
-                            state.categories[index!].categoryName!;
+                        selectedCategory = state.categories.first.categoryName!;
                       });
                     }
                     if (state is QuizCategoryFailure) {
@@ -818,6 +818,9 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
   List<String> tabItems = ["CREATE", "JOIN"];
 
   int selectTab = 0;
+  String? selectedCategoryId = "";
+  static String _defaultSelectedCategoryValue = selectCategoryKey;
+  String? selectedCategory = _defaultSelectedCategoryValue;
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
