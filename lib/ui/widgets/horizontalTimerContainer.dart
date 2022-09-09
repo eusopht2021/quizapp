@@ -9,12 +9,14 @@ class HorizontalTimerContainer extends StatelessWidget {
   final QuizTypes quizTypes;
   final AnimationController timerAnimationController;
   int? duration;
+  bool? isLoading;
 
   HorizontalTimerContainer({
     Key? key,
     required this.timerAnimationController,
     required this.quizTypes,
     this.duration,
+    this.isLoading,
   }) : super(key: key);
 
   @override
@@ -82,6 +84,8 @@ class HorizontalTimerContainer extends StatelessWidget {
       totalSeconds = latexQuestionDurationInSeconds;
     } else if (quizTypes == QuizTypes.guessTheWord) {
       totalSeconds = guessTheWordQuestionDurationInSeconds;
+    } else if (quizTypes == QuizTypes.audioQuestions) {
+      totalSeconds = duration! + 15;
     } else {
       totalSeconds = questionDurationInSeconds;
     }

@@ -187,8 +187,8 @@ class _CoinStoreScreenState extends State<CoinStoreScreen>
                   if (state is InAppPurchaseInitial ||
                       state is InAppPurchaseLoading) {
                     return Center(
-                      child: CircularProgressContainer(
-                        useWhiteLoader: false,
+                      child: CircularProgressIndicator(
+                        color: Constants.primaryColor,
                       ),
                     );
                   }

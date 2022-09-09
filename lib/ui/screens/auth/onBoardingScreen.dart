@@ -50,10 +50,10 @@ class _OnBoardingState extends State<OnBoarding> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Align(
+                Expanded(
+                    child: Align(
                   alignment: Alignment.topRight,
-                  child: Expanded(
-                      child: Padding(
+                  child: Padding(
                     padding: const EdgeInsets.only(right: 16),
                     child: GestureDetector(
                       onTap: () {
@@ -77,8 +77,8 @@ class _OnBoardingState extends State<OnBoarding> {
                         ),
                       ),
                     ),
-                  )),
-                ),
+                  ),
+                )),
                 Expanded(
                   flex: 9,
                   child: PageView.builder(

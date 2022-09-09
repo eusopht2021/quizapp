@@ -8,6 +8,7 @@ import 'package:flutterquiz/features/quiz/models/question.dart';
 import 'package:flutterquiz/features/quiz/models/quizType.dart';
 import 'package:flutterquiz/ui/widgets/horizontalTimerContainer.dart';
 import 'package:flutterquiz/ui/widgets/new_option_container.dart';
+import 'package:flutterquiz/ui/widgets/title_text.dart';
 import 'package:flutterquiz/utils/answerEncryption.dart';
 import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/widgets_util.dart';
@@ -233,22 +234,25 @@ class AudioQuestionContainerState extends State<AudioQuestionContainer>
           height: 17.5,
         ),
         HorizontalTimerContainer(
-            quizTypes: QuizTypes.audioQuestions,
-            timerAnimationController: widget.timerAnimationController,
-            duration: _audioDuration.inSeconds),
+          quizTypes: QuizTypes.audioQuestions,
+          timerAnimationController: widget.timerAnimationController,
+          duration: _audioDuration.inSeconds,
+          isLoading: _isLoading,
+        ),
         const SizedBox(
           height: 12.5,
         ),
         Stack(
           alignment: Alignment.center,
           children: [
-            Align(
-              alignment: Alignment.center,
-              child: Text(
-                "${widget.currentQuestionIndex + 1} | ${widget.questions.length}",
-                style: TextStyle(color: Constants.black1),
-              ),
-            ),
+            _buildCurrentQuestionIndex(),
+            // Align(
+            //   alignment: Alignment.center,
+            //   child: Text(
+            //     "${widget.currentQuestionIndex + 1} | ${widget.questions.length}",
+            //     style: TextStyle(color: Constants.black1),
+            //   ),
+            // ),
           ],
         ),
 
@@ -419,6 +423,23 @@ class AudioQuestionContainerState extends State<AudioQuestionContainer>
         //
       ],
     ));
+  }
+
+  Widget _buildCurrentQuestionIndex() {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: TitleText(
+        text:
+            'QUESTION ${widget.currentQuestionIndex + 1} OF ${widget.questions.length}',
+        weight: FontWeight.w500,
+        size: Constants.bodySmall,
+        textColor: Constants.grey2,
+      ),
+      // child: Text(
+      //   "${widget.currentQuestionIndex + 1} | ${widget.questions.length}",
+      //   style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+      // ),
+    );
   }
 }
 

@@ -329,6 +329,7 @@ class _NewQuizScreenState extends State<NewQuizScreen>
       });
       //load content(options, image etc) of question
       questionContentAnimationController.forward();
+      timerAnimationController.forward(from: 0.0);
       // audioAnimationController.forward();
       log("change questions");
     });
@@ -380,7 +381,9 @@ class _NewQuizScreenState extends State<NewQuizScreen>
         changeQuestion();
         //if quizType is not audio or latex(math or chemistry) then start timer again
         if (widget.quizType == QuizTypes.mathMania) {
-          timerAnimationController.value = 0.0;
+          // timerAnimationController.value = 0.0;
+          timerAnimationController.forward(from: 0.0);
+
           // showOptionAnimationController.forward();
         } else {
           timerAnimationController.forward(from: 0.0);
@@ -1147,7 +1150,9 @@ class _NewQuizScreenState extends State<NewQuizScreen>
                         }
                         //
                         else if (widget.quizType == QuizTypes.mathMania) {
-                          questionContentAnimationController.forward();
+                          timerAnimationController.forward(from: 0.0);
+
+                          questionContentAnimationController.forward(from: 0);
                         } else {
                           timerAnimationController.forward(from: 0.0);
                           questionContentAnimationController.forward(from: 0);

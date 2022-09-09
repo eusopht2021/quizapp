@@ -463,6 +463,7 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
   }
 
   Widget _buildCreateRoomTab(BoxConstraints constraints) {
+    int? index;
     return Column(
       // crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -484,7 +485,8 @@ class _BattleQuizScreenState extends State<BattleQuizScreen> {
                   listener: (context, state) {
                     if (state is QuizCategorySuccess) {
                       setState(() {
-                        selectedCategory = state.categories.first.categoryName!;
+                        selectedCategory =
+                            state.categories[index!].categoryName!;
                       });
                     }
                     if (state is QuizCategoryFailure) {
